@@ -226,7 +226,6 @@ bool distanceTo(const Peer& p,float& metres,float& bearing){
  bearing=fmod(atan2(sin(dl)*cos(la2),cos(la1)*sin(la2)-sin(la1)*cos(la2)*cos(dl))*180/M_PI+360,360);return true;
 }
 String distanceText(float m,float bearing){const char* dirs[]={tr("N","С"),tr("NE","СВ"),tr("E","В"),tr("SE","ЮВ"),tr("S","Ю"),tr("SW","ЮЗ"),tr("W","З"),tr("NW","СЗ")};int k=int((bearing+22.5f)/45)%8;return (m<1000?String(int(m/10)*10)+t(" m"," м"):String(m/1000,m<10000?1:0)+t(" km"," км"))+" "+dirs[k];}
-unsigned batteryPercent(){static const uint16_t mv[]={3300,3500,3600,3700,3800,3900,4000,4100,4200};static const uint8_t pc[]={0,5,15,35,55,70,82,93,100};uint16_t v=hardware.batteryMv;if(v<=mv[0])return 0;for(int i=1;i<9;i++)if(v<=mv[i])return pc[i-1]+(pc[i]-pc[i-1])*(v-mv[i-1])/(mv[i]-mv[i-1]);return 100;}
 
 // Status bar (HUD): title on the left; radio, GPS, links, clock and battery on the right.
 String title(){
@@ -236,7 +235,7 @@ String title(){
 }
 void statusBar(){
  auto& d=g();d.fillRect(0,0,320,20,bar);d.drawFastHLine(0,20,320,line);int x=313;
- uint16_t mv=hardware.batteryMv;bool external=mv>4250;unsigned pct=batteryPercent();uint16_t level=!mv?faint:external?accent:pct<=15?bad:pct<=30?warn:ok;
+ uint16_t mv=hardware.batteryMv;bool external=mv>4250;unsigned pct=batteryPercent(mv);uint16_t level=!mv?faint:external?accent:pct<=15?bad:pct<=30?warn:ok;
  d.drawRoundRect(x-19,5,19,10,2,dim);d.fillRect(x,8,2,4,dim);
  if(external){d.fillTriangle(x-8,6,x-13,11,x-9,11,accent);d.fillTriangle(x-10,9,x-6,9,x-11,14,accent);}else if(mv)d.fillRect(x-17,7,max(1u,15*pct/100),6,level);
  x-=23;if(mv&&(config.batteryVolts||!external)){String p=config.batteryVolts?String(mv/1000.f,2)+"V":String(pct)+"%";textRight(x,14,p,dim,small);x-=measure(p,small)+6;}
@@ -593,7 +592,7 @@ String regionSearchText(){
 }
 String regionsFound(){String n;for(unsigned i=0;i<regions::search.count;i++)n+=String(i?", ":"")+regions::search.found[i].name;return n;}
 String settingName(int i){
- if(page==Radio){const char* names[]={tr("Frequency","Частота"),tr("Bandwidth","Полоса"),tr("Spreading factor","Фактор SF"),tr("Coding rate","Кодирование CR"),tr("TX power","Мощность"),tr("Our relay limit","Предел наших пересылок"),tr("Relay packets","Ретрансляция"),tr("Path hash size","Размер хэша пути"),tr("Region","Регион"),tr("Find regions","Найти регионы")};return i<10?names[i]:"";}
+ if(page==Radio){const char* names[]={tr("Frequency","Частота"),tr("Bandwidth","Полоса"),tr("Spreading factor","Фактор SF"),tr("Coding rate","Кодирование CR"),tr("TX power","Мощность"),tr("Relay hop limit","Предел ретрансляции"),tr("Relay packets","Ретрансляция"),tr("Path hash size","Размер хэша пути"),tr("Region","Регион"),tr("Find regions","Найти регионы")};return i<10?names[i]:"";}
  const char* names[]={tr("Name","Имя"),tr("Language","Язык"),tr("Brightness","Яркость"),tr("Sounds","Звуки"),tr("Auto lock","Автоблокировка"),tr("Dim screen","Гасить экран"),tr("GPS receiver","Приёмник GPS"),tr("UTC offset","Смещение UTC"),tr("Battery shows","Батарея в строке"),tr("Lock screen","Экран блокировки"),tr("Wake on message","Будить сообщением"),tr("Message popup","Окно сообщения")};return i<12?names[i]:"";
 }
 String settingValue(const Config& c,int i){
@@ -601,7 +600,7 @@ String settingValue(const Config& c,int i){
  switch(i){case 0:return c.name;case 1:return langNames[c.lang<LangCount?c.lang:0];case 2:return String(c.brightness);case 3:return flag(c.sound);case 4:return c.autoLock?String(c.autoLock)+t(" s"," с"):t("Off","Выкл");case 5:return c.dimAfter?String(c.dimAfter)+t(" s"," с"):t("Off","Выкл");case 6:return flag(c.gps);case 7:{int m=abs(c.utcOffset);char b[12];snprintf(b,sizeof b,"%c%02d:%02d",c.utcOffset<0?'-':'+',m/60,m%60);return b;}case 8:return c.batteryVolts?t("Volts","Вольты"):t("Percent","Проценты");case 9:return c.lockDetails?t("Details","Подробно"):t("Hidden","Скрыто");case 10:case 11:{unsigned mode=i==10?c.notifyWake:c.notifyPopup;return mode==0?t("Off","Выкл"):mode==1?t("All","Все"):t("Mentions","Упоминания");}}return "";
 }
 String settingHint(int i){
- if(page==Radio){switch(i){case 0:return t("1 kHz steps; must match every node","Шаг 1 кГц; должна совпадать у всех узлов");case 1:return t("62.5 / 125 / 250 / 500 kHz","62.5 / 125 / 250 / 500 кГц");case 2:return t("Higher SF: longer range, slower","Больше SF - дальше, но медленнее");case 3:return t("Error correction 4/5 to 4/8","Избыточность кода 4/5 ... 4/8");case 4:return t("Radio chip setting, 0-22 dBm","Настройка чипа, 0-22 dBm");case 5:return t("Only packets relayed by this device","Только пакеты, пересылаемые этим узлом");case 6:return t("Forward other nodes' MeshCore packets","Пересылать чужие пакеты MeshCore");case 7:return t("Per hop in our floods; older MeshCore drops 2-3","На пересылку; старые MeshCore не пересылают 2-3");
+ if(page==Radio){switch(i){case 0:return t("1 kHz steps; must match every node","Шаг 1 кГц; должна совпадать у всех узлов");case 1:return t("62.5 / 125 / 250 / 500 kHz","62.5 / 125 / 250 / 500 кГц");case 2:return t("Higher SF: longer range, slower","Больше SF - дальше, но медленнее");case 3:return t("Error correction 4/5 to 4/8","Избыточность кода 4/5 ... 4/8");case 4:return t("Radio chip setting, 0-22 dBm","Настройка чипа, 0-22 dBm");case 5:return t("Relay packets with fewer hops than this","Пересылать пакеты, у которых пересылок меньше");case 6:return t("Forward other nodes' MeshCore packets","Пересылать чужие пакеты MeshCore");case 7:return t("Per hop in our floods; older MeshCore drops 2-3","На пересылку; старые MeshCore не пересылают 2-3");
   case RowRegion:return t("Repeaters pass on our floods by it; OK: type","По нему репитеры пересылают наши пакеты; OK: ввести");
   case RowFind:return regions::search.count?t("Found: ","Найдены: ")+regionsFound():t("Asks repeaters that hear this device","Спросит репитеры, которые слышат устройство");}return t("Applied to the radio when saved","Применяется к радио при сохранении");}
  switch(i){case 0:return t("OK: edit, 1-24 UTF-8 bytes","OK: изменить, 1-24 байта UTF-8");case 1:return t("Menu language; typing layout is the @ key","Язык меню; раскладка ввода - клавиша @");case 2:return "10-255";case 3:return t("Tone for messages and ACKs","Сигнал о сообщениях и подтверждениях");case 4:return t("0 = off, 30-600 s","0 = выкл, 30-600 с");case 5:return t("0 = off, 10-600 s","0 = выкл, 10-600 с");case 6:return t("Receiver power","Питание приёмника");case 7:return t("Local time, 15 minute steps","Местное время, шаг 15 минут");case 8:return t("Status bar: charge estimate or measured voltage","Строка состояния: оценка заряда или измеренное напряжение");case 9:return t("Chess moves and message senders while locked","Ходы шахмат и отправители при блокировке");}return t("Stored in device memory","Сохраняется в памяти устройства");

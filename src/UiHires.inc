@@ -63,7 +63,7 @@ void footer(std::initializer_list<String> hints){
 // A long title first drops the battery percentage, then the Bluetooth icon.
 void statusBar(const String& title,bool home=false){
  auto& d=g();d.fillRect(0,0,240,20,ColBar);d.drawFastHLine(0,20,240,ColLine);int x=236;
- unsigned mv=hardware.batteryMv,pct=mv<=3300?0:mv>=4200?100:(mv-3300)/9;bool external=mv>4250;
+ unsigned mv=hardware.batteryMv,pct=batteryPercent(mv);bool external=mv>4250;
  uint16_t level=!mv?ColFaint:external?ColAccent:pct<=15?ColBad:pct<=30?ColWarn:ColGood;
  String p=mv&&(config.batteryVolts||!external)?(config.batteryVolts?String(mv/1000.f,2)+"V":String(pct)+"%"):String(),clock=clockText(time(nullptr)),n=unreadCount&&page!=Messages?String(unreadCount):String();
  bool ble=bleActive();int used=21+(p.length()?width(p,tiny)+5:0)+width(clock,small)+6+20+(config.gps?13:0)+(portalActive()?15:0)+(ble?11:0)+(n.length()?width(n,tiny)+18:0),need=width(title)+12;

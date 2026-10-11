@@ -79,3 +79,8 @@ class Hardware {
   bool write(uint8_t addr,uint8_t reg,uint8_t value);
 };
 extern Hardware hardware;
+// Charge of a Li-ion cell from its voltage, rounded: the same curve as batteryPercent() of web/index.html,
+// so the screen, the page and the app agree.
+inline unsigned batteryPercent(uint16_t v){
+  static const uint16_t mv[]={3300,3500,3600,3700,3800,3900,4000,4100,4200};static const uint8_t pc[]={0,5,15,35,55,70,82,93,100};
+  if(v<=mv[0])return 0;for(int i=1;i<9;i++)if(v<=mv[i]){unsigned span=mv[i]-mv[i-1];return pc[i-1]+(2u*(pc[i]-pc[i-1])*(v-mv[i-1])+span)/(2*span);}return 100;}

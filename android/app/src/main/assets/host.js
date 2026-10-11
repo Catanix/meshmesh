@@ -90,7 +90,7 @@ const UPD_NOTE='Вышла новая версия приложения: «Св�
 function updatePending(){return ['available','downloading','ready'].includes(H.upd.state)}
 function markConnect(list){if(!updatePending())return;const t=$(list).querySelector('[data-go="connect"]');if(t)t.insertAdjacentHTML('beforeend','<span class="hdot"></span>')}
 const pageRenderHome=window.renderHome,pageRenderSettings=window.renderSettings;
-window.renderHome=function(){pageRenderHome();markConnect('tiles')};
+window.renderHome=function(){pageRenderHome();markConnect('tiles');renderHomeLink()};
 window.renderSettings=function(){pageRenderSettings();markConnect('settingsList')};
 function updateCard(always){const u=H.upd,st=u.state,mb=u.size?` · ${(u.size/1048576).toFixed(1)} МБ`:'';
  if(!always&&!['available','downloading','ready'].includes(st))return'';
@@ -141,11 +141,16 @@ function leaveApp(message,tone){
  for(const [,p] of pending)p.reject(new TypeError('нет связи'));pending.clear();
  H.prefs=JSON.parse(N.prefs());$('app').hidden=true;$('login').hidden=false;loginHud();renderPanel();if(message)notify(message,tone)}
 
-// Connections page: the app's link first, with disconnect and, from Bluetooth, the faster Wi-Fi.
+// Connections page: the app's link first, with disconnect and, from Bluetooth, the faster Wi-Fi. Its own
+// box above the page's list: the page skips an unchanged list (setHtml), so cards added to it would pile up.
+function hostBox(id,anchor,where){let b=$(id);if(!b){$(anchor).insertAdjacentHTML(where,`<div id="${id}"></div>`);b=$(id)}return b}
 const pageRenderConnect=window.renderConnect;
-window.renderConnect=function(){pageRenderConnect();const s=H.state;if(!H.inApp||!KIND[s.kind])return;const c=conn||{};
+window.renderConnect=function(){pageRenderConnect();const s=H.state,box=hostBox('connApp','connList','beforebegin');if(!H.inApp||!KIND[s.kind]){setHtml(box,'');return}const c=conn||{};
  const toWifi=s.kind==='ble'&&status.wifi&&c.ssid&&c.password?`<button class="btn soft" data-hconn="wifi">Перейти на Wi-Fi</button>`:'';
- $('connList').insertAdjacentHTML('afterbegin',`<div class="card conn"><div class="top"><span class="icbox">${ic(KIND[s.kind][0],'acc')}</span><div><b>Приложение · ${KIND[s.kind][1]}</b><small>${esc(s.label||'')}</small></div></div><div class="extra"><div class="btns">${toWifi}<button class="btn danger" data-hconn="off">Отключиться</button></div>${toWifi?'<small class="muted">Wi-Fi быстрее Bluetooth для карт и радара</small>':''}</div></div>`+firmwareCard()+updateCard(true))};
+ setHtml(box,`<div class="list" style="gap:8px;margin-bottom:8px"><div class="card conn"><div class="top"><span class="icbox">${ic(KIND[s.kind][0],'acc')}</span><div><b>Приложение · ${KIND[s.kind][1]}</b><small>${esc(s.label||'')}</small></div></div><div class="extra"><div class="btns">${toWifi}<button class="btn danger" data-hconn="off">Отключиться</button></div><small class="muted">${toWifi?'Wi-Fi быстрее Bluetooth для карт и радара. ':''}«Назад» на главном экране сворачивает приложение, связь остаётся</small></div></div>`+firmwareCard()+updateCard(true)+'</div>')};
+// Home: the link and a way out under the tiles (BACK on home only puts the app in the background).
+function renderHomeLink(){const s=H.state,box=hostBox('homeLink','tiles','afterend');
+ setHtml(box,H.inApp&&KIND[s.kind]?`<div class="card conn" style="margin-top:12px"><div class="top"><span class="icbox">${ic(KIND[s.kind][0],'acc')}</span><div><b>Подключено · ${KIND[s.kind][1]}</b><small>${esc(s.label||'')}</small></div><button class="btn danger" data-hconn="off">Отключиться</button></div></div>`:'')}
 document.addEventListener('click',e=>{const t=e.target.closest('[data-hconn]');if(!t)return;
  if(t.dataset.hconn==='off'){N.disconnect();return}
  const c=conn||{};N.disconnect();setTimeout(()=>connect({kind:'wifi',ssid:c.ssid,password:c.password,address:'192.168.4.1'}),300)});

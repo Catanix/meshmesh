@@ -2106,10 +2106,10 @@
   "ru": "Мощность",
   "text": "送信出力"
  },
- "34e93b9a": {
-  "en": "Our relay limit",
-  "ru": "Предел наших пересылок",
-  "text": "自機の中継上限"
+ "bf7e1f85": {
+  "en": "Relay hop limit",
+  "ru": "Предел ретрансляции",
+  "text": "中継ホップ上限"
  },
  "56531ac6": {
   "en": "Relay packets",
@@ -2275,10 +2275,10 @@
   "ru": "Настройка чипа, 0-22 dBm",
   "text": "無線チップの設定、0-22 dBm"
  },
- "9817d2ff": {
-  "en": "Only packets relayed by this device",
-  "ru": "Только пакеты, пересылаемые этим узлом",
-  "text": "このデバイスが中継するパケットのみ"
+ "e5569422": {
+  "en": "Relay packets with fewer hops than this",
+  "ru": "Пересылать пакеты, у которых пересылок меньше",
+  "text": "ホップ数がこれ未満のパケットを中継"
  },
  "012cb557": {
   "en": "Forward other nodes' MeshCore packets",

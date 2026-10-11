@@ -2119,10 +2119,10 @@
   "ru": "Мощность",
   "text": "TX-Leistung"
  },
- "34e93b9a": {
-  "en": "Our relay limit",
-  "ru": "Предел наших пересылок",
-  "text": "Eigenes Weiterleitungslimit"
+ "bf7e1f85": {
+  "en": "Relay hop limit",
+  "ru": "Предел ретрансляции",
+  "text": "Relay-Hop-Limit"
  },
  "56531ac6": {
   "en": "Relay packets",
@@ -2289,10 +2289,10 @@
   "ru": "Настройка чипа, 0-22 dBm",
   "text": "Einstellung des Funkchips, 0-22 dBm"
  },
- "9817d2ff": {
-  "en": "Only packets relayed by this device",
-  "ru": "Только пакеты, пересылаемые этим узлом",
-  "text": "Nur von diesem Gerät weitergeleitete Pakete"
+ "e5569422": {
+  "en": "Relay packets with fewer hops than this",
+  "ru": "Пересылать пакеты, у которых пересылок меньше",
+  "text": "Pakete mit weniger Hops weiterleiten"
  },
  "012cb557": {
   "en": "Forward other nodes' MeshCore packets",

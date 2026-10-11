@@ -2106,9 +2106,9 @@
   "ru": "Мощность",
   "text": "송신 출력"
  },
- "34e93b9a": {
-  "en": "Our relay limit",
-  "ru": "Предел наших пересылок",
+ "bf7e1f85": {
+  "en": "Relay hop limit",
+  "ru": "Предел ретрансляции",
   "text": "중계 홉 한도"
  },
  "56531ac6": {
@@ -2275,10 +2275,10 @@
   "ru": "Настройка чипа, 0-22 dBm",
   "text": "무선 칩 설정, 0-22 dBm"
  },
- "9817d2ff": {
-  "en": "Only packets relayed by this device",
-  "ru": "Только пакеты, пересылаемые этим узлом",
-  "text": "이 장치가 중계한 패킷만"
+ "e5569422": {
+  "en": "Relay packets with fewer hops than this",
+  "ru": "Пересылать пакеты, у которых пересылок меньше",
+  "text": "홉 수가 이보다 적은 패킷 중계"
  },
  "012cb557": {
   "en": "Forward other nodes' MeshCore packets",

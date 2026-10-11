@@ -2119,10 +2119,10 @@
   "ru": "Мощность",
   "text": "Potência TX"
  },
- "34e93b9a": {
-  "en": "Our relay limit",
-  "ru": "Предел наших пересылок",
-  "text": "Limite de retransmissão"
+ "bf7e1f85": {
+  "en": "Relay hop limit",
+  "ru": "Предел ретрансляции",
+  "text": "Limite de saltos"
  },
  "56531ac6": {
   "en": "Relay packets",
@@ -2289,10 +2289,10 @@
   "ru": "Настройка чипа, 0-22 dBm",
   "text": "Ajuste do chip de rádio, 0-22 dBm"
  },
- "9817d2ff": {
-  "en": "Only packets relayed by this device",
-  "ru": "Только пакеты, пересылаемые этим узлом",
-  "text": "Só pacotes retransmitidos por este aparelho"
+ "e5569422": {
+  "en": "Relay packets with fewer hops than this",
+  "ru": "Пересылать пакеты, у которых пересылок меньше",
+  "text": "Retransmitir pacotes com menos saltos que isto"
  },
  "012cb557": {
   "en": "Forward other nodes' MeshCore packets",
