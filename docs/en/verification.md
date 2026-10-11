@@ -13,7 +13,8 @@
 > APK `0.13.2+local` with unit tests; the page with `host.js` and a mock `MeshNative` in a browser — after ~10 refresh
 > cycles and ticking the sync, one link card, the SSID field keeps focus and text. V4 runs 0.20.2 (`48350b5`,
 > `build_sha256=85610942C6D2…`, boot 262): settings, key and history (64) kept, status bar drawn. The T114 runs 0.20.2
-> (`de138f9`, same code, `build_sha256=1D15028EE1BA…`, boot 19): repeater role, settings and history (64) kept. The M9 was not updated; the app on a phone and the Heltec V3 are unchecked, no full run.
+> (`de138f9`, same code, `build_sha256=1D15028EE1BA…`, boot 19): repeater role, settings and history (64) kept. The M9 runs 0.20.2
+> (`0140195`, same code, `build_sha256=56E9B1412633…`, boot 263): 14 dBm, relay off and history (64) kept, screen drawn. The app on a phone and the Heltec V3 are unchecked, no full run.
 
 > **0.20.1: fixes from community reports** (11 October 2026). (1) One-button boards: while paging, the Quick Send,
 > manual counter and dice pages stay closed — a click moves on, a hold opens them (`app_open` in `ui`); exits are
