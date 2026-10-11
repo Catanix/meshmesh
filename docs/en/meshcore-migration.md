@@ -32,9 +32,11 @@ or a chess game are not evicted; in practice it is long-silent
 repeaters that go. A repeater does not need an entry to relay our messages;
 its next advert returns it to the list. The counter is `contacts_replaced` in `status`.
 
-“Our relay limit” = 3 limits relaying by our device of packets
-that already carry an accumulated path. MeshCore has no global TTL as in MM/1; this is not a promise
-that other repeaters will limit the whole route to three hops.
+“Relay hop limit” (`hops`, “Our relay limit” before 0.20.2) = 3: with relaying on, our device
+forwards another node's flood packet only if it has passed fewer than three repeaters (like `flood.max`
+of a MeshCore repeater; 0 — forward nothing). It does not limit the range of our own messages.
+MeshCore has no global TTL as in MM/1; this is not a promise that other repeaters will limit the whole
+route to three hops.
 “Path hash size” (since 0.11.0, `path_hash`: 1–3 bytes, 1 by default) is how many bytes of each
 repeater's key go into the path of our flood packets (messages, ACKs, path returns, adverts, requests).
 2–3 bytes confuse repeaters sharing a first byte less often in a large network, but fewer hops fit in

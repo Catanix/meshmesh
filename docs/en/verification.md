@@ -1,5 +1,20 @@
 # MeshMesh verification
 
+> **0.20.2 / Android 0.13.2: Heltec V3 user feedback** (11 October 2026). (1) App: the "App · Bluetooth", "Board
+> firmware" and "MeshMesh app" cards on "Connections" piled up every 3–4 s — a 0.20.1 regression: the page skips an
+> unchanged list (`setHtml`) while `host.js` kept adding its cards to it; they now have their own box. The app's home
+> shows the link with a "Disconnect" button (BACK on home only puts the app in the background). (2) One-button screens
+> and the T114 estimated the charge linearly, the page, app and M9 with a Li-ion curve: 47% against 41% at 3.73 V; all
+> now share `batteryPercent()` (`include/Hardware.h`), checked equal to the JS over 3.0–4.3 V. (3) "Our relay limit" is
+> now "Relay hop limit" with an explanation (like `flood.max`), "Always connected" is "Keep Wi-Fi connected" with a
+> description. 0% on the Heltec V3 matches the 3.08 V the board measured (below 3.3 V is empty); whether the measurement
+> itself is right (divider 4.9, 11 dB attenuation) is not established without the board and a multimeter.
+> Checked: builds m9, heltec_v4, heltec_v3, heltec_t114, gat562_30s, Chinese T114/GAT562 images 701984/670524 bytes;
+> APK `0.13.2+local` with unit tests; the page with `host.js` and a mock `MeshNative` in a browser — after ~10 refresh
+> cycles and ticking the sync, one link card, the SSID field keeps focus and text. V4 runs 0.20.2 (`48350b5`,
+> `build_sha256=85610942C6D2…`, boot 262): settings, key and history (64) kept, status bar drawn. M9 and the T114 (not
+> detected on USB) were not updated; the app on a phone and the Heltec V3 are unchecked, no full run.
+
 > **0.20.1: fixes from community reports** (11 October 2026). (1) One-button boards: while paging, the Quick Send,
 > manual counter and dice pages stay closed — a click moves on, a hold opens them (`app_open` in `ui`); exits are
 > marked "< Exit". (2) Device page and app: "Connections" re-rendered every 3 s and closed the keyboard while typing
