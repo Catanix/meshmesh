@@ -5059,6 +5059,56 @@
   "ru": "Выберите: Кости +1",
   "text": "Seç: Zar +1"
  },
+ "7854f1f9": {
+  "en": "s",
+  "ru": "с",
+  "text": "sn"
+ },
+ "4f4367e9": {
+  "en": "m",
+  "ru": "м",
+  "text": "dk"
+ },
+ "df643044": {
+  "en": "h",
+  "ru": "ч",
+  "text": "sa"
+ },
+ "7b108998": {
+  "en": "d",
+  "ru": "д",
+  "text": "g"
+ },
+ "4afdffa6": {
+  "en": "path ?",
+  "ru": "путь ?",
+  "text": "yol ?"
+ },
+ "5cfad88d": {
+  "en": " hops",
+  "ru": " хоп.",
+  "text": " atl."
+ },
+ "8c0d6692": {
+  "en": "repeater",
+  "ru": "ретранслятор",
+  "text": "tekrarlayıcı"
+ },
+ "247e64bb": {
+  "en": "room",
+  "ru": "комната",
+  "text": "oda"
+ },
+ "c8e30cd9": {
+  "en": "sensor",
+  "ru": "датчик",
+  "text": "sensör"
+ },
+ "14acee03": {
+  "en": "chat",
+  "ru": "чат",
+  "text": "sohbet"
+ },
  "5e7a953c": {
   "en": "login: waiting",
   "ru": "вход: ждём",
@@ -6194,6 +6244,11 @@
   "ru": "  загр. ",
   "text": "  açılış "
  },
+ "bde1b411": {
+  "en": "hold: open",
+  "ru": "держ: открыть",
+  "text": "basılı: aç"
+ },
  "d4fa9ef2": {
   "en": "click +1 hold-menu",
   "ru": "клик +1 держ-меню",
@@ -6218,56 +6273,6 @@
   "en": "Delivery not confirmed",
   "ru": "Доставка не подтверждена",
   "text": "Teslimat onaylanmadı"
- },
- "7854f1f9": {
-  "en": "s",
-  "ru": "с",
-  "text": "sn"
- },
- "4f4367e9": {
-  "en": "m",
-  "ru": "м",
-  "text": "dk"
- },
- "df643044": {
-  "en": "h",
-  "ru": "ч",
-  "text": "sa"
- },
- "7b108998": {
-  "en": "d",
-  "ru": "д",
-  "text": "g"
- },
- "4afdffa6": {
-  "en": "path ?",
-  "ru": "путь ?",
-  "text": "yol ?"
- },
- "5cfad88d": {
-  "en": " hops",
-  "ru": " хоп.",
-  "text": " atl."
- },
- "8c0d6692": {
-  "en": "repeater",
-  "ru": "ретранслятор",
-  "text": "tekrarlayıcı"
- },
- "247e64bb": {
-  "en": "room",
-  "ru": "комната",
-  "text": "oda"
- },
- "c8e30cd9": {
-  "en": "sensor",
-  "ru": "датчик",
-  "text": "sensör"
- },
- "14acee03": {
-  "en": "chat",
-  "ru": "чат",
-  "text": "sohbet"
  },
  "696ee294": {
   "en": "Optional",

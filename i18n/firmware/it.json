@@ -5059,6 +5059,56 @@
   "ru": "Выберите: Кости +1",
   "text": "Scegli: Dadi +1"
  },
+ "7854f1f9": {
+  "en": "s",
+  "ru": "с",
+  "text": "s"
+ },
+ "4f4367e9": {
+  "en": "m",
+  "ru": "м",
+  "text": "m"
+ },
+ "df643044": {
+  "en": "h",
+  "ru": "ч",
+  "text": "h"
+ },
+ "7b108998": {
+  "en": "d",
+  "ru": "д",
+  "text": "g"
+ },
+ "4afdffa6": {
+  "en": "path ?",
+  "ru": "путь ?",
+  "text": "perc. ?"
+ },
+ "5cfad88d": {
+  "en": " hops",
+  "ru": " хоп.",
+  "text": " hop"
+ },
+ "8c0d6692": {
+  "en": "repeater",
+  "ru": "ретранслятор",
+  "text": "ripetitore"
+ },
+ "247e64bb": {
+  "en": "room",
+  "ru": "комната",
+  "text": "stanza"
+ },
+ "c8e30cd9": {
+  "en": "sensor",
+  "ru": "датчик",
+  "text": "sensore"
+ },
+ "14acee03": {
+  "en": "chat",
+  "ru": "чат",
+  "text": "chat"
+ },
  "5e7a953c": {
   "en": "login: waiting",
   "ru": "вход: ждём",
@@ -6194,6 +6244,11 @@
   "ru": "  загр. ",
   "text": "  avvio "
  },
+ "bde1b411": {
+  "en": "hold: open",
+  "ru": "держ: открыть",
+  "text": "tieni: apri"
+ },
  "d4fa9ef2": {
   "en": "click +1 hold-menu",
   "ru": "клик +1 держ-меню",
@@ -6218,56 +6273,6 @@
   "en": "Delivery not confirmed",
   "ru": "Доставка не подтверждена",
   "text": "Consegna non confermata"
- },
- "7854f1f9": {
-  "en": "s",
-  "ru": "с",
-  "text": "s"
- },
- "4f4367e9": {
-  "en": "m",
-  "ru": "м",
-  "text": "m"
- },
- "df643044": {
-  "en": "h",
-  "ru": "ч",
-  "text": "h"
- },
- "7b108998": {
-  "en": "d",
-  "ru": "д",
-  "text": "g"
- },
- "4afdffa6": {
-  "en": "path ?",
-  "ru": "путь ?",
-  "text": "perc. ?"
- },
- "5cfad88d": {
-  "en": " hops",
-  "ru": " хоп.",
-  "text": " hop"
- },
- "8c0d6692": {
-  "en": "repeater",
-  "ru": "ретранслятор",
-  "text": "ripetitore"
- },
- "247e64bb": {
-  "en": "room",
-  "ru": "комната",
-  "text": "stanza"
- },
- "c8e30cd9": {
-  "en": "sensor",
-  "ru": "датчик",
-  "text": "sensore"
- },
- "14acee03": {
-  "en": "chat",
-  "ru": "чат",
-  "text": "chat"
  },
  "696ee294": {
   "en": "Optional",

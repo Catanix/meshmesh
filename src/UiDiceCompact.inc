@@ -40,7 +40,7 @@ bool diceTapKey(int key){
 String diceActName(Act a){
  const auto& s=dicer.s;const auto& c=dicer.hero();const dice::Counter* k=diceShownCounter();String value=k?" ("+String(k->value)+")":String();
  switch(a){
- case ActDiceExit:return t("Exit dice","Выйти из костей");
+ case ActDiceExit:return "< "+t("Exit dice","Выйти из костей");
  case ActDiceRoll:return t("Roll ","Бросить ")+(s.mode==dice::Grid?String(s.gridChosen)+"x"+diceTypeName(s.gridType):dicer.poolText());
  case ActDiceSaved:{diceSavedSel=c.rolls?diceSavedSel%c.rolls:0;return t("Roll: ","Бросок: ")+String(c.roll[diceSavedSel].name);}
  case ActDiceNextSaved:return t("Next saved roll","Другой бросок");
@@ -119,7 +119,7 @@ void drawDiceMono(){
   say(0,24,clipped(k->name,21),bold);String v=String(k->value);say(64-width(v,u8g2_font_10x20_t_cyrillic)/2,45,v,u8g2_font_10x20_t_cyrillic);
   const auto& h=dicer.hero();String all;for(unsigned i=0;i<h.counters;i++)all+=(i?" ":"")+String(h.counter[i].value);if(h.counters>1)say(0,55,clipped(all,13),small);return;}
  const dice::Result* r=dicer.last();
- if(!r){say(0,30,t("No rolls yet","Бросков ещё нет"));say(0,44,t("Click to roll","Клик - бросить"),small);return;}
+ if(!r){say(0,30,t("No rolls yet","Бросков ещё нет"));say(0,44,appOpen?t("Click to roll","Клик - бросить"):t("hold: open","держ: открыть"),small);return;}
  say(0,20,clipped(r->label[0]?String(r->label)+" "+r->formula:String(r->formula),21),small);
  int x=0;if(!r->special){String total=String(r->total);say(0,44,total,u8g2_font_10x20_t_cyrillic);x=width(total,u8g2_font_10x20_t_cyrillic)+6;}
  String rows[3];unsigned n=diceRows(dicer.resultText(*r,false),rows,r->special?3:2,(128-x)/5);

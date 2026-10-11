@@ -112,15 +112,17 @@ with ExitStack() as stack:
    assert retained[1][0]['text'].startswith('Wishlist 10 ')
    print('Stage passed',len(report['checks'])+1,flush=True);report['checks'].append('18 real private-channel sends; caps 16/8 and one-copy reception')
   for d in dev:do(d,'people',action='settings',ble=True,wifi=False,personal_only=False,window=30,rssi=-100)
+  def enter(d): # one-button boards: a click passes these pages, a hold opens them
+   if read(d,'ui').get('app_open') is False:command(d,'uikey 163');assert read(d,'ui')['app_open']
   for d in dev:
    do(d,'people',action='change',delta=2);assert read(d,'people')['manual']>=2
-   apply(d,{'apps':'quick people dice','dim_after':0,'notify_popup':0});command(d,'uikey 134');command(d,'uikey 13');assert read(d,'ui')['page']=='quick';command(d,'uikey 134');command(d,'uikey 13')
+   apply(d,{'apps':'quick people dice','dim_after':0,'notify_popup':0});command(d,'uikey 134');command(d,'uikey 13');assert read(d,'ui')['page']=='quick';command(d,'uikey 134');command(d,'uikey 13');enter(d)
    u=read(d,'ui');row=u['quick_row'] if 'quick_row' in u else u['quick_index']
    for _ in range((11-row)%12):command(d,'uikey 13')
-   command(d,'uikey 163');assert read(d,'ui')['page']=='people';old=read(d,'people')['manual'];command(d,'uikey 13');assert read(d,'people')['manual']==old+1
+   command(d,'uikey 163');assert read(d,'ui')['page']=='people';enter(d);old=read(d,'people')['manual'];command(d,'uikey 13');assert read(d,'people')['manual']==old+1
    command(d,'uikey 163');n=read(d,'ui')['menu_count']
    for _ in range(n-2):command(d,'uikey 13')
-   command(d,'uikey 163');assert read(d,'ui')['page']=='dice'
+   command(d,'uikey 163');assert read(d,'ui')['page']=='dice';enter(d)
    assert command(d,'dice mode rpg').startswith('OK');rolls=read(d,'dice')['rolls_total']
    command(d,'uikey 13');command(d,'uikey 13');assert read(d,'dice')['rolls_total']==rolls+2
    apply(d,{'dim_after':10,'notify_popup':1,'notify_wake':1});time.sleep(12);assert read(d,'ui')['screen_off']

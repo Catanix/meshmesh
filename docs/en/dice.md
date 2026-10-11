@@ -46,7 +46,7 @@ the number of dice (up/down by ten), `OK` rolls, `A` adds five dice, `R` resets 
 new, `N` name, `C` colour, `DEL` twice deletes. On the T-Deck all of it also takes taps: tabs, the pool's die,
 the roll card, grid cells, the ±1/±5 buttons.
 
-**One-button boards, GAT562, T114.** On one-button boards a short press repeats the RPG or grid roll;
+**One-button boards, GAT562, T114.** On one-button boards a click on the closed dice page moves to the next page and a hold opens it (since 0.20.1). Inside, a short press repeats the RPG or grid roll;
 a hold opens the menu with presets, parameters and exit. Joystick OK opens the menu with roll first. The RPG menu has the saved roll and the next one, the number of dice, the die, the modifier;
 Warhammer "Dice +1", "Dice +5", the die, the threshold, "Add 5 dice"; counters "Count with button" (±1 on the
 joystick instead), ±5, next, new; each has the character (when there are several) and the mode. Joystick up/down

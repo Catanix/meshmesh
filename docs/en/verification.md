@@ -1,5 +1,17 @@
 # MeshMesh verification
 
+> **0.20.1: fixes from community reports** (11 October 2026). (1) One-button boards: while paging, the Quick Send,
+> manual counter and dice pages stay closed — a click moves on, a hold opens them (`app_open` in `ui`); exits are
+> marked "< Exit". (2) Device page and app: "Connections" re-rendered every 3 s and closed the keyboard while typing
+> the Wi-Fi SSID/password; now it does not re-render while a field has focus and keeps what was typed; the Wi-Fi
+> client state is shown in Russian. `esp_core_dump_flash: No core dump partition found!` at boot comes from the
+> prebuilt Arduino core (our layout has no coredump partition) and is harmless. Checked: screen emulator for
+> Heltec/T114/GAT562/M9/T-Deck (ru); builds m9, heltec_v4, heltec_v3, heltec_t114, gat562_30s; Chinese T114/GAT562
+> images 701952/670444 bytes; T114 flashed with 0.20.1 (`build_sha256=3AC3F556FAAB…`, boot 16) — USB keys: a click
+> passes the pages without counting/rolling, a hold opens them, the menu exits; the Wi-Fi form in a browser with stub
+> data. M9 and V4 were not connected: 0.20.1 not installed there, no full run; physical buttons, Heltec V3 and
+> Android on a phone unchecked.
+
 > **0.20.0 (0.19.1 + wardriving): final full run on M9 and V4** (10 October 2026). `finish_on_hardware.py` on the
 > packages of commit `9e83c2a` finished: `artifacts/release-check.json` — `passed_hardware_suite`. Installed: M9 —
 > `build_sha256=C6253E1CB252…`, boot 251; V4 — `8598F9967516…`, boot 258. The run went with `--resume`: the

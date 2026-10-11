@@ -20,7 +20,7 @@ Ten shared presets, a recipient and optional GPS attachment are stored on the bo
 
 Since 0.19.1, all supported boards keep recipient selection in a separate card above the presets, visible while scrolling. It shows the current channel or contact: colour on M9, T-Deck and T114, an outline and selected inversion on compact screens. Normal entry selects the card; confirming a recipient saves its ID and selects the first preset without sending. Cancelling the recipient list returns to the card.
 
-M9/T-Deck: arrows select, OK on the card opens recipients, OK on a preset sends, back exits. T-Deck also supports taps on the card, recipient and preset. Right with an empty chat composer opens quick reply. One-button devices: click selects; hold opens recipients, confirms the chosen recipient or sends a preset. The exit row remains at the end and advances to the next page. GAT562: up/down select, OK runs the selected action, left/right change page, back cancels recipient selection or goes home.
+M9/T-Deck: arrows select, OK on the card opens recipients, OK on a preset sends, back exits. T-Deck also supports taps on the card, recipient and preset. Right with an empty chat composer opens quick reply. One-button devices: while paging, the Quick Send, manual counter and dice pages stay closed: a click moves on, a hold opens the page (since 0.20.1; a reply from messages opens Quick Send directly). Inside Quick Send, click selects; hold opens recipients, confirms the chosen recipient or sends a preset. The "< Exit" row remains at the end and advances to the next page. GAT562: up/down select, OK runs the selected action, left/right change page, back cancels recipient selection or goes home.
 
 Presets allow at most 160 UTF-8 bytes; sending also checks the recipient's smaller limit. BLE commands have a shared 255-byte encoded limit including JSON and escaping; longer quoted/multiline templates can be saved through USB or Wi-Fi. GPS attachment defaults off and requires a fresh trusted fix, trusted clock and no GPS conflict. Stale or conflicting coordinates produce an error.
 
@@ -44,7 +44,7 @@ Configure this in Connection / Internet. Commands: `internet save {"ssid":"...",
 
 ## People counter
 
-This module is independent of Dice. Manual count: 0–999999, +1/−1, reset, save after a short pause. One-button boards: click +1, hold opens a menu with −1, reset, BLE, Wi-Fi, window and exit. GAT562: up +1, down −1, OK menu. M9: OK/up +1, down −1, hold toggles BLE.
+This module is independent of Dice. Manual count: 0–999999, +1/−1, reset, save after a short pause. One-button boards: a hold opens the page, then click +1, hold opens a menu with −1, reset, BLE, Wi-Fi, window and "< Exit". GAT562: up +1, down −1, OK menu. M9: OK/up +1, down −1, hold toggles BLE.
 
 Automatic results are BLE devices and Wi-Fi devices, kept separate from manual counting and from each other. RSSI threshold −100…−30 dBm, window 30/60/300 seconds, optional BLE phone/watch filter. Each table has 128 temporary identifiers and indicates saturation and dropped observations. No names, addresses or payloads are saved by the counter; identifiers are salted per boot and tables stay in RAM.
 

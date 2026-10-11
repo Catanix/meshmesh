@@ -379,6 +379,9 @@ static void scenario(){
   auto snap=[&](const char* n){shot((std::string(prefix)+n).c_str());};
   for(int i=0;i<11;i++)tick();for(int i=0;i<14&&uiStatus().indexOf("\"page\":\"dice\"")<0;i++)key(next);
   if(uiStatus().indexOf("\"page\":\"dice\"")<0){printf("FAIL dice page: %s\n",uiStatus().c_str());exit(1);}
+#if !defined(MM_JOYSTICK)
+  snap("dice-closed");key(hold);must(uiStatus().indexOf("\"app_open\":true")>=0,"hold opens dice");
+#endif
   snap("dice-empty");key(hold);snap("dice-menu");key(run);must(dicer.resultCount==1&&uiStatus().indexOf("\"menu\":false")>=0,"hold, hold rolls the pool");snap("dice-rpg");
   dicer.roll("d20+5",ru?"Атака мечом":"Sword attack");snap("dice-saved");dicer.roll("d4+d6+d8+d10+d12");snap("dice-shapes");
   dicer.setMode(dice::Grid);dicer.gridChoose(10);dicer.gridSetThreshold(true,4);dicer.gridRoll();snap("dice-grid");
@@ -432,7 +435,15 @@ static void scenario(){
 #else
   const int step=13,hold=0xa3,choose=13;
 #endif
-  key(0x86);key(step);must(uiStatus().indexOf("\"page\":\"quick\"")>=0&&uiStatus().indexOf("\"quick_row\":0")>=0,"open Quick Send on recipient card");shot("heltec-quick");unsigned sent=meshRadio.historyCount;key(hold);
+#if !defined(MM_JOYSTICK)
+  key(0x86);key(step);must(uiStatus().indexOf("\"page\":\"quick\"")>=0&&uiStatus().indexOf("\"app_open\":false")>=0,"Quick Send waits for a hold");shot("heltec-quick-closed");unsigned passed=meshRadio.historyCount;key(step);
+  must(uiStatus().indexOf("\"page\":\"people\"")>=0&&uiStatus().indexOf("\"app_open\":false")>=0,"click passes Quick Send");unsigned untouched=people::settings.manual;key(step);must(uiStatus().indexOf("\"page\":\"dice\"")>=0&&people::settings.manual==untouched,"click passes the counter without counting");
+  unsigned unrolled=dicer.rolls;key(step);must(uiStatus().indexOf("\"page\":\"dice\"")<0&&dicer.rolls==unrolled&&meshRadio.historyCount==passed,"click passes dice without rolling");
+  key(0x86);key(step);key(hold);
+#else
+  key(0x86);key(step);
+#endif
+  must(uiStatus().indexOf("\"page\":\"quick\"")>=0&&uiStatus().indexOf("\"quick_row\":0")>=0,"open Quick Send on recipient card");shot("heltec-quick");unsigned sent=meshRadio.historyCount;key(hold);
   must(uiStatus().indexOf("\"quick_targets\":true")>=0&&meshRadio.historyCount==sent,"recipient card opens chooser without sending");shot("heltec-quick-targets");key(0x86);
   must(uiStatus().indexOf("\"page\":\"quick\"")>=0&&uiStatus().indexOf("\"quick_row\":0")>=0,"cancel returns to recipient card");key(hold);key(choose);uint64_t to=quickSend::target(1);key(hold);
   must(quickSend::state.to==to&&uiStatus().indexOf("\"quick_index\":0")>=0&&meshRadio.historyCount==sent,"recipient confirmation selects first preset without sending");for(int i=0;i<4;i++)tick();shot("heltec-quick-preset");key(hold);
@@ -443,11 +454,11 @@ static void scenario(){
   key(0x86);key(step);key(0xb5);must(uiStatus().indexOf("\"quick_row\":11")>=0,"joystick up wraps to exit");key(0xb5);must(uiStatus().indexOf("\"quick_index\":9")>=0,"joystick up reaches last preset");key(0xb6);key(0xb6);must(uiStatus().indexOf("\"quick_row\":0")>=0,"joystick down wraps to recipient card");
   key(0x86);key(step);key(step);unsigned manual=people::settings.manual;key(0xb5);must(people::settings.manual==manual+1,"joystick up counts +1");key(0xb6);must(people::settings.manual==manual,"joystick down counts -1");
 #else
-  key(13);key(hold);must(uiStatus().indexOf("\"page\":\"people\"")>=0,"Quick exit advances to counter");unsigned manual=people::settings.manual;key(13);must(people::settings.manual==manual+1,"manual +1");key(hold);shot("heltec-people-menu");key(hold);must(people::settings.manual==manual,"manual -1 menu");
+  key(13);key(hold);must(uiStatus().indexOf("\"page\":\"people\"")>=0,"Quick exit advances to counter");shot("heltec-people-closed");key(hold);must(uiStatus().indexOf("\"app_open\":true")>=0,"hold opens the counter");unsigned manual=people::settings.manual;key(13);must(people::settings.manual==manual+1,"manual +1");key(hold);shot("heltec-people-menu");key(hold);must(people::settings.manual==manual,"manual -1 menu");
 #endif
   shot("heltec-people");
 #if !defined(MM_JOYSTICK)
-  key(hold);StaticJsonDocument<768>d;deserializeJson(d,uiStatus());unsigned n=d["menu_count"]|0;must(n>=3,"counter exit menu");for(unsigned i=0;i<n-2;i++)key(13);key(hold);must(uiStatus().indexOf("\"page\":\"dice\"")>=0,"counter exit advances to dice");
+  key(hold);StaticJsonDocument<768>d;deserializeJson(d,uiStatus());unsigned n=d["menu_count"]|0;must(n>=3,"counter exit menu");for(unsigned i=0;i<n-2;i++)key(13);key(hold);must(uiStatus().indexOf("\"page\":\"dice\"")>=0,"counter exit advances to dice");key(hold);
   dicer.setMode(dice::Rpg);unsigned rolls=dicer.rolls;key(13);must(dicer.rolls==rolls+1,"short press rolls");ChatMessage m;m.source=peerId(0);strcpy(m.name,"Preview");strcpy(m.text,"message while rolling");notifications::incoming(m);tick();must(uiStatus().indexOf("\"popup\":false")>=0,"message does not take the roll button");key(13);must(dicer.rolls==rolls+2,"next short press rolls again");config.dimAfter=10;fakeMillis+=12000;tick();must(uiScreenOff(),"dice screen dims");key(13);must(!uiScreenOff()&&dicer.rolls==rolls+3,"dark press wakes and rolls");key(hold);deserializeJson(d,uiStatus());n=d["menu_count"]|0;for(unsigned i=0;i<n-2;i++)key(13);key(hold);must(uiStatus().indexOf("\"page\":\"dice\"")<0,"exit through menu");
 #endif
 #else

@@ -37,6 +37,16 @@ enum Page {Home,Messages,Nodes,Chess,PetPage,DicePage,Signals,Gps,Wifi,Ble,Setti
 const char* pageNames[]={"home","messages","nodes","chess","pet","dice","radar","gps","wifi","ble","settings","modules","notifications","quick","people","wardrive"};
 unsigned quickIndex=0,quickTargetIndex=0;bool quickTargets=false,quickReply=false;uint64_t quickReplyTo=0;
 int page=Home,menuIndex=0,messageOffset=0,nodeIndex=0;bool menuOpen=false,dirty=true,screenOff=false;
+// One button: pages whose click counts, rolls or picks are entered with a hold, so clicking through the pages passes them.
+bool appOpen=false;
+bool appPage(){
+#if defined(MM_JOYSTICK)
+ return false;
+#else
+ return page==QuickPage||page==PeoplePage||page==DicePage;
+#endif
+}
+bool appClosed(){return appPage()&&!appOpen;}
 uint32_t drawAt=0,lastInput=0,menuAt=0,actionAt=0,popupAt=0,ledAt=0,pingAt=0,pingedSamples=0;String action;
 inline __attribute__((always_inline)) void led(bool on){if(pins::led>=0)digitalWrite(pins::led,on?pins::ledOn:!pins::ledOn);}
 uint32_t chessPopupAt=0,chessSeen=0,tourSeen=0;String chessPopupText; // chess and tournament news
@@ -136,7 +146,7 @@ String wifiState(){
 #endif
  switch(radar.wifi){case Radar::WifiPortal:return t("Wi-Fi: access point","Wi-Fi: точка доступа");case Radar::WifiBusy:return t("Wi-Fi busy","Wi-Fi занят");case Radar::WifiFailed:return t("Wi-Fi error","Ошибка Wi-Fi");default:return radar.sweeps?"":t("scanning...","сканирую...");}}
 String bleState(){return radar.ble==Radar::BleBusy?t("BLE busy","BLE занят"):radar.ble==Radar::BleFailed?t("BLE error","Ошибка BLE"):"";}
-void showPage(int next){page=next;if(page==Signals){signalManual=false;radar.open();}else if(!webRadarActive()&&!wardrive::holdsRadar())radar.close();if(page==QuickPage){quickTargets=false;quickIndex=0;}if(page==Messages){messageOffset=0;unreadCount=0;}}
+void showPage(int next){page=next;appOpen=false;if(page==Signals){signalManual=false;radar.open();}else if(!webRadarActive()&&!wardrive::holdsRadar())radar.close();if(page==QuickPage){quickTargets=false;quickIndex=0;}if(page==Messages){messageOffset=0;unreadCount=0;}}
 // Server roles show the pages that still mean something: no chats, nodes or radar.
 bool pageShown(int p){
  if(p==WardrivePage&&!MM_WARDRIVE)return false;
@@ -393,7 +403,7 @@ bool keepsMenu(Act a){
  return a==ActFormat||a==ActPowerOff||a==ActSound||a==ActNextSignal||a==ActOlder||a==ActNewer||a==ActNextNode||a==ActChessNext||a==ActLanguage||a==ActBattery||a==ActScreen||a==ActContrast||a==ActPetDeath||a==ActPetRelease;}
 String flag(bool value){return value?t("On","Вкл"):t("Off","Выкл");}
 String actName(Act a){
- if(a>=ActPeopleMinus&&a<=ActPeopleExit){switch(a){case ActPeopleMinus:return "-1";case ActPeopleReset:return t("Reset manual count","Сбросить ручной счёт");case ActPeopleBle:return "BLE: "+flag(people::settings.ble);case ActPeopleWifi:return "Wi-Fi: "+flag(people::settings.wifi);case ActPeopleWindow:return t("Window: ","Окно: ")+String(people::settings.window)+"s";case ActPeopleRssi:return "RSSI: "+String(people::settings.rssi);case ActPeoplePersonal:return t("Phones/watches only: ","Только телефоны/часы: ")+flag(people::settings.personal);case ActPeopleClear:return t("Clear device window","Сбросить окно устройств");default:return t("Exit","Выход");}}
+ if(a>=ActPeopleMinus&&a<=ActPeopleExit){switch(a){case ActPeopleMinus:return "-1";case ActPeopleReset:return t("Reset manual count","Сбросить ручной счёт");case ActPeopleBle:return "BLE: "+flag(people::settings.ble);case ActPeopleWifi:return "Wi-Fi: "+flag(people::settings.wifi);case ActPeopleWindow:return t("Window: ","Окно: ")+String(people::settings.window)+"s";case ActPeopleRssi:return "RSSI: "+String(people::settings.rssi);case ActPeoplePersonal:return t("Phones/watches only: ","Только телефоны/часы: ")+flag(people::settings.personal);case ActPeopleClear:return t("Clear device window","Сбросить окно устройств");default:return "< "+t("Exit","Выход");}}
 
 #if MM_DICE
  if(a>=ActDiceRoll&&a<=ActDiceExit)return diceActName(a);
@@ -449,7 +459,7 @@ void run(Act a){
  if(a>=ActDiceRoll&&a<=ActDiceExit){diceRun(a);return;}
 #endif
  switch(a){
- case ActQuick:{const ChatMessage* m=shownMessage();if(m){quickReplyTo=channels::isChannel(m->destination)?m->destination:m->outgoing?m->destination:m->source;quickReply=true;showPage(QuickPage);quickIndex=1;}break;}
+ case ActQuick:{const ChatMessage* m=shownMessage();if(m){quickReplyTo=channels::isChannel(m->destination)?m->destination:m->outgoing?m->destination:m->source;quickReply=true;showPage(QuickPage);appOpen=true;quickIndex=1;}break;}
  case ActNotify:showPage(NotifyPage);break;
 #if MM_WARDRIVE
  case ActWardriveRun:case ActWardriveNets:{StaticJsonDocument<128>d;d["action"]=a==ActWardriveRun&&wardrive::running()?"stop":"settings";if(a==ActWardriveNets)d["nets"]=!wardrive::settings.nets;else if(!wardrive::running()){d["passive"]=true;d["ping"]=true;}
@@ -571,7 +581,7 @@ String hint(){
 unsigned quickTargetCount(){return quickSend::targetCount();}
 uint64_t quickTarget(unsigned i){return quickSend::target(i);}
 String quickName(uint64_t id){const auto* ch=meshRadio.channel(id);const Peer* p=meshRadio.findContact(id);return ch?String(ch->name):p?String(p->name):t("Choose recipient","Выберите получателя");}
-String quickLabel(unsigned i){if(!i)return t("Choose recipient","Выберите получателя");if(i<=quickSend::Count)return quickSend::state.text[i-1][0]?String(quickSend::state.text[i-1]):String("--");return t("Exit","Выход");}
+String quickLabel(unsigned i){if(!i)return t("Choose recipient","Выберите получателя");if(i<=quickSend::Count)return quickSend::state.text[i-1][0]?String(quickSend::state.text[i-1]):String("--");return "< "+t("Exit","Выход");}
 bool quickKey(int key){if(page!=QuickPage)return false;if(key==0x86){if(quickTargets){quickTargets=false;quickIndex=0;}else{quickReply=false;showPage(Home);}return true;}bool click=key==13||key==0x82||key==0xb6,hold=key==0xa3;
 #if defined(MM_JOYSTICK)
  click=key==0xb6;hold=key==13;if(key==0xb5){if(quickTargets){unsigned n=quickTargetCount();if(n)quickTargetIndex=(quickTargetIndex+n-1)%n;}else quickIndex=(quickIndex+quickSend::Count+1)%(quickSend::Count+2);return true;}if(key==0xb4||key==0xb7){quickReply=quickTargets=false;showPage(key==0xb4?previousPage(page):nextPage(page));return true;}
@@ -584,9 +594,9 @@ bool quickKey(int key){if(page!=QuickPage)return false;if(key==0x86){if(quickTar
 void drawQuickMono(){auto& c=*hardware.canvas;
  if(quickTargets){say(0,20,fitted(t("Choose recipient","Выберите получателя"),128,small),small);unsigned n=quickTargetCount();int first=max(0,min(int(quickTargetIndex)-1,int(n)-3));
   for(unsigned i=first;i<n&&i<unsigned(first+3);i++){int y=23+(i-first)*11;bool focus=i==quickTargetIndex;if(focus)c.fillRect(0,y,128,11,1);say(2,y+9,fitted(quickName(quickTarget(i)),124,small),small,focus?0:1);}return;}
- bool focus=!quickIndex;c.drawRoundRect(0,12,128,17,3,1);if(focus)c.fillRoundRect(0,12,128,17,3,1);
+ bool focus=!quickIndex&&appOpen;c.drawRoundRect(0,12,128,17,3,1);if(focus)c.fillRoundRect(0,12,128,17,3,1);
  say(3,25,fitted(quickName(quickReply?quickReplyTo:quickSend::state.to),112,body),body,focus?0:1);c.fillTriangle(119,17,119,23,123,20,focus?0:1);
- int first=max(1,min(int(quickIndex)-1,int(quickSend::Count)));for(unsigned i=first;i<=quickSend::Count+1&&i<unsigned(first+2);i++){int y=31+(i-first)*13;bool selected=i==quickIndex;if(selected)c.fillRect(0,y,128,13,1);say(2,y+10,fitted(quickLabel(i),124,small),small,selected?0:1);}}
+ int first=max(1,min(int(quickIndex)-1,int(quickSend::Count)));for(unsigned i=first;i<=quickSend::Count+1&&i<unsigned(first+2);i++){int y=31+(i-first)*13;bool selected=i==quickIndex&&appOpen;if(selected)c.fillRect(0,y,128,13,1);say(2,y+10,fitted(quickLabel(i),124,small),small,selected?0:1);}}
 
 void drawMenu(){
  auto& c=*hardware.canvas;Act acts[MenuMax];unsigned n=actions(acts);if(!n){menuOpen=false;return;}menuIndex%=n;int first=max(0,min(menuIndex-1,int(n)-3));
@@ -766,7 +776,7 @@ void draw(){
   say(0,48,t("up ","работа ")+ago(millis())+t("  boot ","  загр. ")+String(config.bootCounter),small);
  }
  header(title);
- if(menuOpen)drawMenu();else footer(page==PeoplePage?
+ if(menuOpen)drawMenu();else footer(appClosed()?t("hold: open","держ: открыть"):page==PeoplePage?
 #if defined(MM_JOYSTICK)
  t("OK: menu  < >","OK: меню  < >"):
 #else
@@ -829,7 +839,7 @@ void uiKey(int key){
  lastInput=millis();dirty=true;
  if(screenOff){screenOff=false;hardware.brightness(config.brightness); // the first press only wakes the panel
 #if !defined(MM_JOYSTICK)
-  if(page!=DicePage&&page!=PeoplePage) // a dice/count press also acts after waking
+  if(!appOpen||(page!=DicePage&&page!=PeoplePage)) // an open dice/count page also acts on the waking press
 #endif
   return;}
 #if defined(MM_JOYSTICK)
@@ -845,6 +855,7 @@ void uiKey(int key){
  ChessMatch* m=chessNet.eventMatch;showPage(Chess);openChess(m&&m->state!=ChessMatch::Free?m:nullptr);
 #endif
  }return;}
+ if(appClosed()&&!menuOpen){if(key==0xa3){appOpen=true;quickTargets=false;quickIndex=0;}else if(key==0x86)showPage(Home);else if(key==13||key==0x82)showPage(nextPage(page));return;}
  if(quickKey(key))return;
  if(menuOpen){menuAt=millis();Act acts[MenuMax];unsigned n=actions(acts);if(!n){menuOpen=false;return;}
   if(key==13||key==0x82){menuIndex=(menuIndex+1)%n;return;}
@@ -864,7 +875,7 @@ void uiKey(int key){
 }
 bool uiRadarPage(){return page==Signals;}
 void uiBegin(){openRolePick(true);chessSeen=chessNet.events;if(pins::led>=0)pinMode(pins::led,OUTPUT);led(false);lastInput=millis();if(meshRadio.historyCount){auto& m=meshRadio.history[meshRadio.historyCount-1];newest={m.source,m.session,m.id};}draw();}
-String uiStatus(){StaticJsonDocument<768>d;if(page==QuickPage){d["quick_row"]=quickIndex;if(!quickTargets&&quickIndex&&quickIndex<=quickSend::Count)d["quick_index"]=quickIndex-1;d["quick_targets"]=quickTargets;if(quickTargets)d["quick_target_index"]=quickTargetIndex;d["quick_to"]=meshRadio.idText(quickReply?quickReplyTo:quickSend::state.to);}d["action"]=millis()-actionAt<3500?action:String();d["page"]=rolePick?"role":pageNames[page];d["role"]=roleName(config.role);if(rolePick){d["role_selected"]=roleSel;d["boot_pick"]=rolePickBoot;}if(radioEdit){d["page"]="radio";d["radio_row"]=radioRow;d["radio_editing"]=radioEditing;d["radio_digit"]=radioDigit;d["radio_draft"]=radioValue(radioDraft,radioRow);}d["locked"]=false;d["menu"]=menuOpen;d["menu_index"]=menuIndex;if(menuOpen){Act choices[MenuMax];d["menu_count"]=actions(choices);}d["screen_off"]=screenOff;d["popup"]=popupAt!=0;d["chess_popup"]=chessPopupAt!=0;d["unread"]=unreadCount;
+String uiStatus(){StaticJsonDocument<768>d;if(page==QuickPage){d["quick_row"]=quickIndex;if(!quickTargets&&quickIndex&&quickIndex<=quickSend::Count)d["quick_index"]=quickIndex-1;d["quick_targets"]=quickTargets;if(quickTargets)d["quick_target_index"]=quickTargetIndex;d["quick_to"]=meshRadio.idText(quickReply?quickReplyTo:quickSend::state.to);}d["action"]=millis()-actionAt<3500?action:String();d["page"]=rolePick?"role":pageNames[page];d["role"]=roleName(config.role);if(rolePick){d["role_selected"]=roleSel;d["boot_pick"]=rolePickBoot;}if(radioEdit){d["page"]="radio";d["radio_row"]=radioRow;d["radio_editing"]=radioEditing;d["radio_digit"]=radioDigit;d["radio_draft"]=radioValue(radioDraft,radioRow);}d["locked"]=false;d["app_open"]=appOpen;d["menu"]=menuOpen;d["menu_index"]=menuIndex;if(menuOpen){Act choices[MenuMax];d["menu_count"]=actions(choices);}d["screen_off"]=screenOff;d["popup"]=popupAt!=0;d["chess_popup"]=chessPopupAt!=0;d["unread"]=unreadCount;
 #if MM_CHESS
  if(page==Chess&&chessOpen){char id[5];snprintf(id,sizeof id,"%04X",chessOpen->id);d["chess_game"]=id;d["chess_cursor"]=chessCursor;d["chess_held"]=chessHeld;d["chess_menu"]=chessMenu;d["chess_menu_index"]=chessMenuIndex;
   if(chessMenu){ChessAct acts[8];unsigned k=chessActions(*chessOpen,acts);d["chess_act"]=int(acts[chessMenuIndex%k]);}}
