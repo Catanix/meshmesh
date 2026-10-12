@@ -28,6 +28,7 @@ class GarbledAnswerException(command: String) : IOException("Повреждён�
 
 /** One command at a time over a [ByteLink]: writes the line and waits for its single answer. */
 class LineTransport(val link: ByteLink) {
+    companion object { const val LATE_MAX_MS = 60_000L }
     private val assembler = LineAssembler()
     private val lines = Channel<String>(Channel.UNLIMITED)
     private val mutex = Mutex()
@@ -37,11 +38,12 @@ class LineTransport(val link: ByteLink) {
     private var late = 0
     @Volatile var lastActivity = System.currentTimeMillis()
         private set
+    @Volatile private var lastBytes = 0L
     /** Called once when the link closes, with the reason. */
     var onClosed: (String) -> Unit = {}
 
     init {
-        link.onBytes = { bytes, count -> assembler.feed(bytes, count).forEach { lines.trySend(it) } }
+        link.onBytes = { bytes, count -> lastBytes = System.currentTimeMillis(); assembler.feed(bytes, count).forEach { lines.trySend(it) } }
         link.onClosed = { reason -> markClosed(reason) }
     }
 
@@ -71,8 +73,18 @@ class LineTransport(val link: ByteLink) {
         if (command.isBlank()) throw IOException("ERR empty command")
         if (bytes.size > link.maxCommand) throw IOException("ERR command too long for this link (${bytes.size} > ${link.maxCommand} bytes)")
         if (late > 0) {
+            // Wait 2 s, and longer while bytes still arrive: a large answer over BLE (history, radar) may
+            // take longer than its timeout, and taken for the next command it showed the radar the history.
             try {
-                withTimeoutOrNull(2000) { while (late > 0) if (Replies.anyAnswer(lines.receive())) late-- }
+                val start = System.currentTimeMillis()
+                withTimeoutOrNull(LATE_MAX_MS) {
+                    while (late > 0) {
+                        val line = withTimeoutOrNull(500) { lines.receive() }
+                        val now = System.currentTimeMillis()
+                        if (line == null) { if (now - start > 2000 && now - lastBytes > 2000) break else continue }
+                        if (Replies.anyAnswer(line)) late--
+                    }
+                }
             } catch (e: ClosedReceiveChannelException) {
                 throw LinkClosedException(closedReason ?: "closed")
             }

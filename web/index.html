@@ -80,6 +80,7 @@ progress{width:100%;height:10px;accent-color:var(--accent)}.two{display:grid;gri
 .tabs{display:flex;gap:6px;margin:4px 0 10px}.tabs button{flex:1;border:0;border-radius:8px;background:var(--card);padding:9px;font-weight:600;color:var(--dim)}.tabs button.on{background:var(--hi);color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent)}
 .scope{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:12px;align-items:start}.scope canvas{width:100%;aspect-ratio:1;display:block}
 .sig{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;border:0;background:none;width:100%;text-align:left;color:var(--dim)}.sig i{width:8px;height:8px;border-radius:50%;flex:none}.sig span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sig b{font-variant-numeric:tabular-nums}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:center;margin:6px 4px}.legend span{display:inline-flex;align-items:center;gap:5px}.legend span:last-child{flex-basis:100%;justify-content:center;text-align:center;color:var(--faint)}.legend i{width:8px;height:8px;border-radius:50%;flex:none}
 .sig.sel,.sig:hover{background:var(--hi);color:var(--ink)}.sig.sel{box-shadow:inset 3px 0 0 var(--accent)}
 .bigdbm{font-size:60px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}.bigdbm small{font-size:13px;color:var(--dim);font-weight:400;margin-left:6px;letter-spacing:0}
 .homing{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;margin:12px 0}
@@ -240,7 +241,7 @@ body[data-route=chat] .wrap{padding-bottom:0}#p-chat{display:flex;flex-direction
 <details class="more"><summary>Архив настроек MM/1</summary><p class="muted small">Радио работает через MeshCore: личные сообщения шифруются ключами узлов, общий чат — стандартный канал Public. Старый ключ MM/1 сохранён для отката и в MeshCore не используется.</p><button class="btn save" id="downloadKey" type="button">Скачать настройки и ключ</button></details></section>
 
 <section class="page" id="p-radar" hidden><div class="tabs"><button data-go="radar" class="on">Сигналы</button><button data-go="motion">Движение (CSI)</button></div>
-<div class="scope"><div><canvas id="scopeCanvas" width="300" height="300"></canvas><p class="small faint" style="text-align:center;margin:4px 0">ближе к центру — сильнее</p></div><div><div class="small muted" style="padding:0 4px 6px" id="radarCounts"></div><div id="signalList"></div><p class="small" style="margin:8px 4px" id="radarState"></p><button class="btn primary save" id="startHoming" disabled>Пеленг на выбранный сигнал</button></div></div>
+<div class="scope"><div><canvas id="scopeCanvas" width="300" height="300"></canvas><p class="small faint" style="text-align:center;margin:4px 0">ближе к центру — сильнее</p><p class="small muted legend" id="radarLegend"></p></div><div><div class="small muted" style="padding:0 4px 6px" id="radarCounts"></div><div id="signalList"></div><p class="small" style="margin:8px 4px" id="radarState"></p><button class="btn primary save" id="startHoming" disabled>Пеленг на выбранный сигнал</button></div></div>
 <p class="small faint" style="margin:12px 4px">RSSI — только сила сигнала: направления и расстояния он не даёт. Пеленг: идите и следите за «теплее / холоднее». Адреса Bluetooth у телефонов меняются, счёт устройств приблизительный.</p></section>
 
 <section class="page" id="p-homing" hidden><div id="homingView"></div><div class="btns" style="margin-top:12px"><button class="btn" id="pingToggle">Звук в браузере</button><button class="btn" id="resetPeak">Сброс пика</button><button class="btn" id="stopHoming">К списку</button></div></section>
@@ -980,7 +981,8 @@ async function toggle(which){
 function startRadar(){if(radarTimer)return;pollRadar();radarTimer=setInterval(pollRadar,700);requestAnimationFrame(animateScope)}
 function stopRadar(){if(!radarTimer)return;clearInterval(radarTimer);radarTimer=null;radarData=null;radarAction({action:'close'})}
 async function radarAction(body){try{return await request('/api/radar',body)}catch(e){if(body.action!=='close')notify(e.message.replace(/^ERR /,''),'warn')}}
-async function pollRadar(){if(radarBusy||!auth)return;radarBusy=true;try{radarData=await request('/api/radar?open=1');if(route==='homing'&&!radarData.tracking&&Date.now()-trackAt>2500)go('radar');else if(RADAR_PAGES.includes(route))render()}catch(e){notify('Радар: '+e.message,'bad')}finally{radarBusy=false}}
+async function pollRadar(){if(radarBusy||!auth)return;radarBusy=true;try{const r=await request('/api/radar?open=1');if(!Array.isArray(r?.targets))return; // not the radar's answer: keep the last one
+ radarData=r;if(route==='homing'&&!radarData.tracking&&Date.now()-trackAt>2500)go('radar');else if(RADAR_PAGES.includes(route))render()}catch(e){notify('Радар: '+e.message,'bad')}finally{radarBusy=false}}
 const level=r=>Math.min(1,Math.max(0,(r+100)/65));
 function targetHue(t){return t.kind==='lora'?'#a78bfa':t.kind==='ble'?(t.device&&t.device!=='unknown'?'#f472b6':'#8d99a6'):t.open?'#e9b13b':'#4f9df7'}
 const DEVICES={phone:'Телефон',watch:'Часы',audio:'Наушники',personal:'Телефон/часы'},VENDORS={76:'Apple',117:'Samsung',224:'Google',637:'Huawei',911:'Xiaomi',135:'Garmin',6:'Microsoft'};
@@ -989,7 +991,9 @@ function targetName(t){if(t.name)return t.name;if(t.kind==='ble')return deviceTe
 function wifiState(d){return {portal:'Wi-Fi-сети не сканируются: точка доступа этой страницы занимает Wi-Fi. Bluetooth и LoRa работают.',busy:'Wi-Fi занят проверкой',failed:'Ошибка Wi-Fi'}[d.wifi]||(d.sweeps||d.wifi!=='ready'?'':'Сканирую Wi-Fi…')}
 function bleState(d){return {busy:'Bluetooth занят проверкой',failed:'Ошибка Bluetooth'}[d.ble]||''}
 function scopeSelected(){const t=radarData?.targets||[];if(!t.length)return -1;if(scopeManual){const i=t.findIndex(x=>x.ref===scopeRef?.ref&&x.kind===scopeRef?.kind);if(i>=0)return i}scopeRef={ref:t[0].ref,kind:t[0].kind};return 0}
-function renderScope(){const d=radarData;if(!d){$('radarCounts').textContent='Запуск радара…';return}
+const RADAR_LEGEND=[['#4f9df7','Wi-Fi с паролем',1],['#e9b13b','открытый Wi-Fi',1],['#f472b6','телефон, часы, наушники'],['#8d99a6','другое BLE-устройство'],['#a78bfa','узел LoRa']];
+function renderScope(){setHtml($('radarLegend'),RADAR_LEGEND.filter(l=>!l[2]||!noWifi()).map(([c,n])=>`<span><i style="background:${c}"></i>${n}</span>`).join('')+'<span>Точки гаснут после прохода луча; BLE и LoRa бледнеют, если давно не слышны</span>');
+ const d=radarData;if(!d){$('radarCounts').textContent='Запуск радара…';return}
  const t=d.targets,sel=scopeSelected(),count=k=>t.filter(x=>x.kind===k).length;$('radarCounts').textContent=`${noWifi()?'':`Wi-Fi ${count('wifi')} · `}BLE ${count('ble')} · LoRa ${count('lora')}`;document.querySelector('#p-radar [data-go="motion"]').hidden=noWifi();
  $('signalList').innerHTML=t.length?t.map((x,i)=>`<button class="sig${i===sel?' sel':''}" data-sig="${i}"><i style="background:${targetHue(x)}"></i><span>${esc(targetName(x))}</span><b>${x.rssi}</b></button>`).join(''):'<p class="muted small" style="padding:8px 4px">Сигналов пока нет</p>';
  let s=wifiState(d)||bleState(d);if(!s&&d.personal)s=plural(d.personal,'телефон/часы рядом','телефона/часов рядом','телефонов/часов рядом');
@@ -1269,6 +1273,7 @@ async function roomPost(){const t=$('roomText').value.trim();if(!t)return;if(byt
 
 async function refresh(){if(refreshing||uploading||!auth||companion)return;refreshing=true;try{
  const got=[];for(const path of ['/api/status','/api/messages','/api/nodes','/api/config','/api/navigation','/api/maps'])got.push(await request(path));
+ const obj=v=>v&&typeof v==='object'&&!Array.isArray(v);if(!obj(got[0])||!Array.isArray(got[1])||!Array.isArray(got[2])||!obj(got[3]))throw Error('неожиданный ответ, повторю'); // a mixed-up answer must not replace the data
  [status,history,peers,config,navInfo,mapInfo]=got;fetchedAt=Date.now();clockBase={unix:status.unix_time,at:Date.now()};
  // In the app the phone's clock sets an unset device clock once, so new messages get their reception time.
  if(window.MeshNative&&(!clockSynced||Date.now()-clockSynced>1800000)){clockSynced=Date.now();const now=Math.floor(Date.now()/1000);try{await command('clock '+JSON.stringify({unix:now,source:'phone'}));clockBase={unix:now,at:Date.now()};status.unix_time=now}catch{}}

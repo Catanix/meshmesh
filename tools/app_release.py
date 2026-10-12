@@ -3,6 +3,7 @@
 
 Usage: tools/app_release.py SITE_APP OUTPUT_METADATA_JSON
 SITE_APP contains meshmesh.apk. The APK and metadata must come from the same Gradle artifact.
+The site's buttons are pointed at meshmesh-<version>.apk, a copy named with the version.
 """
 import hashlib
 import json
@@ -28,6 +29,17 @@ def publish(out, metadata):
     data = apk.read_bytes()
     filename = f'meshmesh-{ANDROID_VERSION}-{code}.apk'
     shutil.copyfile(apk, out / filename)
+    # The site's download buttons give a file with the version in its name (meshmesh.apk stays for old links).
+    named = f'meshmesh-{ANDROID_VERSION}.apk'
+    shutil.copyfile(apk, out / named)
+    linked = 0
+    for page in out.parent.glob('*.html'):
+        text = page.read_text()
+        if 'href="app/meshmesh.apk"' in text:
+            page.write_text(text.replace('href="app/meshmesh.apk"', f'href="app/{named}"'))
+            linked += 1
+    if (out.parent / 'index.html').exists() and not linked:
+        raise ValueError('No download button links app/meshmesh.apk')
     info = {'code': code, 'name': name, 'version': ANDROID_VERSION, 'firmware': VERSION,
             'revision': revision(), 'file': filename, 'size': len(data), 'sha256': hashlib.sha256(data).hexdigest()}
     (out / 'version.json').write_text(json.dumps(info, ensure_ascii=False) + '\n')

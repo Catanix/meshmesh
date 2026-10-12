@@ -32,17 +32,20 @@ object Replies {
     private val jsonCommands = setOf(
         "status", "config", "key", "messages", "nodes", "ui", "navigation", "connections", "clock",
         "bleprobe", "wifiprobe", "map info", "map areas", "radar", "radar web", "internet", "internet info",
-        "chess", "chess web", "channels", "pet", "dice",
+        "chess", "chess web", "chess rating", "channels", "pet", "dice", "quick", "people", "wardrive", "tour", "server",
     )
 
-    fun expectsJson(command: String) = command in jsonCommands || command.startsWith("chess show ")
+    /** Commands that answer only JSON: a cut JSON line is a garbled answer, not a log line. */
+    fun expectsJson(command: String) = command in jsonCommands || command.startsWith("chess show ") || command.startsWith("wardrive log ")
 
-    /** True when [line] is the answer to [command]. */
+    /**
+     * True when [line] is the answer to [command]. Any whole JSON line answers: many commands answer JSON
+     * (quick, people, wardrive, server, remote…), and taking it for a log line left the app waiting
+     * for the timeout with every other request queued behind it.
+     */
     fun answers(command: String, line: String): Boolean {
-        if (isError(line)) return true
-        if (expectsJson(command)) return looksLikeJson(line)
-        // "channel do" answers OK…, or JSON for the action "probe".
-        return line.startsWith("OK") || (command.startsWith("channel do ") && looksLikeJson(line))
+        if (isError(line) || looksLikeJson(line)) return true
+        return !expectsJson(command) && line.startsWith("OK")
     }
 
     /** True for any line that is some command's answer (used to drop late answers). */
@@ -50,8 +53,11 @@ object Replies {
 
     fun isError(line: String) = line.startsWith("ERR") || line.startsWith("Commands:")
 
+    // Arduino log lines over USB: "[  1234][E][WiFiGeneric.cpp:1062] …".
+    private val arduinoLog = Regex("""^\[\s*\d+]\[[VDIWEN]]""")
+
     private fun looksLikeJson(line: String): Boolean {
         val t = line.trimEnd()
-        return (t.startsWith("{") && t.endsWith("}")) || (t.startsWith("[") && t.endsWith("]"))
+        return (t.startsWith("{") && t.endsWith("}")) || (t.startsWith("[") && t.endsWith("]") && !arduinoLog.containsMatchIn(t))
     }
 }

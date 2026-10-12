@@ -16,6 +16,7 @@
 #include "ChessNet.h"
 #include "ChessTour.h"
 #include "Companion.h"
+#include "HistoryReply.h"
 #include <WiFi.h>
 #include <WebServer.h>
 #include <NimBLEDevice.h>
@@ -35,6 +36,9 @@ NimBLECharacteristic* bleTx=nullptr;
 QueueHandle_t commands=nullptr;
 String bleResponse;
 unsigned bleOffset=0;
+// "messages" goes out from a snapshot in small blocks (HistoryReply), as over USB and on the nRF52: the whole
+// history as one string (and its copy) did not fit the heap of boards without PSRAM (Heltec V3, BLE + radar).
+std::unique_ptr<HistoryReply> bleHistory;
 uint32_t nextNotification=0;
 struct BleCommand {char text[256];};
 // MeshCore companion apps: the Nordic UART service of stock MeshCore, one frame per write and notification.
@@ -143,7 +147,9 @@ void portalBegin() {
   server.on("/api/people",HTTP_POST,[]{if(authorized()){String reply=executeCommand("people do "+server.arg("plain"));server.send(reply.startsWith("ERR")?400:200,"text/plain",reply);}});
   server.on("/api/quick",HTTP_GET,[]{if(authorized())answer(executeCommand("quick"));});
   server.on("/api/quick",HTTP_POST,[]{if(authorized()){String reply=executeCommand("quick do "+server.arg("plain"));answer(reply,!reply.startsWith("ERR"));}});
-  server.on("/api/messages",HTTP_GET,[]{if(authorized())answer(messagesJson());});
+  server.on("/api/messages",HTTP_GET,[]{if(!authorized())return;HistoryReply h;if(!h.begin()){server.send(503,"text/plain","ERR history snapshot memory");return;}
+    server.setContentLength(CONTENT_LENGTH_UNKNOWN);server.send(200,"application/json","");
+    for(size_t n=0;;){const uint8_t* b=h.peek(n);if(!b||!n)break;server.sendContent((const char*)b,n);h.advance(n);}server.sendContent("");});
   server.on("/api/config",HTTP_GET,[]{if(authorized())answer(configJson());});
   // The private key only over the access point: on the home network the page is plain HTTP.
   server.on("/api/key",HTTP_GET,[]{if(!authorized())return;if(!wifiOn){answer("ERR the key is given out on the device access point only",false);return;}answer(configJson(true));});
@@ -175,7 +181,7 @@ void bleToggle() {
   NimBLEServer* b=NimBLEDevice::getInitialized()?NimBLEDevice::getServer():nullptr;
   if(bluetoothOn) {
     if(b){b->advertiseOnDisconnect(false);NimBLEDevice::getAdvertising()->stop();for(uint16_t id:b->getPeerDevices())b->disconnect(id);}
-    bluetoothOn=false;bleResponse="";bleOffset=0;if(commands){vQueueDelete(commands);commands=nullptr;}
+    bluetoothOn=false;bleResponse="";bleHistory.reset();bleOffset=0;if(commands){vQueueDelete(commands);commands=nullptr;}
     if(appFrames){vQueueDelete(appFrames);appFrames=nullptr;}companion::disconnected(companion::LinkBle);meshRadio.event="BLE off";
   }
   else {
@@ -203,11 +209,13 @@ void portalTick() {
   if(serving)server.handleClient();
   if(wifiOffPending){wifiOffPending=false;if(wifiOn)portalToggle();}
   if(webRadar&&millis()-webRadarAt>10000)webRadarRelease(); // the page was closed or the phone left
-  if(commands && !bleResponse.length()) {
+  if(commands && !bleResponse.length() && !bleHistory) {
     BleCommand cmd;
     if(xQueueReceive(commands,&cmd,0)==pdTRUE) {
-      powerWake();String response=executeCommand(cmd.text);
-      if(bleTx) {bleResponse=response+'\n';bleOffset=0;nextNotification=millis();}
+      powerWake();String line=cmd.text;line.trim();
+      if(line=="messages"&&bleTx){bleHistory.reset(new(std::nothrow) HistoryReply);if(!bleHistory||!bleHistory->begin()){bleHistory.reset();bleResponse="ERR history snapshot memory\n";}}
+      else{String response=executeCommand(cmd.text);if(bleTx){response+='\n';bleResponse=std::move(response);}} // no second copy of a large answer
+      bleOffset=0;nextNotification=millis();
     }
   }
   // Companion frames: one per write, one per notification, while the host has spare buffers.
@@ -217,13 +225,17 @@ void portalTick() {
     uint8_t frame[companion::MaxFrame];size_t length=companion::next(frame,companion::LinkBle);
     if(length){appTx->notify(frame,length);nextAppNotification=millis()+(length>20?8:15);}
   }
-  if(bleTx && bleResponse.length() && int32_t(millis()-nextNotification)>=0) {
-    if(!bleTx->getSubscribedCount()) {bleResponse="";bleOffset=0;return;}
+  if(bleTx && (bleResponse.length()||bleHistory) && int32_t(millis()-nextNotification)>=0) {
+    if(!bleTx->getSubscribedCount()) {bleResponse="";bleHistory.reset();bleOffset=0;return;}
     // Notifications as large as the smallest negotiated MTU allows (20 bytes without an exchange),
     // sent only while the host has spare buffers: a dropped notification would corrupt the reply.
     if(os_msys_num_free()<6){nextNotification=millis()+4;return;}
     unsigned room=244;NimBLEServer* s=NimBLEDevice::getServer();
     for(uint16_t id:s->getPeerDevices()){unsigned mtu=s->getPeerMTU(id);if(mtu>=23&&mtu-3<room)room=mtu-3;}
+    if(bleHistory){size_t size=0;const uint8_t* bytes=bleHistory->peek(size);
+      if(size){size=min(size_t(room),size);bleTx->notify(bytes,size);bleHistory->advance(size);nextNotification=millis()+(size>20?8:15);}
+      if(bleHistory->finished()){bool okay=bleHistory->okay();bleHistory.reset();if(!okay){bleResponse="\nERR history stream memory\n";bleOffset=0;}}
+      return;}
     unsigned length=min(room,bleResponse.length()-bleOffset);
     bleTx->notify((const uint8_t*)bleResponse.c_str()+bleOffset,length);bleOffset+=length;nextNotification=millis()+(length>20?8:15);
     if(bleOffset==bleResponse.length()) {bleResponse="";bleOffset=0;}

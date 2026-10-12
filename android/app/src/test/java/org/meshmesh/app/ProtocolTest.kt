@@ -75,6 +75,46 @@ class ProtocolTest {
         assertEquals("OK message queued", transport.exchange("send ALL hi", 3000))
     }
 
+    @Test fun jsonAnswersOfAppPagesAreTaken() = runBlocking {
+        // quick, people, wardrive and page commands (server, remote…) answer JSON: once taken for log lines,
+        // each waited for the timeout and stalled every request behind it.
+        val board = FakeBoard { c -> listOf(if (c == "remote status AB") """[{"name":"R"}]""" else """{"command":"$c"}""") }
+        val transport = LineTransport(board)
+        for (c in listOf("quick", "people", "wardrive", "tour", "server", "wardrive log mesh 0"))
+            assertEquals("""{"command":"$c"}""", transport.exchange(c, 500))
+        assertEquals("""[{"name":"R"}]""", transport.exchange("remote status AB", 500))
+    }
+
+    @Test fun arduinoLogLineIsNotJson() = runBlocking {
+        val board = FakeBoard { listOf("[  1234][E][WiFiGeneric.cpp:1062] _eventCallback(): Reason: [2]", "OK sent") }
+        assertEquals("OK sent", LineTransport(board).exchange("send ALL hi", 500))
+    }
+
+    @Test fun lateAnswerStillArrivingIsDroppedEvenAfterTwoSeconds() = runBlocking {
+        // A large answer over BLE outlasts its timeout and keeps arriving for 3 s: the next command must
+        // not take it (the radar got the history and drew no points).
+        var first = true
+        val board = object : ByteLink {
+            override var onBytes: (ByteArray, Int) -> Unit = { _, _ -> }
+            override var onClosed: (String) -> Unit = {}
+            override val maxCommand = 1000
+            override suspend fun write(data: ByteArray) {
+                if (first) {
+                    first = false
+                    Thread {
+                        val bytes = ("[" + (1..30).joinToString(",") { """{"id":$it}""" } + "]\n").toByteArray()
+                        for (part in bytes.toList().chunked(bytes.size / 15 + 1)) { Thread.sleep(200); val b = part.toByteArray(); onBytes(b, b.size) }
+                    }.start(); return
+                }
+                val out = """{"targets":[]}""".plus("\n").toByteArray(); onBytes(out, out.size)
+            }
+            override fun close() {}
+        }
+        val transport = LineTransport(board)
+        try { transport.exchange("messages", 300); fail() } catch (_: IOException) {}
+        assertEquals("""{"targets":[]}""", transport.exchange("radar web", 5000))
+    }
+
     @Test fun mapChunksFitBleWrites() = runBlocking {
         val board = FakeBoard(maxCommand = 255) { listOf(if (it.startsWith("map chunk ")) "OK map chunk" else "ERR") }
         val api = CommandApi(LineTransport(board), "ble", "test", null)
