@@ -1,5 +1,24 @@
 # MeshMesh verification
 
+> **0.20.3 / Android 0.13.3 and 0.21.0 / Android 0.14.0: community feedback** (12 October 2026). (1) The app took
+> only `OK…` as an answer, while `quick`, `people`, `wardrive`, `tour`, `server`, `remote …`, `internet info` answer
+> JSON: each request waited 45 s with the rest queued behind it ("Загрузка…", "--:--"). Now any whole JSON line
+> answers (also in `tools/device.py`); a late answer is awaited while bytes arrive (up to 60 s) — otherwise the radar
+> got the history ("reading 'filter'", points vanished). (2) ESP32 over BLE built the history as one string and
+> copied it ("ERR history response memory" on the Heltec V3 without PSRAM): BLE and HTTP now stream it from a
+> `HistoryReply` snapshot; `status` adds `heap_max_block`. (3) The radar skips an answer without `targets` and has a
+> colour legend; `refresh` rejects mixed-up answers. (4) The site's buttons give `meshmesh-<version>.apk`. (5) 0.21.0:
+> ticks of outgoing messages (grey / red after 30 s / teal — repeater / lilac — only relaying nodes / green — ACK),
+> legend on «Радио»; a chat opens at the first unread message or where it was left, a down button with a counter.
+> Checked: Android unit tests (17 in `ProtocolTest`; new: JSON answers of the pages, an Arduino log line, a 3 s late
+> answer); the Android emulator with V4 through `usb_tcp_bridge.py` (USB, not BLE): Quick Send, counter and wardrive
+> open in 0.25–0.5 s, radar 40 targets, real history ticks teal; the page with a mock in a browser — a wrong radar
+> answer dropped, legend, every tick, opening at «Новые сообщения», returning to the place, the button with its
+> counter; builds m9, heltec_v4, heltec_v3, tdeck, heltec_t114, gat562_30s, Chinese T114 image 702000 bytes.
+> V4: 0.20.3 (`7ec30c2`, `B6BC63EFAB17…`, boot 264), then 0.21.0 (`92f0de3`, `6C33B324763D…`, boot 265), settings and
+> history (64) kept, `heap_max_block` 114676. **Not checked:** the history over BLE (macOS keeps an old pairing with
+> the V4) and over HTTP on a board, the Heltec V3 itself, the app on a phone; M9 and T114 stay on 0.20.2.
+
 > **0.20.2 / Android 0.13.2: Heltec V3 user feedback** (11 October 2026). (1) App: the "App · Bluetooth", "Board
 > firmware" and "MeshMesh app" cards on "Connections" piled up every 3–4 s — a 0.20.1 regression: the page skips an
 > unchanged list (`setHtml`) while `host.js` kept adding its cards to it; they now have their own box. The app's home

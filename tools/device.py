@@ -41,7 +41,8 @@ def command(s,text,timeout=8):
                 if json_response:raise RuntimeError(line)
                 return line
             if line.startswith('OK') and not json_response:return line
-            if json_response and line.startswith(('{','[')):
+            # Any whole JSON line answers (internet info, remote …), as in the app (android/…/link/Lines.kt).
+            if line.startswith(('{','[')):
                 try:json.loads(line);return line
                 except json.JSONDecodeError:continue
             if text=='txframe' and all(c in '0123456789abcdef' for c in line):return line

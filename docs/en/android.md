@@ -210,3 +210,21 @@ Details: [wardrive.md](wardrive.md).
 ## Firmware 0.19.0 / Android 0.12.0 settings
 
 [Notifications, quick replies, channel priority and retention, periodic time and counting](notifications.md).
+
+## Ticks and opening a chat (0.21.0 / Android 0.14.0)
+
+An outgoing message shows what happened to its packet, as in messengers: one grey ✓ — in the air; one red ✓ —
+the board heard no repeat for 30 s; two teal ✓✓ — a repeater repeated it; two lilac ✓✓ — only ordinary nodes with
+relaying did (a mesh without repeaters: every repeat hash matches a contact of the chat type); two green ✓✓ — a
+direct message was confirmed (ACK). An unknown hash counts as a repeater. The legend is on «Радио», the exact
+state and the number of repeats on the packet path page. The node itself hears the repeat: no repeat does not
+prove the message was lost.
+
+A chat opens at the first unread message (the «Новые сообщения» mark), else where it was left (the message at the
+top of the screen is kept per chat in `localStorage` `mm-chatpos`), else at the end. A round button returns to the
+end and counts the messages that came while the chat was scrolled up.
+
+Since Android 0.13.3 any whole JSON line answers a command: Quick Send, the people counter, wardrive, tournaments
+and page commands (`server`, `remote …`) answer JSON, but the app took only `OK…`, waited 45 s and held every other
+request. An answer that outlasts its timeout is awaited while bytes keep arriving (up to 60 s), so the next command
+does not take it for its own.
