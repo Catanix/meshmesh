@@ -51,6 +51,8 @@ button.row:hover,button.row:focus-visible,.row.sel{background:var(--hi);outline:
 .composer .box{display:flex;gap:8px;align-items:flex-end;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:6px 6px 6px 12px}.composer .box.typing{border-color:var(--accent)}
 .composer textarea{flex:1;background:none;border:0;resize:none;outline:0;max-height:120px;padding:6px 0;caret-color:var(--accent)}
 .composer .send{width:40px;height:40px;border-radius:8px;border:0;background:var(--accent);color:var(--bg);display:grid;place-items:center;font-size:18px;flex:none}.composer .send:disabled{background:var(--line);color:var(--faint)}
+.composer .tobottom{position:absolute;right:6px;bottom:calc(100% + 10px);width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;font-size:22px;box-shadow:0 2px 10px #0008}.composer .tobottom .pill{position:absolute;top:-8px;right:-4px}
+.newmark{align-self:center;font-size:12px;color:var(--accent);background:var(--card);border-radius:10px;padding:3px 12px;margin:6px 0}
 .composer .count{font-size:11px;color:var(--faint);text-align:right;padding:3px 4px 0}
 .detail{display:flex;justify-content:space-between;gap:16px;padding:10px 4px;border-bottom:1px solid var(--card)}.detail:last-child{border:0}.detail span:first-child{color:var(--dim)}.detail span:last-child{text-align:right;overflow-wrap:anywhere}
 .head{display:flex;align-items:center;gap:14px;padding:6px 4px 12px}.head .big{font-size:22px;font-weight:700;display:block}
@@ -81,6 +83,7 @@ progress{width:100%;height:10px;accent-color:var(--accent)}.two{display:grid;gri
 .tabs{display:flex;gap:6px;margin:4px 0 10px}.tabs button{flex:1;border:0;border-radius:8px;background:var(--card);padding:9px;font-weight:600;color:var(--dim)}.tabs button.on{background:var(--hi);color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent)}
 .scope{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:12px;align-items:start}.scope canvas{width:100%;aspect-ratio:1;display:block}
 .sig{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;border:0;background:none;width:100%;text-align:left;color:var(--dim)}.sig i{width:8px;height:8px;border-radius:50%;flex:none}.sig span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sig b{font-variant-numeric:tabular-nums}
+.ticks .tickrow{display:flex;align-items:center;gap:10px;padding:3px 0;font-size:14px}.ticks .ic{font-size:18px;flex:none}
 .legend{display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:center;margin:6px 4px}.legend span{display:inline-flex;align-items:center;gap:5px}.legend span:last-child{flex-basis:100%;justify-content:center;text-align:center;color:var(--faint)}.legend i{width:8px;height:8px;border-radius:50%;flex:none}
 .sig.sel,.sig:hover{background:var(--hi);color:var(--ink)}.sig.sel{box-shadow:inset 3px 0 0 var(--accent)}
 .bigdbm{font-size:60px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}.bigdbm small{font-size:13px;color:var(--dim);font-weight:400;margin-left:6px;letter-spacing:0}
@@ -207,7 +210,7 @@ body[data-route=chat] .wrap{padding-bottom:0}#p-chat{display:flex;flex-direction
 <section class="page" id="p-chats" hidden><div class="list" id="conversations"></div></section>
 
 <section class="page" id="p-chat" hidden><div class="sub"><span id="chatSub"></span><span id="chatHint"></span></div><div class="messages" id="messages"></div>
-<form class="composer" id="chatForm"><div class="reply" id="replyBar" hidden><span id="replyText"></span><button type="button" id="replyCancel" aria-label="Не отвечать">×</button></div><div class="box" id="composeBox"><textarea id="text" rows="1" placeholder="Сообщение…" enterkeyhint="send"></textarea><button class="send" id="sendButton" aria-label="Отправить" disabled><svg class="ic"><use href="#i-send"/></svg></button></div><div class="count" id="byteCount">0 / 151 байт</div></form></section>
+<form class="composer" id="chatForm"><button type="button" class="tobottom" id="toBottom" aria-label="К последним сообщениям" hidden><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg><span class="pill" id="toBottomN" hidden></span></button><div class="reply" id="replyBar" hidden><span id="replyText"></span><button type="button" id="replyCancel" aria-label="Не отвечать">×</button></div><div class="box" id="composeBox"><textarea id="text" rows="1" placeholder="Сообщение…" enterkeyhint="send"></textarea><button class="send" id="sendButton" aria-label="Отправить" disabled><svg class="ic"><use href="#i-send"/></svg></button></div><div class="count" id="byteCount">0 / 151 байт</div></form></section>
 
 <section class="page" id="p-addch" hidden><div class="tabs five"><button data-chtab="tag">Хештег</button><button data-chtab="link">Ссылка</button><button data-chtab="key">Ключ</button><button data-chtab="new">Новый</button><button data-chtab="air">Эфир</button></div>
 <form class="card pad" data-chform="tag"><p class="small muted" style="margin:0">Открытый канал: ключ получается из имени, как в приложении MeshCore. Вступить может каждый, кто знает хештег.</p><label class="field">Хештег<input id="chTag" placeholder="#test" autocomplete="off" autocapitalize="off" spellcheck="false"></label><p class="small muted" id="chProbe"></p><button class="btn primary save">Вступить</button></form>
@@ -260,7 +263,7 @@ body[data-route=chat] .wrap{padding-bottom:0}#p-chat{display:flex;flex-direction
 <h3>Настройки</h3><div class="card" style="padding:4px 0" id="rptForm"></div><div class="btns" style="margin-top:8px"><button class="btn" id="rptAdvert"><svg class="ic violet"><use href="#i-tower"/></svg>Объявить узел всей сети</button></div>
 <div id="nbBox"><h3>Соседние репитеры</h3><div class="list" id="rptNeighbours"></div></div>
 <details class="more"><summary>Команды MeshCore (CLI)</summary><p class="muted small">Те же команды, что в приложении MeshCore после входа администратора: <code>get repeat</code>, <code>set flood.max 8</code>, <code>neighbors</code>, <code>stats-packets</code>, <code>ver</code>. Частота, полоса, SF, CR, мощность и имя общие с настройками MeshMesh.</p><form id="rptCli" class="two"><input id="rptLine" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="get repeat" maxlength="160"><button class="btn primary">Выполнить</button></form><pre id="rptOut"></pre></details></section>
-<datalist id="regionNames"></datalist><section class="page" id="p-radio" hidden><div class="card" style="padding:4px 0" id="radioForm"></div><button class="btn save" id="radioSave" disabled>Нет изменений</button><p class="small faint" style="margin:10px 4px">Параметры радио должны совпадать у всех узлов сети. Применяются при сохранении; при ошибке радио возвращаются прежние.</p><h3 id="regionHead" hidden>Регионы</h3><div class="card pad" id="regionBox" hidden></div></section>
+<datalist id="regionNames"></datalist><section class="page" id="p-radio" hidden><div class="card" style="padding:4px 0" id="radioForm"></div><button class="btn save" id="radioSave" disabled>Нет изменений</button><p class="small faint" style="margin:10px 4px">Параметры радио должны совпадать у всех узлов сети. Применяются при сохранении; при ошибке радио возвращаются прежние.</p><h3>Галочки у сообщений</h3><div class="card pad ticks" id="tickLegend"></div><h3 id="regionHead" hidden>Регионы</h3><div class="card pad" id="regionBox" hidden></div></section>
 <section class="page" id="p-apps" hidden><div class="card" style="padding:4px 0" id="appsList"></div><button class="btn save" id="appsSave" disabled>Нет изменений</button><button class="btn" id="appsDefault" style="width:100%;margin-top:8px">Порядок по умолчанию</button><p class="small faint" style="margin:10px 4px" id="appsNote"></p></section>
 <section class="page" id="p-device" hidden><div class="card" style="padding:4px 0" id="deviceForm"></div><button class="btn save" id="deviceSave" disabled>Нет изменений</button><p class="small faint" style="margin:10px 4px" id="deviceNote">Язык меню относится к экрану устройства. Радио продолжает работать при блокировке и погашенном экране.</p></section>
 <section class="page" id="p-help" hidden><div id="helpKeys"></div><div id="layoutHelp"><h3>Русский ввод: фонетический</h3><div class="layout" id="layout"></div><p class="small muted" style="margin:0 4px">2×пробел — RU/EN; Shift или → после буквы — заглавная.</p></div></section>
@@ -444,10 +447,10 @@ function show(){
  if(next==='chat'&&prev==='node')cameFrom.chat='node/'+param;else if(next==='chat'&&prev!=='chat')delete cameFrom.chat;
  leave(prev,next);route=next;param=arg;
  for(const s of document.querySelectorAll('.page'))s.hidden=s.id!=='p-'+route;document.body.dataset.route=route;
- enter(route,prev);render();if(route==='node')loadRemote();if(prev!==next||route==='chat')window.scrollTo(0,route==='chat'?document.body.scrollHeight:0)}
+ enter(route,prev);render();if(route==='node')loadRemote();if(prev!==next&&route!=='chat')window.scrollTo(0,0)} // a chat places itself (placeChat)
 function parent(){return cameFrom[route]||(route==='chinfo'?'chat/'+param:PAGES[route][1])||'home'}
 function leave(prev,next){
- if(prev==='chat'){drafts.set(recipient,$('text').value);setReply(null)}
+ if(prev==='chat'){drafts.set(recipient,$('text').value);setReply(null);saveChatPos();chatNewKey='';$('toBottom').hidden=true}
  if(prev==='join')joinLink=null;
  if(prev==='people'&&next!=='people'){clearTimeout(peopleTimer);peopleTimer=null;}
  if(prev==='wardrive'&&next!=='wardrive'){clearTimeout(wdTimer);wdTimer=null;}
@@ -457,7 +460,8 @@ function leave(prev,next){
  if(prev==='game')saveGame()}
 function enter(page,prev){
  deleteArmed='';
- if(page==='chat'){recipient=param||'ALL';$('text').value=drafts.get(recipient)||'';$('messages').dataset.fingerprint='';autosize();markRead()}
+ if(page==='chat'){recipient=param||'ALL';$('text').value=drafts.get(recipient)||'';$('messages').dataset.fingerprint='';autosize();
+  const at=readMarks[recipient]||0,n=history.find(m=>matches(m,recipient)&&!m.outgoing&&m.time>at);chatNewKey=n?msgKey(n):'';chatSeenAt=at;chatOpen={pos:chatPos[recipient]};markRead()}
  if(RADAR_PAGES.includes(page))startRadar();
  if(page==='addch'){if(['tag','link','key','new','air'].includes(param))chTab=param;$('chScan').hidden=!(window.MeshNative&&typeof MeshNative.scanQr==='function')}
  if(page==='addch'||page==='chinfo')loadChans().then(()=>route===page&&render());
@@ -741,14 +745,38 @@ function renderThreads(){const ids=conversationIds(),k=ids.findIndex(id=>!isChan
  rows.push(`<button class="row" data-go="alerts"><span class="av" style="--s:36px;background:var(--card);color:var(--warn)">${ic('bell')}</span><span class="main"><b>Уведомления</b><small>${mentions?plural(mentions,'новое упоминание','новых упоминания','новых упоминаний'):'Лента, упоминания, что и откуда присылать'}</small></span><span class="side">${mentions?'<span class="pill at">@</span>':''}</span></button>`);
  $('conversations').innerHTML=rows.join('')}
 function routeText(m){if(m.protocol===1||!m.route||m.outgoing&&(m.status===4||isChan(dest(m))))return'';const h=m.hops==null?'':m.hops===0?'напрямую':`через ${m.hops} ретр.`;let s=m.route==='direct'?(h||'по маршруту'):!m.outgoing?(h||'flood'):m.status===3&&h?'flood, '+h:'flood';if(m.outgoing&&m.tries>1)s+=m.status===3?' · попытка '+m.tries:` · ${m.tries}/3`;return s}
-function statusMark(s){const m=[null,['queued','faint','В очереди'],['sent','muted','Отправлено'],['delivered','acc','Доставлено: узел подтвердил'],['failed','bad','Нет подтверждения']][s];return m?`<span title="${m[2]}">${ic(m[0],m[1])}</span>`:''}
+// Ticks of an outgoing message, as in messengers (legend: TICKS, shown on «Радио»): one — in the air; a red one — no
+// repeat heard for TICK_WAIT s; two — a repeater passed it on; two lilac — only ordinary nodes with relaying did (a mesh
+// without repeaters); two green — the node confirmed a direct message. A repeater is told by its key hash in the echoes.
+const TICK_WAIT=30,TICKS=[['sent','muted','Ушло в эфир'],['sent','bad','Повтора не слышно: никто не передал дальше'],['delivered','acc','Передал дальше репитер'],['delivered','violet','Передали дальше только обычные узлы с ретрансляцией — сеть без репитеров'],['delivered','ok','Доставлено: узел подтвердил (личное сообщение)']];
+$('tickLegend').innerHTML=TICKS.map(t=>`<div class="tickrow">${ic(t[0],t[1])}<span>${t[2]}</span></div>`).join('')+`<p class="small faint" style="margin:6px 0 0">Красная — через ${TICK_WAIT} с без повтора. Повтор слышит сам узел: если поблизости никто не передаёт дальше, повтора не будет, даже когда сообщение дошло. Сколько раз и кто повторил — в «Пути пакета»: нажмите на время сообщения.</p>`;
+function relayedByNodesOnly(m){const e=m.echoes||[];return e.length>0&&e.every(x=>{const h=String(x.hash).toLowerCase(),ps=peers.filter(p=>String(p.public_key||'').toLowerCase().startsWith(h));return ps.length>0&&ps.every(p=>p.type===1)})}
+function tick(m){const s=m.status,flood=isChan(dest(m))||m.route==='flood';
+ return s===1?['queued','faint','В очереди']:s===4?['failed','bad','Нет подтверждения']:s===3?TICKS[4]:m.heard?TICKS[relayedByNodesOnly(m)?3:2]:s===2?TICKS[flood&&m.time&&deviceNow()-m.time>=TICK_WAIT?1:0]:null}
+function statusMark(m){const t=tick(m);return t?`<span title="${t[2]}${m.heard&&m.status!==4?' · повторов: '+m.heard:''}">${ic(t[0],t[1])}</span>`:''}
+// Opening a chat, as in Telegram: at the first unread message (marked «Новые сообщения»), else where it was
+// left (the message at the top, kept per chat), else at the end; the round button returns to the end.
+let chatOpen=null,chatNewKey='',chatSeenAt=0,chatPos=store('chatpos')||{}; // chatSeenAt: newest message seen at the end; newer ones count on the button
+const hudHeight=()=>(document.querySelector('.hud')?.offsetHeight||56)+8;
+function saveChatPos(){const near=document.documentElement.scrollHeight-window.scrollY-window.innerHeight<120;
+ const b=near?null:[...$('messages').querySelectorAll('.bubble[data-i]')].find(b=>b.getBoundingClientRect().bottom>hudHeight());
+ if(b&&chatRows[b.dataset.i])chatPos[recipient]=msgKey(chatRows[b.dataset.i]);else delete chatPos[recipient];store('chatpos',chatPos)}
+function placeChat(rows){const o=chatOpen;chatOpen=null;const i=chatNewKey?rows.findIndex(m=>msgKey(m)===chatNewKey):o?.pos?rows.findIndex(m=>msgKey(m)===o.pos):-1;
+ const el=i>=0&&$('messages').querySelector(chatNewKey?'.newmark':`.bubble[data-i="${i}"]`);
+ window.scrollTo(0,el?el.getBoundingClientRect().top+window.scrollY-hudHeight():document.body.scrollHeight);updateToBottom()}
+function updateToBottom(){if(route!=='chat')return;const gap=document.documentElement.scrollHeight-window.scrollY-window.innerHeight,b=$('toBottom');b.hidden=gap<300;
+ if(gap<120)for(const m of chatRows)chatSeenAt=Math.max(chatSeenAt,m.time||0);
+ if(b.hidden)return;const below=[...$('messages').querySelectorAll('.bubble[data-i]')].filter(e=>{const m=chatRows[e.dataset.i];return m&&!m.outgoing&&m.time>chatSeenAt&&e.getBoundingClientRect().top>window.innerHeight}).length;
+ $('toBottomN').hidden=!below;$('toBottomN').textContent=below}
+document.addEventListener('scroll',updateToBottom,{passive:true}); // viewport scrolling reaches the document
+$('toBottom').onclick=()=>window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
 function renderChat(){
  const p=peer(recipient),c=chan(recipient);$('chatSub').textContent=isChan(recipient)?(chans&&!c?'Вы не в этом канале':(c?.kind==='private'?'Закрытый':'Открытый')+' канал · имена не проверены · без подтверждений'):p?`${typeText(p.type)} · ${pathText(p)}${p.heard?' · '+ago(age(p)):''}`:'Нет в контактах';
- $('chatHint').textContent=(isChan(recipient)?'':'✓✓ — доставлено · ')+'время — путь пакета';
- const rows=history.filter(m=>matches(m,recipient)),box=$('messages'),fingerprint=recipient+JSON.stringify(rows)+chans?.channels?.length;
+ $('chatHint').textContent='✓ в эфире · ✓✓ передано дальше'+(isChan(recipient)?'':' или доставлено')+' · время — путь пакета';
+ const rows=history.filter(m=>matches(m,recipient)),box=$('messages'),fingerprint=recipient+JSON.stringify(rows)+chans?.channels?.length+'|'+peers.length+'|'+rows.filter(m=>m.outgoing&&m.status===2&&!m.heard&&deviceNow()-m.time>=TICK_WAIT).length; // ticks turn red with time
  if(box.dataset.fingerprint!==fingerprint){const near=document.documentElement.scrollHeight-window.scrollY-window.innerHeight<120,first=!box.dataset.fingerprint;box.dataset.fingerprint=fingerprint;
-  chatRows=rows;box.innerHTML=rows.length?rows.map((m,i)=>{const named=!m.outgoing&&(isChan(recipient)||peer(recipient)?.type===3),l=parseLink(m.text);return `<div class="bubble${m.outgoing?' out':''}" data-i="${i}">${named?`<span class="from" style="color:${lighten(hue(m.source))}">${esc(m.name)}</span>`:''}${l?inviteCard(m.text,l):messageText(m.text)}<div class="meta"${m.protocol===2?` data-msg="${esc(msgKey(m))}" title="Путь пакета"`:''}>${m.protocol===1?'<span class="faint">MM/1</span>':''}${m.outgoing&&m.status===4?'<span class="bad">не подтверждено</span>':''}${routeText(m)?`<span class="faint">${routeText(m)}</span>`:''}<span>${stampText(m.time)}</span>${m.outgoing?statusMark(m.status):''}</div></div>`}).join(''):`<div class="empty">${ic(isChan(recipient)?'hash':'chat')}Сообщений пока нет<small>Напишите текст и отправьте</small></div>`;
-  if(near||first)window.scrollTo(0,document.body.scrollHeight)}
+  chatRows=rows;box.innerHTML=rows.length?rows.map((m,i)=>{const named=!m.outgoing&&(isChan(recipient)||peer(recipient)?.type===3),l=parseLink(m.text);return `${chatNewKey&&msgKey(m)===chatNewKey?'<div class="newmark">Новые сообщения</div>':''}<div class="bubble${m.outgoing?' out':''}" data-i="${i}">${named?`<span class="from" style="color:${lighten(hue(m.source))}">${esc(m.name)}</span>`:''}${l?inviteCard(m.text,l):messageText(m.text)}<div class="meta"${m.protocol===2?` data-msg="${esc(msgKey(m))}" title="Путь пакета"`:''}>${m.protocol===1?'<span class="faint">MM/1</span>':''}${m.outgoing&&m.status===4?'<span class="bad">не подтверждено</span>':''}${routeText(m)?`<span class="faint">${routeText(m)}</span>`:''}<span>${stampText(m.time)}</span>${m.outgoing?statusMark(m):''}</div></div>`}).join(''):`<div class="empty">${ic(isChan(recipient)?'hash':'chat')}Сообщений пока нет<small>Напишите текст и отправьте</small></div>`;
+  if(first)placeChat(rows);else if(near)window.scrollTo(0,document.body.scrollHeight);updateToBottom()}
  if(route==='chat')markRead();byteCount()}
 function byteCount(){const n=bytes(replyPrefix()+$('text').value),l=messageLimit();$('byteCount').textContent=`${n} / ${l} байт`;$('byteCount').className='count '+(n>=l?'bad':n*10>=l*9?'warn':'');$('sendButton').disabled=!$('text').value.trim()||n>l;$('composeBox').classList.toggle('typing',n>0);return n}
 // Replies: MeshCore has no reply field. In a channel the reply to another sender starts with the
@@ -826,11 +854,11 @@ function renderMsg(){const m=history.find(x=>msgKey(x)===param),el=$('msgCard');
  // A sender without a set clock stamps the MeshCore floor (1 January 2025) plus its uptime.
  if(incoming&&m.session>1700000000)rows.push(['Время пакета',m.session<1735776000?'часы отправителя не установлены':fullStamp(m.session)+' <span class="faint">(часы отправителя)</span>']);
  rows.push([incoming?'Получено':'Создано',fullStamp(m.time)]);
- if(m.outgoing)rows.push(['Статус',[null,'в очереди','отправлено',isChan(to)?'отправлено':'<span class="ok">доставлено: узел подтвердил</span>','<span class="bad">нет подтверждения</span>'][m.status]||'—']);
+ if(m.outgoing){const t=tick(m);rows.push(['Статус',t?`<span class="${t[1]}">${ic(t[0])} ${esc(t[2])}</span>`:'—'])}
  rows.push(['Маршрут',route]);if(m.outgoing&&m.tries&&!isChan(to))rows.push(['Попытки',m.tries+' из 3']);
  if(incoming||hops!=null)rows.push(['Путь',hops==null?'неизвестен':hops===0?'напрямую, без репитеров':plural(hops,'хоп','хопа','хопов')]);
  if(m.snr!=null)rows.push(['Сигнал',snrText(m.snr,m.rssi)+(hops?' <span class="faint">(последний участок)</span>':'')]);
- if(m.heard!=null||m.route==='flood')rows.push([incoming?'Копий услышано':'Повторили репитеры',String(m.heard||0)]);
+ if(m.heard!=null||m.route==='flood')rows.push([incoming?'Копий услышано':'Повторов услышано',String(m.heard||0)]);
  let h=`<div class="card pad"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><b class="small muted">ДЕТАЛИ СООБЩЕНИЯ</b>${hops!=null?`<span class="small faint">→ ${hops?plural(hops,'хоп','хопа','хопов'):'напрямую'}</span>`:''}</div>${rows.map(([a,b])=>`<div class="detail"><span>${a}</span><span>${b}</span></div>`).join('')}</div>`;
  if(hashes.length){let prev=null;const items=hashes.map((x,i)=>{const r=hopRow(x,i+1,incoming&&i===hashes.length-1&&m.snr!=null?'услышан вами: '+snrText(m.snr,m.rssi):'',prev);prev=r.node;return r.html});
   h+=`<h3>${incoming?'Хопы через репитеры':m.status===3&&m.route==='flood'?'Маршрут к получателю (вернулся с подтверждением)':'Маршрут к получателю'}</h3><div class="list hops path">${items.join('')}</div>`;
@@ -1089,7 +1117,7 @@ function fields(page){const h=heltec();return page==='radio'?[
  {k:'cr',n:'Кодирование CR',h:'Избыточность кода 4/5 … 4/8',t:'sel',o:[5,6,7,8].map(v=>[v,'4/'+v])},
  {k:'power',n:'Мощность, dBm',h:`Настройка чипа, 0–${status.max_power||22} dBm`,t:'num',min:0,max:status.max_power||22,step:1},
  {k:'relay',n:'Ретрансляция',h:'Пересылать чужие пакеты MeshCore',t:'sw'},
- {k:'hops',n:'Предел ретрансляции',h:'Действует при включённой ретрансляции: узел пересылает чужой пакет, только если тот прошёл меньше ретрансляторов (как flood.max у репитера MeshCore). 0 — не пересылать. Дальность своих сообщений не ограничивает',t:'num',min:0,max:7,step:1},
+ {k:'hops',n:'Предел ретрансляции',h:'При ретрансляции: пересылать чужой пакет, только если он прошёл меньше ретрансляторов. 0 — не пересылать. На свои сообщения не влияет',t:'num',min:0,max:7,step:1},
  ...config.path_hash===undefined?[]:[{k:'path_hash',n:'Размер хэша пути',h:'Байт на каждую пересылку в наших flood-пакетах; 2–3 реже путают узлы в большой сети, но старые прошивки MeshCore такие пакеты не пересылают',t:'sel',o:[[1,'1 байт'],[2,'2 байта'],[3,'3 байта']]}],
  ...config.region===undefined?[]:[{k:'region',n:'Регион',h:'Регион наших flood-пакетов: репитеры с регионами пересылают их только в нём. Пусто — без региона; каналу можно задать свой',t:'text',max:30,list:'regionNames',ph:'нет'}]]:[
  {k:'name',n:'Имя',h:'1–24 байта UTF-8',t:'text'},
