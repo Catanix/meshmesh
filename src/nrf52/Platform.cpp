@@ -59,6 +59,7 @@ bool mountStorage(){
   Serial.println("LittleFS: blank region, creating storage");return LittleFS.format()&&LittleFS.begin();
 }
 File MeshFS::open(const char* path,const char* mode,bool){
+  if(!_mounted)return File(*this);
   if(mode[0]=='w'){if(exists(path))remove(path);return Adafruit_LittleFS::open(path,FILE_O_WRITE);}
   if(mode[0]=='a')return Adafruit_LittleFS::open(path,FILE_O_WRITE); // the core seeks to the end
   return Adafruit_LittleFS::open(path,FILE_O_READ);

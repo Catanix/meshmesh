@@ -2633,6 +2633,15 @@
    "src/UiRemote.inc:44: const String names[]={t(\"Login\",\"Войти\"),t(\"Status\",\"Статус\"),t(\"Command\",\"Команда\"),t(\"Trace\",\"Трасса\")};"
   ]
  },
+ "2e09a1ee": {
+  "cells": 13,
+  "families": [
+   "compact"
+  ],
+  "where": [
+   "src/UiHeltec.cpp:670: say(0,21,roleShort(config.role),bold);if(meshRadio.ready)sayRight(128,20,String(config.frequency,3)+t(\" MHz\",\" МГц\"));else sayRight(128,20,hardware.fsOk?t(\"Radio error\",\"Ошибка радио\"):t(\"No storage\",\"Нет хранилища\"));"
+  ]
+ },
  "2e3ab72f": {
   "cells": 17,
   "families": [
@@ -9215,6 +9224,15 @@
    "src/UiChessCompact.inc:213: if(!m.myTurn()){notice(t(\"Their move\",\"Ход соперника\"));return true;}"
   ]
  },
+ "a6f65ca6": {
+  "cells": 19,
+  "families": [
+   "compact"
+  ],
+  "where": [
+   "src/UiHires.inc:117: text(36,58,fit(meshRadio.ready?String(config.frequency,3)+\" SF\"+String(config.sf)+\" BW\"+String(config.bandwidth,1):!hardware.fsOk?t(\"No storage: menu\",\"Нет хранилища: меню\"):t(\"Radio error \",\"Ошибка радио \")+String(meshR"
+  ]
+ },
  "a71d0499": {
   "cells": 14,
   "families": [
@@ -9882,7 +9900,7 @@
   ],
   "where": [
    "src/Ui.cpp:781: else if(!chess)textCenter(160,166,meshRadio.ready?(config.role==RoleRepeater?t(\"The repeater keeps relaying\",\"Репитер продолжает пересылку\"):config.role==RoleRoom?t(\"The room keeps serving members\",\"Комната продолжает ра",
-   "src/UiHeltec.cpp:670: say(0,21,roleShort(config.role),bold);if(meshRadio.ready)sayRight(128,20,String(config.frequency,3)+t(\" MHz\",\" МГц\"));else sayRight(128,20,t(\"Radio error\",\"Ошибка радио\"));",
+   "src/UiHeltec.cpp:670: say(0,21,roleShort(config.role),bold);if(meshRadio.ready)sayRight(128,20,String(config.frequency,3)+t(\" MHz\",\" МГц\"));else sayRight(128,20,hardware.fsOk?t(\"Radio error\",\"Ошибка радио\"):t(\"No storage\",\"Нет хранилища\"));",
    "src/UiHires.inc:138: text(36,58,meshRadio.ready?String(config.frequency,3)+t(\" MHz\",\" МГц\"):t(\"Radio error\",\"Ошибка радио\"),meshRadio.ready?ColDim:ColBad,tiny);"
   ]
  },
@@ -10177,7 +10195,7 @@
    "full"
   ],
   "where": [
-   "src/Ui.cpp:684: int wh=wifi?56:38;cardAt(0,wh,IcWifi,t(\"Wi-Fi access point\",\"Точка доступа Wi-Fi\"),wifi?t(\"Web chat and map upload\",\"Веб-чат и загрузка карт\")+\" · 192.168.4.1\":t(\"Off\",\"Выключена\"),wifi);toggle(274,y+11,wifi);"
+   "src/Ui.cpp:684: int wh=wifi?56:38;cardAt(0,wh,IcWifi,t(\"Wi-Fi access point\",\"Точка доступа Wi-Fi\"),wifi?\"192.168.4.1 · \"+String(t(\"Web chat and map upload\",\"Веб-чат и загрузка карт\")):t(\"Off\",\"Выключена\"),wifi);toggle(274,y+11,wifi);"
   ]
  },
  "bd1530b1": {
@@ -12533,7 +12551,7 @@
    "full"
   ],
   "where": [
-   "src/Ui.cpp:684: int wh=wifi?56:38;cardAt(0,wh,IcWifi,t(\"Wi-Fi access point\",\"Точка доступа Wi-Fi\"),wifi?t(\"Web chat and map upload\",\"Веб-чат и загрузка карт\")+\" · 192.168.4.1\":t(\"Off\",\"Выключена\"),wifi);toggle(274,y+11,wifi);"
+   "src/Ui.cpp:684: int wh=wifi?56:38;cardAt(0,wh,IcWifi,t(\"Wi-Fi access point\",\"Точка доступа Wi-Fi\"),wifi?\"192.168.4.1 · \"+String(t(\"Web chat and map upload\",\"Веб-чат и загрузка карт\")):t(\"Off\",\"Выключена\"),wifi);toggle(274,y+11,wifi);"
   ]
  },
  "e5569422": {
@@ -12942,7 +12960,7 @@
    "full"
   ],
   "where": [
-   "src/Ui.cpp:684: int wh=wifi?56:38;cardAt(0,wh,IcWifi,t(\"Wi-Fi access point\",\"Точка доступа Wi-Fi\"),wifi?t(\"Web chat and map upload\",\"Веб-чат и загрузка карт\")+\" · 192.168.4.1\":t(\"Off\",\"Выключена\"),wifi);toggle(274,y+11,wifi);"
+   "src/Ui.cpp:684: int wh=wifi?56:38;cardAt(0,wh,IcWifi,t(\"Wi-Fi access point\",\"Точка доступа Wi-Fi\"),wifi?\"192.168.4.1 · \"+String(t(\"Web chat and map upload\",\"Веб-чат и загрузка карт\")):t(\"Off\",\"Выключена\"),wifi);toggle(274,y+11,wifi);"
   ]
  },
  "ecf210b8": {
@@ -13344,7 +13362,7 @@
   ],
   "where": [
    "src/Ui.cpp:607: if(page==Radio){switch(i){case 0:return String(c.frequency,3)+t(\" MHz\",\" МГц\");case 1:return String(c.bandwidth,1)+t(\" kHz\",\" кГц\");case 2:return \"SF\"+String(c.sf);case 3:return \"4/\"+String(c.cr);case 4:return String(c.p",
-   "src/UiHeltec.cpp:670: say(0,21,roleShort(config.role),bold);if(meshRadio.ready)sayRight(128,20,String(config.frequency,3)+t(\" MHz\",\" МГц\"));else sayRight(128,20,t(\"Radio error\",\"Ошибка радио\"));",
+   "src/UiHeltec.cpp:670: say(0,21,roleShort(config.role),bold);if(meshRadio.ready)sayRight(128,20,String(config.frequency,3)+t(\" MHz\",\" МГц\"));else sayRight(128,20,hardware.fsOk?t(\"Radio error\",\"Ошибка радио\"):t(\"No storage\",\"Нет хранилища\"));",
    "src/UiHeltec.cpp:702: if(meshRadio.ready){sayRight(128,20,String(config.frequency,3)+t(\" MHz\",\" МГц\"));sayRight(128,30,\"SF\"+String(config.sf)+\" BW\"+String(config.bandwidth,1));}else sayRight(128,24,t(\"Radio error \",\"Ошибка радио \")+String(mes"
   ]
  },

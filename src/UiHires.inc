@@ -114,7 +114,7 @@ void home(){
  if(config.role!=RoleNormal){server();return;}
  auto& d=g();panel(4,25,232,40,ColCard,8);icon(IcRadio,20,45,8,meshRadio.ready?ColAccent:ColBad,ColCard);
  text(36,41,fit(String(config.name),150,bold),ColInk,bold);
- text(36,58,fit(meshRadio.ready?String(config.frequency,3)+" SF"+String(config.sf)+" BW"+String(config.bandwidth,1):t("Radio error ","Ошибка радио ")+String(meshRadio.radioError),150,tiny),meshRadio.ready?ColDim:ColBad,tiny);
+ text(36,58,fit(meshRadio.ready?String(config.frequency,3)+" SF"+String(config.sf)+" BW"+String(config.bandwidth,1):!hardware.fsOk?t("No storage: menu","Нет хранилища: меню"):t("Radio error ","Ошибка радио ")+String(meshRadio.radioError),150,tiny),meshRadio.ready?ColDim:ColBad,tiny);
  String tx=String(meshRadio.txCount),rx=String(meshRadio.rxCount);
  right(230,41,tx,ColInk,small);tri(230-width(tx,small)-7,37,true,3,ColAccent);right(230,58,rx,ColInk,small);tri(230-width(rx,small)-7,54,false,3,ColGood);
  unsigned near=0,games=0,mine=chessNet.waiting();for(unsigned i=0;i<meshRadio.peerCount;i++)if(meshRadio.peers[i].heard&&millis()-meshRadio.peers[i].seen<1800000)near++;

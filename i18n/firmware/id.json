@@ -5916,6 +5916,11 @@
   "ru": "Включить:",
   "text": "Menyalakan:"
  },
+ "2e09a1ee": {
+  "en": "No storage",
+  "ru": "Нет хранилища",
+  "text": "Tanpa penyimpanan"
+ },
  "bbe40d91": {
   "en": "posts ",
   "ru": "постов ",
@@ -6260,6 +6265,11 @@
   "en": "Delivery not confirmed",
   "ru": "Доставка не подтверждена",
   "text": "Pengiriman belum dikonfirmasi"
+ },
+ "a6f65ca6": {
+  "en": "No storage: menu",
+  "ru": "Нет хранилища: меню",
+  "text": "Tanpa penyimpanan: menu"
  },
  "696ee294": {
   "en": "Optional",

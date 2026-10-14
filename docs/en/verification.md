@@ -1,5 +1,15 @@
 # MeshMesh verification
 
+> **0.23.2: T114/GAT562 restarted after a foreign littlefs** (14 October 2026). User report: a T114 V2 without GPS
+> after WhisperOS 1.2.5 (based on MeshCore) restarted endlessly with 0.23.0 from the site and by UF2. Its bootloader is
+> ours (0.9.0-2-g836c8dc, S140 6.1.1). Cause: a foreign filesystem mounted and ended, then still called by the modules
+> (`docs/en/t114.md`). Checked on our T114: the site's 0.23.0, with `MMLANG:ru`, normal role with BLE — stable on our
+> storage; after WhisperOS on a blank area 0.23.0 resets after `BOOT ui`, 0.23.2 runs without storage for 2+ min,
+> the screen says «No storage: menu», creating storage with the button (USB events) brings storage and radio back.
+> Our T114's storage was saved (`backups/t114/…-before-whisper.bin`) and written back byte for byte; result — 0.23.2
+> `build_sha256=3724843FA496…`, same key, settings identical, history 64. Built heltec_t114, gat562_30s, heltec_v4,
+> Chinese T114/GAT562 images 702928/671404 bytes. **Not checked:** the GAT562 and the user's board on 0.23.2.
+
 > **0.23.0 / Android 0.16.0: maps on the phone, relief, a node map for every board** (14 October 2026, `eef8590`).
 > Checked: Android unit tests (including `MapStoreTest`: MMT1 format, CRC, a newer area over an older one, bad tiles
 > refused), APK; page (1467 keys) and chess dictionaries; the map codec on the Kazan packages; builds m9, heltec_v4,

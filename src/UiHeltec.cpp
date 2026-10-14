@@ -667,7 +667,7 @@ void drawOff(){
 // Server home: role, radio, traffic and the passwords an owner needs for the MeshCore app.
 void drawServerHome(){
  ServerView v=meshServer.view();bool room=config.role==RoleRoom;
- say(0,21,roleShort(config.role),bold);if(meshRadio.ready)sayRight(128,20,String(config.frequency,3)+t(" MHz"," МГц"));else sayRight(128,20,t("Radio error","Ошибка радио"));
+ say(0,21,roleShort(config.role),bold);if(meshRadio.ready)sayRight(128,20,String(config.frequency,3)+t(" MHz"," МГц"));else sayRight(128,20,hardware.fsOk?t("Radio error","Ошибка радио"):t("No storage","Нет хранилища"));
  say(0,31,room?t("posts ","постов ")+String(v.posts)+t("  in ","  вошли ")+String(v.clients):"RX "+String(meshRadio.rxCount)+" TX "+String(meshRadio.txCount)+t(" fwd "," перес. ")+String(meshRadio.relayed),small);
  say(0,40,t("admin ","админ ")+v.password,small);
  say(0,49,(room?t("room ","комната "):t("guest ","гость "))+(v.guest.length()?v.guest:t("none","нет"))+(v.forwarding?"":t("  no fwd","  без перес.")),small);
