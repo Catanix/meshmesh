@@ -21,7 +21,7 @@ węzłami MeshCore.
 - **Kanały** — do 8 kanałów MeshCore: dołączanie przez #hashtag, link `meshcore://` lub kod QR, nazwę i klucz;
   tworzenie kanału prywatnego, zapraszanie kontaktów wiadomością prywatną, wyszukiwanie kanałów słyszanych w eterze. [docs/en/channels.md](docs/en/channels.md)
 - **Regiony** — zasięg floodów MeshCore: region domyślny i osobny dla kanału, wyszukiwanie regionów pobliskich przekaźników; przekaźniki ustawiane poleceniami `region`. [docs/en/regions.md](docs/en/regions.md)
-- **Mapy offline** — kafelki OpenStreetMap na karcie SD, pozycja GPS i węzły na mapie.
+- **Mapy offline** — OpenStreetMap z rzeźbą terenu i poziomicami, w telefonie (aplikacja) lub na karcie SD urządzenia; węzły, bezpośrednie łącza i GPS na mapie z każdą płytką.
 - **Wardriving** — mapa zasięgu sieci: odebrane pakiety i pingi na kanał z przekaźnikami, które je przekazały, z zaufaną pozycją GPS lub telefonu; na ESP32 także Wi-Fi i Bluetooth; eksport do CSV, GeoJSON, KML i WiGLE. [docs/en/wardrive.md](docs/en/wardrive.md)
 - **Węzły w pobliżu** — sygnał, skoki, odległość i kierunek; kontakty, repeatery i pokoje.
 - **Radar sygnałów** — Wi-Fi, Bluetooth i LoRa wokół ciebie, z namierzaniem „ciepło / zimno”.

@@ -148,6 +148,19 @@ the negotiated MTU (up to 244 bytes instead of 20) and only when NimBLE buffers 
 Map tiles that have been read are cached on the phone (up to 200 MB); the copy is used as long as
 the tile header on the SD card (size and CRC) has not changed, so viewing again over BLE is fast.
 
+## Maps on the phone (0.16.0)
+
+Map areas are kept by the app itself (`api/MapStore.kt`): in internal storage or on the phone's SD
+card when there is one (the app's own folders, removed with the app). They are the same MMT1 tiles as
+on a board's SD ([maps-format.md](maps-format.md)), so the map works with any board, including those
+without an SD card (Heltec, T114, GAT562), and with no board at all: «Maps without a device» on the
+connection screen. «Download a new area» and «Load a map file» ask where to save: the phone (storage
+or SD card), the device SD or a `.mmmap` file. The page takes a tile from the phone first
+(`/phone-maps/tile`, served by the WebView), then from the board's SD. In «Maps» a phone area can be
+shown, deleted or copied to the device SD (over BLE above 300 KB with a warning). The page's bridge is
+`window.phoneMaps` in `host.js` with the `MeshNative.map*` methods; errors come back as `ERR text`.
+The 200 MB cache of SD tiles is separate and may be trimmed; saved areas are not.
+
 ## MeshCore channels: QR codes and links
 
 Over BLE the channel list is cached like the nodes and reread after any action or when the number

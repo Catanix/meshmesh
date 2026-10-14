@@ -120,7 +120,7 @@
  "shot.heltec-messages": "Heltec: OLED'de mesajlar",
  "shot.heltec-popup": "Heltec: yeni mesaj",
  "f.maps.t": "Çevrimdışı haritalar",
- "f.maps.d": "SD kartta OpenStreetMap, haritada GPS konumunuz ve düğümler.",
+ "f.maps.d": "Rölyef ve eş yükselti eğrileriyle OpenStreetMap, telefonda veya cihazın SD kartında; düğümler, doğrudan bağlantılar ve GPS konumunuz haritada — her kartla.",
  "shot.m9-map": "Pusula ve ölçekli harita",
  "shot.m9-library": "Kayıtlı bölgeler",
  "f.nodes.t": "Yakındaki düğümler",
@@ -272,5 +272,6 @@
  "f.wardrive.t": "Wardriving",
  "f.wardrive.d": "Ağınızın kapsama haritası. Yolda düğüm duyduğu paketleri röle ve sinyalle kaydeder ve bir kanala ping atar: pingi ileten röleler ağın size nerede ulaştığını, nerede ulaşmadığını gösterir. Noktalar haritada SNR’ye göre renklenir; ESP32 kartlar ayrıca Wi-Fi erişim noktalarını ve Bluetooth cihazlarını kaydeder. Konum güvenilir bir GPS fix’inden ya da uygulamadaki telefondan gelir. CSV, GeoJSON, KML ve WiGLE’a aktarma.",
  "news.wardrive": "<b>Yeni:</b> wardriving — ağınızın kapsama haritası: rölelerin sizi nerede duyup nerede duymadığı",
+ "news.maps": "<b>Yeni:</b> telefonda rölyef ve eş yükselti eğrili haritalar, her kart için düğüm haritası",
  "doc.wardrive": "Wardriving"
 }

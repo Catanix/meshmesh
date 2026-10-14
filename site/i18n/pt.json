@@ -120,7 +120,7 @@
  "shot.heltec-messages": "Heltec: mensagens no OLED",
  "shot.heltec-popup": "Heltec: nova mensagem",
  "f.maps.t": "Mapas offline",
- "f.maps.d": "OpenStreetMap no cartão SD, sua posição GPS e os nós no mapa.",
+ "f.maps.d": "OpenStreetMap com relevo e curvas de nível no celular ou no cartão SD do dispositivo; nós, ligações diretas e o seu GPS no mapa, com qualquer placa.",
  "shot.m9-map": "Mapa com bússola e escala",
  "shot.m9-library": "Áreas salvas",
  "f.nodes.t": "Nós por perto",
@@ -272,5 +272,6 @@
  "f.wardrive.t": "Wardriving",
  "f.wardrive.d": "Um mapa de cobertura da sua rede. Em movimento, o nó registra os pacotes que ouve com o repetidor e o sinal, e faz ping num canal: os repetidores que repassam o ping mostram onde a rede alcança você e onde não. Os pontos aparecem no mapa com cor pelo SNR; as placas ESP32 registram também pontos de acesso Wi-Fi e dispositivos Bluetooth. A posição vem de um fix GPS confiável ou do celular no app. Exportação para CSV, GeoJSON, KML e WiGLE.",
  "news.wardrive": "<b>Novo:</b> wardriving — um mapa de cobertura da sua rede: onde os repetidores ouvem você e onde não",
+ "news.maps": "<b>Novidade:</b> mapas no celular com relevo e curvas de nível, e um mapa de nós para qualquer placa",
  "doc.wardrive": "Wardriving"
 }

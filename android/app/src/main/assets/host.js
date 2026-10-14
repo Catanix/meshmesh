@@ -44,6 +44,7 @@ window.MeshHost={
   if(st!=='checking'&&st!=='downloading')H.manual=false;
   if(!H.inApp)renderPanel();else if(route==='connect')renderConnect();else if(route==='home')renderHome();else if(route==='settings')renderSettings()},
  back(){
+  if(typeof standaloneMode!=='undefined'&&standaloneMode&&route==='library'){go('map');return true}
   if(typeof standaloneMode!=='undefined'&&standaloneMode){standaloneMode=false;$('app').hidden=true;$('login').hidden=false;loginHud();return true}
   if(H.inApp&&!$('back').hidden){$('back').click();return true}
   return false}};
@@ -169,14 +170,32 @@ window.toggle=async function(which){const k=H.state.kind;
 // Files: the page's downloads (map packages, settings) go to an Android save dialog.
 window.download=function(data,name,type){const bytes=typeof data==='string'?new TextEncoder().encode(data):data instanceof Uint8Array?data:new Uint8Array(data);N.saveFile(name,type||'application/octet-stream',toBase64(bytes))};
 
-// Map upload over Bluetooth: about 2 KB/s, so a large package asks once more.
-const pageUpload=window.uploadMap;
-window.uploadMap=function(){const f=$('mapFile').files[0];
- if(f&&H.state.kind==='ble'&&f.size>300000&&Date.now()-H.armed>8000){H.armed=Date.now();notify(L`По Bluetooth ${(f.size/1048576).toFixed(1)} МБ займут около ${Math.ceil(f.size/2048/60)} мин; по USB или Wi-Fi намного быстрее. Нажмите ещё раз, чтобы начать`,'warn');return}
- return pageUpload()};
+// Map areas in the phone (MainActivity → MapStore): the page's «Карты» save, list and show them, with or without a board.
+function mapReply(t){t=String(t);if(t.startsWith('ERR '))throw Error(L`Карта в телефоне: ${t.slice(4)}`);return t}
+window.phoneMaps={
+ storages(){return JSON.parse(mapReply(N.mapStorages()))},
+ areas(){return JSON.parse(mapReply(N.mapAreas()))},
+ // The MMT1 file of a tile (of one area, or of the newest area that has it) or null.
+ async tile(z,x,y,area){const r=await netFetch(`/phone-maps/tile?z=${z}&x=${x}&y=${y}${area?'&area='+encodeURIComponent(area):''}`);return r.ok?new Uint8Array(await r.arrayBuffer()):null},
+ async save(storage,manifest,count,get,progress){const id=mapReply(N.mapBegin(storage,JSON.stringify(manifest)));
+  try{for(let i=0;i<count;i++){const r=await get(i);mapReply(N.mapTile(id,r.z,r.x,r.y,toBase64(r.data)));progress(i+1,count)}return JSON.parse(mapReply(N.mapFinish(id)))}
+  catch(e){N.mapDelete(id);throw e}},
+ remove(id){mapReply(N.mapDelete(id))},
+ tiles(id){return JSON.parse(mapReply(N.mapTiles(id)))}};
+
+// Map upload over Bluetooth: about 2 KB/s, so a large package or phone area asks once more.
+function bleSlow(bytes){if(H.state.kind!=='ble'||bytes<=300000||Date.now()-H.armed<=8000)return false;H.armed=Date.now();notify(L`По Bluetooth ${(bytes/1048576).toFixed(1)} МБ займут около ${Math.ceil(bytes/2048/60)} мин; по USB или Wi-Fi намного быстрее. Нажмите ещё раз, чтобы начать`,'warn');return true}
+const pageUpload=window.uploadMap,pageToSd=window.phoneToSd;
+window.uploadMap=function(){const f=$('mapFile').files[0];if(f&&$('uploadDest').value==='sd'&&bleSlow(f.size))return;return pageUpload()};
+window.phoneToSd=function(id){const a=phoneAreas.find(x=>x.id===id);if(a&&bleSlow(a.bytes||0))return;return pageToSd(id)};
 $('uploadMap').onclick=window.uploadMap;
 $('saveBuilder').hidden=true; // the app itself prepares maps: no need to save the page
-$('uploader').querySelector('p').textContent=L('Выберите файл .mmmap. Он передаётся по текущему подключению; интернет для этого не нужен.');
+$('uploader').querySelector('p').textContent=L('Выберите файл .mmmap: карта сохранится в телефоне или передастся на SD устройства по текущему подключению. Интернет для этого не нужен.');
+$('builder').querySelector('p').textContent=L('Нужен интернет на телефоне. Карта сохранится в телефоне и будет работать без интернета с любой платой; на SD устройства — и на экране M9.');
+// Without a board: the phone's maps (and preparing new ones) from the connection screen.
+$('standalone').closest('details').querySelector('summary').textContent=L('Карты без устройства');
+$('standalone').closest('details').querySelector('p').textContent=L('Карты, сохранённые в телефоне, и подготовка новых. Для подготовки нужен интернет.');
+$('standalone').textContent=L('Открыть карты');
 
 H.upd=JSON.parse(N.updateInfo());
 H.prefs=JSON.parse(N.prefs());const last=H.prefs.last;

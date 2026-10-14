@@ -21,7 +21,7 @@ nœuds MeshCore standard.
 - **Canaux** — jusqu'à 8 canaux MeshCore : rejoindre par #hashtag, lien `meshcore://` ou QR code, nom et clé ;
   créer un canal privé, inviter des contacts par message privé, trouver les canaux captés sur les ondes. [docs/en/channels.md](docs/en/channels.md)
 - **Régions** — portée des floods MeshCore : région par défaut et une par canal, recherche des régions des répéteurs proches ; répéteurs réglés par les commandes `region`. [docs/en/regions.md](docs/en/regions.md)
-- **Cartes hors ligne** — tuiles OpenStreetMap sur la carte SD, position GPS et nœuds sur la carte.
+- **Cartes hors ligne** — OpenStreetMap avec relief et courbes de niveau, sur le téléphone (application) ou la carte SD de l’appareil ; nœuds, liaisons directes et GPS sur la carte avec n’importe quelle carte radio.
 - **Wardriving** — une carte de couverture du réseau : paquets entendus et pings vers un canal avec les répéteurs qui les relaient, avec une position GPS ou du téléphone fiable ; sur ESP32 aussi le Wi-Fi et le Bluetooth ; export en CSV, GeoJSON, KML et WiGLE. [docs/en/wardrive.md](docs/en/wardrive.md)
 - **Nœuds à proximité** — signal, sauts, distance et cap ; contacts, répéteurs et salons.
 - **Radar de signaux** — Wi-Fi, Bluetooth et LoRa autour de vous, avec un pistage « chaud / froid ».

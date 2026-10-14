@@ -120,7 +120,7 @@
  "shot.heltec-messages": "Heltec：OLED 上的消息",
  "shot.heltec-popup": "Heltec：新消息",
  "f.maps.t": "离线地图",
- "f.maps.d": "SD 卡上的 OpenStreetMap，在地图上显示你的 GPS 位置和节点。",
+ "f.maps.d": "带地形和等高线的 OpenStreetMap，保存在手机或设备 SD 卡上；节点、直连链路和你的 GPS 位置显示在地图上——任何开发板均可。",
  "shot.m9-map": "带指南针和比例尺的地图",
  "shot.m9-library": "已保存的区域",
  "f.nodes.t": "附近节点",
@@ -272,5 +272,6 @@
  "f.wardrive.t": "扫街测绘",
  "f.wardrive.d": "网络的覆盖地图。行进中，节点记录收到的数据包及其中继和信号，并向频道发送 ping：转发 ping 的中继显示网络在哪里能听到你、在哪里不能。点按 SNR 着色显示在地图上；ESP32 板还会记录 Wi-Fi 接入点和蓝牙设备。位置来自可信的 GPS 定位或应用中的手机。可导出为 CSV、GeoJSON、KML 和 WiGLE。",
  "news.wardrive": "<b>新功能：</b>扫街测绘——网络覆盖地图：哪里的中继能听到你，哪里不能",
+ "news.maps": "<b>新功能：</b>手机上带地形和等高线的地图，以及适用于所有开发板的节点地图",
  "doc.wardrive": "扫街测绘"
 }

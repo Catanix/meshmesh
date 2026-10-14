@@ -120,7 +120,7 @@
  "shot.heltec-messages": "Heltec: Nachrichten auf dem OLED",
  "shot.heltec-popup": "Heltec: neue Nachricht",
  "f.maps.t": "Offline-Karten",
- "f.maps.d": "OpenStreetMap auf der SD-Karte, Ihre GPS-Position und Knoten auf der Karte.",
+ "f.maps.d": "OpenStreetMap mit Relief und Höhenlinien auf dem Telefon oder der SD-Karte des Geräts; Knoten, direkte Verbindungen und Ihre GPS-Position auf der Karte – mit jedem Board.",
  "shot.m9-map": "Karte mit Kompass und Maßstab",
  "shot.m9-library": "Gespeicherte Gebiete",
  "f.nodes.t": "Knoten in der Nähe",
@@ -272,5 +272,6 @@
  "f.wardrive.t": "Wardriving",
  "f.wardrive.d": "Eine Abdeckungskarte Ihres Netzes. Unterwegs zeichnet der Knoten empfangene Pakete mit Repeater und Signal auf und pingt einen Kanal an: Die Repeater, die den Ping weitergeben, zeigen, wo das Netz Sie erreicht und wo nicht. Die Punkte erscheinen auf der Karte, nach SNR eingefärbt; ESP32-Boards erfassen zusätzlich WLAN-Zugangspunkte und Bluetooth-Geräte. Die Position stammt aus einem vertrauenswürdigen GPS-Fix oder vom Telefon in der App. Export als CSV, GeoJSON, KML und für WiGLE.",
  "news.wardrive": "<b>Neu:</b> Wardriving — eine Abdeckungskarte Ihres Netzes: wo Repeater Sie hören und wo nicht",
+ "news.maps": "<b>Neu:</b> Karten auf dem Telefon mit Relief und Höhenlinien und eine Knotenkarte für jedes Board",
  "doc.wardrive": "Wardriving"
 }

@@ -120,7 +120,7 @@
  "shot.heltec-messages": "Heltec : messages sur l’OLED",
  "shot.heltec-popup": "Heltec : nouveau message",
  "f.maps.t": "Cartes hors ligne",
- "f.maps.d": "OpenStreetMap sur la carte SD, votre position GPS et les nœuds sur la carte.",
+ "f.maps.d": "OpenStreetMap avec relief et courbes de niveau, sur le téléphone ou la carte SD de l’appareil ; nœuds, liaisons directes et votre GPS sur la carte, avec n’importe quelle carte radio.",
  "shot.m9-map": "Carte avec boussole et échelle",
  "shot.m9-library": "Zones enregistrées",
  "f.nodes.t": "Nœuds à proximité",
@@ -272,5 +272,6 @@
  "f.wardrive.t": "Wardriving",
  "f.wardrive.d": "Une carte de couverture de votre réseau. En déplacement, le nœud enregistre les paquets qu’il entend avec le répéteur et le signal, et envoie des pings à un canal : les répéteurs qui relaient le ping montrent où le réseau vous atteint et où il ne vous atteint pas. Les points s’affichent sur la carte, colorés selon le SNR ; les cartes ESP32 enregistrent aussi les points d’accès Wi-Fi et les appareils Bluetooth. La position vient d’un fix GPS fiable ou du téléphone dans l’application. Export en CSV, GeoJSON, KML et WiGLE.",
  "news.wardrive": "<b>Nouveau :</b> wardriving — une carte de couverture du réseau : où les répéteurs vous entendent et où non",
+ "news.maps": "<b>Nouveau :</b> cartes sur le téléphone avec relief et courbes de niveau, et une carte des nœuds pour toutes les cartes radio",
  "doc.wardrive": "Wardriving"
 }

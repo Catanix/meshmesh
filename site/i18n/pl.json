@@ -120,7 +120,7 @@
  "shot.heltec-messages": "Heltec: wiadomości na OLED",
  "shot.heltec-popup": "Heltec: nowa wiadomość",
  "f.maps.t": "Mapy offline",
- "f.maps.d": "OpenStreetMap na karcie SD, twoja pozycja GPS i węzły na mapie.",
+ "f.maps.d": "OpenStreetMap z rzeźbą terenu i poziomicami w telefonie lub na karcie SD urządzenia; węzły, bezpośrednie łącza i Twój GPS na mapie — z każdą płytką.",
  "shot.m9-map": "Mapa z kompasem i skalą",
  "shot.m9-library": "Zapisane obszary",
  "f.nodes.t": "Węzły w pobliżu",
@@ -272,5 +272,6 @@
  "f.wardrive.t": "Wardriving",
  "f.wardrive.d": "Mapa zasięgu twojej sieci. W drodze węzeł zapisuje odebrane pakiety z przekaźnikiem i sygnałem oraz wysyła pingi na kanał: przekaźniki, które przekazały ping, pokazują, gdzie sieć cię słyszy, a gdzie nie. Punkty pojawiają się na mapie w kolorze według SNR; płytki ESP32 zapisują też punkty dostępu Wi-Fi i urządzenia Bluetooth. Pozycja pochodzi z zaufanego fixu GPS albo z telefonu w aplikacji. Eksport do CSV, GeoJSON, KML i WiGLE.",
  "news.wardrive": "<b>Nowość:</b> wardriving — mapa zasięgu sieci: gdzie przekaźniki cię słyszą, a gdzie nie",
+ "news.maps": "<b>Nowość:</b> mapy w telefonie z rzeźbą terenu i poziomicami oraz mapa węzłów dla każdej płytki",
  "doc.wardrive": "Wardriving"
 }

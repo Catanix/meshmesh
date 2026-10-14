@@ -21,7 +21,7 @@ MeshCore-Knoten.
 - **Kanäle** — bis zu 8 MeshCore-Kanäle: Beitritt per #Hashtag, `meshcore://`-Link oder QR-Code, Name und Schlüssel;
   einen privaten Kanal erstellen, Kontakte per Direktnachricht einladen, auf Sendung gehörte Kanäle finden. [docs/en/channels.md](docs/en/channels.md)
 - **Regionen** — Flood-Bereich von MeshCore: Standardregion und eigene Region je Kanal, Suche der Regionen naher Repeater; Repeater per `region`-Befehlen. [docs/en/regions.md](docs/en/regions.md)
-- **Offline-Karten** — OpenStreetMap-Kacheln auf der SD-Karte, GPS-Position und Knoten auf der Karte.
+- **Offline-Karten** — OpenStreetMap mit Relief und Höhenlinien, auf dem Telefon (App) oder der SD-Karte des Geräts; Knoten, direkte Verbindungen und GPS auf der Karte mit jedem Board.
 - **Wardriving** — eine Abdeckungskarte des Netzes: empfangene Pakete und Pings an einen Kanal mit den Repeatern, die sie weitergeben, mit vertrauenswürdiger GPS- oder Telefonposition; auf ESP32 auch WLAN und Bluetooth; Export als CSV, GeoJSON, KML und für WiGLE. [docs/en/wardrive.md](docs/en/wardrive.md)
 - **Knoten in der Nähe** — Signal, Hops, Entfernung und Richtung; Kontakte, Repeater und Räume.
 - **Signalradar** — Wi-Fi, Bluetooth und LoRa in der Umgebung, mit Peilung nach „wärmer / kälter“.

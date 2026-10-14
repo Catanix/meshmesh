@@ -23,6 +23,7 @@ import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.os.IBinder
 import android.os.ParcelUuid
 import android.provider.Settings
@@ -48,6 +49,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
+import org.meshmesh.app.api.MapStore
 import org.meshmesh.app.link.BleLink
 import org.meshmesh.app.link.UsbLink
 import java.io.ByteArrayInputStream
@@ -109,6 +111,27 @@ class MainActivity : ComponentActivity() {
         if (packageManager.canRequestPackageInstalls()) installUpdate() else updateState("ready", I18n.t("Разрешите установку приложений из MeshMesh, чтобы обновить"))
     }
 
+    /** Offline map areas in the phone: internal memory and, when there is one, the phone's SD card. */
+    private val maps by lazy {
+        MapStore {
+            val roots = linkedMapOf("phone" to File(filesDir, "maps"))
+            getExternalFilesDirs(null).filterNotNull().firstOrNull {
+                runCatching { Environment.isExternalStorageRemovable(it) && Environment.getExternalStorageState(it) == Environment.MEDIA_MOUNTED }.getOrDefault(false)
+            }?.let { roots["card"] = File(it, "maps") }
+            roots
+        }
+    }
+
+    /** A tile of the phone's map areas for the page (fetch('/phone-maps/tile?z=…&x=…&y=…')): the MMT1 file or 404. */
+    private fun phoneTile(url: Uri): WebResourceResponse {
+        val z = url.getQueryParameter("z")?.toIntOrNull(); val x = url.getQueryParameter("x")?.toLongOrNull(); val y = url.getQueryParameter("y")?.toLongOrNull()
+        val data = if (z == null || x == null || y == null) null else maps.read(z, x, y, url.getQueryParameter("area"))
+        return if (data == null) WebResourceResponse("text/plain", "utf-8", 404, "Not Found", emptyMap(), ByteArrayInputStream(ByteArray(0)))
+        else WebResourceResponse("application/octet-stream", null, 200, "OK", mapOf("Cache-Control" to "no-store"), ByteArrayInputStream(data))
+    }
+
+    private inline fun mapCall(block: () -> String): String = runCatching(block).getOrElse { "ERR " + (it.message ?: it.javaClass.simpleName) }
+
     // Updates of the app from the site (Updater): checked once per start, installed on request.
     private val updater by lazy { Updater(this) }
     private var release: Updater.Release? = null
@@ -145,6 +168,7 @@ class MainActivity : ComponentActivity() {
                 val url = request.url
                 if (url.host != HOST) return null
                 if (url.path == PAGE) return page()
+                if (url.path == "/phone-maps/tile") return phoneTile(url)
                 return loader.shouldInterceptRequest(url)
             }
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
@@ -485,6 +509,15 @@ class MainActivity : ComponentActivity() {
         }
         @android.webkit.JavascriptInterface fun wardriveLocationState(): String = service?.wardriveState() ?: "{}"
         @android.webkit.JavascriptInterface fun scanQr() = runOnUiThread { this@MainActivity.scanQr() }
+        // Offline map areas in the phone (MapStore; host.js window.phoneMaps). Errors come back as "ERR text".
+        @android.webkit.JavascriptInterface fun mapStorages(): String = mapCall { maps.storages().toString() }
+        @android.webkit.JavascriptInterface fun mapAreas(): String = mapCall { maps.areas().toString() }
+        @android.webkit.JavascriptInterface fun mapBegin(storage: String, manifest: String): String = mapCall { maps.begin(storage, manifest) }
+        @android.webkit.JavascriptInterface fun mapTile(id: String, z: Int, x: Double, y: Double, base64: String): String =
+            mapCall { maps.tile(id, z, x.toLong(), y.toLong(), Base64.getDecoder().decode(base64)); "OK" }
+        @android.webkit.JavascriptInterface fun mapFinish(id: String): String = mapCall { maps.finish(id).toString() }
+        @android.webkit.JavascriptInterface fun mapDelete(id: String): String = mapCall { maps.delete(id); "OK" }
+        @android.webkit.JavascriptInterface fun mapTiles(id: String): String = mapCall { maps.tiles(id).toString() }
         @android.webkit.JavascriptInterface fun version(): String = BuildConfig.VERSION_NAME
         @android.webkit.JavascriptInterface fun updateInfo(): String = updateInfo.toString()
         @android.webkit.JavascriptInterface fun checkUpdate() = runOnUiThread { this@MainActivity.checkUpdate(true) }

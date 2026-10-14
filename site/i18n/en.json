@@ -120,7 +120,7 @@
  "shot.heltec-messages": "Heltec: messages on the OLED",
  "shot.heltec-popup": "Heltec: new message",
  "f.maps.t": "Offline maps",
- "f.maps.d": "OpenStreetMap on the SD card, your GPS position and nodes on the map.",
+ "f.maps.d": "OpenStreetMap with relief and contour lines, kept on the phone or the device SD card; nodes, direct links and your GPS on the map — on any board.",
  "shot.m9-map": "Map with compass and scale",
  "shot.m9-library": "Saved areas",
  "f.nodes.t": "Nearby nodes",
@@ -272,5 +272,6 @@
  "f.wardrive.t": "Wardriving",
  "f.wardrive.d": "A coverage map of your mesh. On the move the node logs the packets it hears with the repeater and signal, and pings a channel: the repeaters that pass the ping on show where the mesh reaches you and where it does not. Points appear on the map in colour by SNR; ESP32 boards also log Wi-Fi access points and Bluetooth devices. The position comes from a trusted GPS fix or from the phone in the app. Export to CSV, GeoJSON, KML and WiGLE.",
  "news.wardrive": "<b>New:</b> wardriving — a coverage map of your mesh: where repeaters hear you and where not",
+ "news.maps": "<b>New:</b> maps on the phone with relief and contour lines, and a node map for every board",
  "doc.wardrive": "Wardriving"
 }

@@ -120,7 +120,7 @@
  "shot.heltec-messages": "Heltec: OLED의 메시지",
  "shot.heltec-popup": "Heltec: 새 메시지",
  "f.maps.t": "오프라인 지도",
- "f.maps.d": "SD 카드의 OpenStreetMap, 지도 위의 내 GPS 위치와 노드.",
+ "f.maps.d": "지형과 등고선이 있는 OpenStreetMap을 휴대폰이나 기기 SD 카드에 저장하고, 노드·직접 링크·내 GPS를 지도에 표시합니다 — 어떤 보드로도.",
  "shot.m9-map": "나침반과 축척이 있는 지도",
  "shot.m9-library": "저장된 지역",
  "f.nodes.t": "주변 노드",
@@ -272,5 +272,6 @@
  "f.wardrive.t": "워드라이빙",
  "f.wardrive.d": "메시 네트워크의 커버리지 지도. 이동 중에 노드는 수신한 패킷을 리피터와 신호와 함께 기록하고 채널에 핑을 보냅니다. 핑을 전달한 리피터로 네트워크가 닿는 곳과 닿지 않는 곳을 알 수 있습니다. 지점은 SNR에 따른 색으로 지도에 표시되며, ESP32 보드는 Wi-Fi 액세스 포인트와 Bluetooth 기기도 기록합니다. 위치는 신뢰할 수 있는 GPS 측위나 앱의 휴대폰에서 받습니다. CSV, GeoJSON, KML, WiGLE로 내보낼 수 있습니다.",
  "news.wardrive": "<b>새 기능:</b> 워드라이빙 — 메시 커버리지 지도: 리피터가 나를 듣는 곳과 못 듣는 곳",
+ "news.maps": "<b>새 기능:</b> 지형과 등고선이 있는 휴대폰 지도와 모든 보드용 노드 지도",
  "doc.wardrive": "워드라이빙"
 }
