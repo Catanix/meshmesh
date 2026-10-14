@@ -1,5 +1,20 @@
 # MeshMesh verification
 
+> **0.23.0 / Android 0.16.0: maps on the phone, relief, a node map for every board** (14 October 2026, `eef8590`).
+> Checked: Android unit tests (including `MapStoreTest`: MMT1 format, CRC, a newer area over an older one, bad tiles
+> refused), APK; page (1467 keys) and chess dictionaries; the map codec on the Kazan packages; builds m9, heltec_v4,
+> tbeam (T-Beam at 95.0% of its 3 MB slot). Demo page in Chromium: the node map with a base map and without an SD
+> (fitting nodes, tapping a node, the filter, dragging), Zermatt prepared with relief "to the phone" (a stand-in
+> storage), copied to the demo board's SD, deleted; 17 pages in ru/en. Android 16 emulator without a board: Zermatt
+> with relief saved to phone storage (20 tiles, 1.24 MB, 6 s), shown after restarting the app, zoom to z17 from z15,
+> «Maps without a device», BACK from the map list. Emulator with the M9 through `usb_tcp_bridge.py`: 24 nodes, 7 with
+> positions on the map; `local.mmmap` imported to the phone (218 tiles in 0.4 s), tiles of that area taken from the
+> phone in 0.2 s while the SD over USB is slow. M9 flashed with `flash.py`: `build_sha256=B2745654FBBC…`, boot 283 (before it an interim `44b7590-dirty` build, boot 282),
+> settings identical, history 64, the active area «Казань» unchanged.
+> **Not checked:** the app on a phone and over BLE, copying a phone area to a real board's SD, the firmware serving
+> the page over Wi-Fi, relief of a flat area (Overpass answered 504 on every mirror during the check), Heltec V4 (not
+> connected), T114/GAT562 not flashed (no nRF52 code changed); the full suite was not run.
+
 > **0.22.0 / Android 0.15.0: the device page and the app in 15 languages** (14 October 2026, `d5c53b8`). The Russian text of
 > the page, `host.js` and Kotlin is the key of `i18n/web/<lang>.json` (1431 keys, 14 languages, `tools/web_i18n.cjs check`);
 > ESP32 serves the page and the dictionaries gzip-compressed (`tools/pio_web.py`). Checked: all 15 targets build (T-Beam
