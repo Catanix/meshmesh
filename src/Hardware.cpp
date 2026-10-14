@@ -18,12 +18,21 @@ bool Hardware::read(TwoWire& bus,uint8_t addr,uint8_t reg,uint8_t* bytes,uint8_t
 bool Hardware::write(uint8_t addr,uint8_t reg,uint8_t value) {
   Wire.beginTransmission(addr);Wire.write(reg);Wire.write(value);return Wire.endTransmission()==0;
 }
-void Hardware::brightness(uint8_t level) {ledcWrite(7,255-level);}
+// Dark: the panel sleeps too (DISPOFF, SLPIN). With only the backlight off it kept driving the last frame
+// for hours, and the static lock-screen clock stayed on as a faint ghost over the next pages.
+// ST7789: 120 ms between SLPIN and SLPOUT, 5 ms after SLPOUT; the frame memory is kept.
+void Hardware::brightness(uint8_t level) {
+  static bool asleep=false;static uint32_t sleptAt=0;
+  if(!level){ledcWrite(7,255);if(!asleep&&canvas){display.enableDisplay(false);display.enableSleep(true);asleep=true;sleptAt=millis();}return;}
+  if(asleep){uint32_t slept=millis()-sleptAt;if(slept<120)delay(120-slept);display.enableSleep(false);delay(5);display.enableDisplay(true);asleep=false;}
+  ledcWrite(7,255-level);
+}
 void Hardware::setGps(bool enabled) {
   gpsEnabled=enabled;
   digitalWrite(pins::gpsEnable,enabled?LOW:HIGH);
   digitalWrite(pins::gpsReset,LOW);
-  if(enabled) {Serial1.begin(115200,SERIAL_8N1,pins::gpsRx,pins::gpsTx);lastGpsBaud=millis();}
+  // 115200 baud: the default 256-byte buffer holds 22 ms, less than a map frame; lost sentences fail their checksums.
+  if(enabled) {Serial1.setRxBufferSize(2048);Serial1.begin(115200,SERIAL_8N1,pins::gpsRx,pins::gpsTx);lastGpsBaud=millis();}
   else Serial1.end();
 }
 void Hardware::begin() {

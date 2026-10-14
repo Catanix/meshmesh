@@ -54,7 +54,7 @@ change the number of dice, the chosen grid dice or the counter. Names and formul
 page or in the app.
 
 **Count with button** (one-button boards and the T114). The item opens counting for the chosen counter: click +1,
-hold (1.2 s) −1, keep holding to 5 s to leave (that hold's −1 is taken back, the value returns). While counting,
+hold (0.8 s) −1, keep holding to 5 s to leave (that hold's −1 is taken back, the value returns). While counting,
 a press with the screen off counts at once; incoming messages do not open an overlapping pop-up or consume the button. Counting also ends
 when the web page changes the dice mode or deletes the counters.
 

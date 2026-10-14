@@ -1,5 +1,27 @@
 # MeshMesh verification
 
+> **0.21.1: M9 screens, BACK, GPS and unlocking** (14 October 2026; the checks below ran on the local build `b22a094-dirty`). (1) The faint "clock" over other
+> pages is LCD image retention: with the screen dark the M9 only turned the backlight off, and the panel kept driving
+> the last frame for hours, most often the lock screen. Now the panel sleeps (DISPOFF, SLPIN) and wakes with the
+> backlight, as on the T114; the same for the T-Deck (no board). A ghost that already formed should fade with time.
+> (2) BACK from Navigation, Module health, Help, Radio, Screen, Connections and the map list returns where the page was
+> opened (the menu, the settings, the map, a hotkey), with that tile or row selected; Navigation opened from the menu
+> used to return to the settings. (3) Navigation has a GPS switch as its first item (hold ADV and Screen still work);
+> the Satellites row shows "used of in view" from GSV. (4) Unlocking the M9: besides holding OK (its time is set by
+> the keyboard controller, not the firmware), two OK presses within 1 s. The button hold on one-button boards (Heltec,
+> T114, community boards) is 0.8 s instead of 1.2 s, as on the GAT562 joystick. (5) M9 GPS: a 2048-byte UART buffer instead of 256 (22 ms at
+> 115200 baud, less than a map frame); `clock` reports `gps_in_view`, `gps_systems`, `gps_failed`.
+> Checked: previews m9, tdeck, heltec, gat562, t114 with new back, switch and double-OK checks (the T-Deck check now
+> expects Module health to return to Nodes, where @ was pressed); builds m9, heltec_v4, heltec_v3, tdeck, heltec_t114,
+> gat562_30s, the Chinese T114 image at 702496 bytes. M9 flashed with `flash.py` (`build_sha256=535E70E72DDF…`, boot 280,
+> then with double OK `406E3D6517AA…`, boot 281; one OK and two OKs 1.5 s apart do not unlock, two in a row and the
+> hold do): settings kept; with USB
+> keys Navigation from the menu → back to tile 3, from the settings → back to row 2, Module health via @ → back to the
+> settings; a screenshot of Navigation with the switch. M9 GPS indoors: the receiver tracks GPS, GLONASS, Galileo and
+> BeiDou, 2→12 satellites in view within 2 min, 0 used, 1 failed checksum. GPS turned off again afterwards, as it was.
+> **Not checked:** the panel sleeping and waking by eye, the ghost fading, a fix under open sky, double OK with the
+> physical keys, 0.8 s on the Heltec/T114 (not flashed), the T-Deck; no full run.
+
 > **0.20.3 / Android 0.13.3 and 0.21.0 / Android 0.14.0: community feedback** (12 October 2026). (1) The app took
 > only `OK…` as an answer, while `quick`, `people`, `wardrive`, `tour`, `server`, `remote …`, `internet info` answer
 > JSON: each request waited 45 s with the rest queued behind it ("Загрузка…", "--:--"). Now any whole JSON line

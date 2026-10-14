@@ -25,7 +25,7 @@ unsigned diceActions(Act* out){
 }
 bool diceKeeps(Act a){return a!=ActDiceRoll&&a!=ActDiceSaved&&a!=ActDiceMode&&a!=ActDiceAddCounter&&a!=ActDiceTap&&a!=ActDiceExit;}
 const dice::Counter* diceShownCounter(){const auto& c=dicer.hero();if(!c.counters)return nullptr;diceCounterSel=constrain(diceCounterSel,0,int(c.counters)-1);return &c.counter[diceCounterSel];}
-// Counting with the button. The hold's -1 comes at 1.2 s, before the button can tell a 5 s hold, so leaving
+// Counting with the button. The hold's -1 comes at 0.8 s, before the button can tell a 5 s hold, so leaving
 // puts the value back as it was before that hold.
 bool diceTapping=false,diceTapUndo=false;int diceTapBefore=0;
 bool diceTapOn(){if(diceTapping&&(page!=DicePage||dicer.s.mode!=dice::Tally||!diceShownCounter()))diceTapping=false;return diceTapping;}

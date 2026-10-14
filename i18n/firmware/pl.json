@@ -1551,6 +1551,11 @@
   "ru": "Спутники",
   "text": "Satelity"
  },
+ "a0b2a8a1": {
+  "en": " in view",
+  "ru": " видно",
+  "text": " widocznych"
+ },
  "7f70d1b6": {
   "en": "Latitude",
   "ru": "Широта",
@@ -1646,6 +1651,16 @@
   "en": "Rotate for 20+ seconds",
   "ru": "Вращение 20+ секунд",
   "text": "Obracaj przez 20+ s"
+ },
+ "c7f0da14": {
+  "en": "GPS off",
+  "ru": "Выкл. GPS",
+  "text": "Wyłącz GPS"
+ },
+ "7da96046": {
+  "en": "GPS on",
+  "ru": "Вкл. GPS",
+  "text": "Włącz GPS"
  },
  "e1038923": {
   "en": "Phone",
@@ -2964,10 +2979,10 @@
   "ru": "Блокировка (микрофона нет)",
   "text": "Blokada ekranu (brak mikrofonu)"
  },
- "61a3daa2": {
-  "en": "Open / send; hold: unlock",
-  "ru": "Открыть / отправить; удерж.: вход",
-  "text": "Otwórz / wyślij; przytrz.: odblokuj"
+ "a21c0730": {
+  "en": "Open / send; twice or hold: unlock",
+  "ru": "Открыть / отправить; дважды или удерж.: вход",
+  "text": "Otwórz / wyślij; 2× lub przytrz.: odblokuj"
  },
  "9fb377cf": {
   "en": "in text: switch RU/EN; Right: capital",
@@ -3025,15 +3040,15 @@
   "ru": "Ошибка радио",
   "text": "Błąd radia"
  },
- "bce105ed": {
-  "en": "Hold: open the game",
-  "ru": "Удерживайте: откроется партия",
-  "text": "Przytrzymaj: otwórz partię"
+ "863c4afd": {
+  "en": "Twice or hold: the game",
+  "ru": "Дважды или удерж.: партия",
+  "text": "2× lub przytrz.: partia"
  },
- "7ca7875d": {
-  "en": "Hold to unlock",
-  "ru": "Удерживайте для входа",
-  "text": "Przytrzymaj, by odblokować"
+ "6179a213": {
+  "en": "Twice or hold: unlock",
+  "ru": "Дважды или удерж.: вход",
+  "text": "2× lub przytrz.: odblokuj"
  },
  "06e4383f": {
   "en": "Network key · 64 hex",

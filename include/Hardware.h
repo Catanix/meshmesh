@@ -54,6 +54,7 @@ class Hardware {
   bool gpsFix();
   uint32_t clockSyncAt=0;uint32_t clockAge() const {return clockSyncAt?uint32_t(millis()-clockSyncAt):UINT32_MAX;}
   bool gpsTime(); // the receiver's date and time may set the clock
+  unsigned gpsInView(String* systems=nullptr); // satellites in view (GSV); systems: "GP:9 GB:6"
   void begin();
   void tick();
   int readKey();

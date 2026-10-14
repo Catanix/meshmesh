@@ -1537,6 +1537,11 @@
   "ru": "Спутники",
   "text": "Satelit"
  },
+ "a0b2a8a1": {
+  "en": " in view",
+  "ru": " видно",
+  "text": " terlihat"
+ },
  "7f70d1b6": {
   "en": "Latitude",
   "ru": "Широта",
@@ -1630,6 +1635,16 @@
   "en": "Rotate for 20+ seconds",
   "ru": "Вращение 20+ секунд",
   "text": "Putar selama 20+ detik"
+ },
+ "c7f0da14": {
+  "en": "GPS off",
+  "ru": "Выкл. GPS",
+  "text": "Matikan GPS"
+ },
+ "7da96046": {
+  "en": "GPS on",
+  "ru": "Вкл. GPS",
+  "text": "Nyalakan GPS"
  },
  "e1038923": {
   "en": "Phone",
@@ -2934,10 +2949,10 @@
   "ru": "Блокировка (микрофона нет)",
   "text": "Kunci layar (tidak ada mikrofon)"
  },
- "61a3daa2": {
-  "en": "Open / send; hold: unlock",
-  "ru": "Открыть / отправить; удерж.: вход",
-  "text": "Buka / kirim; tahan: buka kunci"
+ "a21c0730": {
+  "en": "Open / send; twice or hold: unlock",
+  "ru": "Открыть / отправить; дважды или удерж.: вход",
+  "text": "Buka / kirim; 2x atau tahan: buka kunci"
  },
  "9fb377cf": {
   "en": "in text: switch RU/EN; Right: capital",
@@ -2993,15 +3008,15 @@
   "ru": "Ошибка радио",
   "text": "Galat radio"
  },
- "bce105ed": {
-  "en": "Hold: open the game",
-  "ru": "Удерживайте: откроется партия",
-  "text": "Tahan: buka permainan"
+ "863c4afd": {
+  "en": "Twice or hold: the game",
+  "ru": "Дважды или удерж.: партия",
+  "text": "2x atau tahan: permainan"
  },
- "7ca7875d": {
-  "en": "Hold to unlock",
-  "ru": "Удерживайте для входа",
-  "text": "Tahan untuk buka"
+ "6179a213": {
+  "en": "Twice or hold: unlock",
+  "ru": "Дважды или удерж.: вход",
+  "text": "2x atau tahan: buka kunci"
  },
  "06e4383f": {
   "en": "Network key · 64 hex",

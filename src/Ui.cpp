@@ -37,7 +37,7 @@ namespace {
 enum Page {Home,Threads,Chat,Map,Nodes,Sensors,Settings,Radio,Display,Network,Diagnostics,Help,Library,Node,Scope,Homing,Motion,Game,NetList,ChessList,ChessPick,ChessBoard,RolePick,ServerHome,ChannelAdd,ChannelInfo,ChessTour,ChessTourNew,PetView,DiceView,Remote,QuickView,PeopleView,WardriveView};
 const char* pageNames[]={"home","threads","chat","map","nodes","sensors","settings","radio","display","network","diagnostics","help","library","node","radar","homing","motion","solitaire","internet","chess","chess_pick","chess_board","role","server","channel_add","channel","chess_tour","chess_tour_new","pet","dice","remote","quick","people","wardrive"};
 enum Key {Enter=13,Erase=8,KeyMsg=0x81,KeyHome=0x82,KeyAt=0x83,KeyAdv=0x84,KeyMap=0x85,KeyBack=0x86,KeyGps=0x87,KeyMic=0x88,KeySet=0x90,KeyHold=0xa3,KeyLeft=0xb4,KeyUp=0xb5,KeyDown=0xb6,KeyRight=0xb7};
-Page page=Home,chatReturn=Threads;
+Page page=Home,chatReturn=Threads,subReturn=Settings; // subReturn: where BACK leaves a page opened from several places
 bool quickTargets=false;uint64_t quickReplyTo=0;
 bool scopeManual=false,csiBeaconRole=false; // radar: selection moved by the user; CSI page role
  // radar list: the user moved the selection off the strongest signal
@@ -199,8 +199,12 @@ void sortNodes(){
 }
 Peer* focusedPeer(){return peerOf(focusNode);}
 String netError();String petTileDetail();String diceTileDetail();String diceEditTitle();unsigned diceEditLimit();String diceEditHint();String diceEditOk();bool diceEditRaw();void gameOpen();void gameLeave();String gameTitle();String gameTileDetail();String chessTileDetail();String chessTitle();String tourTitle();
+bool sharedPage(Page p){return p==Radio||p==Display||p==Sensors||p==Network||p==Diagnostics||p==Help||p==Library;}
 // Leaving the radar pages keeps the radar running while the web page or the wardrive nets log holds it.
-void change(Page next){if(page==Game&&next!=Game)gameLeave();if(next==Game&&page!=Game)gameOpen();if(page==Chat&&next!=Chat)rememberComposer();bool radarPage=next==Scope||next==Homing||next==Motion;if(radarPage&&page!=Scope&&page!=Homing&&page!=Motion)scopeManual=false;if(radarPage)radar.open();else if(!webRadarActive()&&!wardrive::holdsRadar())radar.close();if(radarPage||!webRadarActive())radar.setCsi(next!=Motion?Radar::CsiOff:csiBeaconRole?Radar::CsiBeacon:Radar::CsiSensor);if(next==Scope)radar.untrack();page=next;selected=0;chatOffset=0;action=0;editing=false;deleteArmed=false;dirty=true;if(next==Radio||next==Display)draft=config;if(next==Threads)threads();if(next==Chat){composer=restoredComposer();markRead();}if(next==Library)deserializeJson(library,maps.areas());if(next==Nodes)sortNodes();if(next==NetList)internet.rescan();}
+// A page opened from the menu, the settings, the map or a hotkey goes back there (NetList is Network's own).
+// BACK returns to the menu tile or the settings row that was opened.
+int homeSelected=0,settingsSelected=0;
+void change(Page next,bool back=false){if(sharedPage(next)&&!sharedPage(page)&&page!=NetList)subReturn=page;if(page==Home)homeSelected=selected;if(page==Settings)settingsSelected=selected;if(page==Game&&next!=Game)gameLeave();if(next==Game&&page!=Game)gameOpen();if(page==Chat&&next!=Chat)rememberComposer();bool radarPage=next==Scope||next==Homing||next==Motion;if(radarPage&&page!=Scope&&page!=Homing&&page!=Motion)scopeManual=false;if(radarPage)radar.open();else if(!webRadarActive()&&!wardrive::holdsRadar())radar.close();if(radarPage||!webRadarActive())radar.setCsi(next!=Motion?Radar::CsiOff:csiBeaconRole?Radar::CsiBeacon:Radar::CsiSensor);if(next==Scope)radar.untrack();page=next;selected=back&&next==Home?homeSelected:back&&next==Settings?settingsSelected:0;chatOffset=0;action=0;editing=false;deleteArmed=false;dirty=true;if(next==Radio||next==Display)draft=config;if(next==Threads)threads();if(next==Chat){composer=restoredComposer();markRead();}if(next==Library)deserializeJson(library,maps.areas());if(next==Nodes)sortNodes();if(next==NetList)internet.rescan();}
 
 // Time, distances and short labels.
 bool localTime(time_t at,tm& out){if(at<1700000000)return false;at+=config.utcOffset*60;out=*gmtime(&at);return true;}
@@ -449,16 +453,20 @@ void drawSensors(){
  textCenter(62,153,heading,navigation.headingValid?ink:warn,navigation.headingValid?bold:small);
  bool fix=hardware.gpsFix();int y=38;
  auto row=[&](const String& name,const String& value,uint16_t color){text(130,y,name,dim,small);textRight(306,y,fit(value,120),color);y+=19;};
- row("GPS",!config.gps?t("off","выключен"):fix?t("fix","позиция есть"):hardware.clockConflict?t("old date","старая дата"):t("searching","поиск"),!config.gps?dim:fix?ok:warn);
- row(t("Satellites","Спутники"),String(hardware.gps.satellites.value()),ink);
+ // The GPS switch is the first item: the receiver is turned on and off where its position is used.
+ {bool focus=selected==0;target(122,24,192,22,0);panel(122,24,192,22,focus?cardHi:card,6);if(focus)ring(122,24,192,22,6);text(130,y,"GPS",dim,small);
+  g().fillRoundRect(280,28,26,14,7,config.gps?ok:line);g().fillCircle(config.gps?298:287,35,5,ink);
+  textRight(274,y,fit(!config.gps?t("off","выключен"):fix?t("fix","позиция есть"):hardware.clockConflict?t("old date","старая дата"):t("searching","поиск"),136),!config.gps?dim:fix?ok:warn);y+=19;}
+ unsigned view=config.gps?hardware.gpsInView():0;
+ row(t("Satellites","Спутники"),String(hardware.gps.satellites.value())+(view?t(" of "," из ")+String(view)+t(" in view"," видно"):String()),ink);
  row(t("Latitude","Широта"),fix?String(hardware.gps.location.lat(),5):String("-"),ink);
  row(t("Longitude","Долгота"),fix?String(hardware.gps.location.lng(),5):String("-"),ink);
  row(t("Clock","Часы"),(hardware.clockSource=="unset"?t("not set","не задано"):hardware.clockSource=="manual"?t("manual","вручную"):hardware.clockSource)+(hardware.clockTrusted?t(" · trusted"," · доверено"):String()),ink);
  row(t("Compass","Компас"),navigation.calibrating?count(navigation.samples,"sample","samples","отсчёт","отсчёта","отсчётов"):navigation.calibrated?t("calibrated","откалиброван"):t("needs calibration","нужна калибровка"),navigation.calibrating?warn:ink);
  String actions[]={t("Share position","Передать позицию"),navigation.calibrating?t("Finish calibration","Завершить калибровку"):t("Calibrate compass","Калибровать компас")};
  String hints[]={fix?t("Advert with GPS","Объявление с GPS"):t("Needs a fresh GPS fix","Нужна свежая позиция GPS"),navigation.calibrating?t("Rotate in all directions","Вращайте во все стороны"):t("Rotate for 20+ seconds","Вращение 20+ секунд")};
- for(int i=0;i<2;i++){int x=8+i*154;bool focus=selected==i;target(x,168,150,46,i);panel(x,168,150,46,focus?cardHi:card,7);if(focus)ring(x,168,150,46,7);text(x+10,186,fit(actions[i],132,bold),ink,bold);text(x+10,203,fit(hints[i],132,small),dim,small);}
- footer({{"<>",t("Select","Выбор")},{"OK",t("Run","Выполнить")},{"BACK",t("Back","Назад")}});
+ for(int i=0;i<2;i++){int x=8+i*154;bool focus=selected==i+1;target(x,168,150,46,i+1);panel(x,168,150,46,focus?cardHi:card,7);if(focus)ring(x,168,150,46,7);text(x+10,186,fit(actions[i],132,bold),ink,bold);text(x+10,203,fit(hints[i],132,small),dim,small);}
+ footer({{"<>",t("Select","Выбор")},{"OK",selected?t("Run","Выполнить"):config.gps?t("GPS off","Выкл. GPS"):t("GPS on","Вкл. GPS")},{"BACK",t("Back","Назад")}});
 }
 // Signal radar: Wi-Fi access points, Bluetooth devices and directly heard LoRa nodes. Nearer the centre means a
 // stronger signal; the angle only keeps targets apart, because RSSI carries no bearing.
@@ -754,7 +762,7 @@ void drawHelp(){
 #else
  Hint keys[]={{"MSG",t("Chats","Чаты")},{"MAP",t("Map; L - saved maps","Карта; L - список карт")},{"HOME",t("Menu","Главное меню")},{"BACK",t("Previous screen","Предыдущий экран")},{"CTRL",t("Settings","Настройки")},
   {"ADV",t("Announce this node; hold: GPS on/off","Объявить узел; удерж.: GPS вкл/выкл")},{"@",t("function key, not Sym+@: RU/EN in chat","функц. клавиша (не Sym+@): RU/EN в чате")},{"MIC",t("Lock screen (there is no microphone)","Блокировка (микрофона нет)")},
-  {"OK",t("Open / send; hold: unlock","Открыть / отправить; удерж.: вход")},{tr("2x space","2×пробел"),t("in text: switch RU/EN; Right: capital","в тексте: RU/EN; -> : заглавная")}};
+  {"OK",t("Open / send; twice or hold: unlock","Открыть / отправить; дважды или удерж.: вход")},{tr("2x space","2×пробел"),t("in text: switch RU/EN; Right: capital","в тексте: RU/EN; -> : заглавная")}};
 #endif
  for(int i=0;i<10;i++){int y=24+i*19;int kw=max(30,measure(keys[i].key,small)+10);g().fillRoundRect(10,y,kw,15,3,line);textCenter(10+kw/2,y+11,keys[i].key,ink,small);text(max(50,kw+16),y+12,fit(keys[i].action,258),i%2?dim:ink);}
  footer({{"OK",t("Russian layout","Русская раскладка")},{"BACK",t("Settings","Настройки")}});
@@ -770,7 +778,7 @@ void drawLocked(){
   if(!config.lockDetails)text(80,y+32,t("Unlock to read","Разблокируйте, чтобы прочитать"),dim,small);else if(last)text(80,y+32,fit(t("Last from ","Последнее от ")+String(last->name),190,small),dim,small);}
  else if(!chess&&creature.alive()&&creature.s.stage!=pet::Egg)drawLockPet(140);
  else if(!chess)textCenter(160,166,meshRadio.ready?(config.role==RoleRepeater?t("The repeater keeps relaying","Репитер продолжает пересылку"):config.role==RoleRoom?t("The room keeps serving members","Комната продолжает работать"):t("Radio and GPS keep working","Радио и GPS продолжают работать")):t("Radio error","Ошибка радио"),meshRadio.ready?faint:bad,small);
- icon(IcLock,160,chess&&n?210:200,chess&&n?6:7,dim);footer({{"OK",chess?t("Hold: open the game","Удерживайте: откроется партия"):t("Hold to unlock","Удерживайте для входа")},{"MIC",t("Lock","Блок")}});
+ icon(IcLock,160,chess&&n?210:200,chess&&n?6:7,dim);footer({{"OK",chess?t("Twice or hold: the game","Дважды или удерж.: партия"):t("Twice or hold: unlock","Дважды или удерж.: вход")},{"MIC",t("Lock","Блок")}});
 }
 #include "UiServer.inc"
 #include "UiChannels.inc"
@@ -842,6 +850,8 @@ void drawLayoutHelp(){
 void alter(int dir){if(page==Radio){switch(selected){case 0:draft.frequency=constrain(roundf((draft.frequency+dir*.001f)*1000)/1000,863.f,870.f);break;case 1:{float bw[]={62.5,125,250,500};int i=0;while(i<3&&draft.bandwidth!=bw[i])i++;draft.bandwidth=bw[(i+dir+4)%4];break;}case 2:draft.sf=constrain(int(draft.sf)+dir,7,12);break;case 3:draft.cr=constrain(int(draft.cr)+dir,5,8);break;case 4:draft.power=constrain(int(draft.power)+dir,0,MM_MAX_POWER);break;case 5:draft.hops=constrain(int(draft.hops)+dir,0,7);break;case 6:draft.relay=!draft.relay;break;case 7:draft.pathHash=constrain(int(draft.pathHash)+dir,1,3);break;case RowRegion:strlcpy(draft.region,regions::cycle(draft.region,dir,false).c_str(),sizeof draft.region);break;}}else switch(selected){case 1:draft.lang=langStep(draft.lang,dir);break;case 2:draft.brightness=constrain(int(draft.brightness)+dir*15,10,255);break;case 3:draft.sound=!draft.sound;break;case 4:draft.autoLock=constrain(int(draft.autoLock)+dir*30,0,600);break;case 5:draft.dimAfter=constrain(int(draft.dimAfter)+dir*10,0,600);break;case 6:draft.gps=!draft.gps;break;case 7:draft.utcOffset=constrain(int(draft.utcOffset)+dir*15,-720,840);break;case 8:draft.batteryVolts=!draft.batteryVolts;break;case 9:draft.lockDetails=!draft.lockDetails;break;case 10:draft.notifyWake=(draft.notifyWake+dir+3)%3;break;case 11:draft.notifyPopup=(draft.notifyPopup+dir+3)%3;break;}dirty=true;}
 // Keep the settings JSON off uiKey's stack: the saved-map library also needs SD/JSON stack space.
 void saveDraft(){DynamicJsonDocument d(4096);auto error=deserializeJson(d,configJson());if(error){notice(error.c_str(),bad);return;}if(page==Radio){d["frequency"]=draft.frequency;d["bandwidth"]=draft.bandwidth;d["sf"]=int(draft.sf);d["cr"]=int(draft.cr);d["power"]=int(draft.power);d["hops"]=int(draft.hops);d["relay"]=draft.relay;d["path_hash"]=int(draft.pathHash);d["region"]=draft.region;}else{d["name"]=draft.name;d["lang"]=langCodes[draft.lang];d.remove("russian");d["brightness"]=int(draft.brightness);d["sound"]=draft.sound;d["gps"]=draft.gps;d["auto_lock"]=int(draft.autoLock);d["dim_after"]=int(draft.dimAfter);d["utc_offset"]=int(draft.utcOffset);d["battery_volts"]=draft.batteryVolts;d["lock_details"]=draft.lockDetails;d["notify_wake"]=draft.notifyWake;d["notify_popup"]=draft.notifyPopup;}String reply=applySettings(d.as<JsonObjectConst>());bool saved=reply.startsWith("OK");notice(saved?t("Settings saved","Настройки сохранены"):reply,saved?ok:bad);if(saved)change(Settings);}
+// Navigation, hold ADV and the screen settings turn the GPS on and off; an open settings draft follows.
+void gpsToggle(){config.gps=!config.gps;config.save();hardware.setGps(config.gps);draft.gps=config.gps;notice("GPS: "+flag(config.gps),config.gps?ok:dim);}
 void runNodeAction(){
  Peer* p=focusedPeer();if(!p)return;NodeAction acts[5];unsigned n=nodeActions(*p,acts);NodeAction a=acts[constrain(action,0,int(n)-1)];
  if(a!=ActForget)deleteArmed=false;
@@ -863,7 +873,9 @@ bool uiScreenOff(){return wakeOnly;}
 void uiFarewell(){farewell=true;wakeOnly=locked=false;hardware.brightness(config.brightness);draw();}
 void uiBegin(){Preferences p;keyboardRussian=config.lang==LangRu||config.lang==LangUk;if(p.begin("meshmesh-ui",true)){keyboardRussian=p.getBool("kb_ru",keyboardRussian);p.end();}lastInput=millis();page=homePage();openRolePick(true);draw();} // the role choice after every boot
 String uiStatus(){StaticJsonDocument<1024>d;d["page"]=pageNames[page];d["role"]=roleName(config.role);if(page==RolePick)d["boot_pick"]=bootPick;d["locked"]=locked;d["selected"]=selected;if(page==QuickView){d["quick_targets"]=quickTargets;d["quick_to"]=meshRadio.idText(quickReplyTo?quickReplyTo:quickSend::state.to);if(!quickTargets&&selected>0)d["quick_index"]=selected-1;}d["recipient"]=recipient==meshmesh::Broadcast?"ALL":meshRadio.idText(recipient);d["composer"]=composer;d["composer_bytes"]=composer.length();d["keyboard_language"]=keyboardRussian?"RU":"EN";d["editing"]=editing;d["chat_offset"]=chatOffset;d["idle_seconds"]=(millis()-lastInput)/1000;d["layout_help"]=layoutHelp;if(page==Game)gameStatus(d);chessStatus(d);tourStatus(d);if((page==Nodes||page==Node)&&focusNode)d["selected_node"]=meshRadio.idText(focusNode);if(page==Node)d["action"]=action;if(page==ChannelInfo)d["channel"]=meshRadio.idText(focusChannel);if(page==ChannelAdd)d["add_step"]=int(addStep);d["channels"]=meshRadio.channelCount;if(page==Scope||page==Homing||page==Motion){d["csi_role"]=radar.csi;d["radar_targets"]=radar.count;d["radar_selected"]=scopeSelected();d["radar_sound"]=radarSound;}if(page==DiceView){const char* sheets[]={"main","saved","characters"};d["dice_sheet"]=sheets[diceSheet];d["dice_selected"]=diceSel;d["dice_counter"]=diceCounter;}String s;serializeJson(d,s);return s;}
-void uiKey(int key){if(powerOffPending())return;bool asleep=wakeOnly;lastInput=millis();hardware.brightness(config.brightness);wakeOnly=false;dirty=true;if(locked){if(key==KeyHold){locked=false;if(const ChessMatch* m=lockChess())chessEnter(const_cast<ChessMatch*>(m));}return;}if(asleep)return;
+void uiKey(int key){if(powerOffPending())return;bool asleep=wakeOnly;lastInput=millis();hardware.brightness(config.brightness);wakeOnly=false;dirty=true;if(locked){ // a hold (timed by the M9 keyboard controller, not by us) or two OK presses within a second unlock
+  static uint32_t firstOk=0;bool twice=key==Enter&&firstOk&&millis()-firstOk<1000;firstOk=key==Enter&&!twice?millis():0;
+  if(key==KeyHold||twice){locked=false;if(const ChessMatch* m=lockChess())chessEnter(const_cast<ChessMatch*>(m));}return;}if(asleep)return;
 #if defined(MM_BOARD_TDECK)
  // The T-Deck has no BACK key: DEL goes back when there is no text here to delete (DEL tapped in the footer stays DEL).
  bool erase=realErase;realErase=false;
@@ -876,7 +888,7 @@ void uiKey(int key){if(powerOffPending())return;bool asleep=wakeOnly;lastInput=m
  if(page==Node&&key!=Enter&&key!=KeyHold)deleteArmed=false;
  if(page==RolePick&&rolePickKey(key))return;
  if(key==KeyHome){change(homePage());return;}if(config.role!=RoleNormal&&(key==KeyMsg||key==KeyMap)){notice(t("Not in this mode: Settings > Device mode","Недоступно в этом режиме: Настройки > Режим работы"),warn);return;}if(key==KeyMsg){change(Threads);return;}if(key==KeyMap){change(Map);return;}if(key==KeySet){change(Settings);return;}if(key==KeyAdv){bool sent=meshRadio.sendHello();notice(sent?t("Node announced","Узел объявлен"):t("Announcement failed","Не удалось объявить узел"),sent?ok:bad);return;}
- if(key==KeyGps){config.gps=!config.gps;config.save();hardware.setGps(config.gps);notice("GPS: "+flag(config.gps),config.gps?ok:dim);return;}
+ if(key==KeyGps){gpsToggle();return;}
  if(page==Game&&gameKey(key))return; // the game handles BACK, arrows, OK and letters itself
  if(chessPage()&&chessKey(key))return;
  if(page==PetView&&petKey(key))return;
@@ -886,7 +898,7 @@ void uiKey(int key){if(powerOffPending())return;bool asleep=wakeOnly;lastInput=m
  if(page==ServerHome&&(key=='p'||key=='P')){change(PetView);return;} // the pet of a repeater or room
  if(page==ServerHome&&serverKey(key))return;
  if(page==Remote&&remoteKey(key))return;
- if(key==KeyBack){change(page==ChannelAdd?Threads:page==ChannelInfo?infoReturn:page==NetList?Network:page==Library?Map:page==Homing?Scope:page==Chat?chatReturn:page==Node?Nodes:(page==Radio||page==Display||page==Sensors||page==Diagnostics||page==Help)?Settings:homePage());return;}
+ if(key==KeyBack){change(page==ChannelAdd?Threads:page==ChannelInfo?infoReturn:page==NetList?Network:page==Homing?Scope:page==Chat?chatReturn:page==Node?Nodes:sharedPage(page)?subReturn:homePage(),true);return;}
  if(key==KeyAt){change(Diagnostics);return;}
  if(page==ChannelInfo){channelInfoKey(key);return;}
  if(page==Threads&&(key==KeyLeft||key==KeyRight)){threads();if(selected<int(conversationCount)&&channels::isChannel(conversations[selected]))openChannelInfo(conversations[selected],Threads);return;}
@@ -896,14 +908,14 @@ void uiKey(int key){if(powerOffPending())return;bool asleep=wakeOnly;lastInput=m
  if((page==Nodes||page==Node)&&(key=='p'||key=='P')){if(Peer* p=focusedPeer()){if(p->position){maps.follow=false;maps.center(p->latitude,p->longitude);change(Map);}else notice(t("This node has not shared GPS","Узел пока не передал GPS"),warn);}return;}
  if(page==Home&&(key==KeyLeft||key==KeyRight||key==KeyUp||key==KeyDown)){uint8_t order[AppsMax];int tileCount=appsShown(order),tileRows=(tileCount+tileColumns-1)/tileColumns;selected=constrain(selected,0,tileCount-1);int col=selected%tileColumns,row=selected/tileColumns,n=min(tileColumns,tileCount-row*tileColumns);if(key==KeyLeft)col=(col+n-1)%n;if(key==KeyRight)col=(col+1)%n;if(key==KeyUp)row=(row+tileRows-1)%tileRows;if(key==KeyDown)row=(row+1)%tileRows;selected=min(row*tileColumns+col,tileCount-1);return;}
  if(page==Node&&(key==KeyLeft||key==KeyRight||key==KeyUp||key==KeyDown)){Peer* p=focusedPeer();if(!p)return;NodeAction acts[5];int n=nodeActions(*p,acts);action=(action+(key==KeyLeft||key==KeyUp?-1:1)+n)%n;return;}
- if(page==Sensors&&(key==KeyLeft||key==KeyRight)){selected^=1;return;}
+ if(page==Sensors&&(key==KeyLeft||key==KeyRight)){selected=(selected+(key==KeyLeft?2:1))%3;return;}
  if(page==WardriveView&&wardriveKey(key))return;
  if(page==Scope&&(key==KeyUp||key==KeyDown)){int i=scopeSelected();scopeManual=true;if(radar.count)scopeSelect((i+(key==KeyUp?-1:1)+radar.count)%radar.count);return;}
  if(page==Scope&&(key==KeyLeft||key==KeyRight)){change(Motion);return;}
  if(page==Motion&&(key==KeyLeft||key==KeyRight)){change(Scope);return;}
  if(page==Motion&&(key=='b'||key=='B')){csiBeaconRole=!csiBeaconRole;radar.setCsi(csiBeaconRole?Radar::CsiBeacon:Radar::CsiSensor);notice(csiBeaconRole?t("This board is now the beacon","Эта плата — маяк"):t("This board is now the sensor","Эта плата — приёмник"));return;}
  if(page==Homing&&(key==KeyLeft||key==KeyRight)){radar.resetPeak();notice(t("Peak reset","Пик сброшен"),dim);return;}
- if(key==KeyUp||key==KeyDown){if(page==Threads)threads();if(page==Nodes)sortNodes();int total=page==Threads?conversationCount:page==ChannelAdd?addRows():page==Nodes?nodeTotal:page==Settings?settingsCount:page==Radio||page==Display?settingRows():page==Network?4:page==NetList?1+int(netCount()):page==Sensors?2:page==Library?int(library.size()):1;selected=total?(selected+(key==KeyUp?-1:1)+total)%total:0;if(page==Nodes&&nodeTotal)focusNode=meshRadio.peers[nodeOrder[selected]].id;return;}
+ if(key==KeyUp||key==KeyDown){if(page==Threads)threads();if(page==Nodes)sortNodes();int total=page==Threads?conversationCount:page==ChannelAdd?addRows():page==Nodes?nodeTotal:page==Settings?settingsCount:page==Radio||page==Display?settingRows():page==Network?4:page==NetList?1+int(netCount()):page==Sensors?3:page==Library?int(library.size()):1;selected=total?(selected+(key==KeyUp?-1:1)+total)%total:0;if(page==Nodes&&nodeTotal)focusNode=meshRadio.peers[nodeOrder[selected]].id;return;}
  if((page==Radio||page==Display)&&(key==KeyLeft||key==KeyRight)){alter(key==KeyLeft?-1:1);return;}
  if(key!=Enter&&key!=KeyHold)return;
  if(page==Home){Page pages[]={Threads,Map,Nodes,Sensors,Network,Scope,Diagnostics,Settings,Game,ChessList,PetView,DiceView,QuickView,PeopleView,WardriveView};uint8_t order[AppsMax];int n=appsShown(order);if(selected>=0&&selected<n){if(pages[order[selected]]==QuickView){quickReplyTo=0;quickTargets=false;}change(pages[order[selected]]);}}
@@ -919,7 +931,7 @@ void uiKey(int key){if(powerOffPending())return;bool asleep=wakeOnly;lastInput=m
   else if(page==Radio&&selected==RowFind){if(config.role!=RoleNormal)notice(t("Not in this mode","Недоступно в этом режиме"),warn);else if(!regions::find())notice(t("Radio offline","Радио недоступно"),bad);}
   else alter(1);}
  else if(page==Network){if(selected==0)portalToggle();if(selected==1){if(config.role!=RoleNormal)notice(t("Internet over Wi-Fi is off in this mode","Интернет по Wi-Fi выключен в этом режиме"),warn);else change(NetList);}if(selected==2)bleToggle();if(selected==3)notice(t("Public key: ","Открытый ключ: ")+meshRadio.publicKeyText().substring(0,16));}
- else if(page==Sensors){if(selected==0){bool sent=meshRadio.sendPosition();notice(sent?t("Position shared","Позиция передана"):t("Waiting for GPS fix","Ожидание GPS-позиции"),sent?ok:warn);}else if(navigation.calibrating){bool saved=navigation.finish();notice(saved?t("Calibration saved","Калибровка сохранена"):t("Rotate wider, at least 20 seconds","Вращайте шире, не менее 20 секунд"),saved?ok:warn);}else{navigation.start();notice(t("Rotate in all directions","Вращайте устройство во все стороны"));}}
+ else if(page==Sensors){if(selected==0)gpsToggle();else if(selected==1){bool sent=meshRadio.sendPosition();notice(sent?t("Position shared","Позиция передана"):t("Waiting for GPS fix","Ожидание GPS-позиции"),sent?ok:warn);}else if(navigation.calibrating){bool saved=navigation.finish();notice(saved?t("Calibration saved","Калибровка сохранена"):t("Rotate wider, at least 20 seconds","Вращайте шире, не менее 20 секунд"),saved?ok:warn);}else{navigation.start();notice(t("Rotate in all directions","Вращайте устройство во все стороны"));}}
  else if(page==NetList)netListEnter();
  else if(page==Help)layoutHelp=true;
  else if(page==Scope){int i=scopeSelected();if(i>=0&&radar.track(i)){scopeManual=true;pingedSamples=radar.samples;change(Homing);}else notice(t("No signal selected","Сигнал не выбран"),warn);}

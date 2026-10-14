@@ -20,7 +20,21 @@ static uint32_t buildFloor(){
 RTC_NOINIT_ATTR static uint32_t keptMagic;RTC_NOINIT_ATTR static char keptSource[8];
 static constexpr uint32_t KeptMagic=0x4d4d4b31;
 #endif
+// Satellites in view, from the GSV sentences of each system: TinyGPSPlus counts only those used in
+// the fix (GGA). The talkers also show which systems the receiver tracks. BeiDou is GB or BD.
+#if !defined(MM_UI_PREVIEW)
+static const char* const gsvNames[]={"GPGSV","GLGSV","GAGSV","GBGSV","BDGSV","GQGSV"};
+static TinyGPSCustom gsvInView[6];
+unsigned Hardware::gpsInView(String* systems){unsigned n=0;
+  for(int i=0;i<6;i++)if(gsvInView[i].isValid()&&gsvInView[i].age()<5000){unsigned k=atoi(gsvInView[i].value());n+=k;if(systems)*systems+=String(systems->length()?" ":"")+String(gsvNames[i]).substring(0,2)+":"+String(k);}
+  return n;}
+#else
+unsigned Hardware::gpsInView(String*){return 0;}
+#endif
 void Hardware::beginClock(){Preferences p;if(p.begin("meshmesh-clock",true)){clockTrusted=p.getBool("trusted",false);p.end();}
+#if !defined(MM_UI_PREVIEW)
+  for(int i=0;i<6;i++)gsvInView[i].begin(gps,gsvNames[i],3);
+#endif
 #if !defined(MM_NRF52) && !defined(MM_UI_PREVIEW)
   if(time(nullptr)>=1735689600){
     if(keptMagic==KeptMagic&&memchr(keptSource,0,sizeof keptSource)&&keptSource[0]&&uint32_t(time(nullptr))>=buildFloor()){clockSource=keptSource;utc=time(nullptr);}
@@ -50,9 +64,9 @@ bool Hardware::setUtc(uint32_t epoch,const char* source,bool persist){
   if(persist){clockTrusted=true;if(rtcOk){rtc.adjust(DateTime(epoch));rtcValid=true;Preferences p;if(p.begin("meshmesh-clock",false)){p.putBool("trusted",true);p.end();}}}
   return true;
 }
-String Hardware::clockInfo(){StaticJsonDocument<512>d;d["unix"]=int64_t(time(nullptr));d["source"]=clockSource;d["trusted"]=clockTrusted;d["gps_conflict"]=clockConflict;d["build_floor"]=buildFloor();d["rtc"]=rtcOk;d["rtc_valid"]=rtcValid;
+String Hardware::clockInfo(){StaticJsonDocument<768>d;d["unix"]=int64_t(time(nullptr));d["source"]=clockSource;d["trusted"]=clockTrusted;d["gps_conflict"]=clockConflict;d["build_floor"]=buildFloor();d["rtc"]=rtcOk;d["rtc_valid"]=rtcValid;
   if(gps.date.isValid()){d["gps_year"]=gps.date.year();d["gps_month"]=gps.date.month();d["gps_day"]=gps.date.day();d["gps_date_age"]=gps.date.age();}
-  d["gps_satellites"]=gps.satellites.value();d["gps_location"]=gps.location.isValid();if(gps.location.isValid())d["gps_location_age"]=gps.location.age();
+  d["gps_satellites"]=gps.satellites.value();{String systems;d["gps_in_view"]=gpsInView(&systems);d["gps_systems"]=systems;}d["gps_failed"]=gps.failedChecksum();d["gps_location"]=gps.location.isValid();if(gps.location.isValid())d["gps_location_age"]=gps.location.age();
   if(gps.time.isValid()){d["gps_hour"]=gps.time.hour();d["gps_minute"]=gps.time.minute();d["gps_second"]=gps.time.second();d["gps_time_age"]=gps.time.age();}
   String s;serializeJson(d,s);return s;
 }
