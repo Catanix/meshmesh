@@ -1,5 +1,18 @@
 # MeshMesh verification
 
+> **0.22.0 / Android 0.15.0: the device page and the app in 15 languages** (14 October 2026, `d5c53b8`). The Russian text of
+> the page, `host.js` and Kotlin is the key of `i18n/web/<lang>.json` (1431 keys, 14 languages, `tools/web_i18n.cjs check`);
+> ESP32 serves the page and the dictionaries gzip-compressed (`tools/pio_web.py`). Checked: all 15 targets build (T-Beam
+> at 94.2% of its 3 MB slot, M9 2.9 MB); Android unit tests and APK; Node checks of the chess page; the demo page
+> (`tools/web_demo.py`) in headless Chromium in all 15 languages, 17 pages each, en, ru, de, ja, ar looked at (Arabic text
+> right to left inside the left-to-right layout). Android emulator with the V4 through `usb_tcp_bridge.py`: the
+> connection screen and all pages in English from the phone's language, the native notification "MeshMesh connected";
+> changing the language in Settings reloads the page and reconnects by itself (a login race after the reload was found
+> and fixed). V4 flashed with `flash.py`: 0.22.0, `build_sha256=BF702D950C8C…`, boot 269, settings and history (64) kept.
+> **Not checked:** the firmware serving the page and dictionaries over Wi-Fi on hardware (no board was reached over
+> HTTP), M9, T114, GAT562 and community boards not flashed, the app on a phone, translations by native speakers; the
+> full suite was not run.
+
 > **0.21.1: M9 screens, BACK, GPS and unlocking** (14 October 2026; the checks below ran on the local build `b22a094-dirty`). (1) The faint "clock" over other
 > pages is LCD image retention: with the screen dark the M9 only turned the backlight off, and the panel kept driving
 > the last frame for hours, most often the lock screen. Now the panel sleeps (DISPOFF, SLPIN) and wakes with the
