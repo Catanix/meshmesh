@@ -41,7 +41,7 @@ węzłami MeshCore.
   (Wi-Fi, Bluetooth LE lub USB) z powiadomieniami o wiadomościach.
 - **Interfejs urządzenia w 15 językach**: angielskim, rosyjskim, ukraińskim, hiszpańskim, portugalskim, francuskim,
   niemieckim, włoskim, polskim, tureckim, chińskim, japońskim, koreańskim, arabskim i indonezyjskim. Strona instaluje
-  oprogramowanie z wybranym językiem; później można go zmienić w Ustawieniach.
+  oprogramowanie z wybranym językiem; później można go zmienić w Ustawieniach. Interfejs WWW i aplikacja na Androida są dostępne w tych samych 15 językach.
 
 ## Płytki
 

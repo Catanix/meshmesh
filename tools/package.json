@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "description": "Tools of MeshMesh that need Node packages: web_i18n.cjs parses web/index.html.",
+  "dependencies": { "acorn": "8.14.0" }
+}

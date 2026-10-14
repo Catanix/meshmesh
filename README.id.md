@@ -41,7 +41,7 @@ MeshCore standar.
   (Wi-Fi, Bluetooth LE atau USB) dengan notifikasi pesan.
 - **Antarmuka perangkat dalam 15 bahasa**: Inggris, Rusia, Ukraina, Spanyol, Portugis, Prancis, Jerman, Italia,
   Polandia, Turki, Tionghoa, Jepang, Korea, Arab dan Indonesia. Situs web menginstal firmware dengan
-  bahasa yang Anda pilih; bahasa bisa diubah nanti di Pengaturan.
+  bahasa yang Anda pilih; bahasa bisa diubah nanti di Pengaturan. Antarmuka web dan aplikasi Android juga tersedia dalam 15 bahasa yang sama.
 
 ## Papan
 

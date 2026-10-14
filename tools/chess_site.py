@@ -64,6 +64,13 @@ def build(out):
     (target/'index.html').write_text(page)
     dicts = json.dumps(dictionaries(), ensure_ascii=False, separators=(',', ':'))
     (target/'i18n.js').write_text(f'globalThis.MeshMeshChessDicts={dicts};\n' + (ROOT/'web/chess-i18n.js').read_text())
+    # The page's own dictionaries (i18n/web), loaded by web/index.html as i18n/<lang>.js; chess-i18n.js
+    # translates what they leave in Russian, such as the companion's texts.
+    (target/'i18n').mkdir(exist_ok=True)
+    for f in sorted((ROOT/'i18n/web').glob('*.json')):
+        d = {k: v for k, v in json.loads(f.read_text()).items() if (v if isinstance(v, str) else any(v.values()))}
+        text = json.dumps(d, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c')
+        (target/'i18n'/(f.stem + '.js')).write_text(f'globalThis.MeshMeshWebDict={text};\n')
     shutil.copyfile(ROOT/'web/chess-companion.js', target/'companion.js')
     shutil.copyfile(ROOT/'web/chess-icon.svg', target/'icon.svg')
     return target

@@ -41,7 +41,7 @@ object WifiJoin {
         var joined: Joined? = null
         val callback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) { available.complete(network) }
-            override fun onUnavailable() { available.completeExceptionally(IOException("Не удалось подключиться к точке доступа: проверьте пароль и что Wi-Fi включён на устройстве")) }
+            override fun onUnavailable() { available.completeExceptionally(IOException(I18n.t("Не удалось подключиться к точке доступа: проверьте пароль и что Wi-Fi включён на устройстве"))) }
             override fun onLost(network: Network) { joined?.onLost?.invoke() }
         }
         cm.requestNetwork(request, callback)
@@ -49,7 +49,7 @@ object WifiJoin {
             withTimeout(90_000) { available.await() }
         } catch (e: Throwable) {
             runCatching { cm.unregisterNetworkCallback(callback) }
-            throw if (e is IOException) e else IOException("Точка доступа не выбрана")
+            throw if (e is IOException) e else IOException(I18n.t("Точка доступа не выбрана"))
         }
         return Joined(cm, network).also { it.callback = callback; joined = it }
     }

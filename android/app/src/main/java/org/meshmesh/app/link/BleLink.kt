@@ -1,5 +1,6 @@
 package org.meshmesh.app.link
 
+import org.meshmesh.app.I18n
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
@@ -49,8 +50,8 @@ class BleLink private constructor(private val context: Context, private val devi
         override fun onConnectionStateChange(g: BluetoothGatt, status: Int, newState: Int) {
             if (newState == BluetoothProfile.STATE_CONNECTED) connected.complete(Unit)
             else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                val reason = if (status == 19) "Bluetooth: устройство разорвало связь (BLE выключен?)" else "Bluetooth: связь потеряна"
-                connected.completeExceptionally(IOException("Bluetooth: не удалось подключиться (код $status)"))
+                val reason = if (status == 19) I18n.t("Bluetooth: устройство разорвало связь (BLE выключен?)") else I18n.t("Bluetooth: связь потеряна")
+                connected.completeExceptionally(IOException(I18n.t("Bluetooth: не удалось подключиться (код {0})", status)))
                 op?.complete(-1)
                 if (open) { open = false; runCatching { g.close() }; onClosed(reason) }
             }
@@ -73,9 +74,9 @@ class BleLink private constructor(private val context: Context, private val devi
     }
 
     private suspend fun start(onStage: (String) -> Unit) {
-        onStage("Подключение по Bluetooth…")
+        onStage(I18n.t("Подключение по Bluetooth…"))
         val g = device.connectGatt(context, false, callback, BluetoothDevice.TRANSPORT_LE)
-            ?: throw IOException("Bluetooth недоступен")
+            ?: throw IOException(I18n.t("Bluetooth недоступен"))
         gatt = g
         withTimeout(20_000) { connected.await() }
         g.requestMtu(517)
@@ -86,31 +87,31 @@ class BleLink private constructor(private val context: Context, private val devi
         if (service == null) {
             // A phone bonded to the board under its previous firmware (same Bluetooth address, e.g. stock
             // MeshCore on a GAT562) keeps that firmware's services in the Android cache: drop it, ask again.
-            onStage("Обновление списка сервисов…")
+            onStage(I18n.t("Обновление списка сервисов…"))
             runCatching { g.javaClass.getMethod("refresh").invoke(g) }
             delay(1_000)
             discover(g)
-            service = g.getService(SERVICE) ?: throw IOException("Это не MeshMesh: нет сервиса MeshMesh BLE")
+            service = g.getService(SERVICE) ?: throw IOException(I18n.t("Это не MeshMesh: нет сервиса MeshMesh BLE"))
         }
         rx = service.getCharacteristic(RX); tx = service.getCharacteristic(TX)
-        if (rx == null || tx == null) throw IOException("Сервис MeshMesh неполный")
+        if (rx == null || tx == null) throw IOException(I18n.t("Сервис MeshMesh неполный"))
         // A protected read starts pairing; Android shows the PIN entry. Retried until bonded.
-        if (device.bondState != BluetoothDevice.BOND_BONDED) onStage("Сопряжение: введите PIN с экрана устройства")
+        if (device.bondState != BluetoothDevice.BOND_BONDED) onStage(I18n.t("Сопряжение: введите PIN с экрана устройства"))
         pair(onStage)
-        onStage("Подписка на ответы…")
+        onStage(I18n.t("Подписка на ответы…"))
         g.setCharacteristicNotification(tx, true)
-        val cccd = tx!!.getDescriptor(CCCD) ?: throw IOException("Нет дескриптора уведомлений")
+        val cccd = tx!!.getDescriptor(CCCD) ?: throw IOException(I18n.t("Нет дескриптора уведомлений"))
         val status = operation(10_000) {
             if (Build.VERSION.SDK_INT >= 33) g.writeDescriptor(cccd, BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE) == BluetoothStatusCodes.SUCCESS
             else { @Suppress("DEPRECATION") run { cccd.value = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE; g.writeDescriptor(cccd) } }
         }
-        if (status != BluetoothGatt.GATT_SUCCESS) throw IOException("Bluetooth: подписка не удалась (код $status)")
+        if (status != BluetoothGatt.GATT_SUCCESS) throw IOException(I18n.t("Bluetooth: подписка не удалась (код {0})", status))
     }
 
     private suspend fun discover(g: BluetoothGatt) {
         discovered = CompletableDeferred()
-        if (!g.discoverServices()) throw IOException("Bluetooth: поиск сервисов не начался")
-        if (withTimeout(15_000) { discovered.await() } != BluetoothGatt.GATT_SUCCESS) throw IOException("Bluetooth: сервисы не найдены")
+        if (!g.discoverServices()) throw IOException(I18n.t("Bluetooth: поиск сервисов не начался"))
+        if (withTimeout(15_000) { discovered.await() } != BluetoothGatt.GATT_SUCCESS) throw IOException(I18n.t("Bluetooth: сервисы не найдены"))
     }
 
     private suspend fun pair(onStage: (String) -> Unit) {
@@ -134,12 +135,12 @@ class BleLink private constructor(private val context: Context, private val devi
             while (true) {
                 val status = operation(30_000) { gatt!!.readCharacteristic(tx) }
                 if (status == BluetoothGatt.GATT_SUCCESS) return
-                if (System.currentTimeMillis() > deadline) throw IOException("Сопряжение не завершено: введите PIN с экрана устройства")
+                if (System.currentTimeMillis() > deadline) throw IOException(I18n.t("Сопряжение не завершено: введите PIN с экрана устройства"))
                 if (wasBonded && device.bondState == BluetoothDevice.BOND_BONDED && !forgotten && (status == 5 || status == 15 || status == 137)) {
                     // The phone keeps a bond the board no longer has (the board's flash was replaced): pair again.
                     forgotten = true
                     requested = false
-                    onStage("Повторное сопряжение: введите PIN с экрана устройства")
+                    onStage(I18n.t("Повторное сопряжение: введите PIN с экрана устройства"))
                     runCatching { device.javaClass.getMethod("removeBond").invoke(device) }
                     delay(1500)
                 }
@@ -153,7 +154,7 @@ class BleLink private constructor(private val context: Context, private val devi
     }
 
     private suspend fun operation(timeoutMs: Long, start: () -> Boolean): Int = ops.withLock {
-        if (!open) throw LinkClosedException("Bluetooth отключён")
+        if (!open) throw LinkClosedException(I18n.t("Bluetooth отключён"))
         val done = CompletableDeferred<Int>()
         op = done
         try {
@@ -165,8 +166,8 @@ class BleLink private constructor(private val context: Context, private val devi
     }
 
     override suspend fun write(data: ByteArray) {
-        val g = gatt ?: throw LinkClosedException("Bluetooth не подключён")
-        val c = rx ?: throw LinkClosedException("Bluetooth не подключён")
+        val g = gatt ?: throw LinkClosedException(I18n.t("Bluetooth не подключён"))
+        val c = rx ?: throw LinkClosedException(I18n.t("Bluetooth не подключён"))
         var status = -2
         for (attempt in 0 until 3) { // a write may be refused while the stack is busy for a moment
             status = operation(15_000) {
@@ -176,8 +177,8 @@ class BleLink private constructor(private val context: Context, private val devi
             if (status != -2) break
             delay(100)
         }
-        if (status == -1 || !open) throw LinkClosedException("Bluetooth: связь потеряна")
-        if (status != BluetoothGatt.GATT_SUCCESS) throw IOException("Bluetooth: команда не записана (код $status)")
+        if (status == -1 || !open) throw LinkClosedException(I18n.t("Bluetooth: связь потеряна"))
+        if (status != BluetoothGatt.GATT_SUCCESS) throw IOException(I18n.t("Bluetooth: команда не записана (код {0})", status))
     }
 
     override fun close() {

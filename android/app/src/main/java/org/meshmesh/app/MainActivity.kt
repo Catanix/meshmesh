@@ -87,7 +87,7 @@ class MainActivity : ComponentActivity() {
     }
     private var afterBluetoothOn: (() -> Unit)? = null
     private val enableBluetooth = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (bluetooth?.isEnabled == true) afterBluetoothOn?.invoke() else toast("Bluetooth выключен", "warn")
+        if (bluetooth?.isEnabled == true) afterBluetoothOn?.invoke() else toast(I18n.t("Bluetooth выключен"), "warn")
         afterBluetoothOn = null
     }
     private var fileCallback: ValueCallback<Array<Uri>>? = null
@@ -102,11 +102,11 @@ class MainActivity : ComponentActivity() {
         val data = saving; saving = null
         if (uri == null || data == null) return@registerForActivityResult
         runCatching { contentResolver.openOutputStream(uri)!!.use { it.write(data) } }
-            .onSuccess { toast("Файл сохранён", "ok") }.onFailure { toast("Файл не сохранён: ${it.message}", "bad") }
+            .onSuccess { toast(I18n.t("Файл сохранён"), "ok") }.onFailure { toast(I18n.t("Файл не сохранён: {0}", it.message), "bad") }
     }
     private val qrScanner = registerForActivityResult(ScanContract()) { r -> r.contents?.let(::channelLink) }
     private val unknownSources = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (packageManager.canRequestPackageInstalls()) installUpdate() else updateState("ready", "Разрешите установку приложений из MeshMesh, чтобы обновить")
+        if (packageManager.canRequestPackageInstalls()) installUpdate() else updateState("ready", I18n.t("Разрешите установку приложений из MeshMesh, чтобы обновить"))
     }
 
     // Updates of the app from the site (Updater): checked once per start, installed on request.
@@ -120,6 +120,7 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        I18n.init(this)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val root = FrameLayout(this).apply { setBackgroundColor(Color.BLACK) }
         web = WebView(this).apply { setBackgroundColor(Color.parseColor("#080C11")) }
@@ -229,11 +230,11 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun scanQr() {
-        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) return toast("В этом телефоне нет камеры", "bad")
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) return toast(I18n.t("В этом телефоне нет камеры"), "bad")
         need(listOf(Manifest.permission.CAMERA), {
-            qrScanner.launch(ScanOptions().setDesiredBarcodeFormats(ScanOptions.QR_CODE).setPrompt("Наведите камеру на QR-код канала")
+            qrScanner.launch(ScanOptions().setDesiredBarcodeFormats(ScanOptions.QR_CODE).setPrompt(I18n.t("Наведите камеру на QR-код канала"))
                 .setBeepEnabled(false).setOrientationLocked(false))
-        }, "Без доступа к камере QR-код не прочитать")
+        }, I18n.t("Без доступа к камере QR-код не прочитать"))
     }
 
     private fun toast(text: String, tone: String) = js("MeshHost.toast(${JSONObject.quote(text)},'$tone')")
@@ -261,11 +262,11 @@ class MainActivity : ComponentActivity() {
     private fun withBluetooth(then: () -> Unit) = need(blePermissions(), {
         val adapter = bluetooth
         when {
-            adapter == null -> toast("В этом телефоне нет Bluetooth", "bad")
+            adapter == null -> toast(I18n.t("В этом телефоне нет Bluetooth"), "bad")
             adapter.isEnabled -> then()
             else -> { afterBluetoothOn = then; enableBluetooth.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)) }
         }
-    }, "Без разрешения Bluetooth устройства не найти")
+    }, I18n.t("Без разрешения Bluetooth устройства не найти"))
 
     // Scans: results go to the page as they come.
 
@@ -288,7 +289,7 @@ class MainActivity : ComponentActivity() {
                     .put("bonded", r.device.bondState == android.bluetooth.BluetoothDevice.BOND_BONDED)
                 pushBle(false)
             }
-            override fun onScanFailed(errorCode: Int) { toast("Поиск Bluetooth не запустился (код $errorCode)", "bad"); pushBle(true) }
+            override fun onScanFailed(errorCode: Int) { toast(I18n.t("Поиск Bluetooth не запустился (код {0})", errorCode), "bad"); pushBle(true) }
         }
         bleScan = callback
         // Since firmware 0.9.0 the board advertises like stock MeshCore ("MeshCore-<name>") with the "MM" mark
@@ -318,7 +319,7 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("MissingPermission")
     private fun startWifiScan() = need(wifiPermissions(), {
         val wm = applicationContext.getSystemService(WifiManager::class.java)
-        if (!wm.isWifiEnabled) { toast("Включите Wi-Fi на телефоне", "warn"); return@need }
+        if (!wm.isWifiEnabled) { toast(I18n.t("Включите Wi-Fi на телефоне"), "warn"); return@need }
         fun push(done: Boolean) {
             val prefs = Prefs(this)
             val list = wm.scanResults.mapNotNull { r ->
@@ -336,7 +337,7 @@ class MainActivity : ComponentActivity() {
         registerReceiver(receiver, IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
         push(false)
         @Suppress("DEPRECATION") if (!wm.startScan()) { push(true); runCatching { unregisterReceiver(receiver) }; wifiReceiver = null }
-    }, "Без разрешения список сетей недоступен: подключитесь через запрос Android")
+    }, I18n.t("Без разрешения список сетей недоступен: подключитесь через запрос Android"))
 
     // Updates.
 
@@ -348,14 +349,14 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun checkUpdate(manual: Boolean) {
-        if (!BuildConfig.UPDATES) { if (manual) updateState("off", "Эта сборка установлена не с сайта: обновлять её нужно вручную"); return }
+        if (!BuildConfig.UPDATES) { if (manual) updateState("off", I18n.t("Эта сборка установлена не с сайта: обновлять её нужно вручную")); return }
         if (updating) return
         if (updateApk?.exists() == true) { updateState("ready"); return }
         if (manual) updateState("checking")
         lifecycleScope.launch {
             runCatching { updater.check() }
                 .onSuccess { r -> release = r; updateState(if (r == null) "none" else "available") }
-                .onFailure { if (manual) updateState("error", "Не удалось проверить: ${it.message ?: "нет интернета"}") }
+                .onFailure { if (manual) updateState("error", I18n.t("Не удалось проверить: {0}", it.message ?: I18n.t("нет интернета"))) }
         }
     }
 
@@ -367,7 +368,7 @@ class MainActivity : ComponentActivity() {
                 unknownSources.launch(Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:$packageName")))
                 return
             }
-            runCatching { startActivity(updater.installIntent(apk)) }.onFailure { updateState("error", "Установщик не открылся: ${it.message}") }
+            runCatching { startActivity(updater.installIntent(apk)) }.onFailure { updateState("error", I18n.t("Установщик не открылся: {0}", it.message)) }
             return
         }
         if (updating) return
@@ -378,7 +379,7 @@ class MainActivity : ComponentActivity() {
             runCatching {
                 updater.download(r) { n -> val p = (n * 100 / r.size).toInt(); if (p >= shown + 5) { shown = p; updateState("downloading", progress = p) } }
             }.onSuccess { updateApk = it; updating = false; updateState("ready"); installUpdate() }
-                .onFailure { updating = false; updateState("error", "Загрузка не удалась: ${it.message ?: "нет связи"}") }
+                .onFailure { updating = false; updateState("error", I18n.t("Загрузка не удалась: {0}", it.message ?: I18n.t("нет связи"))) }
         }
     }
 
@@ -391,7 +392,7 @@ class MainActivity : ComponentActivity() {
             override fun onReceive(c: Context, i: Intent) {
                 runCatching { unregisterReceiver(this) }
                 if (i.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false) || usb.hasPermission(device)) withNotifications { service?.connectUsb(device) }
-                else toast("Доступ к USB не разрешён", "bad")
+                else toast(I18n.t("Доступ к USB не разрешён"), "bad")
             }
         }
         if (Build.VERSION.SDK_INT >= 33) registerReceiver(receiver, IntentFilter(action), RECEIVER_NOT_EXPORTED)
@@ -421,17 +422,17 @@ class MainActivity : ComponentActivity() {
 
     @SuppressLint("MissingPermission")
     private fun connect(spec: JSONObject) {
-        val s = service ?: return toast("Служба ещё запускается, повторите", "warn")
+        val s = service ?: return toast(I18n.t("Служба ещё запускается, повторите"), "warn")
         when (spec.optString("kind")) {
             "usb" -> {
                 val id = spec.optString("id")
                 val device = UsbLink.serialDevices(this).firstOrNull { id.isEmpty() || it.deviceName == id }
-                if (device == null) toast("Плата по USB не найдена: подключите её кабелем (OTG)", "warn") else connectUsb(device)
+                if (device == null) toast(I18n.t("Плата по USB не найдена: подключите её кабелем (OTG)"), "warn") else connectUsb(device)
             }
             "ble" -> withBluetooth {
                 stopBleScan()
                 val device = runCatching { bluetooth!!.getRemoteDevice(spec.getString("id")) }.getOrNull()
-                if (device == null) toast("Неверный адрес Bluetooth", "bad") else withNotifications { s.connectBle(device) }
+                if (device == null) toast(I18n.t("Неверный адрес Bluetooth"), "bad") else withNotifications { s.connectBle(device) }
             }
             "wifi" -> {
                 val address = spec.optString("address").ifBlank { WifiJoin.DEVICE_ADDRESS }
@@ -452,7 +453,7 @@ class MainActivity : ComponentActivity() {
         @android.webkit.JavascriptInterface
         fun request(id: Int, method: String, path: String, body: String?) {
             lifecycleScope.launch {
-                val r = service?.request(method, path, body) ?: org.meshmesh.app.api.ApiReply.failed("Служба не запущена")
+                val r = service?.request(method, path, body) ?: org.meshmesh.app.api.ApiReply.failed(I18n.t("Служба не запущена"))
                 js("MeshHost.done($id,${r.status},${JSONObject.quote(r.body)},${r.base64})")
             }
         }
@@ -469,7 +470,9 @@ class MainActivity : ComponentActivity() {
         }
         @android.webkit.JavascriptInterface fun stopScan() = runOnUiThread { stopBleScan() }
         @android.webkit.JavascriptInterface fun connect(json: String) = runOnUiThread { connect(JSONObject(json)) }
-        @android.webkit.JavascriptInterface fun disconnect() = runOnUiThread { service?.disconnect("Отключено") }
+        /** The language the page shows (web/index.html): the app's own texts and notifications follow it. */
+        @android.webkit.JavascriptInterface fun language(code: String) { if (code != I18n.lang) { I18n.use(applicationContext, code); service?.channels() } }
+        @android.webkit.JavascriptInterface fun disconnect() = runOnUiThread { service?.disconnect(I18n.t("Отключено")) }
         @android.webkit.JavascriptInterface fun saveFile(name: String, type: String, base64: String) = runOnUiThread {
             saving = Base64.getDecoder().decode(base64)
             saveType = type.ifBlank { "application/octet-stream" }
@@ -478,7 +481,7 @@ class MainActivity : ComponentActivity() {
         /** The phone's position for the board's wardrive log (MeshService.wardriveLocation); location is asked for here. */
         @android.webkit.JavascriptInterface fun wardriveLocation(on: Boolean) = runOnUiThread {
             if (!on) service?.wardriveLocation(false)
-            else need(listOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), { service?.wardriveLocation(true) }, "Нет доступа к геопозиции")
+            else need(listOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), { service?.wardriveLocation(true) }, I18n.t("Нет доступа к геопозиции"))
         }
         @android.webkit.JavascriptInterface fun wardriveLocationState(): String = service?.wardriveState() ?: "{}"
         @android.webkit.JavascriptInterface fun scanQr() = runOnUiThread { this@MainActivity.scanQr() }

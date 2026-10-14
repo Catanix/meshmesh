@@ -1,5 +1,6 @@
 package org.meshmesh.app.flash
 
+import org.meshmesh.app.I18n
 import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
@@ -32,8 +33,8 @@ class UsbSerialIo(context: Context, device: UsbDevice) : SerialIo {
 
     init {
         val usb = context.getSystemService(UsbManager::class.java)
-        val driver = UsbLink.driverFor(device) ?: throw IOException("USB-устройство не похоже на плату")
-        val connection = usb.openDevice(device) ?: throw IOException("Нет доступа к USB")
+        val driver = UsbLink.driverFor(device) ?: throw IOException(I18n.t("USB-устройство не похоже на плату"))
+        val connection = usb.openDevice(device) ?: throw IOException(I18n.t("Нет доступа к USB"))
         port = driver.ports.first()
         port.open(connection)
         port.setParameters(115200, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE)
@@ -74,7 +75,7 @@ class TcpSerialIo(host: String, port: Int) : SerialIo {
             if (c < 0 || c == '\n'.code || answer.length > 40) break
             answer.append(c.toChar())
         }
-        if (!answer.startsWith("MMRAW1 ")) throw IOException("Мост USB не поддерживает прошивку: обновите tools/usb_tcp_bridge.py")
+        if (!answer.startsWith("MMRAW1 ")) throw IOException(I18n.t("Мост USB не поддерживает прошивку: обновите tools/usb_tcp_bridge.py"))
         native = answer.toString().trim().endsWith("native")
     }
 
@@ -86,9 +87,9 @@ class TcpSerialIo(host: String, port: Int) : SerialIo {
         while (System.currentTimeMillis() < end) {
             text.append(String(read(200), Charsets.ISO_8859_1))
             if ("MMBOOT ok\n" in text) return
-            Regex("MMBOOT fail ([^\n]*)\n").find(text)?.let { throw IOException("Мост: ${it.groupValues[1]}") }
+            Regex("MMBOOT fail ([^\n]*)\n").find(text)?.let { throw IOException(I18n.t("Мост: {0}", it.groupValues[1])) }
         }
-        throw IOException("Плата не вошла в загрузчик: дважды быстро нажмите на ней RESET и повторите")
+        throw IOException(I18n.t("Плата не вошла в загрузчик: дважды быстро нажмите на ней RESET и повторите"))
     }
 
     private fun frame(type: Int, payload: ByteArray) {
@@ -104,7 +105,7 @@ class TcpSerialIo(host: String, port: Int) : SerialIo {
         socket.soTimeout = timeoutMs.coerceAtLeast(1)
         return try {
             val n = socket.getInputStream().read(buffer)
-            if (n < 0) throw IOException("Мост USB закрыл соединение")
+            if (n < 0) throw IOException(I18n.t("Мост USB закрыл соединение"))
             buffer.copyOf(n)
         } catch (_: SocketTimeoutException) { ByteArray(0) }
     }

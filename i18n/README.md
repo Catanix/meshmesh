@@ -8,12 +8,13 @@ Chinese (`zh`, Simplified), Japanese (`ja`), Korean (`ko`), Arabic (`ar`) and In
 |---|---|---|
 | Device screens (firmware) | `t("English","Русский")`, `tr(...)`, `count(n,"one","many","ру1","ру2","ру5")` in `src/` | `i18n/firmware/<lang>.json` |
 | Website | `site/i18n/en.json` (and `ru.json`) | `site/i18n/<lang>.json` |
+| Device web page and Android app | the Russian text of `web/index.html` (`L(...)`, `plural(...)`, markup), `android/.../assets/host.js` and the app's Kotlin `I18n.t(...)` | `i18n/web/<lang>.json` |
 | Chess page of the website (`chess/`) | the Russian text of `web/index.html` and `web/chess-companion.js`, listed in `i18n/chess/en.json` | `i18n/chess/<lang>.json` |
 | Overview | `README.md` | `README.<lang>.md` (`README.ru.md` is the full Russian guide) |
 | Detailed documents | `docs/*.md` (Russian) | `docs/en/*.md` (English) |
 
-The device web page (`web/index.html`) and the Android app are in Russian only. The website's chess page is
-built from that page; `web/chess-i18n.js` translates it as it is drawn. Its dictionaries use the Russian
+The website's chess page is built from the device page; `web/chess-i18n.js` translates what the page's own
+dictionaries leave in Russian as it is drawn. Its dictionaries use the Russian
 text as the key (`{0}` keeps a name or number, `{r}` is translated again, `_pieces` gives the piece letters
 K Q R B N of the notation). After changing chess strings in `web/index.html`, add them to every
 `i18n/chess/<lang>.json` and run `node tools/chess/i18n_check.cjs`; `tools/chess_site.py` checks keys and
@@ -65,6 +66,31 @@ width: `cells` is the longer of the English and Russian text in 6-pixel columns 
 - **Tone.** Short, neutral interface language: infinitives or imperatives for actions, no exclamation marks.
   Portuguese is Brazilian (você); Spanish and Italian use tú/tu where a person is addressed; German and
   French address the user formally only when a sentence needs it.
+
+## Device page and app
+
+The page picks its language from `?lang=`, then the one chosen on the page (`mm-lang`), then the browser's,
+and loads `i18n/<lang>.js` (boards: `/i18n/<lang>.js` from the firmware; app: its assets). The app's own
+texts and notifications follow the page's language. `i18n/web/<lang>.json` maps the Russian text to the
+translation:
+
+```json
+"Удалить канал «{0}»?": "Delete channel “{0}”?",
+"сообщение|сообщения|сообщений": {"one": "{n} message", "other": "{n} messages"},
+"_pieces": "K Q R B N"
+```
+
+- **Placeholders.** `{0}`, `{1}`… are names, numbers or pieces of markup; keep every one, in any order.
+  Plural forms (keys `a|b|c` from `plural(n,…)`) are objects with the categories of the language, as for
+  the firmware, and `{n}` where the number goes.
+- **Markup and edges.** Keep tags (`<b>`, `<small>`, `<code>`…) and entities, and the leading and trailing
+  spaces or punctuation of a key (` · пароль сохранён` is glued to another text).
+- **Words.** Use the terms of the device screens of the same language (`i18n/firmware/<lang>.json`) for
+  apps, settings and actions. Names and keys stay as for the firmware. Short labels (buttons, tabs, compass
+  points С В Ю З) stay short. `_pieces` are the piece letters K Q R B N of the chess notation.
+- After changing page or app texts: `node tools/web_i18n.cjs sync`, translate the new entries
+  (`node tools/web_i18n.cjs todo de`), then `node tools/web_i18n.cjs check`. The tool needs
+  `npm ci --prefix tools` once.
 
 ## Website
 

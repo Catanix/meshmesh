@@ -1,5 +1,6 @@
 package org.meshmesh.app.link
 
+import org.meshmesh.app.I18n
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -29,7 +30,7 @@ class TcpLink private constructor(private val socket: Socket) : ByteLink {
                 }
             } catch (_: IOException) {
             }
-            if (open) { open = false; runCatching { socket.close() }; onClosed("Мост USB на компьютере закрыл соединение") }
+            if (open) { open = false; runCatching { socket.close() }; onClosed(I18n.t("Мост USB на компьютере закрыл соединение")) }
         }
     }
 
@@ -37,7 +38,7 @@ class TcpLink private constructor(private val socket: Socket) : ByteLink {
         try {
             socket.getOutputStream().run { write(data); flush() }
         } catch (e: IOException) {
-            close(); onClosed("Мост USB: ошибка записи"); throw LinkClosedException("Мост USB: ошибка записи")
+            close(); onClosed(I18n.t("Мост USB: ошибка записи")); throw LinkClosedException(I18n.t("Мост USB: ошибка записи"))
         }
     }
 

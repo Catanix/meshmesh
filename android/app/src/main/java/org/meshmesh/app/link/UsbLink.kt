@@ -1,5 +1,6 @@
 package org.meshmesh.app.link
 
+import org.meshmesh.app.I18n
 import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
@@ -30,7 +31,7 @@ class UsbLink private constructor(private val port: UsbSerialPort, val native: B
         io = SerialInputOutputManager(port, object : SerialInputOutputManager.Listener {
             override fun onNewData(data: ByteArray) = onBytes(data, data.size)
             override fun onRunError(e: Exception) {
-                if (open) { open = false; runCatching { port.close() }; onClosed("USB: кабель отключён или порт закрыт") }
+                if (open) { open = false; runCatching { port.close() }; onClosed(I18n.t("USB: кабель отключён или порт закрыт")) }
             }
         })
         io.readBufferSize = 16384
@@ -38,7 +39,7 @@ class UsbLink private constructor(private val port: UsbSerialPort, val native: B
     }
 
     override suspend fun write(data: ByteArray) = withContext(Dispatchers.IO) {
-        if (!open) throw LinkClosedException("USB закрыт")
+        if (!open) throw LinkClosedException(I18n.t("USB закрыт"))
         try {
             // USB-UART boards in repeater/room mode sleep between packets; CR wakes them and is
             // ignored, the waking bytes are lost (src/Power.cpp).
@@ -46,7 +47,7 @@ class UsbLink private constructor(private val port: UsbSerialPort, val native: B
             lastWrite = System.currentTimeMillis()
             port.write(data, 3000)
         } catch (e: IOException) {
-            close(); onClosed("USB: ошибка записи"); throw LinkClosedException("USB: ошибка записи")
+            close(); onClosed(I18n.t("USB: ошибка записи")); throw LinkClosedException(I18n.t("USB: ошибка записи"))
         }
     }
 
@@ -94,10 +95,10 @@ class UsbLink private constructor(private val port: UsbSerialPort, val native: B
         fun describe(device: UsbDevice): String = when {
             device.vendorId == M9_VID -> "ThinkNode M9 (CH340)"
             isNative(device) -> "Heltec V4 (USB ESP32-S3)"
-            isNrfBootloader(device) -> "Загрузчик nRF52 (DFU)"
+            isNrfBootloader(device) -> I18n.t("Загрузчик nRF52 (DFU)")
             device.vendorId == NRF_VID && device.productId == T114_APP_PID -> "Heltec T114 (USB nRF52840)"
             device.vendorId == NRF_VID -> "GAT562 (USB nRF52840)"
-            else -> device.productName ?: "USB-устройство ${"%04X:%04X".format(device.vendorId, device.productId)}"
+            else -> device.productName ?: I18n.t("USB-устройство {0}", "%04X:%04X".format(device.vendorId, device.productId))
         }
 
         fun serialDevices(context: Context): List<UsbDevice> {
@@ -107,8 +108,8 @@ class UsbLink private constructor(private val port: UsbSerialPort, val native: B
 
         fun open(context: Context, device: UsbDevice): UsbLink {
             val usb = context.getSystemService(UsbManager::class.java)
-            val driver = driverFor(device) ?: throw IOException("Это USB-устройство не похоже на плату MeshMesh")
-            val connection = usb.openDevice(device) ?: throw IOException("Нет доступа к USB: разрешите его в запросе Android")
+            val driver = driverFor(device) ?: throw IOException(I18n.t("Это USB-устройство не похоже на плату MeshMesh"))
+            val connection = usb.openDevice(device) ?: throw IOException(I18n.t("Нет доступа к USB: разрешите его в запросе Android"))
             val port = driver.ports.first()
             port.open(connection)
             port.setParameters(115200, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE)

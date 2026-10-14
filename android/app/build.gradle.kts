@@ -19,6 +19,19 @@ val copyWeb by tasks.registering(Copy::class) {
     from(repo.resolve("web/index.html"))
     into(webAssets.map { it.dir("web") })
 }
+// The page's languages (i18n/web/<lang>.json) as it loads them: web/i18n/<lang>.js; the app's own texts use them too (I18n).
+val webDicts by tasks.registering {
+    val source = repo.resolve("i18n/web")
+    val target = webAssets.map { it.dir("web/i18n") }
+    inputs.dir(source)
+    outputs.dir(target)
+    doLast {
+        val dir = target.get().asFile.apply { mkdirs() }
+        source.listFiles { f -> f.extension == "json" }!!.forEach { f ->
+            dir.resolve(f.nameWithoutExtension + ".js").writeText("globalThis.MeshMeshWebDict=" + f.readText() + ";\n")
+        }
+    }
+}
 
 android {
     namespace = "org.meshmesh.app"
@@ -61,7 +74,7 @@ android {
     testOptions { unitTests.isReturnDefaultValues = true }
 }
 
-tasks.named("preBuild") { dependsOn(copyWeb) }
+tasks.named("preBuild") { dependsOn(copyWeb, webDicts) }
 
 dependencies {
     implementation("androidx.core:core-ktx:1.13.1")

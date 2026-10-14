@@ -32,6 +32,11 @@ class Prefs(context: Context) {
         get() = p.getBoolean("wardrive_fix", false)
         set(value) { p.edit().putBoolean("wardrive_fix", value).apply() }
 
+    /** The page's language (I18n). */
+    var lang: String?
+        get() = p.getString("lang", null)
+        set(value) { p.edit().putString("lang", value).apply() }
+
     fun password(ssid: String): String? = p.getString("wifi:$ssid", null)
     fun savePassword(ssid: String, password: String) { p.edit().putString("wifi:$ssid", password).apply() }
 

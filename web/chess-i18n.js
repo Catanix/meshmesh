@@ -112,6 +112,8 @@ function apply(){
  busy=true;try{walk(document.body)}finally{busy=false;observer.takeRecords()}}
 function setLang(code,remember){
  tr.use(code);if(remember)try{localStorage.setItem('mm-lang',tr.lang)}catch{}
+ // The page's own dictionary (web/index.html) is chosen when it loads: another language loads the page again.
+ if(remember&&globalThis.MeshMeshLang&&globalThis.MeshMeshLang!==tr.lang){const u=new URL(location.href);u.searchParams.delete('lang');location.replace(u);return}
  apply();for(const s of document.querySelectorAll('select[data-chesslang]'))s.value=tr.lang}
 // The language picker: the page's own text stays out of the translation.
 function select(){

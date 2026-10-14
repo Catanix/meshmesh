@@ -1,5 +1,6 @@
 package org.meshmesh.app.api
 
+import org.meshmesh.app.I18n
 import android.net.Network
 import android.util.Base64
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +29,7 @@ class HttpApi(
     @Volatile private var closed = false
 
     override suspend fun request(method: String, path: String, body: String?): ApiReply = gate.withPermit {
-        if (closed) return ApiReply.failed("Отключено")
+        if (closed) return ApiReply.failed(I18n.t("Отключено"))
         withContext(Dispatchers.IO) {
             try {
                 val reply = exchange(method, path, body)
@@ -36,8 +37,8 @@ class HttpApi(
                 reply
             } catch (e: IOException) {
                 // Three failed requests in a row: the access point is gone (switched off, out of range).
-                if (++failures >= 3 && !closed) onLost("Wi-Fi: устройство не отвечает")
-                ApiReply.failed(e.message ?: "Нет связи по Wi-Fi")
+                if (++failures >= 3 && !closed) onLost(I18n.t("Wi-Fi: устройство не отвечает"))
+                ApiReply.failed(e.message ?: I18n.t("Нет связи по Wi-Fi"))
             }
         }
     }

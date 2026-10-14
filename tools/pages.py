@@ -12,7 +12,8 @@ Device language: manifest-<lang>.json writes partitions-<lang>.bin, the partitio
 (src/I18n.cpp, Config::load). nRF52 images carry a "MMLANG:--" field that the page fills in; their
 1 MB flash holds English, Russian and one more language, so each language has its own image
 (lang_images in boards.json, firmware/<env>/lang/<code>/).
-Screenshots in every language come from tools/site_shots.py (artifacts/site-shots).
+Screenshots in every language come from tools/site_shots.py (artifacts/site-shots) and tools/web_shots.py
+(artifacts/web-shots).
 """
 import json
 import hashlib
@@ -59,6 +60,10 @@ def main():
     shots = ROOT/'artifacts'/'site-shots'
     if shots.exists():  # screenshots in every language over the committed ru/en ones
         for f in shots.glob('*.png'):
+            shutil.copyfile(f, out/'img'/f.name)
+    web_shots = ROOT/'artifacts'/'web-shots'
+    if web_shots.exists():  # the device page in every language (tools/web_shots.py) over the committed ru/en ones
+        for f in web_shots.glob('*.webp'):
             shutil.copyfile(f, out/'img'/f.name)
     boards = []
     releases = {}

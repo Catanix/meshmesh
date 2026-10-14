@@ -1,5 +1,6 @@
 package org.meshmesh.app.flash
 
+import org.meshmesh.app.I18n
 import java.io.IOException
 
 /**
@@ -68,12 +69,12 @@ object NrfDfu {
             send(io, p.data)
             when (p.kind) {
                 's' -> { // the application area is erased first
-                    progress("Стирание памяти платы…", 0)
+                    progress(I18n.t("Стирание памяти платы…"), 0)
                     Thread.sleep(maxOf(500.0, (image.size / PAGE + 1) * PAGE_ERASE_MS).toLong())
                 }
                 'd' -> {
                     if (++sent % 8 == 1) Thread.sleep(PAGE_WRITE_MS.toLong().coerceAtLeast(1)) // a 4 KB page every 8 packets
-                    progress("Запись прошивки…", sent * 100 / chunks)
+                    progress(I18n.t("Запись прошивки…"), sent * 100 / chunks)
                 }
                 'e' -> Thread.sleep((PAGE_ERASE_MS + PAGE_WRITE_MS).toLong()) // the bootloader settings page
             }
@@ -89,6 +90,6 @@ object NrfDfu {
             for (b in io.read(100)) if (b == 0xC0.toByte()) marks++
             if (marks >= 2) return
         }
-        throw IOException("Загрузчик платы не подтвердил пакет")
+        throw IOException(I18n.t("Загрузчик платы не подтвердил пакет"))
     }
 }

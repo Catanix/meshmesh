@@ -31,7 +31,7 @@ with its size, SHA-256 and revision. Old codes cannot be republished.
 
 A push to `main` or manual `.github/workflows/pages.yml` run:
 
-1. Checks versions, upgrade ordering, translations and the generated `PortalPage.h`.
+1. Checks versions, upgrade ordering, translations of the screens, the page and the app (`tools/web_i18n.cjs check`).
 2. Builds and packages all 15 targets, all nRF52 language images, ESP32 installer language markers
    and community-board factory images.
 3. Generates site screenshots in every language; failure now blocks publication.

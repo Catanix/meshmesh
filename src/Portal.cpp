@@ -7,7 +7,7 @@
 #include "Hardware.h"
 #include "Power.h"
 #include "Navigation.h"
-#include "PortalPage.h"
+#include "PortalWeb.h" // made at build time by tools/pio_web.py
 #include "WifiDiagnostics.h"
 #include "Radar.h"
 #include "Internet.h"
@@ -120,7 +120,9 @@ void portalBegin() {
   uint8_t entropy[12];bootloader_random_enable();esp_fill_random(entropy,sizeof(entropy));bootloader_random_disable();
   const char alphabet[]="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   for(int i=0;i<12;i++) password+=alphabet[entropy[i]%32];pinCode=config.blePin;
-  server.on("/",HTTP_GET,[]{server.send_P(200,"text/html; charset=utf-8",portalPage);});
+  // The page and its dictionaries (i18n/<lang>.js), kept compressed in flash and sent as they are.
+  server.on("/",HTTP_GET,[]{server.sendHeader("Content-Encoding","gzip");server.send_P(200,"text/html; charset=utf-8",(PGM_P)portalPage,portalPageSize);});
+  for(const PortalLang& l:portalLangs){const PortalLang* p=&l;server.on(String("/i18n/")+l.code+".js",HTTP_GET,[p]{server.sendHeader("Content-Encoding","gzip");server.sendHeader("Cache-Control","no-cache");server.send_P(200,"application/javascript; charset=utf-8",(PGM_P)p->data,p->size);});}
   server.on("/api/clock",HTTP_GET,[]{if(authorized())answer(hardware.clockInfo());});
   server.on("/api/status",HTTP_GET,[]{if(authorized())answer(statusJson());});
   server.on("/api/nodes",HTTP_GET,[]{if(authorized())answer(nodesJson());});

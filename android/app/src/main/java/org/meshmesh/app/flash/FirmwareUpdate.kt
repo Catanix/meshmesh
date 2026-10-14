@@ -1,5 +1,6 @@
 package org.meshmesh.app.flash
 
+import org.meshmesh.app.I18n
 import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
@@ -32,17 +33,17 @@ sealed class FlashPort {
         fun appDevice(context: Context): UsbDevice? =
             devices(context).filter { it.vendorId == vid && it.productId == pid }.let { l -> l.firstOrNull { it.deviceName == name } ?: l.firstOrNull() }
 
-        override fun open(context: Context): SerialIo = UsbSerialIo(context, appDevice(context) ?: throw IOException("Плата по USB не найдена"))
+        override fun open(context: Context): SerialIo = UsbSerialIo(context, appDevice(context) ?: throw IOException(I18n.t("Плата по USB не найдена")))
 
         override suspend fun nrfBootloader(context: Context, access: suspend (UsbDevice) -> Boolean): SerialIo {
             var boot = devices(context).firstOrNull(UsbLink::isNrfBootloader) // already there after a failed update
             if (boot == null) {
-                val app = appDevice(context) ?: throw IOException("Плата по USB не найдена")
+                val app = appDevice(context) ?: throw IOException(I18n.t("Плата по USB не найдена"))
                 UsbSerialIo(context, app).use { it.setBaud(1200); it.setDtr(true); Thread.sleep(100); it.setDtr(false); Thread.sleep(100) }
                 for (i in 0 until 40) { delay(500); boot = devices(context).firstOrNull(UsbLink::isNrfBootloader); if (boot != null) break }
-                boot ?: throw IOException("Плата не вошла в загрузчик: дважды быстро нажмите на ней RESET и повторите")
+                boot ?: throw IOException(I18n.t("Плата не вошла в загрузчик: дважды быстро нажмите на ней RESET и повторите"))
             }
-            if (!access(boot)) throw IOException("Нет доступа к загрузчику платы: разрешите USB в запросе Android")
+            if (!access(boot)) throw IOException(I18n.t("Нет доступа к загрузчику платы: разрешите USB в запросе Android"))
             return UsbSerialIo(context, boot).also { it.setDtr(true) }
         }
     }
@@ -75,22 +76,22 @@ class FirmwareUpdate(private val context: Context, private val port: FlashPort, 
         val lock = context.getSystemService(PowerManager::class.java).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "meshmesh:firmware")
         lock.acquire(15 * 60_000L)
         try {
-            state("Загрузка прошивки с сайта…")
+            state(I18n.t("Загрузка прошивки с сайта…"))
             val target = target(env, lang)
             target.dfu?.let { (bin, dat) -> nrf(get(ROOT + bin), get(ROOT + dat)); return@withContext target }
             val parts = target.parts.mapIndexed { i, (path, offset) ->
-                state("Загрузка ${path} (${i + 1}/${target.parts.size})…")
+                state(I18n.t("Загрузка {0} ({1}/{2})…", path, i + 1, target.parts.size))
                 EspLoader.Part(offset, get(SITE + "${target.env}/$path"), path)
             }
             check(parts)
-            state("Перевод платы в загрузчик…")
+            state(I18n.t("Перевод платы в загрузчик…"))
             port.open(context).use { io ->
                 val loader = EspLoader(io) { state(it) }
                 loader.connect()
-                if (loader.chip?.title != target.chip) throw IOException("На плате ${loader.chip?.title}, а прошивка для ${target.chip}: обновление отменено")
+                if (loader.chip?.title != target.chip) throw IOException(I18n.t("На плате {0}, а прошивка для {1}: обновление отменено", loader.chip?.title, target.chip))
                 loader.changeBaud(460800)
                 loader.flash(parts, target.flashSize) { what, done, total -> state(what, (done * 100 / total).toInt()) }
-                state("Перезапуск платы…", 100)
+                state(I18n.t("Перезапуск платы…"), 100)
                 loader.reset()
             }
             target
@@ -102,10 +103,10 @@ class FirmwareUpdate(private val context: Context, private val port: FlashPort, 
     /** nRF52: the application only, by the bootloader's serial DFU; the language field stays "--" (the setting is kept). */
     private suspend fun nrf(image: ByteArray, init: ByteArray) {
         if (!NrfDfu.initMatches(image, init) || image.size < 100_000 || image.size > 0xC0000)
-            throw IOException("Файлы прошивки с сайта не сходятся: обновление отменено")
-        state("Перевод платы в загрузчик…")
+            throw IOException(I18n.t("Файлы прошивки с сайта не сходятся: обновление отменено"))
+        state(I18n.t("Перевод платы в загрузчик…"))
         port.nrfBootloader(context, access).use { io -> NrfDfu.flash(io, image, init) { what, p -> state(what, p) } }
-        state("Запуск новой прошивки…", 100)
+        state(I18n.t("Запуск новой прошивки…"), 100)
     }
 
     /** The files must be what the site's installer writes: DIO bootloader, partition table, application. */
@@ -119,7 +120,7 @@ class FirmwareUpdate(private val context: Context, private val port: FlashPort, 
                 "firmware.bin" -> d.size > 100_000 && d[0] == 0xE9.toByte()
                 else -> false
             }
-            if (!ok) throw IOException("Файл ${p.name} с сайта не похож на прошивку: обновление отменено")
+            if (!ok) throw IOException(I18n.t("Файл {0} с сайта не похож на прошивку: обновление отменено", p.name))
         }
     }
 
@@ -147,7 +148,7 @@ class FirmwareUpdate(private val context: Context, private val port: FlashPort, 
             val boards = JSONObject(String(get(SITE + "boards.json")))
             val list = boards.getJSONArray("boards")
             val b = (0 until list.length()).map { list.getJSONObject(it) }.firstOrNull { it.optString("env") == env }
-                ?: throw IOException("На сайте нет прошивки для этой платы ($env)")
+                ?: throw IOException(I18n.t("На сайте нет прошивки для этой платы ({0})", env))
             b.optJSONObject("dfu")?.let { base ->
                 val d = lang?.let { b.optJSONObject("lang_images")?.optJSONObject(it) } ?: base
                 return Target(env, b.optString("name"), b.optString("chip"), 0, boards.optString("version"), emptyList(), d.getString("bin") to d.getString("dat"))
@@ -156,8 +157,8 @@ class FirmwareUpdate(private val context: Context, private val port: FlashPort, 
             val build = manifest.getJSONArray("builds").getJSONObject(0)
             val parts = build.getJSONArray("parts").let { a -> (0 until a.length()).map { a.getJSONObject(it).getString("path") to a.getJSONObject(it).getInt("offset") } }
             if (parts.map { it.first } != listOf("bootloader.bin", "partitions.bin", "boot_app0.bin", "firmware.bin"))
-                throw IOException("Неожиданный состав прошивки на сайте")
-            val size = Regex("(\\d+)MB").find(b.optString("flash"))?.groupValues?.get(1)?.toInt() ?: throw IOException("Неизвестный объём flash")
+                throw IOException(I18n.t("Неожиданный состав прошивки на сайте"))
+            val size = Regex("(\\d+)MB").find(b.optString("flash"))?.groupValues?.get(1)?.toInt() ?: throw IOException(I18n.t("Неизвестный объём flash"))
             return Target(env, b.optString("name"), build.getString("chipFamily"), size shl 20, boards.optString("version"), parts)
         }
 
@@ -165,10 +166,10 @@ class FirmwareUpdate(private val context: Context, private val port: FlashPort, 
             val c = URL(url).openConnection() as HttpURLConnection
             c.connectTimeout = 10_000; c.readTimeout = 30_000; c.useCaches = false
             try {
-                if (c.responseCode != 200) throw IOException("Сайт ответил ${c.responseCode} на ${url.substringAfterLast('/')}")
+                if (c.responseCode != 200) throw IOException(I18n.t("Сайт ответил {0} на {1}", c.responseCode, url.substringAfterLast('/')))
                 return c.inputStream.use { it.readBytes() }
             } catch (e: java.net.UnknownHostException) {
-                throw IOException("Нет интернета: прошивка скачивается с сайта")
+                throw IOException(I18n.t("Нет интернета: прошивка скачивается с сайта"))
             } finally { c.disconnect() }
         }
     }

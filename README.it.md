@@ -41,7 +41,7 @@ nodi MeshCore.
   (Wi-Fi, Bluetooth LE o USB) con notifiche dei messaggi.
 - **Interfaccia del dispositivo in 15 lingue**: inglese, russo, ucraino, spagnolo, portoghese, francese, tedesco, italiano,
   polacco, turco, cinese, giapponese, coreano, arabo e indonesiano. Il sito installa il firmware nella
-  lingua che scegli; puoi cambiarla dopo in Impostazioni.
+  lingua che scegli; puoi cambiarla dopo in Impostazioni. L’interfaccia web e l’app Android sono nelle stesse 15 lingue.
 
 ## Schede
 

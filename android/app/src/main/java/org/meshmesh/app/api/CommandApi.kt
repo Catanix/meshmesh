@@ -1,5 +1,6 @@
 package org.meshmesh.app.api
 
+import org.meshmesh.app.I18n
 import kotlinx.coroutines.CancellationException
 import org.json.JSONObject
 import org.meshmesh.app.link.GarbledAnswerException
@@ -58,11 +59,11 @@ class CommandApi(
         } catch (e: CancellationException) {
             throw e
         } catch (e: LinkClosedException) {
-            ApiReply.failed(e.message ?: "Связь потеряна")
+            ApiReply.failed(e.message ?: I18n.t("Связь потеряна"))
         } catch (e: OldFirmwareException) {
             ApiReply(501, e.message!!)
         } catch (e: IOException) {
-            ApiReply(504, e.message ?: "Нет ответа устройства")
+            ApiReply(504, e.message ?: I18n.t("Нет ответа устройства"))
         } catch (e: Exception) { // malformed request body from the page
             ApiReply(400, "ERR ${e.message}")
         }
@@ -154,7 +155,7 @@ class CommandApi(
         if (z == null || x == null || y == null) return ApiReply(400, "ERR tile coordinates")
         val head = run("map tile $z $x $y 0 $TILE_STEP")
         if (head.startsWith("ERR")) return ApiReply(404, "Map tile not saved")
-        val first = TilePart.parse(head) ?: part(z, x, y, 0) ?: return ApiReply(500, "Ошибка чтения карты")
+        val first = TilePart.parse(head) ?: part(z, x, y, 0) ?: return ApiReply(500, I18n.t("Ошибка чтения карты"))
         tiles?.get(z, x, y)?.let { saved ->
             if (saved.size == first.size && first.data.size >= 24 && saved.copyOfRange(0, 24).contentEquals(first.data.copyOfRange(0, 24)))
                 return ApiReply(200, Base64.getEncoder().encodeToString(saved), true)
@@ -162,8 +163,8 @@ class CommandApi(
         val out = java.io.ByteArrayOutputStream(first.size)
         out.write(first.data)
         while (out.size() < first.size) {
-            val part = part(z, x, y, out.size()) ?: return ApiReply(500, "Ошибка чтения карты")
-            if (part.offset != out.size() || part.size != first.size || part.data.isEmpty()) return ApiReply(500, "Карта изменилась во время чтения")
+            val part = part(z, x, y, out.size()) ?: return ApiReply(500, I18n.t("Ошибка чтения карты"))
+            if (part.offset != out.size() || part.size != first.size || part.data.isEmpty()) return ApiReply(500, I18n.t("Карта изменилась во время чтения"))
             out.write(part.data)
         }
         val data = out.toByteArray()
@@ -177,7 +178,7 @@ class CommandApi(
         return null
     }
 
-    override fun close() = transport.close("Отключено")
+    override fun close() = transport.close(I18n.t("Отключено"))
 
     companion object {
         const val TILE_STEP = 6144
@@ -196,7 +197,7 @@ class CommandApi(
     }
 }
 
-class OldFirmwareException : IOException("Прошивка устройства старее приложения: эта функция по USB и Bluetooth появится после обновления MeshMesh")
+class OldFirmwareException : IOException(I18n.t("Прошивка устройства старее приложения: эта функция по USB и Bluetooth появится после обновления MeshMesh"))
 
 /** "OK tile SIZE OFFSET BASE64" */
 data class TilePart(val size: Int, val offset: Int, val data: ByteArray) {

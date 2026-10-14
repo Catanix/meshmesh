@@ -73,16 +73,22 @@ class MeshService : Service() {
         super.onCreate()
         tiles = TileStore(File(cacheDir, "tiles"))
         notifications = getSystemService(NotificationManager::class.java)
-        notifications.createNotificationChannel(NotificationChannel(CHANNEL_LINK, getString(R.string.channel_link), NotificationManager.IMPORTANCE_LOW))
-        notifications.createNotificationChannel(NotificationChannel(CHANNEL_MESSAGES, getString(R.string.channel_messages), NotificationManager.IMPORTANCE_HIGH))
+        I18n.init(this)
+        channels()
+    }
+
+    /** Notification channels, named in the app's language (again when it changes). */
+    fun channels() {
+        notifications.createNotificationChannel(NotificationChannel(CHANNEL_LINK, I18n.t("Подключение к устройству"), NotificationManager.IMPORTANCE_LOW))
+        notifications.createNotificationChannel(NotificationChannel(CHANNEL_MESSAGES, I18n.t("Сообщения"), NotificationManager.IMPORTANCE_HIGH))
         // Quiet hours and "sound off" of the page's settings: the same notifications without sound and vibration.
-        notifications.createNotificationChannel(NotificationChannel(CHANNEL_QUIET, getString(R.string.channel_quiet), NotificationManager.IMPORTANCE_LOW))
+        notifications.createNotificationChannel(NotificationChannel(CHANNEL_QUIET, I18n.t("Сообщения без звука"), NotificationManager.IMPORTANCE_LOW))
     }
 
     override fun onBind(intent: Intent): IBinder = binder
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (intent?.action == ACTION_DISCONNECT) disconnect("Отключено")
+        if (intent?.action == ACTION_DISCONNECT) disconnect(I18n.t("Отключено"))
         else if (api != null) showForeground()
         else stopSelf()
         return START_NOT_STICKY
@@ -102,12 +108,12 @@ class MeshService : Service() {
     }
 
     suspend fun request(method: String, path: String, body: String?): ApiReply =
-        api?.request(method, path, body) ?: ApiReply.failed("Устройство не подключено")
+        api?.request(method, path, body) ?: ApiReply.failed(I18n.t("Устройство не подключено"))
 
     // Connecting: each path ends in connected (the board answered "status") or failed.
 
     fun connectUsb(device: UsbDevice) = start("usb", device.deviceName) { stage ->
-        stage("Подключение по USB…")
+        stage(I18n.t("Подключение по USB…"))
         flashPort = FlashPort.Usb(device)
         val link = UsbLink.open(this, device)
         val transport = LineTransport(link)
@@ -126,10 +132,10 @@ class MeshService : Service() {
     }
 
     fun connectTcp(host: String, port: Int) = start("tcp", "$host:$port") { stage ->
-        stage("Подключение к мосту $host:$port…")
+        stage(I18n.t("Подключение к мосту {0}:{1}…", host, port))
         flashPort = FlashPort.Tcp(host, port)
         val transport = LineTransport(TcpLink.open(host, port))
-        CommandApi(transport, "tcp", "USB через компьютер ($host)", tiles) to transport
+        CommandApi(transport, "tcp", I18n.t("USB через компьютер ({0})", host), tiles) to transport
     }
 
     fun connectWifi(ssid: String?, password: String, address: String) = start("wifi", ssid ?: address) { stage ->
@@ -138,7 +144,7 @@ class MeshService : Service() {
         val joined: WifiJoin.Joined?
         val existing = WifiJoin.findNetworkFor(this, address)
         val network = if (address == WifiJoin.DEVICE_ADDRESS && (ssid != null || existing == null)) {
-            stage(if (ssid != null) "Подключение к $ssid… Подтвердите сеть в запросе Android" else "Выберите точку MM-… в запросе Android")
+            stage(if (ssid != null) I18n.t("Подключение к {0}… Подтвердите сеть в запросе Android", ssid) else I18n.t("Выберите точку MM-… в запросе Android"))
             joined = WifiJoin.join(this, ssid, password)
             wifi = joined
             joined.network
@@ -146,12 +152,12 @@ class MeshService : Service() {
             joined = null
             existing
         }
-        stage("Проверка пароля…")
+        stage(I18n.t("Проверка пароля…"))
         val api = HttpApi("http://$address", password, network, ssid ?: address)
         val check = api.request("GET", "/api/config", null)
-        if (check.status == 401) throw IOException("Неверный пароль Wi-Fi")
-        if (check.status != 200) throw IOException("Устройство не отвечает по адресу $address" + (check.body.takeIf { it.isNotBlank() }?.let { ": $it" } ?: ""))
-        joined?.onLost = { api.onLost("Wi-Fi: точка доступа устройства пропала") }
+        if (check.status == 401) throw IOException(I18n.t("Неверный пароль Wi-Fi"))
+        if (check.status != 200) throw IOException(I18n.t("Устройство не отвечает по адресу {0}", address) + (check.body.takeIf { it.isNotBlank() }?.let { ": $it" } ?: ""))
+        joined?.onLost = { api.onLost(I18n.t("Wi-Fi: точка доступа устройства пропала")) }
         Prefs(this).savePassword(ssid ?: address, password)
         api to null
     }
@@ -165,9 +171,9 @@ class MeshService : Service() {
             try {
                 val (rawApi, transport) = open(stage)
                 opened = rawApi
-                stage("Чтение состояния…")
+                stage(I18n.t("Чтение состояния…"))
                 val status = rawApi.request("GET", "/api/status", null)
-                if (status.status != 200) throw IOException(status.body.ifBlank { "Устройство не ответило на status" })
+                if (status.status != 200) throw IOException(status.body.ifBlank { I18n.t("Устройство не ответило на status") })
                 val s = JSONObject(status.body)
                 val key = s.optString("public_key")
                 val api = if (key.matches(Regex("[a-fA-F0-9]{64}"))) withContext(Dispatchers.IO) { ArchiveApi(rawApi, File(filesDir, "messages"), key) } else rawApi
@@ -232,7 +238,7 @@ class MeshService : Service() {
         which.close()
         stopLink()
         publish("lost", which.kind, reason)
-        if (!uiVisible && Alerts(Prefs(this).alerts).lost) notify(ID_LOST, "Связь с устройством потеряна", reason, "")
+        if (!uiVisible && Alerts(Prefs(this).alerts).lost) notify(ID_LOST, I18n.t("Связь с устройством потеряна"), reason, "")
     }
 
     // Firmware from the site over the USB link (flash/FirmwareUpdate): the ROM loader takes the port,
@@ -249,7 +255,7 @@ class MeshService : Service() {
 
     fun flashFirmware(retry: Boolean) {
         if (flashing?.isActive == true) return
-        val port = flashPort ?: return publish("failed", null, "Прошивка ставится только при подключении по USB")
+        val port = flashPort ?: return publish("failed", null, I18n.t("Прошивка ставится только при подключении по USB"))
         flashing = scope.launch {
             if (!retry) { flashEnv = null; flashLang = null }
             if (!retry) api?.let { a ->
@@ -260,13 +266,13 @@ class MeshService : Service() {
                 }
             }
             val env = flashEnv
-            if (env.isNullOrEmpty()) return@launch publish("failed", port.kind, "Не удалось определить плату")
+            if (env.isNullOrEmpty()) return@launch publish("failed", port.kind, I18n.t("Не удалось определить плату"))
             disconnect(null)
             flashPort = port
             try {
                 val target = FirmwareUpdate(this@MeshService, port, env, flashLang, ::usbAccess) { s -> state = s; onState(s.toString()) }.run()
                 flashEnv = null
-                publish("flashing", port.kind, "MeshMesh ${target.version} записана. Подключение…")
+                publish("flashing", port.kind, I18n.t("MeshMesh {0} записана. Подключение…", target.version))
                 delay(5000)
                 when (port) {
                     is FlashPort.Tcp -> connectTcp(port.host, port.port)
@@ -275,14 +281,14 @@ class MeshService : Service() {
                         var d: UsbDevice? = null
                         for (i in 0 until 15) { d = port.appDevice(this@MeshService); if (d != null) break; delay(1000) }
                         if (d != null && usbAccess(d)) connectUsb(d)
-                        else publish("idle", "usb", "MeshMesh ${target.version} установлена. Подключите плату снова")
+                        else publish("idle", "usb", I18n.t("MeshMesh {0} установлена. Подключите плату снова", target.version))
                     }
                 }
             } catch (e: kotlinx.coroutines.CancellationException) {
                 throw e
             } catch (e: Throwable) {
                 state = JSONObject().put("state", "failed").put("kind", port.kind).put("flash", true)
-                    .put("message", (e.message ?: e.javaClass.simpleName) + ". Ключ, настройки и история не затронуты; повторите обновление")
+                    .put("message", (e.message ?: e.javaClass.simpleName) + I18n.t(". Ключ, настройки и история не затронуты; повторите обновление"))
                 onState(state.toString())
             }
         }
@@ -321,9 +327,9 @@ class MeshService : Service() {
         val stop = PendingIntent.getService(this, 1, Intent(this, MeshService::class.java).setAction(ACTION_DISCONNECT), PendingIntent.FLAG_IMMUTABLE)
         val n = Notification.Builder(this, CHANNEL_LINK)
             .setSmallIcon(R.drawable.ic_stat).setColor(0xFF1FC2AE.toInt())
-            .setContentTitle("MeshMesh подключён").setContentText(label)
+            .setContentTitle(I18n.t("MeshMesh подключён")).setContentText(label)
             .setContentIntent(open).setOngoing(true)
-            .addAction(Notification.Action.Builder(null, getString(R.string.disconnect), stop).build())
+            .addAction(Notification.Action.Builder(null, I18n.t("Отключить"), stop).build())
             .build()
         // The phone's position for the wardrive log keeps coming with the screen off: a location service as well.
         val type = ServiceInfo.FOREGROUND_SERVICE_TYPE_CONNECTED_DEVICE or (if (fixWanted()) ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION else 0)
@@ -448,7 +454,7 @@ class MeshService : Service() {
             val list = JSONObject(api.request("GET", "/api/channels", null).body).optJSONArray("channels")
             for (i in 0 until (list?.length() ?: 0)) list!!.getJSONObject(i).let { channelNames[it.optString("id")] = it.optString("name") }
         }
-        return channelNames[id]?.ifBlank { null } ?: "Канал"
+        return channelNames[id]?.ifBlank { null } ?: I18n.t("Канал")
     }
 
     /** Nodes heard for the first time while the app is in the background (after a change of the RX counter). */
@@ -460,7 +466,7 @@ class MeshService : Service() {
         val before = knownNodes
         knownNodes = ids.map { it.optString("id") }.toSet()
         if (before != null) for (p in ids.filter { it.optString("id") !in before })
-            notify(ID_NODE + (p.optString("id").hashCode() and 0xFFFF), "Новый узел", p.optString("name").ifBlank { p.optString("id") }, "node/" + p.optString("id"), alerts)
+            notify(ID_NODE + (p.optString("id").hashCode() and 0xFFFF), I18n.t("Новый узел"), p.optString("name").ifBlank { p.optString("id") }, "node/" + p.optString("id"), alerts)
     }
 
     private suspend fun pollChess(api: DeviceApi) {
@@ -471,7 +477,7 @@ class MeshService : Service() {
         val alerts = Alerts(Prefs(this).alerts)
         chessGames?.takeIf { alerts.chess }?.let { before ->
             for (n in ChessNews.between(before, games))
-                notify(ID_CHESS + (n.game.toIntOrNull(16) ?: 0), "Шахматы · ${n.title}", n.text, "board/${n.game}", alerts)
+                notify(ID_CHESS + (n.game.toIntOrNull(16) ?: 0), I18n.t("Шахматы · {0}", n.title), n.text, "board/${n.game}", alerts)
         }
         chessGames = games
     }
@@ -496,6 +502,6 @@ class MeshService : Service() {
         const val ID_CHESS = 100000 // + the game number: one notification per game
         const val ID_LOST = 4
         const val ID_NODE = 200000 // + a hash of the node ID
-        val KIND_TEXT = mapOf("wifi" to "Wi-Fi", "ble" to "Bluetooth", "usb" to "USB", "tcp" to "USB через компьютер")
+        val KIND_TEXT get() = mapOf("wifi" to "Wi-Fi", "ble" to "Bluetooth", "usb" to "USB", "tcp" to I18n.t("USB через компьютер"))
     }
 }

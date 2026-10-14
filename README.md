@@ -41,7 +41,7 @@ MeshCore nodes.
   (Wi-Fi, Bluetooth LE or USB) with message notifications.
 - **Device UI in 15 languages**: English, Russian, Ukrainian, Spanish, Portuguese, French, German, Italian,
   Polish, Turkish, Chinese, Japanese, Korean, Arabic and Indonesian. The website installs the firmware with
-  the language you pick; Settings change it later.
+  the language you pick; Settings change it later. The web interface and the Android app speak the same 15 languages.
 
 ## Boards
 

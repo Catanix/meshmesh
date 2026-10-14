@@ -41,7 +41,7 @@ MeshCore-Knoten.
   (Wi-Fi, Bluetooth LE oder USB) mit Benachrichtigungen bei Nachrichten.
 - **Geräteoberfläche in 15 Sprachen**: Englisch, Russisch, Ukrainisch, Spanisch, Portugiesisch, Französisch, Deutsch, Italienisch,
   Polnisch, Türkisch, Chinesisch, Japanisch, Koreanisch, Arabisch und Indonesisch. Die Website installiert die Firmware in
-  der gewählten Sprache; in den Einstellungen lässt sie sich später ändern.
+  der gewählten Sprache; in den Einstellungen lässt sie sich später ändern. Weboberfläche und Android-App gibt es in denselben 15 Sprachen.
 
 ## Boards
 

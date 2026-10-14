@@ -2,10 +2,14 @@
 
 > Translated from the Russian original [docs/android.md](../android.md); when they differ, the original is current.
 
-The app shows the device's own web interface (`web/index.html` — the same file from
-which `include/PortalPage.h` is built) and connects to the board in three ways:
+The app shows the device's own web interface (`web/index.html` — the same page the firmware serves;
+`tools/pio_web.py` compresses it at build time) and connects to the board in three ways:
 Wi-Fi, Bluetooth LE and USB. All sections of the page — chats, nodes, map, navigation, connections,
 radar and motion sensor, modules, settings, Klondike solitaire and chess — work over any of them.
+
+The page and the app speak the 15 languages of the screens (`i18n/web/<lang>.json`, rules in `i18n/README.md`).
+The language is chosen on the login screen and in Settings, by default the phone's; connection messages,
+USB firmware-update errors and the app's notifications (`I18n.kt`) follow the page's language.
 
 Sources — `android/`, package `org.meshmesh.app`, Android 10 and newer (minSdk 29, targetSdk 35).
 

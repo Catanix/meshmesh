@@ -1,5 +1,6 @@
 package org.meshmesh.app.flash
 
+import org.meshmesh.app.I18n
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.security.MessageDigest
@@ -36,7 +37,7 @@ class EspLoader(private val io: SerialIo, private val log: (String) -> Unit = {}
                 for (i in 0 until 5) if (sync()) { detect(); return }
             } catch (e: IOException) { last = e }
         }
-        throw IOException("Плата не вошла в загрузчик" + (last?.message?.let { ": $it" } ?: ""))
+        throw IOException(I18n.t("Плата не вошла в загрузчик") + (last?.message?.let { ": $it" } ?: ""))
     }
 
     private fun classicReset(delayMs: Long) {
@@ -67,7 +68,7 @@ class EspLoader(private val io: SerialIo, private val log: (String) -> Unit = {}
         chip = when (magic) {
             0x00F01D83 -> Chip.ESP32
             0x9 -> Chip.ESP32S3
-            else -> throw IOException("Неизвестный чип (0x%08X)".format(magic))
+            else -> throw IOException(I18n.t("Неизвестный чип (0x%08X)").format(magic))
         }
         if (chip == Chip.ESP32S3) {
             usbJtag = (readReg(UARTDEV_BUF_NO) and 0xff) == 4
@@ -76,7 +77,7 @@ class EspLoader(private val io: SerialIo, private val log: (String) -> Unit = {}
                 writeReg(SWD_PROTECT, SWD_KEY); writeReg(SWD_CONF, readReg(SWD_CONF) or (1 shl 31)); writeReg(SWD_PROTECT, 0)
             }
         }
-        log("Загрузчик ${chip!!.title}" + if (usbJtag) " (USB)" else "")
+        log(I18n.t("Загрузчик {0}", chip!!.title) + if (usbJtag) " (USB)" else "")
     }
 
     /** The UART boards: a faster rate for the transfer (the ROM takes the new rate and 0). */
@@ -102,7 +103,7 @@ class EspLoader(private val io: SerialIo, private val log: (String) -> Unit = {}
             val packed = deflate(image)
             val blocks = (packed.size + BLOCK - 1) / BLOCK
             val eraseSize = (image.size + BLOCK - 1) / BLOCK * BLOCK
-            progress("Стирание: ${part.name}", done, total)
+            progress(I18n.t("Стирание: {0}", part.name), done, total)
             val begin = le(eraseSize, blocks, BLOCK, part.offset) + if (chip == Chip.ESP32S3) le(0) else ByteArray(0)
             check(DEFL_BEGIN, begin, timeout = perMb(30_000, eraseSize))
             for (seq in 0 until blocks) {
@@ -110,14 +111,14 @@ class EspLoader(private val io: SerialIo, private val log: (String) -> Unit = {}
                 var tries = 0
                 while (true) {
                     try { check(DEFL_DATA, le(block.size, seq, 0, 0) + block, checksum(block), 10_000); break }
-                    catch (e: IOException) { if (++tries >= 3) throw IOException("${part.name}, блок ${seq + 1}/$blocks: ${e.message}") }
+                    catch (e: IOException) { if (++tries >= 3) throw IOException(I18n.t("{0}, блок {1}/{2}: {3}", part.name, seq + 1, blocks, e.message)) }
                 }
-                progress("Запись: ${part.name}", done + image.size.toLong() * (seq + 1) / blocks, total)
+                progress(I18n.t("Запись: {0}", part.name), done + image.size.toLong() * (seq + 1) / blocks, total)
             }
-            progress("Проверка: ${part.name}", done + image.size, total)
+            progress(I18n.t("Проверка: {0}", part.name), done + image.size, total)
             val md5 = String(check(SPI_FLASH_MD5, le(part.offset, image.size, 0, 0), timeout = perMb(8_000, image.size), payload = 32), Charsets.US_ASCII)
             val expected = MessageDigest.getInstance("MD5").digest(image).joinToString("") { "%02x".format(it) }
-            if (!md5.equals(expected, ignoreCase = true)) throw IOException("${part.name}: записанное не совпадает с файлом (MD5)")
+            if (!md5.equals(expected, ignoreCase = true)) throw IOException(I18n.t("{0}: записанное не совпадает с файлом (MD5)", part.name))
             done += image.size
         }
     }
@@ -144,14 +145,14 @@ class EspLoader(private val io: SerialIo, private val log: (String) -> Unit = {}
     /** Sends a command and returns the data before its status bytes; a nonzero status is an error. */
     private fun check(op: Int, data: ByteArray, sum: Int = 0, timeout: Int = 3000, payload: Int = 0): ByteArray {
         val body = command(op, data, sum, timeout).second
-        if (body.size < payload + 2) throw IOException("Короткий ответ загрузчика (команда 0x%02X)".format(op))
-        if (body[payload].toInt() != 0) throw IOException("Загрузчик: ошибка 0x%02X в команде 0x%02X".format(body[payload + 1].toInt() and 0xff, op))
+        if (body.size < payload + 2) throw IOException(I18n.t("Короткий ответ загрузчика (команда 0x%02X)").format(op))
+        if (body[payload].toInt() != 0) throw IOException(I18n.t("Загрузчик: ошибка 0x%02X в команде 0x%02X").format(body[payload + 1].toInt() and 0xff, op))
         return body.copyOf(payload)
     }
 
     private fun command(op: Int, data: ByteArray, sum: Int = 0, timeout: Int = 3000): Pair<Int, ByteArray> {
         send(op, data, sum)
-        return receive(op, timeout) ?: throw IOException("Загрузчик не ответил (команда 0x%02X)".format(op))
+        return receive(op, timeout) ?: throw IOException(I18n.t("Загрузчик не ответил (команда 0x%02X)").format(op))
     }
 
     private fun send(op: Int, data: ByteArray, sum: Int) {

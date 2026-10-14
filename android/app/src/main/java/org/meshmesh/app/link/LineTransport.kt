@@ -1,5 +1,6 @@
 package org.meshmesh.app.link
 
+import org.meshmesh.app.I18n
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ClosedReceiveChannelException
@@ -24,7 +25,7 @@ interface ByteLink {
 class LinkClosedException(message: String) : IOException(message)
 
 /** A JSON answer cut by a driver log line (USB: "wifi:timeout when WiFi un-init" when Wi-Fi stops). */
-class GarbledAnswerException(command: String) : IOException("Повреждённый ответ на «${command.substringBefore(' ')}»")
+class GarbledAnswerException(command: String) : IOException(I18n.t("Повреждённый ответ на «{0}»", command.substringBefore(' ')))
 
 /** One command at a time over a [ByteLink]: writes the line and waits for its single answer. */
 class LineTransport(val link: ByteLink) {
@@ -113,7 +114,7 @@ class LineTransport(val link: ByteLink) {
             }
         } catch (e: TimeoutCancellationException) {
             late = 1
-            throw IOException("Нет ответа устройства на «${command.substringBefore(' ')}»")
+            throw IOException(I18n.t("Нет ответа устройства на «{0}»", command.substringBefore(' ')))
         } catch (e: ClosedReceiveChannelException) {
             throw LinkClosedException(closedReason ?: "closed")
         }
@@ -139,7 +140,7 @@ class LineTransport(val link: ByteLink) {
         }
     }
 
-    fun close(reason: String = "Отключено") {
+    fun close(reason: String = I18n.t("Отключено")) {
         link.close()
         markClosed(reason)
     }

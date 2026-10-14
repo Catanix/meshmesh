@@ -28,8 +28,8 @@ jobs:
           python tools/version_check.py
           python tools/i18n.py check
           node tools/chess/i18n_check.cjs
-          python tools/web_header.py
-          git diff --exit-code -- include/PortalPage.h
+          npm ci --prefix tools
+          node tools/web_i18n.cjs check
 
   firmware:
     needs: validate
@@ -55,6 +55,11 @@ jobs:
       # Required: do not silently publish old screenshots when generation fails.
       - if: matrix.env == 'm9'
         run: pip install pillow && python tools/site_shots.py artifacts/site-shots
+      # The device page in every language (made-up data, headless Chrome of the runner).
+      - if: matrix.env == 'm9'
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-core fonts-noto-cjk
+          CHROME=$(command -v google-chrome) python tools/web_shots.py artifacts/web-shots
       - uses: actions/upload-artifact@v4
         with:
           name: package-${{ matrix.env }}

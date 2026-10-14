@@ -41,7 +41,7 @@ nœuds MeshCore standard.
   (Wi-Fi, Bluetooth LE ou USB) avec notifications de messages.
 - **Interface de l'appareil en 15 langues** : anglais, russe, ukrainien, espagnol, portugais, français, allemand, italien,
   polonais, turc, chinois, japonais, coréen, arabe et indonésien. Le site installe le firmware dans
-  la langue choisie ; elle se change ensuite dans les Réglages.
+  la langue choisie ; elle se change ensuite dans les Réglages. L’interface web et l’application Android existent dans les mêmes 15 langues.
 
 ## Cartes
 

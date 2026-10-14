@@ -42,7 +42,7 @@ class Updater(private val context: Context) {
                     while (true) {
                         val n = input.read(buf)
                         if (n < 0) break
-                        if (read + n > r.size) throw IOException("файл больше ожидаемого")
+                        if (read + n > r.size) throw IOException(I18n.t("файл больше ожидаемого"))
                         output.write(buf, 0, n); digest.update(buf, 0, n); read += n
                         progress(read)
                     }
@@ -50,7 +50,7 @@ class Updater(private val context: Context) {
             }
         } finally { c.disconnect() }
         val hash = digest.digest().joinToString("") { "%02x".format(it) }
-        if (read != r.size || hash != r.sha256) { out.delete(); throw IOException("файл повреждён при загрузке") }
+        if (read != r.size || hash != r.sha256) { out.delete(); throw IOException(I18n.t("файл повреждён при загрузке")) }
         out
     }
 
@@ -62,7 +62,7 @@ class Updater(private val context: Context) {
     private fun open(url: String): HttpURLConnection {
         val c = URL(url).openConnection() as HttpURLConnection
         c.connectTimeout = 10_000; c.readTimeout = 20_000; c.useCaches = false
-        if (c.responseCode != 200) { c.disconnect(); throw IOException("сайт ответил ${c.responseCode}") }
+        if (c.responseCode != 200) { c.disconnect(); throw IOException(I18n.t("сайт ответил {0}", c.responseCode)) }
         return c
     }
 
@@ -73,7 +73,7 @@ class Updater(private val context: Context) {
             val j = JSONObject(text)
             val r = Release(j.getInt("code"), j.getString("name"), SITE + j.getString("file"), j.getLong("size"), j.getString("sha256").lowercase())
             if (r.size <= 0 || r.size > 100L * 1024 * 1024 || !Regex("[0-9a-f]{64}").matches(r.sha256) || !Regex("[\\w.-]+\\.apk").matches(j.getString("file")))
-                throw IOException("неверное описание версии")
+                throw IOException(I18n.t("неверное описание версии"))
             return r
         }
     }

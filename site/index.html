@@ -462,7 +462,7 @@ const ICONS={
  route:'<circle cx="5" cy="18" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="19" cy="15" r="2"/><path d="M6.2 16.3 10.8 7.7M13.4 7.6l4.4 5.8"/>',
  tower:'<path d="M12 10 7 21M12 10l5 11M12 10v11M9 16h6"/><circle cx="12" cy="7.5" r="1.6"/><path d="M8.6 4a5 5 0 0 0 0 7M15.4 4a5 5 0 0 1 0 7"/>'
 };
-// Each feature: icon, colour, screenshots (img/<name>-<lang>.png, web-* pages img/<name>.webp); texts f.<id>.t, f.<id>.d and shot.<name>.
+// Each feature: icon, colour, screenshots (img/<name>-<lang>.png, the device page img/web-<name>-<lang>.webp); texts f.<id>.t, f.<id>.d and shot.<name>.
 const FEATURES=[
  {id:'wardrive',ic:'route',c:'#4cc26b',shots:['m9-wardrive','m9-wardrive-map','t114-wardrive','heltec-wardrive','heltec-wardrive-repeaters','t114-wardrive-repeaters']},
  {id:'alerts',ic:'bell',c:'#e9b13b',phone:true,shots:['web-alerts-feed','web-alerts-settings']},
@@ -500,8 +500,9 @@ function docPath(path){
 let lang='en',T={},EN={};
 const L=k=>T[k]??EN[k]??k;
 // Screenshots: generated for each language (tools/site_shots.py); English when one is missing.
-const shotSrc=n=>n.startsWith('web-')?`img/${n}.webp`:`img/${n}-${lang}.png`;
-const shotFallback='onerror="if(!this.dataset.f){this.dataset.f=1;this.src=this.src.replace(/-[a-z]+\\.png$/,\'-en.png\')}"';
+// The device page in the site's language (tools/web_shots.py); the chess page's companion shots are one set.
+const shotSrc=n=>n.startsWith('web-chess-')?`img/${n}.webp`:n.startsWith('web-')?`img/${n}-${lang}.webp`:`img/${n}-${lang}.png`;
+const shotFallback='onerror="if(!this.dataset.f){this.dataset.f=1;this.src=this.src.replace(/-[a-z]+\\.(png|webp)$/,\'-en.$1\')}"';
 const svg=(k,col)=>`<svg viewBox="0 0 24 24" fill="none" stroke="${col}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[k]}</svg>`;
 const dicts={};
 function loadDict(code){return dicts[code]||(dicts[code]=fetch(`i18n/${code}.json`).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}));}
@@ -545,12 +546,12 @@ function heroGo(i){
 }
 function heroStart(){clearInterval(heroTimer);heroTimer=setInterval(()=>heroGo(heroI+1),3200)}
 document.getElementById('heroDots').addEventListener('click',e=>{const b=e.target.closest('[data-h]');if(b){heroGo(+b.dataset.h);heroStart()}});
-for(const id of ['heroOled','heroGat'])document.getElementById(id).addEventListener('error',e=>{const im=e.target;if(!im.dataset.f){im.dataset.f=1;im.src=im.src.replace(/-[a-z]+\.png$/,'-en.png')}});
+for(const id of ['heroOled','heroGat'])document.getElementById(id).addEventListener('error',e=>{const im=e.target;if(!im.dataset.f){im.dataset.f=1;im.src=im.src.replace(/-[a-z]+\.(png|webp)$/,'-en.$1')}});
 // Lightbox
 let lbF=null,lbI=0;
 function lbShow(){
  const f=FEATURES[lbF],s=f.shots[lbI],img=document.getElementById('lbImg');
- img.dataset.f='';img.onerror=()=>{if(!img.dataset.f){img.dataset.f=1;img.src=img.src.replace(/-[a-z]+\.png$/,'-en.png')}};
+ img.dataset.f='';img.onerror=()=>{if(!img.dataset.f){img.dataset.f=1;img.src=img.src.replace(/-[a-z]+\.(png|webp)$/,'-en.$1')}};
  const web=s.startsWith('web-');img.src=shotSrc(s);img.alt=L('shot.'+s);
  img.classList.toggle('px',!web);
  img.style.maxWidth=web&&s!=='web-desktop'?'380px':'';

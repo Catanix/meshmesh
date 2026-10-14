@@ -41,7 +41,7 @@ MeshCore düğümleriyle haberleşir.
   (Wi-Fi, Bluetooth LE veya USB).
 - **15 dilde cihaz arayüzü**: İngilizce, Rusça, Ukraynaca, İspanyolca, Portekizce, Fransızca, Almanca, İtalyanca,
   Lehçe, Türkçe, Çince, Japonca, Korece, Arapça ve Endonezce. Web sitesi yazılımı seçtiğiniz dille yükler;
-  dili daha sonra Ayarlar'dan değiştirebilirsiniz.
+  dili daha sonra Ayarlar'dan değiştirebilirsiniz. Web arayüzü ve Android uygulaması da aynı 15 dilde.
 
 ## Kartlar
 
