@@ -681,8 +681,9 @@ void toggle(int x,int y,bool on){panel(x,y,30,16,on?accent:line,8);g().fillCircl
 void drawNetwork(){
  auto& d=g();bool wifi=portalActive(),ble=bleActive(),web=internet.enabled;int y=25;
  auto cardAt=[&](int i,int h,Icon ic,const String& name,const String& state,bool on){bool focus=selected==i;target(8,y,304,h,i);panel(8,y,304,h,focus?cardHi:card,8);if(focus)ring(8,y,304,h,8);d.fillRoundRect(16,y+7,24,24,6,bg);icon(ic,28,y+19,7,on?info:faint,bg);text(48,y+17,name,ink,bold);text(48,y+30,fit(state,220,small),dim,small);};
- int wh=wifi?56:38;cardAt(0,wh,IcWifi,t("Wi-Fi access point","Точка доступа Wi-Fi"),wifi?t("Web chat and map upload","Веб-чат и загрузка карт"):t("Off","Выключена"),wifi);toggle(274,y+11,wifi);
- if(wifi){String ssid="MM-"+meshRadio.idText(meshRadio.nodeId).substring(6);int x=text(48,y+48,ssid,accent,bold);text(x+8,y+48,t("Password ","Пароль ")+portalPassword(),ink);textRight(302,y+48,"192.168.4.1",dim,small);}
+ int wh=wifi?56:38;cardAt(0,wh,IcWifi,t("Wi-Fi access point","Точка доступа Wi-Fi"),wifi?"192.168.4.1 · "+String(t("Web chat and map upload","Веб-чат и загрузка карт")):t("Off","Выключена"),wifi);toggle(274,y+11,wifi);
+ // The network and its password, whole, as on the home network card below (the address is in the line above).
+ if(wifi){text(48,y+48,"MM-"+meshRadio.idText(meshRadio.nodeId).substring(6),accent,bold);int pw=measure(portalPassword(),bold);textRight(302,y+48,portalPassword(),ink,bold);icon(IcKey,291-pw,y+44,6,dim,selected==0?cardHi:card);}
  // On the home network the device page answers at the client's address, with the same password.
  y+=wh+6;int ih=internet.online()?56:38;cardAt(1,ih,IcWifi,t("Internet over Wi-Fi","Интернет по Wi-Fi"),internet.stateText(),internet.online());toggle(274,y+11,web);
  if(internet.online()){text(48,y+48,"http://"+internet.address(),accent,bold);int pw=measure(portalPassword(),bold);textRight(302,y+48,portalPassword(),ink,bold);icon(IcKey,291-pw,y+44,6,dim,selected==1?cardHi:card);} // the password, whole
