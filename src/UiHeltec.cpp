@@ -314,7 +314,7 @@ unsigned wdOrder(unsigned* order,const wardrive::Repeater*& list){unsigned n=war
 // Actions: a screen with one action runs it on hold; several open a menu.
 enum Act {ActFormat,ActJoin,ActJoinHeard,ActWrite,ActChess,ActChessOpen,ActChessNext,ActSound,ActRole,ActForward,ActAdvert,ActReplyOk,ActReplyAck,ActOlder,ActNewer,ActNextNode,ActNodeOk,ActResetPath,ActGps,ActPosition,ActWifi,ActBle,ActLanguage,ActBattery,ActScreen,ActContrast,ActSelfTest,ActHoming,ActNextSignal,ActStopHoming,ActResetPeak,ActCsiBeacon,ActCsiSensor,ActCalibrate,ActPetCuddle,ActPetFeed,ActPetHeal,ActPetEgg,ActPetDeath,ActPetAdopt,ActPetRelease,
   ActPeopleMinus,ActPeopleNext,ActPeopleAdd,ActPeopleDelete,ActPeopleReset,ActPeopleBle,ActPeopleWifi,ActPeopleWindow,ActPeopleRssi,ActPeoplePersonal,ActPeopleClear,ActPeopleExit,ActQuick,ActNotify,ActNotifyLed,ActNotifyWake,ActNotifyPopup,ActNotifyFailed,ActPowerOff,ActRadio,ActDiceRoll,ActDiceSaved,ActDiceNextSaved,ActDiceCount,ActDiceType,ActDiceMod,ActDiceHero,ActDiceMode,ActDiceGridMore,ActDiceGridFive,ActDiceGridRow,ActDiceGridType,ActDiceThreshold,
-  ActDicePlus1,ActDiceMinus1,ActDicePlus5,ActDiceMinus5,ActDiceNextCounter,ActDiceAddCounter,ActDiceTap,ActDiceExit,ActRemoteLogin,ActRemoteStatus,ActTrace,ActWardriveRun,ActWardrivePing,ActWardriveView,ActWardriveNets,ActClose};
+  ActDicePlus1,ActDiceMinus1,ActDicePlus5,ActDiceMinus5,ActDiceNextCounter,ActDiceAddCounter,ActDiceTap,ActDiceAct,ActDicePrevBlock,ActDiceAccept,ActDiceDecline,ActDiceExit,ActRemoteLogin,ActRemoteStatus,ActTrace,ActWardriveRun,ActWardrivePing,ActWardriveView,ActWardriveNets,ActClose};
 constexpr unsigned MenuMax=14;
 #if MM_DICE
 #include "UiDiceCompact.inc"
@@ -799,7 +799,7 @@ void draw(){
  t("click +1 hold-menu","клик +1 держ-меню"):
 #endif
 #if MM_DICE
- page==DicePage&&dicer.s.mode!=dice::Tally?t("click-roll hold-menu","клик-бросок держ-меню"):
+ page==DicePage?(dicer.s.mode==dice::Sheet?t("click-next hold-menu","клик-далее держ-меню"):t("click-roll hold-menu","клик-бросок держ-меню")):
 #endif
  page==QuickPage?
 #if defined(MM_JOYSTICK)
@@ -901,7 +901,7 @@ String uiStatus(){StaticJsonDocument<768>d;if(page==QuickPage){d["quick_row"]=qu
 #endif
 if(page==Signals){d["radar_selected"]=shownSignal();d["csi_role"]=radar.csi;}
 #if MM_DICE
- if(page==DicePage){d["dice_counter"]=diceCounterSel;d["dice_saved"]=diceSavedSel;d["dice_tapping"]=diceTapOn();}
+ if(page==DicePage){d["sheet_block"]=diceBlockSel;d["dice_saved"]=diceSavedSel;d["dice_tapping"]=diceTapOn();}
 #endif
  String s;serializeJson(d,s);return s;}
 bool uiScreenOff(){return screenOff;}
@@ -951,6 +951,8 @@ void uiTick(){
  if(page==PetPage)dirty=true; // it moves
 #if MM_DICE
  if(page==DicePage&&dicer.events!=diceSeen){diceSeen=dicer.events;dirty=true;} // rolls from the web page or the app
+ if(dicer.rolls!=diceRollsSeen){diceRollsSeen=dicer.rolls;diceSeenAt=now;}
+ if(dicer.notes!=diceNotes){diceNotes=dicer.notes;notice(dicer.note);} // a sheet sent or received
 #endif
 #if MM_CHESS
  if(page==Chess&&chessOpen&&(chessHeld>=0||(chessOpen->state==ChessMatch::Playing&&chessOpen->myTurn())))dirty=true; // the picked piece or the cursor blinks

@@ -235,7 +235,7 @@
  "doc.pet": "Mesh pet",
  "news.dice": "<b>New:</b> dice — the DIC3R roller for RPG and Warhammer on every board",
  "f.dice.t": "Dice",
- "f.dice.d": "The DIC3R dice roller on every board. RPG: a pool such as 2d6+1 or any formula, each die drawn in its own shape, the sum; d66 and d%. Warhammer: a grid of up to 50 dice, rolled high to low, with a success threshold. Counters for life and resources, characters with their own saved rolls. The device keeps it all, so the screen, the web page and the app show the same rolls. On a one-button board the button itself counts: click +1, hold −1, hold for 5 s to leave.",
+ "f.dice.d": "The DIC3R dice roller on every board. RPG: a pool such as 2d6+1 or any formula, each die drawn in its own shape, the sum; d66 and d%. Warhammer: a grid of up to 50 dice, rolled high to low, with a success threshold. A character sheet made of blocks; saved rolls are its abilities. The device keeps it all, so the screen, the web page and the app show the same rolls. On a one-button board the button itself counts: click +1, hold −1, hold for 5 s to leave.",
  "shot.m9-dice-shapes": "Each die in its shape: d4 to d20",
  "shot.t114-dice-saved": "A saved roll on the T114",
  "shot.m9-dice-grid": "Warhammer: 8 successes at 4+",
@@ -280,5 +280,14 @@
  "shot.m9-people-cards": "A counter card",
  "shot.m9-people-new": "A new card",
  "shot.t114-people-two": "T114: two cards",
- "shot.heltec-people-two": "Heltec: two cards"
+ "shot.heltec-people-two": "Heltec: two cards",
+ "news.sheet": "<b>New:</b> a character sheet in Dice — blocks, D&D and R.E.T. templates, sending over the mesh",
+ "f.sheet.t": "Character sheet",
+ "f.sheet.d": "A sheet made of blocks in Dice: stats in circles, squares, shields, diamonds and hexagons, hit point and mana tracks, marks for slots and death saves, abilities with a roll, a cost and a description, notes. Blocks refer to each other: AC = 10+@dex, a roll d20+@dex+@pb. Ready templates for D&D 5e (ability modifiers) and R.E.T. (the Mind — Emotions — Body tree, a die by level, a success adds the die of the next level). Build it on the web page or in the app, play on the screen of any board. Send a sheet to a contact over MeshCore: it arrives in acknowledged parts and offers to add the character.",
+ "shot.m9-dice-sheet": "A D&D sheet on the M9",
+ "shot.m9-dice-sheet-ret": "R.E.T.: dice by level",
+ "shot.t114-dice-sheet": "T114: the sheet in colour",
+ "shot.m9-dice-templates": "A new character from a template",
+ "shot.heltec-dice-sheet": "OLED: block by block",
+ "shot.m9-dice-offer": "A sheet from a contact"
 }

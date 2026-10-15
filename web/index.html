@@ -150,11 +150,29 @@ body[data-route=chat] .wrap{padding-bottom:0}#p-chat{display:flex;flex-direction
 .tcard .steps{display:grid;grid-template-columns:1fr 2fr;gap:8px}.tcard .steps.two{grid-template-columns:1fr 1fr}.tcard .steps .btn{min-height:58px;font-size:24px;touch-action:manipulation}.tcard .steps .btn:not(.primary){background:var(--hi)}.tcard .tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.tcard .tools .btn{min-height:36px;padding:6px 12px;background:var(--hi)}.tcard .tools .btn.armed{background:var(--bad)}.tcard .tools i{width:12px;height:12px;border-radius:50%;display:inline-block}
 .tcard.add{display:grid;place-content:center;justify-items:center;gap:8px;border:2px dashed var(--line);background:none;color:var(--dim);min-height:260px}.tcard.add::before{display:none}.tcard.add .ic{font-size:44px;color:var(--accent)}.tcard.add small{color:var(--faint)}
 .tdots{display:flex;justify-content:center;align-items:center;gap:10px;margin:10px 0 6px}.tdots button{width:9px;height:9px;border-radius:50%;border:0;padding:0;background:var(--line)}.tdots button.on{background:var(--c);transform:scale(1.5)}.tdots button.plus{width:auto;height:auto;background:none;color:var(--faint);font-weight:700;line-height:1}.tdots button.plus.on{color:var(--accent);transform:none}
-.dcounters{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}.dctr{position:relative;padding:14px 12px 12px;overflow:hidden}.dctr::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:var(--c)}
-.dctr .top{display:flex;gap:6px;align-items:center}.dctr .top input{flex:1;min-width:0;padding:6px 8px}.dctr .top .btn{min-height:34px;padding:5px 9px}.dctr .val{text-align:center;font-size:60px;font-weight:700;line-height:1.1;margin:8px 0;font-variant-numeric:tabular-nums}
-.dctr .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.dctr .steps .btn,.card .dtypes .btn:not(.on){background:var(--hi)}.dctr .steps .btn{min-height:44px;font-size:17px}
+.card .dtypes .btn:not(.on){background:var(--hi)}
+.dsheet{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:8px}.blk{grid-column:span var(--span);position:relative;padding:10px;min-width:0;overflow:hidden}
+.blk.act{cursor:pointer}.blk.act:hover{background:var(--hi);box-shadow:inset 0 0 0 2px var(--c)}
+.bstat{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;padding:8px 4px}.bstat svg{width:58px;height:58px;flex:none}.bstat>b{font-size:13px;color:var(--dim);font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bbadge{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}.bbadge.ret{color:var(--violet)}
+.bstep{display:flex;gap:4px;margin-top:4px}.bstep button,.btrack .steps button,.bedit button{border:0;border-radius:6px;background:var(--hi);color:var(--ink);min-width:30px;height:28px;font-weight:700;padding:0 6px}.bedit button.armed{background:var(--bad)}
+.btrack,.babil,.bpips,.bnote{padding-left:14px}.btrack::before,.babil::before,.bpips::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c)}
+.btrack .top{display:flex;justify-content:space-between;align-items:center;gap:8px}.btrack .top b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.btrack .val{border:0;background:none;color:var(--ink);font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;padding:0}.btrack .val small{color:var(--dim);font-size:15px}.btrack .val.bad{color:var(--bad)}
+.btrack .vin{display:flex;gap:6px}.btrack .vin input{width:84px}.bar{height:10px;border-radius:5px;background:var(--line);margin:8px 0 6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--c);border-radius:5px}
+.btrack .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px}.btrack .steps button{height:34px;font-size:16px}
+.bpips>b,.bnote>small{font-size:13px;color:var(--dim)}.pips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.pips button{width:24px;height:24px;border-radius:50%;border:2px solid var(--c);background:none;padding:0}.pips button.on{background:var(--c)}
+.babil{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.babil .main{flex:1;min-width:0}.babil .main b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.babil small{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:var(--dim);font-size:12px;white-space:pre-wrap;cursor:pointer}.babil small.open{display:block}
+.babil .side{flex:none;color:var(--accent);font-weight:700;font-size:13px;text-align:right}.babil .side em{font-style:normal;color:var(--warn)}.babil .side.bad{color:var(--bad)}
+.bnote p{margin:4px 0 0;white-space:pre-wrap;font-size:14px}.bhead{padding:10px 2px 2px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}.bhead b{flex:1;color:var(--dim)}
+.bedit{display:flex;gap:4px;justify-content:flex-end;width:100%;margin-top:6px}.bhead .bedit{width:auto;margin:0}
+.sform{grid-column:1/-1;display:grid;gap:10px;padding:12px;box-shadow:inset 0 0 0 2px var(--c)}.sform label{display:grid;gap:4px;font-size:12px;color:var(--dim)}.sform .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sform textarea,.spanel textarea{width:100%;box-sizing:border-box;resize:vertical}
+.seg{display:flex;flex-wrap:wrap;gap:4px}.seg button{border:0;border-radius:6px;background:var(--hi);color:var(--ink);padding:6px 10px;font-weight:600;min-height:32px}.seg button.on{background:var(--accent);color:var(--bg)}.seg.shapes button{padding:2px;--c:var(--ink)}.seg.shapes svg{width:30px;height:30px;display:block}
+.dtpl{margin:-4px 0 10px}.stools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.stools .btn{flex:1 1 110px;min-height:38px}.stools .btn.on{box-shadow:inset 0 0 0 2px var(--accent)}.spanel{margin-bottom:10px}.spanel .btns{margin-top:8px}
+.sadd{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:12px}.sadd .btn{min-height:34px;padding:6px 10px}
+.dlast{display:flex;align-items:center;gap:10px;padding:8px 12px;margin-bottom:10px}.dlast .faces{display:flex;gap:4px;align-items:center;flex:none}.dlast svg{width:30px;height:30px}.dlast .main{flex:1;min-width:0;font-size:13px;color:var(--dim)}.dlast .main b{color:var(--violet)}.dlast .tot{font-size:32px;font-weight:700;color:var(--warn);font-variant-numeric:tabular-nums}
+.dofr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;box-shadow:inset 0 0 0 2px var(--warn)}.dofr .ic{color:var(--warn);font-size:22px}.dsend{margin:0 0 8px}
 .dhero{display:flex;gap:8px;align-items:center;margin-bottom:10px}.dhero select{flex:1}.dhero .btn{min-height:42px}
-@media(max-width:700px){.dicegrid{grid-template-columns:1fr}.dsum b{font-size:54px}}
+@media(max-width:700px){.dicegrid{grid-template-columns:1fr}.dsum b{font-size:54px}.dsheet{grid-template-columns:repeat(6,minmax(0,1fr))}.blk{grid-column:span var(--mspan)}.sform .two{grid-template-columns:1fr}}
 .chessgrid{display:grid;grid-template-columns:minmax(0,560px) minmax(220px,1fr);gap:12px;align-items:start}
 .bwrap{position:relative}.board{display:grid;grid-template-columns:repeat(8,1fr);width:100%;aspect-ratio:1;border:3px solid #3a2a1c;border-radius:4px;user-select:none;touch-action:manipulation;overflow:hidden}
 .sq{position:relative;border:0;padding:0;margin:0;display:grid;place-items:center;aspect-ratio:1;min-width:0;cursor:pointer}.sq.l{background:#f0d9b5}.sq.d{background:#b58863}
@@ -716,18 +734,21 @@ async function petAct(a){if(!pet)return;let line='pet '+a;
   renderPet()}catch(e){notify(e.message,'bad')}}
 document.addEventListener('click',e=>{const t=e.target.closest('[data-pet]');if(t)petAct(t.dataset.pet)});
 
-// Dice, the port of DIC3R (firmware "dice", docs/dice.md): the device keeps the rolls, saved rolls, counters and
-// characters, so the screen, this page and the app show the same; the page sends "dice ..." commands one by one
+// Dice, the port of DIC3R (firmware "dice", docs/dice.md): the device keeps the rolls, the characters and their
+// sheets, so the screen, this page and the app show the same; the page sends "dice ..." commands one by one
 // and draws the answer. Dice take the shapes of the M9 screen; the newest roll tumbles.
-let dice=null,diceAt=0,diceTimer=null,diceQueue=Promise.resolve(),diceSeenRoll=0,diceEdit=-1,diceArmed='',diceColorFor=-1,diceHero=''; // diceHero: 'new' or 'name' while its field is open (WebView has no prompt())
-const DICE_TYPES=['d4','d6','d8','d10','d12','d20','d66','d%'],DICE_MODES=[['rpg','RPG'],['grid','Warhammer'],['counters',L('Счётчики')]];
+let dice=null,diceAt=0,diceTimer=null,diceQueue=Promise.resolve(),diceSeenRoll=0,diceEdit=-1,diceArmed='',diceHero='',diceTpl='empty',diceNotesSeen=null; // diceHero: 'new' or 'name' while its field is open (WebView has no prompt())
+let sheet=null,sheetBuild=false,sheetEditing=-1,sheetDraft={},sheetFocus=-1,sheetPanel='',sheetArmed='',sheetExport='';
+const DICE_TYPES=['d4','d6','d8','d10','d12','d20','d66','d%'],DICE_MODES=[['rpg','RPG'],['grid','Warhammer'],['sheet',L('Лист')]];
 const DICE_COLORS=['#ff6b6b','#4ecdc4','#45b7d1','#ffa07a','#98d8c8','#f06292','#aed581','#ffd54f','#4dd0e1','#ba68c8','#4fc3f7','#fff176','#81c784','#dce775','#64b5f6'];
-async function loadDice(){try{dice=await request('/api/dice');diceAt=Date.now()}catch{if(!dice)dice=false}}
-function enterDice(){diceEdit=-1;diceArmed='';diceColorFor=-1;diceHero='';loadDice().then(()=>{if(route==='dice')renderDice()});if(diceTimer)return;
- diceTimer=setInterval(async()=>{if(route!=='dice'){clearInterval(diceTimer);diceTimer=null;return}const f=document.activeElement;if(f&&$('diceView').contains(f)&&/INPUT|SELECT/.test(f.tagName))return;await loadDice();if(route==='dice')renderDice()},window.MeshNative?3000:2000)}
+// A sheet sent or received: its news once.
+function diceNews(){const d=dice;if(!d||!d.notes||d.notes===diceNotesSeen)return;if(diceNotesSeen!==null)notify(d.note,d.send&&d.send.state==='failed'?'warn':'info');diceNotesSeen=d.notes}
+async function loadDice(){try{dice=await request('/api/dice');diceAt=Date.now();diceNews();if(route==='dice'&&dice.mode==='sheet')await sheetSync()}catch{if(!dice)dice=false}}
+function enterDice(){diceEdit=-1;diceArmed='';diceHero='';sheetEditing=-1;sheetFocus=-1;sheetArmed='';loadDice().then(()=>{if(route==='dice')renderDice()});if(diceTimer)return;
+ diceTimer=setInterval(async()=>{if(route!=='dice'){clearInterval(diceTimer);diceTimer=null;return}const f=document.activeElement;if(sheetEditing>=0||sheetFocus>=0||f&&$('diceView').contains(f)&&/INPUT|SELECT|TEXTAREA/.test(f.tagName))return;await loadDice();if(route==='dice')renderDice()},window.MeshNative?3000:2000)}
 function diceTile(){const d=dice;if(!d||!hasModule('dice'))return[];const r=d.results[d.results.length-1];return[['dice','dice',r?'warn':'muted',L('Кости'),r?`${r.label||r.formula}${r.special?'':' = '+r.total}`:'RPG · Warhammer']]}
 // One command at a time (a function makes the line from the state the previous one left); the answer "OK … {json}" replaces the state.
-function diceDo(line,done){diceQueue=diceQueue.then(async()=>{try{if(typeof line==='function')line=line(dice);const r=await command('dice '+line),j=typeof r==='string'?r.indexOf('{'):-1;if(j>=0){dice=JSON.parse(r.slice(j));diceAt=Date.now()}if(done)done();if(route==='dice')renderDice()}catch(e){notify(e.message.replace(/^ERR /,''),'bad')}});return diceQueue}
+function diceDo(line,done){diceQueue=diceQueue.then(async()=>{try{if(typeof line==='function')line=line(dice);const r=await command('dice '+line),j=typeof r==='string'?r.indexOf('{'):-1;if(j>=0){dice=JSON.parse(r.slice(j));diceAt=Date.now();diceNews()}if(dice&&dice.mode==='sheet')await sheetSync();if(done)done(r);if(route==='dice')renderDice()}catch(e){notify(e.message.replace(/^ERR /,''),'bad')}});return diceQueue}
 const diceParts=r=>r.parts.map(p=>{const a=Math.abs(p);return{v:a>>2,k:a&3,neg:p<0}});
 const diceVal=(v,k)=>k===3?(v>=100?'00':String(v).padStart(2,'0')):String(v);
 function dieSvg(type,v,k,neg){
@@ -746,18 +767,19 @@ function dieSvg(type,v,k,neg){
 function diceShapes(formula){const out=[];for(const m of formula.matchAll(/([+-]?)(\d*)d(%|\d+)|([+-]?)(\d+)/g)){if(m[3]!==undefined){const n=+(m[2]||1),t=m[3]==='%'?'d%':'d'+m[3];for(let i=0;i<n;i++)out.push(t)}else out.push('n')}return out}
 function diceRollCard(r,spin){
  if(!r)return `<div class="card droll"><div class="empty" style="padding:28px 8px">${L`${ic('dice')}Бросков ещё нет`}<small>${L`Нажмите «Бросить» или введите формулу: 2d6+1, d20, 4к6-2, d%, d66`}</small></div></div>`;
- const parts=diceParts(r),types=diceShapes(r.formula);let faces='',many=parts.length>14||r.more,j=0;
+ const parts=diceParts(r),types=r.dice||diceShapes(r.formula);let faces='',many=parts.length>14||r.more,j=0;
  if(many)faces=`<div class="dfaces many">${parts.map((p,i)=>(i?(p.neg?' − ':' + '):p.neg?'−':'')+diceVal(p.v,p.k)).join('')}${r.more?' …':''}</div>`;
  else faces=`<div class="dfaces ${spin?'spin':''}">${parts.map(p=>{let t=types[j++];while(t==='n'&&p.k!==1)t=types[j++];return p.k===1?`<span class="dnum">${p.neg?'−':'+'}${p.v}</span>`:dieSvg(t||'',p.v,p.k,p.neg)}).join('')}</div>`;
  const sum=parts.map((p,i)=>(i?(p.neg?' − ':' + '):p.neg?'−':'')+diceVal(p.v,p.k)).join('');
- return `<div class="card droll"><div class="head">${r.label?`<b>${esc(r.label)}</b> · `:''}${esc(r.formula)}</div>${faces}<div class="dsum"><small>${r.special?L('d66 и d%: каждая кость отдельно'):parts.length>1&&!many?sum:''}</small>${r.special?'':`<b><i>=</i>${r.total}</b>`}</div></div>`}
+ const ret=r.fail?`<span class="bad">${r.fail===1?L('Критический провал'):L`Провал, d4: ${r.fail}`}</span> `:r.successes?`<span class="ok">${r.successes>1?L`Успех ×${r.successes}`:L('Успех')}</span> `:'';
+ return `<div class="card droll"><div class="head">${r.label?`<b>${esc(r.label)}</b> · `:''}${esc(diceReadable(r.formula))}</div>${faces}<div class="dsum"><small>${ret}${r.special?L('d66 и d%: каждая кость отдельно'):parts.length>1&&!many?sum:''}</small>${r.special?'':`<b><i>=</i>${r.total}</b>`}</div></div>`}
 function diceRpg(d){
  const last=d.results[d.results.length-1],spin=last&&last.n!==diceSeenRoll;if(last)diceSeenRoll=last.n;const p=d.pool,b=(a,t,cls='')=>`<button class="btn ${cls}" data-dice="${a}">${t}</button>`;
  const hist=d.results.slice(0,-1).reverse().map(r=>`<div><span>${esc(r.label||r.formula)}</span><b>${r.special?diceParts(r).map(x=>diceVal(x.v,x.k)).join(' '):r.total}</b></div>`).join('');
- let saved=d.rolls.map((r,i)=>`<span style="display:inline-flex;align-items:center;gap:2px"><button class="btn" style="--c:${DICE_COLORS[r.color]||DICE_COLORS[0]}" data-dice="saved roll ${i}">${esc(r.name)} <small>${esc(r.formula)}</small></button><button class="btn ed" data-dedit="${i}" title="${L('Изменить')}">✎</button></span>`).join('');
+ let saved=d.rolls.map((r,i)=>`<span style="display:inline-flex;align-items:center;gap:2px"><button class="btn" style="--c:${DICE_COLORS[r.color]||DICE_COLORS[0]}" data-dice="saved roll ${i}">${esc(r.name)} <small>${esc(diceReadable(r.roll||r.formula))}</small></button><button class="btn ed" data-dedit="${i}" title="${L('Изменить')}">✎</button></span>`).join('');
  let editor='';
  if(diceEdit>=0){const r=diceEdit<d.rolls.length?d.rolls[diceEdit]:{name:'',formula:p.text,color:0},isNew=diceEdit>=d.rolls.length,armed=diceArmed==='roll'+diceEdit;
-  editor=`<div class="card pad dedit"><b>${isNew?L('Новый бросок'):L('Бросок')}</b><input id="drName" maxlength="40" placeholder="${L('Название, например «Огненный шар»')}" value="${esc(r.name)}"><input id="drFormula" maxlength="27" placeholder="${L('Формула: 8d6, d20+5')}" value="${esc(r.formula)}" autocapitalize="off" autocomplete="off">
+  editor=`<div class="card pad dedit"><b>${isNew?L('Новый бросок'):L('Бросок')}</b><input id="drName" maxlength="39" placeholder="${L('Название, например «Огненный шар»')}" value="${esc(r.name)}"><input id="drFormula" maxlength="27" placeholder="${L('Формула: 8d6, d20+5')}" value="${esc(r.formula)}" autocapitalize="off" autocomplete="off">
    ${isNew?'':`<div class="dcolors">${DICE_COLORS.map((c,i)=>`<button style="--c:${c}" class="${i===r.color?'on':''}" data-dice="saved color ${diceEdit} ${i}" title="${L('Цвет')}"></button>`).join('')}</div>`}
    <div class="btns">${b('dsave',L('Сохранить'),'primary')}${b('dcancel',L('Отмена'))}${isNew?'':b('ddel',armed?L('Точно удалить?'):L('Удалить'),armed?'danger armed':'danger')}</div></div>`}
  return `<div class="dicegrid"><div>${diceRollCard(last,spin)}${hist?`<h3>${L`Ранее`}</h3><div class="card dhist" style="padding:4px 8px">${hist}</div>`:''}</div>
@@ -768,7 +790,7 @@ function diceRpg(d){
    <button class="btn primary" style="width:100%;min-height:52px;font-size:17px;margin-top:6px" data-dice="roll">${L`${ic('dice')}Бросить ${esc(p.text)}`}</button>
    <div style="display:flex;gap:6px;margin-top:8px"><input id="dFormula" placeholder="${L('Формула: 3d8+2')}" maxlength="27" autocapitalize="off" autocomplete="off" style="flex:1;min-width:0">${b('formula',L('Бросить'))}</div></div></div>
   <h3>${L`Сохранённые броски`}</h3><div class="dsaved">${saved||`<span class="muted small" style="padding:4px">${L`Пока нет: сохраните формулу с названием, чтобы бросать её одним нажатием`}</span>`}</div>
-  ${diceEdit<0&&d.rolls.length<10?`<button class="btn" style="width:100%;margin-top:10px" data-dedit="${d.rolls.length}">${L`+ Добавить бросок`}</button>`:''}${editor}`}
+  ${diceEdit<0?`<button class="btn" style="width:100%;margin-top:10px" data-dedit="${d.rolls.length}">${L`+ Добавить бросок`}</button>`:''}${editor}`}
 function diceGrid(d){
  const g=d.grid,b=(a,t,cls='')=>`<button class="btn ${cls}" data-dice="${a}">${t}</button>`,top={d66:66,'d%':100}[g.type]||+g.type.slice(1);
  const cells=g.values.map((v,i)=>{const chosen=i<g.chosen,rolled=chosen&&g.rolled,pass=!g.threshold_on||v>=g.threshold;
@@ -780,44 +802,143 @@ function diceGrid(d){
   <div class="card pad" style="margin-top:12px"><div style="display:flex;align-items:center;gap:12px"><button class="sw ${g.threshold_on?'on':''}" data-dice="grid threshold ${g.threshold_on?'off':g.threshold}" aria-label="${L('Порог успеха')}"></button><b style="flex:1">${L`Порог успеха`}</b><span class="${g.threshold_on?'warn':'faint'}" style="font-size:20px;font-weight:700">${g.threshold}+</span></div>
    <input type="range" min="2" max="${top}" value="${g.threshold}" id="dThreshold" style="width:100%;accent-color:var(--accent);margin-top:12px" ${g.threshold_on?'':'disabled'}>
    <h3 style="margin-left:0">${L`Кость`}</h3><div class="dtypes">${DICE_TYPES.map(t=>`<button class="btn ${t===g.type?'on':''}" data-dice="grid type ${t}">${t}</button>`).join('')}</div></div>`}
-function diceCounters(d){
- const cards=d.counters.map((c,i)=>{const armed=diceArmed==='ctr'+i;return `<div class="card dctr" style="--c:${DICE_COLORS[c.color]||DICE_COLORS[0]}"><div class="top"><input value="${esc(c.name)}" maxlength="40" data-dname="${i}" aria-label="${L('Название')}"><button class="btn" data-dpal="${i}" title="${L('Цвет')}"><span style="width:14px;height:14px;border-radius:50%;background:var(--c);display:inline-block"></span></button><button class="btn ${armed?'danger armed':'danger'}" data-dice="ctrdel ${i}" title="${L('Удалить')}">${armed?L('Точно?'):'✕'}</button></div>
-  ${diceColorFor===i?`<div class="dcolors" style="margin-top:8px">${DICE_COLORS.map((k,j)=>`<button style="--c:${k}" class="${j===c.color?'on':''}" data-dice="counter ${i} color ${j}"></button>`).join('')}</div>`:''}
-  <div class="val">${c.value}</div><div class="steps">${[-5,-1,1,5].map(v=>`<button class="btn" data-dice="counter ${i} ${v>0?'+':''}${v}">${v>0?'+':'−'}${Math.abs(v)}</button>`).join('')}</div></div>`}).join('');
- return `<div class="dcounters">${cards}</div>${d.counters.length<6?`<button class="btn primary" style="width:100%;margin-top:10px" data-dice="counter add">${L`+ Добавить счётчик`}</button>`:''}${d.counters.length?'':`<p class="muted small" style="margin-top:10px">${L`Счётчики жизней, ран, ресурсов: ±1 и ±5 одним нажатием. До шести у каждого персонажа.`}</p>`}`}
+// The character sheet (mode "sheet"): blocks in rows of twelve columns, as on the M9. A tap rolls a stat's check
+// or an ability, pips mark, steppers change values; the builder edits blocks one by one ("dice sheet set I FIELD
+// VALUE"), so the device checks codes and formulas. The sheet comes from "dice sheet" when its revision changes.
+const SHEET_KINDS=[['stat',L('Стат')],['track',L('Шкала')],['pips',L('Отметки')],['ability',L('Способность')],['note',L('Заметка')],['header',L('Заголовок')]];
+const SHEET_WIDTHS=['1/6','1/4','1/3','1/2',L('вся')],SHEET_RULES=[L('Обычное число'),L('D&D: модификатор'),L('Бонус к d20'),L('Р.Э.Т.: куб уровня')];
+const retDie=n=>n<3?'d6'+(n-3):['d6','d8','d10','d12','d20','d100'][n-3];
+const diceReadable=f=>String(f||'').replace(/(^|[^a-z0-9])r([0-8])/g,(m,a,n)=>a+retDie(+n));
+async function sheetSync(){const d=dice;if(!d||!d.sheet||d.mode!=='sheet'&&route==='dice'&&!sheetBuild)return;
+ if(sheet&&sheet.rev===d.sheet.rev&&sheet.character===d.character)return;
+ try{sheet=diceJson(await command('dice sheet'))}catch{}}
+// A command's JSON: the whole answer, or after "OK word".
+const diceJson=r=>typeof r==='string'?JSON.parse(r.slice(r.indexOf('{'))):r;
+function statSvg(shape,value,derived){
+ const poly=(n,r)=>[...Array(n)].map((_,i)=>{const a=-Math.PI/2+i*2*Math.PI/n;return (r*Math.cos(a)).toFixed(1)+','+(r*Math.sin(a)).toFixed(1)}).join(' ');
+ const f=['<circle r="27"/>','<rect x="-26" y="-26" width="52" height="52" rx="9"/>','<path d="M-25,-27H25V7L0,29L-25,7Z"/>','<polygon points="0,-30 30,0 0,30 -30,0"/>',`<polygon points="${poly(6,29)}"/>`][shape]||'<circle r="27"/>';
+ const v=String(value);return `<svg viewBox="-32 -32 64 64"><g fill="var(--c)" fill-opacity=".22" stroke="var(--c)" stroke-width="3"${derived?' stroke-dasharray="5 3"':''}>${f}</g><text y="${v.length>3?5:8}" text-anchor="middle" font-size="${v.length>3?16:v.length>2?20:24}" font-weight="700" fill="${value==='?'?'var(--bad)':derived?'var(--info)':'var(--ink)'}">${esc(v)}</text></svg>`}
+function sheetBlock(b,i){
+ const c=DICE_COLORS[b.c]||DICE_COLORS[0],span=[2,3,4,6,12][b.w]??12,mspan=[2,3,2,6,6][b.w]??6,st=`style="--c:${c};--span:${span};--mspan:${mspan}"`,step=(d,t)=>`<button data-sheet="${i} ${d>0?'+':''}${d}">${t??(d>0?'+':'−')+(Math.abs(d)>1?Math.abs(d):'')}</button>`;
+ const tools=sheetBuild?`<div class="bedit"><button data-sheetop="up ${i}" title="${L('Выше')}">↑</button><button data-sheetop="down ${i}" title="${L('Ниже')}">↓</button><button data-sheetop="edit ${i}" title="${L('Изменить')}">✎</button><button class="${sheetArmed==='del'+i?'armed':''}" data-sheetop="del ${i}" title="${L('Удалить')}">${sheetArmed==='del'+i?L('Точно?'):'✕'}</button></div>`:'';
+ if(sheetEditing===i)return sheetForm(b,i);
+ switch(b.k){
+ case 0:{const v=b.bad?'?':(b.r===2&&b.v>=0?'+':'')+b.v,act=!sheetBuild&&b.roll;
+  return `<div class="card blk bstat${act?' act':''}" ${st} ${act?`data-sheet="act ${i}" title="${esc(diceReadable(b.roll))}"`:''}>${statSvg(b.s||0,v,!!b.f)}<b>${esc(b.name)}</b>${b.b&&!b.bad?`<span class="bbadge${b.r===3?' ret':''}">${esc(b.b)}</span>`:''}${!b.f&&!sheetBuild?`<div class="bstep">${step(-1)}${step(1)}</div>`:''}${tools}</div>`}
+ case 1:{const pct=b.x?Math.max(0,Math.min(100,b.v*100/b.x)):0,low=b.x&&b.v*4<=b.x;
+  return `<div class="card blk btrack" ${st}><div class="top"><b>${esc(b.name)}</b>${sheetFocus===i?`<span class="vin"><input id="sheetVal" type="number" value="${b.v}" inputmode="numeric"><button class="btn primary" data-sheetop="val ${i}">OK</button></span>`:`<button class="val${low||b.v<=0?' bad':''}" data-sheetop="focus ${i}" title="${L('Ввести значение')}">${b.v}${b.x?`<small> / ${b.x}</small>`:''}</button>`}</div>
+   ${b.x?`<div class="bar"><i style="width:${pct}%${low?';background:var(--bad)':''}"></i></div>`:''}${b.f?`<small class="faint">${L`макс. = ${esc(b.f)}`}</small>`:''}${sheetBuild?'':`<div class="steps">${step(-5)}${step(-1)}${step(1)}${step(5)}</div>`}${tools}</div>`}
+ case 2:return `<div class="card blk bpips" ${st}><b>${esc(b.name)}</b><div class="pips">${[...Array(b.x||0)].map((_,k)=>`<button class="${k<b.v?'on':''}" data-sheet="${i} set ${k<b.v&&k===b.v-1?k:k+1}" aria-label="${k+1}"></button>`).join('')}</div>${tools}</div>`;
+ case 3:{const roll=b.roll?diceReadable(b.roll):b.bad?'?':'',cost=b.use&&b.sp?`−${b.sp} ${esc(b.use)}`:'',act=!sheetBuild&&(b.roll||cost);
+  return `<div class="card blk babil${act?' act':''}" ${st} ${act?`data-sheet="act ${i}"`:''}><div class="main"><b>${esc(b.name)}</b>${b.note?`<small data-sheetnote>${esc(b.note)}</small>`:''}</div><span class="side${b.bad?' bad':''}">${esc(roll)}${roll&&cost?'<br>':''}${cost?`<em>${cost}</em>`:''}</span>${tools}</div>`}
+ case 4:return `<div class="card blk bnote" ${st}><small>${esc(b.name)}</small><p>${b.note?esc(b.note):`<span class="faint">${L`Пусто: заполните в конструкторе`}</span>`}</p>${tools}</div>`;
+ default:return `<div class="blk bhead" ${st}><b>${esc(b.name)}</b>${tools}</div>`}}
+// The builder's form: the fields of the block's kind; Save sends the changed ones.
+function sheetForm(b,i){
+ const x=sheetDraft,kind=x.k,f=(name,label,input)=>`<label>${label}${input}</label>`,inp=(field,attrs='')=>`<input data-sf="${field}" value="${esc(x[field]??'')}" ${attrs}>`,seg=(field,items)=>`<div class="seg">${items.map((t,k)=>`<button class="${x[field]===k?'on':''}" data-sfset="${field} ${k}">${t}</button>`).join('')}</div>`;
+ let h=`<div class="card sform" style="--c:${DICE_COLORS[x.c]||DICE_COLORS[0]}"><b>${SHEET_KINDS[kind][1]}</b>
+  <div class="two">${f('name',L('Название'),inp('name','maxlength="39"'))}${kind<4?f('code',L('Код для формул'),inp('code','maxlength="7" autocapitalize="off" autocomplete="off" placeholder="dex"')):''}</div>
+  ${f('',L('Тип'),seg('k',SHEET_KINDS.map(k=>k[1])))}${f('',L('Ширина'),seg('w',SHEET_WIDTHS))}
+  ${f('',L('Цвет'),`<div class="dcolors">${DICE_COLORS.map((c,k)=>`<button style="--c:${c}" class="${k===x.c?'on':''}" data-sfset="c ${k}"></button>`).join('')}</div>`)}`;
+ if(kind===0)h+=f('',L('Фигура'),`<div class="seg shapes">${[0,1,2,3,4].map(k=>`<button class="${(x.s||0)===k?'on':''}" data-sfset="s ${k}">${statSvg(k,'',false)}</button>`).join('')}</div>`)+f('',L('Правило'),seg('r',SHEET_RULES))
+  +`<div class="two">${f('value',L('Значение'),inp('value','type="number" inputmode="numeric"'))}${f('formula',L('Или вычислять'),inp('formula','maxlength="31" autocapitalize="off" autocomplete="off" placeholder="10+@dex"'))}</div>`;
+ if(kind===1)h+=`<div class="two">${f('value',L('Сейчас'),inp('value','type="number"'))}${f('max',L('Максимум (0 — нет)'),inp('max','type="number"'))}</div>${f('formula',L('Или максимум по формуле'),inp('formula','maxlength="31" autocapitalize="off" autocomplete="off" placeholder="@body*2"'))}`;
+ if(kind===2)h+=`<div class="two">${f('value',L('Отмечено'),inp('value','type="number"'))}${f('max',L('Всего (1–12)'),inp('max','type="number"'))}</div>`;
+ if(kind===3)h+=`${f('formula',L('Бросок'),inp('formula','maxlength="31" autocapitalize="off" autocomplete="off" placeholder="d20+@dex+@pb"'))}<div class="two">${f('use',L('Тратит из блока (код)'),inp('use','maxlength="7" autocapitalize="off" placeholder="mana"'))}${f('spend',L('Сколько'),inp('spend','type="number"'))}</div>`;
+ if(kind===3||kind===4)h+=f('note',L('Описание'),`<textarea data-sf="note" maxlength="200" rows="3">${esc(x.note||'')}</textarea>`);
+ if(kind<4)h+=`<p class="small muted" style="margin:0">${L`Формулы: @код — значение блока (у D&D — модификатор, у Р.Э.Т. — куб уровня), @код! — само значение; + − * / и скобки, деление вниз. Броски: d20+@dex+@pb, 2d6+@str, r3+@fine!`}</p>`;
+ const armed=sheetArmed==='del'+i;
+ return h+`<div class="btns"><button class="btn primary" data-sheetop="save ${i}">${L`Сохранить`}</button><button class="btn" data-sheetop="cancel">${L`Отмена`}</button><button class="btn danger${armed?' armed':''}" data-sheetop="del ${i}">${armed?L('Точно удалить?'):L('Удалить')}</button></div></div>`}
+function sheetDraftOf(b){return{k:b.k,w:b.w,c:b.c,s:b.s||0,r:b.r||0,name:b.name,code:b.code||'',value:b.k===0&&b.f?(b.raw??b.v):b.v??0,max:b.k===1?(b.m??b.x??0):b.x??0,formula:b.f||'',use:b.use||'',spend:b.sp||0,note:b.note||''}}
+function sheetLast(d){
+ const r=d.results[d.results.length-1];if(!r)return '';const parts=diceParts(r),types=r.dice||diceShapes(r.formula);let j=0;
+ const faces=parts.slice(0,8).map(p=>{if(p.k===1)return `<span class="dnum">${p.neg?'−':'+'}${p.v}</span>`;let t=types[j++];while(t==='n')t=types[j++];return dieSvg(t||'',p.v,p.k,p.neg)}).join('');
+ const ret=r.fail?`<span class="bad">${r.fail===1?L('Критический провал'):L`Провал, d4: ${r.fail}`}</span>`:r.successes?`<span class="ok">${r.successes>1?L`Успех ×${r.successes}`:L('Успех')}</span>`:'';
+ return `<div class="card dlast"><div class="faces${r.n!==diceSeenRoll?' spin':''}">${faces}</div><div class="main">${r.label?`<b>${esc(r.label)}</b> · `:''}${esc(diceReadable(r.formula))}${ret?'<br>'+ret:''}</div>${r.special?'':`<span class="tot">${r.total}</span>`}</div>`}
+function diceSheet(d){
+ if(!d.sheet)return `<div class="empty">${ic('dice')}${L`Лист персонажа появится после обновления прошивки`}</div>`;
+ const s=sheet;if(!s||s.character!==d.character)return `<div class="empty">${L`Загрузка…`}</div>`;
+ const last=sheetLast(d);const r=d.results[d.results.length-1];if(r)diceSeenRoll=r.n;
+ let panel='';
+ if(sheetPanel==='send'){const cs=peers.filter(p=>p.type===1);panel=`<div class="card pad spanel"><b>${L`Отправить лист контакту`}</b><p class="small muted" style="margin:4px 0 8px">${L`Лист уходит личными сообщениями MeshCore по частям, каждая — с подтверждением. Получатель с MeshMesh увидит предложение принять лист.`}</p>${cs.length?cs.map(p=>`<button class="row" data-sheetop="send ${p.id}">${avatar(p.id,p.name,1)}<span class="main"><b>${esc(p.name)}</b><small>${pathText(p)}</small></span><span class="side acc">${L`Отправить ${ic('next')}`}</span></button>`).join(''):`<p class="muted">${L`Нет контактов-собеседников`}</p>`}</div>`}
+ if(sheetPanel==='share')panel=`<div class="card pad spanel"><b>${L`Лист текстом`}</b><p class="small muted" style="margin:4px 0 8px">${L`Одна строка: её можно переслать в любом чате и вставить на другом устройстве.`}</p><textarea id="sheetText" rows="4" readonly>${esc(sheetExport)}</textarea><div class="btns"><button class="btn" data-sheetop="copy">${L`Копировать`}</button></div>
+  <b style="display:block;margin-top:12px">${L`Добавить персонажа из текста`}</b><textarea id="sheetImport" rows="3" placeholder="MMS1~N|…" autocapitalize="off" autocomplete="off"></textarea><div class="btns"><button class="btn primary" data-sheetop="import">${L`Добавить`}</button></div></div>`;
+ if(sheetPanel==='template'){const a=sheetArmed.startsWith('tpl ')?sheetArmed.slice(4):'';panel=`<div class="card pad spanel"><b>${L`Заменить лист шаблоном`}</b><p class="small muted" style="margin:4px 0 8px">${L`Все блоки этого персонажа будут заменены.`}</p><div class="btns">${[['dnd','D&D 5e'],['ret',L('Р.Э.Т.')],['empty',L('Пустой')]].map(([t,n])=>`<button class="btn${a===t?' danger armed':''}" data-sheetop="tpl ${t}">${a===t?L`Точно: ${n}?`:n}</button>`).join('')}</div></div>`}
+ const tools=`<div class="stools"><button class="btn${sheetBuild?' primary':''}" data-sheetop="build">${sheetBuild?L('Готово'):L('✎ Конструктор')}</button><button class="btn${sheetPanel==='send'?' on':''}" data-sheetop="panel send">${L`Отправить`}</button><button class="btn${sheetPanel==='share'?' on':''}" data-sheetop="panel share">${L`Текст`}</button>${sheetBuild?`<button class="btn${sheetPanel==='template'?' on':''}" data-sheetop="panel template">${L`Шаблон`}</button>`:''}</div>`;
+ const blocks=s.blocks.map((b,i)=>sheetBlock(b,i)).join('');
+ const add=sheetBuild?`<div class="sadd"><span class="muted small">${L`Добавить блок:`}</span>${SHEET_KINDS.map(([k,n])=>`<button class="btn" data-sheetop="add ${k}">${n}</button>`).join('')}<span class="faint small">${L`${s.blocks.length} из 64 · заметкам осталось ${s.notes_free} байт`}</span></div>`:'';
+ return tools+panel+last+(s.blocks.length?`<div class="dsheet">${blocks}</div>`:`<div class="empty">${ic('dice')}${L`Лист пуст`}<small>${L`Откройте конструктор: блоки или шаблон D&D, Р.Э.Т.`}</small></div>`)+add}
+// Pieces of at most 180 bytes ("dice sheet put K/N TEXT"): a BLE write carries 255.
+async function sheetUpload(text){
+ const enc=new TextEncoder(),pieces=[];let cur='';for(const ch of text){if(enc.encode(cur+ch).length>180){const sp=cur.match(/ +$/)?.[0]||'';if(sp.length<cur.length){pieces.push(cur.slice(0,cur.length-sp.length));cur=sp}else{pieces.push(cur);cur=''}}cur+=ch}if(cur)pieces.push(cur); // a command line loses a trailing space
+ diceQueue=diceQueue.then(async()=>{try{let r='';for(let k=0;k<pieces.length;k++)r=await command(`dice sheet put ${k+1}/${pieces.length} ${pieces[k]}`);
+  const j=r.indexOf('{');if(j>=0)dice=JSON.parse(r.slice(j));await command('dice mode sheet').then(r=>{const j=r.indexOf('{');if(j>=0)dice=JSON.parse(r.slice(j))});sheetPanel='';await sheetSync();notify(L('Персонаж добавлен'),'ok')}
+  catch(e){notify(e.message.replace(/^ERR /,''),'bad')}if(route==='dice')renderDice()});return diceQueue}
+// Save: the fields that changed, kind first and the maximum before the value (pips keep within it).
+function sheetSave(i){
+ const b=sheet.blocks[i],o=sheetDraftOf(b),x=sheetDraft,order=[['k','kind'],['name','name'],['code','code'],['w','width'],['c','color'],['s','shape'],['r','rule'],['max','max'],['value','value'],['formula','formula'],['use','use'],['spend','spend'],['note','note']];
+ if(!String(x.name).trim()&&x.k!==4){notify(L('Нужно название'),'warn');return}
+ const lines=order.filter(([k])=>String(x[k]??'')!==String(o[k]??'')).map(([k,f])=>`dice sheet set ${i} ${f} ${f==='note'?String(x[k]).replace(/\r/g,'').replace(/\n/g,'\\n'):String(x[k]).trim()}`);
+ diceQueue=diceQueue.then(async()=>{let good=true;for(const l of lines){try{const r=await command(l),j=r.indexOf('{');if(j>=0)dice=JSON.parse(r.slice(j))}catch(e){notify(e.message.replace(/^ERR /,''),'bad');good=false;break}}
+  if(good){sheetEditing=-1;sheetArmed=''}await sheetSync();if(route==='dice')renderDice()});return diceQueue}
+async function sheetOp(a){
+ const sp=a.indexOf(' '),op=sp<0?a:a.slice(0,sp),arg=sp<0?'':a.slice(sp+1),s=sheet;
+ switch(op){
+ case 'build':sheetBuild=!sheetBuild;sheetEditing=-1;sheetArmed='';sheetPanel='';renderDice();return;
+ case 'panel':sheetPanel=sheetPanel===arg?'':arg;sheetArmed='';renderDice();
+  if(sheetPanel==='share'){sheetExport='';try{sheetExport=diceJson(await command('dice sheet export')).text}catch(e){notify(e.message,'bad')}renderDice()}return;
+ case 'copy':copyText(sheetExport,L('Скопировано'));return;
+ case 'import':{const t=$('sheetImport').value.trim();if(!t.startsWith('MMS1~')){notify(L('Это не лист MeshMesh (MMS1)'),'warn');return}return sheetUpload(t)}
+ case 'send':sheetPanel='';return diceDo('sheet send '+arg);
+ case 'tpl':if(sheetArmed!=='tpl '+arg){sheetArmed='tpl '+arg;renderDice();return}sheetArmed='';sheetPanel='';return diceDo('sheet template '+arg);
+ case 'add':return diceDo('sheet add '+arg,r=>{const n=+((r||'').match(/added (\d+)/)||[])[1];if(sheet&&sheet.blocks[n]){sheetEditing=n;sheetDraft=sheetDraftOf(sheet.blocks[n])}});
+ case 'up':case 'down':{const i=+arg,j=op==='up'?i-1:i+1;if(!s||j<0||j>=s.blocks.length)return;return diceDo(`sheet move ${i} ${j}`)}
+ case 'edit':sheetEditing=+arg;sheetDraft=sheetDraftOf(s.blocks[+arg]);sheetArmed='';renderDice();$('diceView').querySelector('[data-sf="name"]')?.focus();return;
+ case 'cancel':sheetEditing=-1;sheetArmed='';renderDice();return;
+ case 'del':{const i=+arg;if(sheetArmed!=='del'+i){sheetArmed='del'+i;renderDice();return}sheetArmed='';sheetEditing=-1;return diceDo('sheet del '+i)}
+ case 'save':return sheetSave(+arg);
+ case 'focus':sheetFocus=+arg;renderDice();$('sheetVal')?.select();return;
+ case 'val':{const v=$('sheetVal').value.trim();sheetFocus=-1;if(!/^[+-]?\d+$/.test(v)){renderDice();return}return diceDo(`sheet ${arg} set ${parseInt(v,10)}`)}
+ }}
 function renderDice(){
  const v=$('diceView'),d=dice;if(!v)return;
  if(!d){v.innerHTML=`<div class="empty">${ic('dice')}${d===false?L('Прошивка устройства без дайсера: обновите MeshMesh'):L('Загрузка…')}</div>`;return}
  const heroArmed=diceArmed==='hero';
- const hero=diceHero?`<div class="dhero"><input id="dHeroName" maxlength="40" placeholder="${L('Имя персонажа')}" value="${diceHero==='name'?esc(d.characters[d.character]):''}" style="flex:1;min-width:0"><button class="btn primary" data-dice="herosave">${L`Сохранить`}</button><button class="btn" data-dice="herocancel">${L`Отмена`}</button></div>`:`<div class="dhero"><select id="dHero" aria-label="${L('Персонаж')}">${d.characters.map((n,i)=>`<option value="${i}" ${i===d.character?'selected':''}>${esc(n)}${i?'':L(' (общий набор)')}</option>`).join('')}${d.characters.length<6?`<option value="new">${L`+ Новый персонаж…`}</option>`:''}</select>
+ const hero=diceHero?`<div class="dhero"><input id="dHeroName" maxlength="23" placeholder="${L('Имя персонажа')}" value="${diceHero==='name'?esc(d.characters[d.character]):''}" style="flex:1;min-width:0"><button class="btn primary" data-dice="herosave">${diceHero==='new'?L('Создать'):L('Сохранить')}</button><button class="btn" data-dice="herocancel">${L`Отмена`}</button></div>${diceHero==='new'&&d.sheet?`<div class="seg dtpl">${[['empty',L('Пустой лист')],['dnd','D&D 5e'],['ret',L('Р.Э.Т. (Разум, Эмоции, Тело)')]].map(([t,n])=>`<button class="${diceTpl===t?'on':''}" data-dice="tpl ${t}">${n}</button>`).join('')}</div>`:''}`:`<div class="dhero"><select id="dHero" aria-label="${L('Персонаж')}">${d.characters.map((n,i)=>`<option value="${i}" ${i===d.character?'selected':''}>${esc(n)}${i?'':L(' (общий набор)')}</option>`).join('')}${d.characters.length<6?`<option value="new">${L`+ Новый персонаж…`}</option>`:''}</select>
   ${d.character?`<button class="btn" data-dice="heroname">${L`Имя`}</button><button class="btn ${heroArmed?'danger armed':'danger'}" data-dice="herodel">${heroArmed?L('Точно удалить?'):L('Удалить')}</button>`:''}</div>`;
- const tabs=`<div class="tabs">${DICE_MODES.map(([m,n])=>`<button class="${d.mode===m?'on':''}" data-dice="mode ${m}">${n}</button>`).join('')}</div>`;
- v.innerHTML=tabs+hero+(d.mode==='grid'?diceGrid(d):d.mode==='counters'?diceCounters(d):diceRpg(d))}
+ const tabs=`<div class="tabs">${DICE_MODES.map(([m,n])=>`<button class="${d.mode===m||m==='sheet'&&d.mode==='counters'?'on':''}" data-dice="mode ${m}">${n}</button>`).join('')}</div>`;
+ const offer=d.offer?`<div class="card pad dofr">${ic('dice')}<span style="flex:1;min-width:0">${L`Лист «${esc(d.offer.name)}» от ${esc(d.offer.from)}`}</span><button class="btn primary" data-dice="accept">${L`Принять`}</button><button class="btn" data-dice="sheet offer decline">${L`Отклонить`}</button></div>`:'';
+ const sending=d.send&&d.send.state==='sending'?`<p class="small muted dsend">${L`Отправка листа: ${esc(d.send.to)}, часть ${d.send.part+1} из ${d.send.parts}`}</p>`:'';
+ v.innerHTML=tabs+offer+sending+hero+(d.mode==='grid'?diceGrid(d):d.mode==='sheet'||d.mode==='counters'?diceSheet(d):diceRpg(d))}
 async function diceAct(a){
  const d=dice;if(!d)return;
  if(a.startsWith('count ')||a.startsWith('mod ')||a.startsWith('type ')){const v=a.split(' ')[1];
   return diceDo(d=>{let n=d.pool.count,t=d.pool.type,m=d.pool.mod;if(a.startsWith('count '))n=v==='r'?1:Math.max(1,Math.min(99,n+ +v));else if(a.startsWith('mod '))m=v==='r'?0:Math.max(-99,Math.min(99,m+ +v));else t=v;return `pool ${n} ${t} ${m}`})}
  if(a==='formula'){const f=$('dFormula').value.trim();if(!f)return;return diceDo('roll '+f,()=>{})}
- if(a==='dsave'){const n=$('drName').value.trim(),f=$('drFormula').value.trim();if(!n||new TextEncoder().encode(n).length>23){notify(L('Название: от 1 до 23 байт'),'warn');return}if(!f){notify(L('Нужна формула'),'warn');return}
+ if(a==='dsave'){const n=$('drName').value.trim(),f=$('drFormula').value.trim();if(!n||new TextEncoder().encode(n).length>39){notify(L('Название: от 1 до 39 байт'),'warn');return}if(!f){notify(L('Нужна формула'),'warn');return}
   const i=diceEdit;return diceDo(i<d.rolls.length?`saved edit ${i} ${f.replace(/\s+/g,'')} ${n}`:`saved add ${f.replace(/\s+/g,'')} ${n}`,()=>{diceEdit=-1})}
  if(a==='dcancel'){diceEdit=-1;diceArmed='';renderDice();return}
  if(a==='ddel'){if(diceArmed!=='roll'+diceEdit){diceArmed='roll'+diceEdit;renderDice();return}const i=diceEdit;diceArmed='';return diceDo('saved del '+i,()=>{diceEdit=-1})}
- if(a.startsWith('ctrdel ')){const i=a.split(' ')[1];if(diceArmed!=='ctr'+i){diceArmed='ctr'+i;renderDice();return}diceArmed='';return diceDo('counter '+i+' del')}
+ if(a.startsWith('tpl ')){diceTpl=a.slice(4);renderDice();$('dHeroName')?.focus();return}
+ if(a==='accept')return diceDo('sheet offer accept',()=>diceDo('mode sheet'));
  if(a==='heroname'){diceHero='name';renderDice();$('dHeroName').focus();return}
  if(a==='herocancel'){diceHero='';renderDice();return}
- if(a==='herosave'){const n=$('dHeroName').value.trim();if(!n||new TextEncoder().encode(n).length>23){notify(L('Имя: от 1 до 23 байт'),'warn');return}const add=diceHero==='new';return diceDo((add?'char add ':'char name ')+n,()=>{diceHero=''})}
+ if(a==='herosave'){const n=$('dHeroName').value.trim();if(!n||new TextEncoder().encode(n).length>23){notify(L('Имя: от 1 до 23 байт'),'warn');return}const add=diceHero==='new';
+  return diceDo(add?(d.sheet?`char new ${diceTpl} ${n}`:'char add '+n):'char name '+n,()=>{diceHero='';if(add&&d.sheet&&diceTpl!=='empty')diceDo('mode sheet')})}
  if(a==='herodel'){if(diceArmed!=='hero'){diceArmed='hero';renderDice();return}diceArmed='';return diceDo('char del')}
- if(a.startsWith('counter ')&&a.includes(' color '))diceColorFor=-1;
  diceArmed='';return diceDo(a)}
-document.addEventListener('click',e=>{const t=e.target.closest('[data-dice],[data-dedit],[data-dpal]');if(!t||!$('diceView')?.contains(t))return;
+document.addEventListener('click',e=>{const t=e.target.closest('[data-dice],[data-dedit],[data-sheet],[data-sheetop],[data-sheetnote],[data-sfset]');if(!t||!$('diceView')?.contains(t))return;
+ if(t.dataset.sheetnote!==undefined){t.classList.toggle('open');return}
+ if(t.dataset.sfset!==undefined){const[f,v]=t.dataset.sfset.split(' ');sheetDraft[f]=+v;renderDice();return}
+ if(t.dataset.sheetop!==undefined){sheetOp(t.dataset.sheetop);return}
+ if(t.dataset.sheet!==undefined){diceDo('sheet '+t.dataset.sheet);return}
  if(t.dataset.dedit!==undefined){diceEdit=+t.dataset.dedit;diceArmed='';renderDice();$('drName')?.focus();return}
- if(t.dataset.dpal!==undefined){const i=+t.dataset.dpal;diceColorFor=diceColorFor===i?-1:i;renderDice();return}
  diceAct(t.dataset.dice)});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.sf!==undefined&&$('diceView')?.contains(t))sheetDraft[t.dataset.sf]=t.value});
 document.addEventListener('change',e=>{const t=e.target;if(!$('diceView')?.contains(t))return;
  if(t.id==='dHero'){if(t.value==='new'){diceHero='new';renderDice();$('dHeroName').focus();return}diceDo('char use '+t.value);return}
- if(t.id==='dThreshold'){diceDo('grid threshold '+t.value);return}
- if(t.dataset.dname!==undefined){const n=t.value.trim();if(n&&new TextEncoder().encode(n).length<=23)diceDo(`counter ${t.dataset.dname} name ${n}`);else{notify(L('Название: от 1 до 23 байт'),'warn');renderDice()}}});
-document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const t=e.target;if(t.id==='dFormula')diceAct('formula');else if(t.id==='drFormula'||t.id==='drName')diceAct('dsave');else if(t.id==='dHeroName')diceAct('herosave')});
+ if(t.id==='dThreshold'){diceDo('grid threshold '+t.value);return}});
+document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const t=e.target;if(t.id==='dFormula')diceAct('formula');else if(t.id==='drFormula'||t.id==='drName')diceAct('dsave');else if(t.id==='dHeroName')diceAct('herosave');else if(t.id==='sheetVal')sheetOp('val '+sheetFocus)});
 
 // Chats.
 function renderThreads(){const ids=conversationIds(),k=ids.findIndex(id=>!isChan(id));
@@ -967,7 +1088,7 @@ function renderChanInfo(){const c=chan(param),el=$('chanCard');if(!c){setHtml(el
   <div class="btns" style="margin-top:14px"><button class="btn danger${stage?' armed':''}" data-chdel="1">${[L('Удалить канал'),L('Удалить? История останется'),L`Точно удалить «${esc(c.name)}»`][stage]}</button></div>`;
  const typing=document.activeElement?.id==='chRegion'?document.activeElement.value:null;
  setHtml(el,h);if(typing!==null&&document.activeElement?.id!=='chRegion'){const i=$('chRegion');if(i){i.value=typing;i.focus()}}}
-async function copyText(t){try{await navigator.clipboard.writeText(t)}catch{const a=document.createElement('textarea');a.value=t;document.body.append(a);a.select();document.execCommand('copy');a.remove()}notify(L('Ссылка скопирована'),'ok')}
+async function copyText(t,done=L('Ссылка скопирована')){try{await navigator.clipboard.writeText(t)}catch{const a=document.createElement('textarea');a.value=t;document.body.append(a);a.select();document.execCommand('copy');a.remove()}notify(done,'ok')}
 async function chanClick(d){
  if(d.chtab){chTab=d.chtab;renderAddCh();return}
  if(d.chjoin){chanAdd({hashtag:d.chjoin});return}

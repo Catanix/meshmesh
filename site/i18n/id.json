@@ -235,7 +235,7 @@
  "doc.pet": "Peliharaan mesh",
  "news.dice": "<b>Baru:</b> dadu — pelempar DIC3R untuk RPG dan Warhammer di setiap papan",
  "f.dice.t": "Dadu",
- "f.dice.d": "Pelempar dadu DIC3R di setiap papan. RPG: kumpulan seperti 2d6+1 atau rumus apa pun, setiap dadu dengan bentuknya, jumlahnya; d66 dan d%. Warhammer: grid hingga 50 dadu, dari terbesar ke terkecil, dengan ambang sukses. Penghitung nyawa dan sumber daya, karakter dengan lemparan tersimpan sendiri. Perangkat menyimpan semuanya, jadi layar, halaman web, dan aplikasi menampilkan lemparan yang sama. Di papan bertombol satu, tombol itu sendiri menghitung: klik +1, tahan −1, tahan 5 d untuk keluar.",
+ "f.dice.d": "Pelempar dadu DIC3R di setiap papan. RPG: kumpulan seperti 2d6+1 atau rumus apa pun, setiap dadu dengan bentuknya, jumlahnya; d66 dan d%. Warhammer: grid hingga 50 dadu, dari terbesar ke terkecil, dengan ambang sukses. Lembar karakter dari blok; lemparan tersimpan menjadi kemampuannya. Perangkat menyimpan semuanya, jadi layar, halaman web, dan aplikasi menampilkan lemparan yang sama. Di papan bertombol satu, tombol itu sendiri menghitung: klik +1, tahan −1, tahan 5 d untuk keluar.",
  "shot.m9-dice-shapes": "Setiap dadu dengan bentuknya: d4 sampai d20",
  "shot.t114-dice-saved": "Lemparan tersimpan di T114",
  "shot.m9-dice-grid": "Warhammer: 8 sukses pada 4+",
@@ -280,5 +280,14 @@
  "shot.m9-people-cards": "Kartu penghitung",
  "shot.m9-people-new": "Kartu baru",
  "shot.t114-people-two": "T114: dua kartu",
- "shot.heltec-people-two": "Heltec: dua kartu"
+ "shot.heltec-people-two": "Heltec: dua kartu",
+ "news.sheet": "<b>Baru:</b> lembar karakter di Dadu — blok, templat D&D dan R.E.T., kirim lewat jaringan mesh",
+ "f.sheet.t": "Lembar karakter",
+ "f.sheet.d": "Lembar dari blok di Dadu: stat dalam lingkaran, kotak, perisai, belah ketupat, dan segi enam, trek hit point dan mana, tanda untuk slot dan death save, kemampuan dengan lemparan, biaya, dan deskripsi, catatan. Blok saling merujuk: AC = 10+@dex, lemparan d20+@dex+@pb. Templat siap pakai untuk D&D 5e (modifier atribut) dan R.E.T. (pohon Pikiran — Emosi — Tubuh, dadu per level, sukses menambah dadu level berikutnya). Susun di halaman web atau aplikasi, mainkan di layar papan mana pun. Kirim lembar ke kontak lewat MeshCore: tiba per bagian dengan konfirmasi dan menawarkan untuk menambah karakternya.",
+ "shot.m9-dice-sheet": "Lembar D&D di M9",
+ "shot.m9-dice-sheet-ret": "R.E.T.: dadu per level",
+ "shot.t114-dice-sheet": "T114: lembar berwarna",
+ "shot.m9-dice-templates": "Karakter baru dari templat",
+ "shot.heltec-dice-sheet": "OLED: blok demi blok",
+ "shot.m9-dice-offer": "Lembar dari kontak"
 }

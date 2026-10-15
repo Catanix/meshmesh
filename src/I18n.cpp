@@ -1,3 +1,6 @@
+#if defined(MM_NRF52)
+#pragma GCC optimize("Os") // 1 MB flash: the text lookups are not speed-critical (the rest of our nRF52 code is -O2)
+#endif
 #include "I18n.h"
 #include "Config.h"
 #include <U8g2_for_Adafruit_GFX.h>

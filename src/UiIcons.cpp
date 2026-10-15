@@ -1,3 +1,6 @@
+#if defined(MM_NRF52)
+#pragma GCC optimize("Os") // 1 MB flash: icons and shapes are not speed-critical (the rest of our nRF52 code is -O2)
+#endif
 #include "UiIcons.h"
 #include "Dice.h"
 #include <Arduino.h>
@@ -56,5 +59,17 @@ void drawDieShape(Adafruit_GFX& d,uint8_t shape,int cx,int cy,int s,uint16_t fil
  case dice::D12:polygon(d,cx,cy+1,s+1,5,fill);break;
  case dice::D20:{polygon(d,cx,cy,s+1,6,fill);int r=s*5/8;d.drawTriangle(cx,cy-r-2,cx-r-2,cy+r-1,cx+r+2,cy+r-1,edge);break;}
  default:d.fillRoundRect(cx-s-2,cy-s+3,2*s+5,2*s-5,max(2,s/3),fill);break;
+ }
+}
+void drawStatShape(Adafruit_GFX& d,uint8_t shape,int cx,int cy,int r,uint16_t fill,uint16_t edge){
+ auto outline=[&](const int* xs,const int* ys,int n){for(int k=0;k<n;k++){int j=(k+1)%n;d.drawLine(xs[k],ys[k],xs[j],ys[j],edge);d.drawLine(xs[k]+(xs[k]<cx?1:xs[k]>cx?-1:0),ys[k]+(ys[k]<cy?1:ys[k]>cy?-1:0),xs[j]+(xs[j]<cx?1:xs[j]>cx?-1:0),ys[j]+(ys[j]<cy?1:ys[j]>cy?-1:0),edge);}};
+ switch(shape){
+ case dice::Square:d.fillRoundRect(cx-r,cy-r,2*r+1,2*r+1,max(2,r/3),fill);d.drawRoundRect(cx-r,cy-r,2*r+1,2*r+1,max(2,r/3),edge);d.drawRoundRect(cx-r+1,cy-r+1,2*r-1,2*r-1,max(1,r/3-1),edge);break;
+ case dice::Shield:{int top=cy-r,mid=cy+r/3,w=r;d.fillRect(cx-w,top,2*w+1,mid-top,fill);d.fillTriangle(cx-w,mid,cx+w,mid,cx,cy+r+1,fill);
+  const int xs[]={cx-w,cx+w,cx+w,cx,cx-w},ys[]={top,top,mid,cy+r+1,mid};outline(xs,ys,5);break;}
+ case dice::Diamond:{d.fillTriangle(cx,cy-r-1,cx-r-1,cy,cx+r+1,cy,fill);d.fillTriangle(cx,cy+r+1,cx-r-1,cy,cx+r+1,cy,fill);
+  const int xs[]={cx,cx+r+1,cx,cx-r-1},ys[]={cy-r-1,cy,cy+r+1,cy};outline(xs,ys,4);break;}
+ case dice::Hexagon:{polygon(d,cx,cy,r+1,6,fill);int xs[6],ys[6];for(int k=0;k<6;k++){float a=-M_PI/2+k*M_PI/3;xs[k]=cx+roundf((r+1)*cosf(a));ys[k]=cy+roundf((r+1)*sinf(a));}outline(xs,ys,6);break;}
+ default:d.fillCircle(cx,cy,r,fill);d.drawCircle(cx,cy,r,edge);d.drawCircle(cx,cy,r-1,edge);break;
  }
 }

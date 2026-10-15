@@ -235,7 +235,7 @@
  "doc.pet": "Ağ evcil hayvanı",
  "news.dice": "<b>Yeni:</b> zarlar — her kartta RPG ve Warhammer için DIC3R zar atıcı",
  "f.dice.t": "Zarlar",
- "f.dice.d": "Her kartta DIC3R zar atıcı. RPG: 2d6+1 gibi bir havuz ya da herhangi bir formül, her zar kendi şekliyle, toplam; d66 ve d%. Warhammer: büyükten küçüğe dizilen, başarı eşikli 50 zara kadar ızgara. Can ve kaynak sayaçları, kendi kayıtlı atışları olan karakterler. Her şeyi cihaz saklar; ekran, web sayfası ve uygulama aynı atışları gösterir. Tek düğmeli kartlarda düğmenin kendisi sayar: tık +1, basılı tut −1, çıkmak için 5 sn basılı tut.",
+ "f.dice.d": "Her kartta DIC3R zar atıcı. RPG: 2d6+1 gibi bir havuz ya da herhangi bir formül, her zar kendi şekliyle, toplam; d66 ve d%. Warhammer: büyükten küçüğe dizilen, başarı eşikli 50 zara kadar ızgara. Bloklardan oluşan karakter sayfası; kayıtlı atışlar onun yetenekleridir. Her şeyi cihaz saklar; ekran, web sayfası ve uygulama aynı atışları gösterir. Tek düğmeli kartlarda düğmenin kendisi sayar: tık +1, basılı tut −1, çıkmak için 5 sn basılı tut.",
  "shot.m9-dice-shapes": "Her zar kendi şekliyle: d4'ten d20'ye",
  "shot.t114-dice-saved": "T114'te kayıtlı bir atış",
  "shot.m9-dice-grid": "Warhammer: 4+ ile 8 başarı",
@@ -280,5 +280,14 @@
  "shot.m9-people-cards": "Bir sayaç kartı",
  "shot.m9-people-new": "Yeni bir kart",
  "shot.t114-people-two": "T114: iki kart",
- "shot.heltec-people-two": "Heltec: iki kart"
+ "shot.heltec-people-two": "Heltec: iki kart",
+ "news.sheet": "<b>Yeni:</b> Zar uygulamasında karakter sayfası — bloklar, D&D ve R.E.T. şablonları, ağ üzerinden gönderme",
+ "f.sheet.t": "Karakter sayfası",
+ "f.sheet.d": "Zar uygulamasında bloklardan oluşan sayfa: daire, kare, kalkan, eşkenar dörtgen ve altıgen içinde özellikler, can ve mana göstergeleri, büyü yuvaları ve ölüm kurtarma atışları için işaretler, atışı, bedeli ve açıklaması olan yetenekler, notlar. Bloklar birbirine başvurur: ZS = 10+@dex, atış d20+@dex+@pb. D&D 5e (özellik değiştiricileri) ve R.E.T. (Zihin — Duygular — Beden ağacı, seviyeye göre zar, başarı bir sonraki seviyenin zarını ekler) için hazır şablonlar. Web sayfasında veya uygulamada oluşturun, herhangi bir kartın ekranında oynayın. Sayfayı MeshCore üzerinden bir kişiye gönderin: onaylı parçalar hâlinde ulaşır ve karakteri eklemeyi önerir.",
+ "shot.m9-dice-sheet": "M9'da D&D sayfası",
+ "shot.m9-dice-sheet-ret": "R.E.T.: seviyeye göre zarlar",
+ "shot.t114-dice-sheet": "T114: renkli sayfa",
+ "shot.m9-dice-templates": "Şablondan yeni karakter",
+ "shot.heltec-dice-sheet": "OLED: blok blok",
+ "shot.m9-dice-offer": "Bir kişiden gelen sayfa"
 }

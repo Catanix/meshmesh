@@ -151,6 +151,15 @@
    "src/UiServer.inc:57: case RowGuest:return room?t(\"Members read and post with it; none: blank\",\"Участники читают и пишут; нет - пустой пароль\"):t(\"Read-only login; none: a blank password logs in\",\"Вход только для чтения; нет - вход с пустым п"
   ]
  },
+ "0232d141": {
+  "cells": 9,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:387: add(Ability,Half,Circle,Plain,\"\",t(\"Dodge\",\"Уклонение\"),0,0,\"@agi\",0);"
+  ]
+ },
  "0237fb5c": {
   "cells": 33,
   "families": [
@@ -167,6 +176,15 @@
   ],
   "where": [
    "src/UiRemote.inc:26: if(!s||s->status==remote::Idle||(s->status!=remote::Done&&!s->statusAt))text(14,y,s&&s->status!=remote::Idle?t(\"Status: \",\"Статус: \")+remoteState(s->status,\"\"):t(\"Status: not asked yet\",\"Статус: не запрашивался\"),dim,sma"
+  ]
+ },
+ "02ac6627": {
+  "cells": 13,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:242: const auto& o=dicer.out;if(o.parts){String st=o.done?t(\"Delivered to \",\"Доставлен: \")+o.name:o.failed?t(\"Not delivered to \",\"Не доставлен: \")+o.name:t(\"Sending: part \",\"Отправка: часть \")+String(o.part+1)+\"/\"+String(o.pa"
   ]
  },
  "02e337ce": {
@@ -259,7 +277,7 @@
    "compact"
   ],
   "where": [
-   "src/UiHires.inc:456: else if(page==DicePage&&dicer.s.mode!=dice::Tally)footer({t(\"click: roll\",\"клик: бросок\"),t(\"hold: menu\",\"держ: меню\")});"
+   "src/UiHires.inc:496: else if(page==DicePage)footer({dicer.s.mode==dice::Sheet?t(\"click: next\",\"клик: далее\"):t(\"click: roll\",\"клик: бросок\"),t(\"hold: menu\",\"держ: меню\")});"
   ]
  },
  "04f9d959": {
@@ -315,7 +333,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:87: else if(dicer.gridRolled&&!spin){unsigned sum=0;for(unsigned i=0;i<s.gridChosen;i++)sum+=dicer.grid[i];String n=t(\"sum \",\"сумма \")+String(sum);text(x,y,n,dim);x+=measure(n)+8;}"
+   "src/UiDice.inc:96: else if(dicer.gridRolled&&!spin){unsigned sum=0;for(unsigned i=0;i<s.gridChosen;i++)sum+=dicer.grid[i];String n=t(\"sum \",\"сумма \")+String(sum);text(x,y,n,dim);x+=measure(n)+8;}"
   ]
  },
  "05a88b8a": {
@@ -407,7 +425,7 @@
    "compact"
   ],
   "where": [
-   "src/UiHires.inc:292: if(dicer.resultCount>1)text(160,74,t(\"Before\",\"Ранее\"),ColFaint,tiny);"
+   "src/UiHires.inc:332: if(dicer.resultCount>1)text(160,74,t(\"Before\",\"Ранее\"),ColFaint,tiny);"
   ]
  },
  "0740ad50": {
@@ -434,7 +452,7 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:101: return t(\"Dice \",\"Кости \")+dicer.poolText();"
+   "src/UiDiceCompact.inc:125: return t(\"Dice \",\"Кости \")+dicer.poolText();"
   ]
  },
  "07dbc6c1": {
@@ -446,7 +464,7 @@
   "where": [
    "src/Ui.cpp:467: row(t(\"Clock\",\"Часы\"),(hardware.clockSource==\"unset\"?t(\"not set\",\"не задано\"):hardware.clockSource==\"manual\"?t(\"manual\",\"вручную\"):hardware.clockSource)+(hardware.clockTrusted?t(\" · trusted\",\" · доверено\"):String()),ink)",
    "src/UiHeltec.cpp:775: say(0,51,t(\"Clock \",\"Часы \")+clockText(time(nullptr))+\" \"+(hardware.clockSource==\"unset\"?t(\"not set\",\"не задано\"):hardware.clockSource),small);break;}",
-   "src/UiHires.inc:303: text(6,106,fit(t(\"Clock \",\"Часы \")+clockText(time(nullptr))+\" \"+(hardware.clockSource==\"unset\"?t(\"not set\",\"не задано\"):hardware.clockSource),228,small),ColDim,small);"
+   "src/UiHires.inc:343: text(6,106,fit(t(\"Clock \",\"Часы \")+clockText(time(nullptr))+\" \"+(hardware.clockSource==\"unset\"?t(\"not set\",\"не задано\"):hardware.clockSource),228,small),ColDim,small);"
   ]
  },
  "07fd4beb": {
@@ -465,6 +483,15 @@
   ],
   "where": [
    "src/Ui.cpp:617: switch(i){case 0:return t(\"OK: edit, 1-24 UTF-8 bytes\",\"OK: изменить, 1-24 байта UTF-8\");case 1:return t(\"Menu language; typing layout is the @ key\",\"Язык меню; раскладка ввода - клавиша @\");case 2:return \"10-255\";case 3"
+  ]
+ },
+ "083006b7": {
+  "cells": 6,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:350: add(Header,Whole,Circle,Plain,\"\",t(\"Skills\",\"Навыки\"),0,0,\"\",0);"
   ]
  },
  "0872084c": {
@@ -561,6 +588,15 @@
    "src/Ui.cpp:750: const char* names[]={\"LoRa\",nullptr,\"SD\",\"LittleFS\",\"RTC\",\"GPS / NMEA\",nullptr,\"IMU\"};String label[8];for(int i=0;i<8;i++)label[i]=names[i]?String(names[i]):i==1?t(\"Keyboard\",\"Клавиатура\"):t(\"Compass\",\"Компас\");"
   ]
  },
+ "0927f7a3": {
+  "cells": 23,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:341: if(key=='+'||key=='='||key=='-'||key=='_'){if(!dicer.change(sheetSel,key=='+'||key=='='?1:-1))notice(dicer.sheet.block[sheetSel].formula[0]?t(\"Computed by its formula\",\"Считается по формуле\"):t(\"No value here\",\"Здесь нет"
+  ]
+ },
  "0936e82e": {
   "cells": 16,
   "families": [
@@ -576,7 +612,7 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:59: case ActDiceTap:return t(\"Count with button\",\"Считать кнопкой\")+value;"
+   "src/UiDiceCompact.inc:71: case ActDiceTap:return t(\"Count with button\",\"Считать кнопкой\")+value;"
   ]
  },
  "0a9fb2e4": {
@@ -603,7 +639,7 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:45: case ActDiceSaved:{diceSavedSel=c.rolls?diceSavedSel%c.rolls:0;return t(\"Roll: \",\"Бросок: \")+String(c.roll[diceSavedSel].name);}"
+   "src/UiDiceCompact.inc:56: case ActDiceSaved:{unsigned n=dicer.savedCount();diceSavedSel=n?diceSavedSel%n:0;int b=dicer.savedBlock(diceSavedSel);return t(\"Roll: \",\"Бросок: \")+String(b>=0?dicer.sheet.block[b].name:\"\");}"
   ]
  },
  "0b2e473c": {
@@ -645,6 +681,15 @@
    "src/UiHeltec.cpp:240: case RowSave:return t(\"Save\",\"Сохранить\");default:return t(\"Cancel\",\"Отмена\");}"
   ]
  },
+ "0ba2e802": {
+  "cells": 13,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:340: add(Stat,Quarter,Shield,Plain,\"ac\",t(\"Armor class\",\"Класс доспеха\"),10,0,\"10+@dex\",4);"
+  ]
+ },
  "0c25fa5a": {
   "cells": 14,
   "families": [
@@ -681,6 +726,15 @@
    "src/Ui.cpp:614: if(page==Radio){switch(i){case 0:return t(\"1 kHz steps; must match every node\",\"Шаг 1 кГц; должна совпадать у всех узлов\");case 1:return t(\"62.5 / 125 / 250 / 500 kHz\",\"62.5 / 125 / 250 / 500 кГц\");case 2:return t(\"Highe"
   ]
  },
+ "0cf7b383": {
+  "cells": 14,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:390: if(key==Erase){dicer.declineOffer();diceSheet=DiceMain;notice(t(\"Sheet declined\",\"Лист отклонён\"),dim);return true;}"
+  ]
+ },
  "0cfaea2d": {
   "cells": 19,
   "families": [
@@ -689,7 +743,7 @@
   "where": [
    "src/UiHeltec.cpp:615: footer(t(\"click-next hold-run\",\"клик-далее держ-ОК\"));",
    "src/UiHeltec.cpp:808: (quickTargets||!quickIndex||quickIndex>quickSend::Count?t(\"click-next hold-run\",\"клик-далее держ-ОК\"):t(\"click-next hold-send\",\"клик-выбор держ-слать\")):",
-   "src/UiHires.inc:452: if(menuOpen){Act acts[MenuMax];unsigned n=actions(acts);if(n){menuIndex%=n;menuBox(n,menuIndex,[&](unsigned i){return actName(acts[i]);});}footer({t(\"click-next hold-run\",\"клик-далее держ-ОК\")});}"
+   "src/UiHires.inc:492: if(menuOpen){Act acts[MenuMax];unsigned n=actions(acts);if(n){menuIndex%=n;menuBox(n,menuIndex,[&](unsigned i){return actName(acts[i]);});}footer({t(\"click-next hold-run\",\"клик-далее держ-ОК\")});}"
   ]
  },
  "0d13764a": {
@@ -744,7 +798,7 @@
   ],
   "where": [
    "src/UiChessCompact.inc:186: say(0,49,t(\"or accept a challenge\",\"или примите вызов\"),small);return;}",
-   "src/UiHires.inc:358: center(120,94,fit(t(\"Node menu: Chess invite\",\"Меню узла: вызвать\"),228,small),ColDim,small);center(120,110,fit(t(\"or accept a challenge\",\"или примите вызов\"),228,small),ColDim,small);return;}"
+   "src/UiHires.inc:398: center(120,94,fit(t(\"Node menu: Chess invite\",\"Меню узла: вызвать\"),228,small),ColDim,small);center(120,110,fit(t(\"or accept a challenge\",\"или примите вызов\"),228,small),ColDim,small);return;}"
   ]
  },
  "0dd48b86": {
@@ -812,7 +866,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:157: case EditNewName:if(dicer.addRoll(diceDraft,edit)){editing=false;diceSel=c.rolls-1;notice(t(\"Roll saved\",\"Бросок сохранён\"),ok);}else bad1(c.rolls>=dice::Rolls?t(\"10 saved rolls at most\",\"Не больше 10 бросков\"):nameError"
+   "src/UiDice.inc:287: case EditNewName:if(dicer.addRoll(diceDraft,edit)){editing=false;diceSel=dicer.savedCount()-1;notice(t(\"Roll saved\",\"Бросок сохранён\"),ok);}else bad1(dicer.sheet.count>=dice::Blocks?t(\"64 blocks at most\",\"Не больше 64 бл"
   ]
  },
  "0ea5571b": {
@@ -822,7 +876,7 @@
   ],
   "where": [
    "src/UiChessCompact.inc:157: say(68,8,clipped(m.name,11),small);say(68,17,t(\"you: \",\"вы: \")+(m.mine==chess::White?t(\"white\",\"белые\"):t(\"black\",\"чёрные\")),small);",
-   "src/UiHires.inc:374: text(X+12,33,fit(t(\"you: \",\"вы: \")+(white?t(\"white\",\"белые\"):t(\"black\",\"чёрные\")),W-12,tiny),ColDim,tiny);"
+   "src/UiHires.inc:414: text(X+12,33,fit(t(\"you: \",\"вы: \")+(white?t(\"white\",\"белые\"):t(\"black\",\"чёрные\")),W-12,tiny),ColDim,tiny);"
   ]
  },
  "0eb32dbe": {
@@ -868,6 +922,15 @@
   ],
   "where": [
    "src/UiChessCompact.inc:44: switch(m.link()){case ChatMessage::Queued:return t(\"sending\",\"отправка\");case ChatMessage::Sent:return t(\"no ACK yet\",\"ждём ACK\");"
+  ]
+ },
+ "0f10aa88": {
+  "cells": 46,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:243: else text(18,208,t(\"Parts go one by one, each with its ACK\",\"Части уходят по одной, каждая с подтверждением\"),faint,small);"
   ]
  },
  "0f1156cb": {
@@ -976,7 +1039,6 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:206: if(key==Erase){if(diceConfirm()){dicer.deleteCounter(diceCounter);diceCounter=max(0,diceCounter-1);notice(t(\"Counter deleted\",\"Счётчик удалён\"),dim);}return true;}",
    "src/UiTally.inc:54: if(key==Erase){if(n<2)notice(t(\"The last counter stays\",\"Последний счётчик остаётся\"),warn);else if(tallyConfirm(Erase)){people::remove(c.current);notice(t(\"Counter deleted\",\"Счётчик удалён\"),dim);}return true;}"
   ]
  },
@@ -986,7 +1048,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:88: String th=s.thresholdOn?t(\"Threshold \",\"Порог \")+dice::valueText(s.gridType,s.threshold)+\"+\":t(\"No threshold\",\"Без порога\");textRight(312,y,th,s.thresholdOn?warn:faint,small);"
+   "src/UiDice.inc:97: String th=s.thresholdOn?t(\"Threshold \",\"Порог \")+dice::valueText(s.gridType,s.threshold)+\"+\":t(\"No threshold\",\"Без порога\");textRight(312,y,th,s.thresholdOn?warn:faint,small);"
   ]
  },
  "11ec7a8e": {
@@ -1034,6 +1096,17 @@
   ],
   "where": [
    "src/Ui.cpp:781: if(!config.lockDetails)text(80,y+32,t(\"Unlock to read\",\"Разблокируйте, чтобы прочитать\"),dim,small);else if(last)text(80,y+32,fit(t(\"Last from \",\"Последнее от \")+String(last->name),190,small),dim,small);}"
+  ]
+ },
+ "12ae6876": {
+  "cells": 9,
+  "families": [
+   "compact",
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:28: return r.successes>1?t(\"Success x\",\"Успех x\")+String(r.successes):t(\"Success\",\"Успех\");",
+   "src/UiDiceCompact.inc:17: return r.successes>1?t(\"Success x\",\"Успех x\")+String(r.successes):t(\"Success\",\"Успех\");"
   ]
  },
  "12affdd6": {
@@ -1110,6 +1183,15 @@
    "src/Pet.cpp:140: cuddleAt=millis();s.cuddles++;gain(0,asleep()?30:100,1);say(asleep()?t(\"Zzz... purr\",\"Хрр... мурр\"):t(\"Purr\",\"Мурр\"),Hearts);save(true);return speech;"
   ]
  },
+ "134ce2e4": {
+  "cells": 11,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:344: add(Pips,Third,Circle,Plain,\"hd\",t(\"Hit dice\",\"Кости хитов\"),1,1,\"\",2);"
+  ]
+ },
  "13c4173d": {
   "cells": 11,
   "families": [
@@ -1163,8 +1245,8 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:84: int y=196;String what=s.gridChosen?String(s.gridChosen)+\" × \"+dice::typeNames[s.gridType]:t(\"Choose dice: arrows\",\"Выберите кости стрелками\");",
-   "src/UiDice.inc:184: if(key==Enter||key==KeyHold){if(!s.gridChosen){notice(t(\"Choose dice: arrows\",\"Выберите кости стрелками\"),warn);return true;}dicer.gridRoll();diceRollAt=millis();return true;}"
+   "src/UiDice.inc:93: int y=196;String what=s.gridChosen?String(s.gridChosen)+\" × \"+dice::typeNames[s.gridType]:t(\"Choose dice: arrows\",\"Выберите кости стрелками\");",
+   "src/UiDice.inc:315: if(key==Enter||key==KeyHold){if(!s.gridChosen){notice(t(\"Choose dice: arrows\",\"Выберите кости стрелками\"),warn);return true;}dicer.gridRoll();diceRollAt=millis();return true;}"
   ]
  },
  "1556138f": {
@@ -1219,7 +1301,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:791: say(0,30,String(ESP.getFreeHeap()/1024)+\"K RAM\"+(ESP.getPsramSize()?\"  \"+String(ESP.getFreePsram()/1024)+\"K PSRAM\":String()),small);say(0,39,t(\"relayed \",\"переслано \")+String(meshRadio.relayed)+t(\"  rejected \",\"  откл. \"",
-   "src/UiHires.inc:329: text(6,88,fit(t(\"relayed \",\"переслано \")+String(meshRadio.relayed)+t(\"  rejected \",\"  откл. \")+String(meshRadio.rejected),228,small),ColDim,small);"
+   "src/UiHires.inc:369: text(6,88,fit(t(\"relayed \",\"переслано \")+String(meshRadio.relayed)+t(\"  rejected \",\"  откл. \")+String(meshRadio.rejected),228,small),ColDim,small);"
   ]
  },
  "15c8d462": {
@@ -1335,6 +1417,15 @@
   ],
   "where": [
    "src/UiTour.inc:198: if(key==' '||key==KeyRight){if(selected<int(n)){if(!tourPicked[selected]&&tourPickedCount()>=tour::MaxPlayers-1){notice(t(\"At most 10 players\",\"Не больше 10 игроков\"),warn);return true;}tourPicked[selected]=!tourPicked[s"
+  ]
+ },
+ "17ae8b25": {
+  "cells": 3,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:337: String names[6]={t(\"STR\",\"СИЛ\"),t(\"DEX\",\"ЛОВ\"),t(\"CON\",\"ТЕЛ\"),t(\"INT\",\"ИНТ\"),t(\"WIS\",\"МДР\"),t(\"CHA\",\"ХАР\")};"
   ]
  },
  "17c4a94b": {
@@ -1496,8 +1587,9 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:133: if(diceSheet==DiceSaved){drawDiceSaved();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"A\",t(\"Add\",\"Добавить\")},{\"^v\",t(\"Select\",\"Выбор\")},{\"BACK\",t(\"Close\",\"Закрыть\")}});return;}",
-   "src/UiDice.inc:134: if(diceSheet==DiceHeroes){drawDiceHeroes();footer({{\"OK\",t(\"Choose\",\"Выбрать\")},{\"^v\",t(\"Select\",\"Выбор\")},{\"BACK\",t(\"Close\",\"Закрыть\")}});return;}"
+   "src/UiDice.inc:256: case DiceSaved:drawDiceSaved();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"A\",t(\"Add\",\"Добавить\")},{\"^v\",t(\"Select\",\"Выбор\")},{\"BACK\",t(\"Close\",\"Закрыть\")}});return;",
+   "src/UiDice.inc:257: case DiceHeroes:drawDiceHeroes();footer({{\"OK\",t(\"Choose\",\"Выбрать\")},{\"^v\",t(\"Select\",\"Выбор\")},{\"S\",t(\"Send\",\"Отправить\")},{\"BACK\",t(\"Close\",\"Закрыть\")}});return;",
+   "src/UiDice.inc:259: case DiceSend:drawDiceSend();footer({{\"OK\",t(\"Send\",\"Отправить\")},{\"^v\",t(\"Select\",\"Выбор\")},{\"BACK\",t(\"Close\",\"Закрыть\")}});return;"
   ]
  },
  "1a03858e": {
@@ -1508,6 +1600,17 @@
   "where": [
    "src/UiHeltec.cpp:723: if(m){String who=m->outgoing?t(\"You\",\"Вы\"):String(m->name);if(channels::isChannel(m->destination))who+=channelTag(m->destination);const char* states[]={\"\",tr(\"queued\",\"очередь\"),tr(\"sent\",\"отправл.\"),tr(\"delivered\",\"дост",
    "src/UiHires.inc:148: const char* states[]={\"\",tr(\"queued\",\"очередь\"),tr(\"sent\",\"отправл.\"),tr(\"delivered\",\"доставл.\"),tr(\"no ACK\",\"нет ACK\")};"
+  ]
+ },
+ "1a0576b6": {
+  "cells": 7,
+  "families": [
+   "compact",
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:28: return r.successes>1?t(\"Success x\",\"Успех x\")+String(r.successes):t(\"Success\",\"Успех\");",
+   "src/UiDiceCompact.inc:17: return r.successes>1?t(\"Success x\",\"Успех x\")+String(r.successes):t(\"Success\",\"Успех\");"
   ]
  },
  "1a193c76": {
@@ -1601,15 +1704,6 @@
    "src/Ui.cpp:764: {\"L\",t(\"Map: saved maps\",\"Карта: список карт\")},{\"+ -\",t(\"Map zoom\",\"Масштаб карты\")},{\"P\",t(\"Nodes: show on map\",\"Узлы: показать на карте\")},{\"HOME\",t(\"Menu: DEL until the tiles\",\"Меню: DEL до плиток\")}};"
   ]
  },
- "1bde5876": {
-  "cells": 7,
-  "families": [
-   "full"
-  ],
-  "where": [
-   "src/UiDice.inc:127: String detail=count(c.rolls,\"roll\",\"rolls\",\"бросок\",\"броска\",\"бросков\")+\" · \"+count(c.counters,\"counter\",\"counters\",\"счётчик\",\"счётчика\",\"счётчиков\");textRight(i==s.character?262:300,y+14,detail,faint,small);"
-  ]
- },
  "1c6f82db": {
   "cells": 20,
   "families": [
@@ -1626,8 +1720,8 @@
   ],
   "where": [
    "src/UiHeltec.cpp:585: Act acts[MenuMax];unsigned n=actions(acts);if(!n)return \"\";return n==1?t(\"hold: \",\"держ: \")+actName(acts[0]):t(\"hold: menu\",\"держ: меню\");}",
-   "src/UiHires.inc:459: else if(page==QuickPage)footer({t(\"click: choose\",\"клик: выбор\"),quickTargets||!quickIndex?t(\"hold: \",\"держ: \")+t(\"select\",\"выбрать\"):quickIndex>quickSend::Count?t(\"hold: \",\"держ: \")+t(\"exit\",\"выход\"):t(\"hold: send\",\"дер",
-   "src/UiHires.inc:459: else if(page==QuickPage)footer({t(\"click: choose\",\"клик: выбор\"),quickTargets||!quickIndex?t(\"hold: \",\"держ: \")+t(\"select\",\"выбрать\"):quickIndex>quickSend::Count?t(\"hold: \",\"держ: \")+t(\"exit\",\"выход\"):t(\"hold: send\",\"дер"
+   "src/UiHires.inc:499: else if(page==QuickPage)footer({t(\"click: choose\",\"клик: выбор\"),quickTargets||!quickIndex?t(\"hold: \",\"держ: \")+t(\"select\",\"выбрать\"):quickIndex>quickSend::Count?t(\"hold: \",\"держ: \")+t(\"exit\",\"выход\"):t(\"hold: send\",\"дер",
+   "src/UiHires.inc:499: else if(page==QuickPage)footer({t(\"click: choose\",\"клик: выбор\"),quickTargets||!quickIndex?t(\"hold: \",\"держ: \")+t(\"select\",\"выбрать\"):quickIndex>quickSend::Count?t(\"hold: \",\"держ: \")+t(\"exit\",\"выход\"):t(\"hold: send\",\"дер"
   ]
  },
  "1d4452cb": {
@@ -1637,6 +1731,15 @@
   ],
   "where": [
    "src/Ui.cpp:767: {\"ADV\",t(\"Announce this node; hold: GPS on/off\",\"Объявить узел; удерж.: GPS вкл/выкл\")},{\"@\",t(\"function key, not Sym+@: RU/EN in chat\",\"функц. клавиша (не Sym+@): RU/EN в чате\")},{\"MIC\",t(\"Lock screen (there is no micro"
+  ]
+ },
+ "1d52b27b": {
+  "cells": 9,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:353: String skillName[18]={t(\"Acrobatics\",\"Акробатика\"),t(\"Animal Handling\",\"Уход за животными\"),t(\"Arcana\",\"Магия\"),t(\"Athletics\",\"Атлетика\"),t(\"Deception\",\"Обман\"),"
   ]
  },
  "1d72981e": {
@@ -1694,7 +1797,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:792: say(0,48,t(\"up \",\"работа \")+ago(millis())+t(\"  boot \",\"  загр. \")+String(config.bootCounter),small);",
-   "src/UiHires.inc:330: text(6,106,fit(t(\"up \",\"работа \")+ago(millis())+t(\"  boot \",\"  загр. \")+String(config.bootCounter),228,small),ColDim,small);"
+   "src/UiHires.inc:370: text(6,106,fit(t(\"up \",\"работа \")+ago(millis())+t(\"  boot \",\"  загр. \")+String(config.bootCounter),228,small),ColDim,small);"
   ]
  },
  "1e6b0825": {
@@ -1716,6 +1819,15 @@
   ],
   "where": [
    "src/Ui.cpp:764: {\"L\",t(\"Map: saved maps\",\"Карта: список карт\")},{\"+ -\",t(\"Map zoom\",\"Масштаб карты\")},{\"P\",t(\"Nodes: show on map\",\"Узлы: показать на карте\")},{\"HOME\",t(\"Menu: DEL until the tiles\",\"Меню: DEL до плиток\")}};"
+  ]
+ },
+ "1e9b954e": {
+  "cells": 12,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:256: if(value(j)<b.spend){why=t(\"Not enough: \",\"Не хватает: \")+sheet.block[j].name;return false;}}"
   ]
  },
  "1ececb54": {
@@ -1755,6 +1867,15 @@
   ],
   "where": [
    "src/UiSolitaire.inc:186: text(16,207,fit(t(\"Played \",\"Сыграно \")+String(gamePlayed)+t(\" · won \",\" · побед \")+String(gameWins)+(gameBest?t(\" · best \",\" · лучшее \")+playTime(gameBest):String())+t(\" · score \",\" · очки \")+String(game.score),290,smal"
+  ]
+ },
+ "1f9080b6": {
+  "cells": 19,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:558: if(out.part>=out.parts){out.done=true;out.text=\"\";note=t(\"Sheet delivered to \",\"Лист доставлен: \")+out.name;notes++;}else sendNext();}"
   ]
  },
  "1fc05d6f": {
@@ -1910,10 +2031,12 @@
  "22423572": {
   "cells": 8,
   "families": [
+   "compact",
    "shared"
   ],
   "where": [
-   "src/Dice.cpp:111: Character& c=hero();if(c.counters>=Counters)return false;String v=name;v.trim();if(!v.length())v=t(\"Counter \",\"Счётчик \")+String(c.counters+1);",
+   "src/UiDiceCompact.inc:100: dicer.setField(k,\"name\",t(\"Counter \",\"Счётчик \")+String(n));dicer.setField(k,\"max\",\"0\");dicer.setValue(k,dice::CounterStart);dicer.setField(k,\"width\",\"2\");diceBlockSel=k;}break;}",
+   "src/Dice.cpp:334: if(tmpl==Blank){add(Track,Third,Circle,Plain,\"\",t(\"Counter \",\"Счётчик \")+\"1\",CounterStart,0,\"\",0);}",
    "src/People.cpp:41: String name(unsigned i){if(i>=tally.count)return String();if(tally.list[i].name[0])return tally.list[i].name;return String(tr(\"Counter \",\"Счётчик \"))+String(i+1);}"
   ]
  },
@@ -1961,7 +2084,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:620: say(18,11,clipped(String(m.name)+(channels::isChannel(m.destination)?channelTag(m.destination):String()),18),bold);textLines(messageText(m),25,3);sayRight(126,62,t(\"click: close\",\"клик: закрыть\"));",
-   "src/UiHires.inc:419: if(popupAt&&millis()-popupAt<8000&&last&&!last->outgoing){statusBar(t(\"Messages\",\"Сообщения\"));popup(*last);footer({t(\"click: close\",\"клик: закрыть\")});hardware.flush();return;}"
+   "src/UiHires.inc:459: if(popupAt&&millis()-popupAt<8000&&last&&!last->outgoing){statusBar(t(\"Messages\",\"Сообщения\"));popup(*last);footer({t(\"click: close\",\"клик: закрыть\")});hardware.flush();return;}"
   ]
  },
  "236f8008": {
@@ -1980,6 +2103,15 @@
   ],
   "where": [
    "src/Ui.cpp:555: if(blocked.length()){state=t(\"NO WI-FI\",\"НЕТ WI-FI\");color=warn;}"
+  ]
+ },
+ "23b35276": {
+  "cells": 19,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:255: if(j<0){why=t(\"No block with code \",\"Нет блока с кодом \")+b.use;return false;}"
   ]
  },
  "23f80afc": {
@@ -2009,6 +2141,15 @@
    "src/UiHeltec.cpp:107: String typeText(uint8_t type){switch(type){case 2:return t(\"repeater\",\"ретранслятор\");case 3:return t(\"room\",\"комната\");case 4:return t(\"sensor\",\"датчик\");}return t(\"chat\",\"чат\");}"
   ]
  },
+ "2480a0b0": {
+  "cells": 5,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:360: add(Header,Whole,Circle,Plain,\"\",t(\"Magic\",\"Магия\"),0,0,\"\",0);"
+  ]
+ },
  "248514f4": {
   "cells": 29,
   "families": [
@@ -2035,6 +2176,15 @@
   ],
   "where": [
    "src/UiChannels.inc:59: if(i==0){name=t(\"Join by hashtag\",\"Вступить по хештегу\");detail=t(\"Open channel: its key comes from the #name\",\"Открытый канал: ключ из #имени\");}"
+  ]
+ },
+ "24f54510": {
+  "cells": 7,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:354: t(\"History\",\"История\"),t(\"Insight\",\"Проницательность\"),t(\"Intimidation\",\"Запугивание\"),t(\"Investigation\",\"Анализ\"),t(\"Medicine\",\"Медицина\"),t(\"Nature\",\"Природа\"),"
   ]
  },
  "24f56b02": {
@@ -2078,6 +2228,15 @@
    "src/UiChess.inc:79: if(!m.rated)return t(\"Friendly game\",\"Товарищеская\");"
   ]
  },
+ "254276bb": {
+  "cells": 157,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:390: note(t(\"The top value of a die is a success: roll the die of the next level and add it, up to d100. A 1 is a failure: d4 of failure, 1 is critical; bonuses are lost.\",\"Максимум — успех: + куб следующего уровня (до d100)."
+  ]
+ },
  "256f90e4": {
   "cells": 8,
   "families": [
@@ -2112,6 +2271,15 @@
   ],
   "where": [
    "src/UiChannels.inc:36: if(invite&&!in)return t(\"Join\",\"Вступить\");if(channels::isChannel(recipient))return t(\"Channel\",\"Канал\");return invite?t(\"Open channel\",\"В канал\"):\"\";"
+  ]
+ },
+ "26282b58": {
+  "cells": 7,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:289: case Note:b.width=Whole;name=t(\"Notes\",\"Заметки\");break;"
   ]
  },
  "26314428": {
@@ -2299,13 +2467,22 @@
    "src/Ui.cpp:215: const char* days[]={tr(\"Sunday\",\"воскресенье\"),tr(\"Monday\",\"понедельник\"),tr(\"Tuesday\",\"вторник\"),tr(\"Wednesday\",\"среда\"),tr(\"Thursday\",\"четверг\"),tr(\"Friday\",\"пятница\"),tr(\"Saturday\",\"суббота\")};"
   ]
  },
+ "287e02c3": {
+  "cells": 14,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:345: add(Pips,Third,Circle,Plain,\"dss\",t(\"Death: saves\",\"Смерть: успехи\"),0,3,\"\",12);"
+  ]
+ },
  "28983874": {
   "cells": 21,
   "families": [
    "full"
   ],
   "where": [
-   "src/UiDice.inc:144: switch(diceEditing){case EditQuick:return t(\"Formula to roll\",\"Формула броска\");case EditNewFormula:return t(\"New roll: formula\",\"Новый бросок: формула\");case EditNewName:return t(\"New roll: name\",\"Новый бросок: имя\");"
+   "src/UiDice.inc:274: switch(diceEditing){case EditQuick:return t(\"Formula to roll\",\"Формула броска\");case EditNewFormula:return t(\"New roll: formula\",\"Новый бросок: формула\");case EditNewName:return t(\"New roll: name\",\"Новый бросок: имя\");"
   ]
  },
  "28ca920e": {
@@ -2315,6 +2492,15 @@
   ],
   "where": [
    "src/Ui.cpp:427: footer({{\"OK\",t(\"Details\",\"Карточка\")},{\"P\",t(\"On map\",\"На карте\")},{\"ADV\",t(\"Announce\",\"Объявить\")},{\"BACK\",t(\"Back\",\"Назад\")}});"
+  ]
+ },
+ "28da84a3": {
+  "cells": 11,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:370: String low[12]={t(\"Education\",\"Образование\"),t(\"Wits\",\"Сообразительность\"),t(\"Attention\",\"Внимание\"),t(\"Intuition\",\"Интуиция\"),t(\"Inspiration\",\"Вдохновение\"),t(\"Charisma\",\"Харизма\"),"
   ]
  },
  "29271733": {
@@ -2388,7 +2574,7 @@
    "compact"
   ],
   "where": [
-   "src/UiHires.inc:459: else if(page==QuickPage)footer({t(\"click: choose\",\"клик: выбор\"),quickTargets||!quickIndex?t(\"hold: \",\"держ: \")+t(\"select\",\"выбрать\"):quickIndex>quickSend::Count?t(\"hold: \",\"держ: \")+t(\"exit\",\"выход\"):t(\"hold: send\",\"дер"
+   "src/UiHires.inc:499: else if(page==QuickPage)footer({t(\"click: choose\",\"клик: выбор\"),quickTargets||!quickIndex?t(\"hold: \",\"держ: \")+t(\"select\",\"выбрать\"):quickIndex>quickSend::Count?t(\"hold: \",\"держ: \")+t(\"exit\",\"выход\"):t(\"hold: send\",\"дер"
   ]
  },
  "2a033d73": {
@@ -2397,7 +2583,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:109: text(18,64,t(\"Saved rolls · \",\"Сохранённые броски · \")+dicer.heroName(dicer.s.character),ink,bold);"
+   "src/UiDice.inc:198: text(18,64,t(\"Saved rolls · \",\"Сохранённые броски · \")+dicer.heroName(dicer.s.character),ink,bold);"
   ]
  },
  "2a10be85": {
@@ -2425,6 +2611,15 @@
   ],
   "where": [
    "src/ChessNet.cpp:192: if(ply!=g.plies+1u||g.pos.side!=theirs||!g.pos.parseUci(b,mv)){event=String(m->name)+tr(\": move not accepted (\",\": ход не принят (\")+b+\")\";events++;dirty=true;return true;}"
+  ]
+ },
+ "2a4aaf5e": {
+  "cells": 20,
+  "families": [
+   "compact"
+  ],
+  "where": [
+   "src/UiHeltec.cpp:802: page==DicePage?(dicer.s.mode==dice::Sheet?t(\"click-next hold-menu\",\"клик-далее держ-меню\"):t(\"click-roll hold-menu\",\"клик-бросок держ-меню\")):"
   ]
  },
  "2a76df25": {
@@ -2493,6 +2688,16 @@
    "src/Ui.cpp:746: switch(k){case 0:return \"-\";case KeyMsg:return \"MSG\";case KeyHome:return \"HOME\";case KeyAt:return t(\"@ (input language)\",\"@ (язык ввода)\");case KeyAdv:return \"ADV\";case 0x87:return t(\"hold ADV (GPS)\",\"удерж. ADV (GPS)\");"
   ]
  },
+ "2b663be9": {
+  "cells": 8,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:342: add(Stat,Quarter,Hexagon,Plain,\"spd\",t(\"Speed\",\"Скорость\"),30,0,\"\",10);",
+   "src/Dice.cpp:382: add(Stat,Quarter,Hexagon,Plain,\"spd\",t(\"Speed\",\"Скорость\"),3,0,\"\",3);"
+  ]
+ },
  "2b67ee1b": {
   "cells": 5,
   "families": [
@@ -2527,6 +2732,15 @@
   ],
   "where": [
    "src/UiSolitaire.inc:160: if(key=='p'){gameHeld=-1;if(game.hint(gameHint)){gameHintAt=millis();gameCursor=gameHint.from;gameDepth=gameHint.count;if(gameHint.from==sol::Stock)notice(game.pile[sol::Stock].n?t(\"Hint: turn the stock\",\"Подсказка: сдай"
+  ]
+ },
+ "2c2de947": {
+  "cells": 45,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:227: String detail=i==dice::DndTemplate?t(\"6 stats, AC, hit points, 18 skills, slots\",\"6 характеристик, КД, хиты, 18 навыков, ячейки\"):i==dice::RetTemplate?t(\"Stat tree, dice by level, health, sanity, luck\",\"Дерево параметров"
   ]
  },
  "2c425015": {
@@ -2628,7 +2842,7 @@
   ],
   "where": [
    "src/UiChessCompact.inc:184: say(0,40,t(\"Node menu: Chess invite\",\"Меню узла: вызвать\"),small);",
-   "src/UiHires.inc:358: center(120,94,fit(t(\"Node menu: Chess invite\",\"Меню узла: вызвать\"),228,small),ColDim,small);center(120,110,fit(t(\"or accept a challenge\",\"или примите вызов\"),228,small),ColDim,small);return;}"
+   "src/UiHires.inc:398: center(120,94,fit(t(\"Node menu: Chess invite\",\"Меню узла: вызвать\"),228,small),ColDim,small);center(120,110,fit(t(\"or accept a challenge\",\"или примите вызов\"),228,small),ColDim,small);return;}"
   ]
  },
  "2d4631d0": {
@@ -2638,6 +2852,15 @@
   ],
   "where": [
    "src/UiChannels.inc:83: case AddKey:return fit(t(\"Key of \",\"Ключ канала \")+addName,268,bold);default:return t(\"New private channel\",\"Новый закрытый канал\");}"
+  ]
+ },
+ "2d57e7f8": {
+  "cells": 12,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:371: t(\"Composure\",\"Самообладание\"),t(\"Leadership\",\"Лидерство\"),t(\"Physique\",\"Телосложение\"),t(\"Endurance\",\"Выносливость\"),t(\"Fine motor\",\"Мелкая моторика\"),t(\"Body control\",\"Контроль тела\")};"
   ]
  },
  "2d5e5812": {
@@ -2664,7 +2887,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:227: if(key=='a'||key=='A'){if(n>=int(dice::Characters))notice(t(\"6 characters at most\",\"Не больше 6 персонажей\"),warn);else diceEdit(EditHeroNew,\"\");return true;}"
+   "src/UiDice.inc:364: if(key=='a'||key=='A'){if(n>=int(dice::Characters))notice(t(\"6 characters at most\",\"Не больше 6 персонажей\"),warn);else diceEdit(EditHeroNew,\"\");return true;}"
   ]
  },
  "2da2d675": {
@@ -2727,8 +2950,8 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:122: if(!r){say(0,30,t(\"No rolls yet\",\"Бросков ещё нет\"));say(0,44,appOpen?t(\"Click to roll\",\"Клик - бросить\"):t(\"hold: open\",\"держ: открыть\"),small);return;}",
-   "src/UiHires.inc:277: if(!r){icon(IcDice,79,54,12,ColFaint,ColCard);center(79,96,fit(t(\"No rolls yet\",\"Бросков ещё нет\"),146,small),ColDim,small);}"
+   "src/UiDiceCompact.inc:168: if(!r){say(0,30,t(\"No rolls yet\",\"Бросков ещё нет\"));say(0,44,appOpen?t(\"Click to roll\",\"Клик - бросить\"):t(\"hold: open\",\"держ: открыть\"),small);return;}",
+   "src/UiHires.inc:317: if(!r){icon(IcDice,79,54,12,ColFaint,ColCard);center(79,96,fit(t(\"No rolls yet\",\"Бросков ещё нет\"),146,small),ColDim,small);}"
   ]
  },
  "2ec86228": {
@@ -2775,16 +2998,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:772: say(0,23,!config.gps?t(\"GPS off\",\"GPS выключен\"):fix?t(\"Position fix\",\"Позиция есть\"):hardware.clockConflict?t(\"Old GPS date\",\"Старая дата GPS\"):hardware.gps.passedChecksum()?t(\"Searching sky\",\"Поиск спутников\"):t(\"No da",
-   "src/UiHires.inc:300: text(36,42,fit(!config.gps?t(\"GPS off\",\"GPS выключен\"):fix?t(\"Position fix\",\"Позиция есть\"):hardware.clockConflict?t(\"Old GPS date\",\"Старая дата GPS\"):hardware.gps.passedChecksum()?t(\"Searching sky\",\"Поиск спутников\"):t("
-  ]
- },
- "2faba250": {
-  "cells": 32,
-  "families": [
-   "full"
-  ],
-  "where": [
-   "src/UiDice.inc:129: text(18,208,t(\"A: new   N: rename   DEL: delete\",\"A: новый   N: имя   DEL: удалить\"),faint,small);"
+   "src/UiHires.inc:340: text(36,42,fit(!config.gps?t(\"GPS off\",\"GPS выключен\"):fix?t(\"Position fix\",\"Позиция есть\"):hardware.clockConflict?t(\"Old GPS date\",\"Старая дата GPS\"):hardware.gps.passedChecksum()?t(\"Searching sky\",\"Поиск спутников\"):t("
   ]
  },
  "2fbe4497": {
@@ -2794,6 +3008,15 @@
   ],
   "where": [
    "src/Ui.cpp:462: textRight(274,y,fit(!config.gps?t(\"off\",\"выключен\"):fix?t(\"fix\",\"позиция есть\"):hardware.clockConflict?t(\"old date\",\"старая дата\"):t(\"searching\",\"поиск\"),136),!config.gps?dim:fix?ok:warn);y+=19;}"
+  ]
+ },
+ "2fe5d64c": {
+  "cells": 12,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:354: t(\"History\",\"История\"),t(\"Insight\",\"Проницательность\"),t(\"Intimidation\",\"Запугивание\"),t(\"Investigation\",\"Анализ\"),t(\"Medicine\",\"Медицина\"),t(\"Nature\",\"Природа\"),"
   ]
  },
  "300b6860": {
@@ -2895,7 +3118,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:775: say(0,51,t(\"Clock \",\"Часы \")+clockText(time(nullptr))+\" \"+(hardware.clockSource==\"unset\"?t(\"not set\",\"не задано\"):hardware.clockSource),small);break;}",
-   "src/UiHires.inc:303: text(6,106,fit(t(\"Clock \",\"Часы \")+clockText(time(nullptr))+\" \"+(hardware.clockSource==\"unset\"?t(\"not set\",\"не задано\"):hardware.clockSource),228,small),ColDim,small);"
+   "src/UiHires.inc:343: text(6,106,fit(t(\"Clock \",\"Часы \")+clockText(time(nullptr))+\" \"+(hardware.clockSource==\"unset\"?t(\"not set\",\"не задано\"):hardware.clockSource),228,small),ColDim,small);"
   ]
  },
  "315b16c1": {
@@ -2913,7 +3136,7 @@
    "shared"
   ],
   "where": [
-   "src/MeshRadio.cpp:429: String s=m.route==ChatMessage::RouteDirect?(hops.length()?hops:String(tr(\"routed\",\"по маршруту\")))"
+   "src/MeshRadio.cpp:430: String s=m.route==ChatMessage::RouteDirect?(hops.length()?hops:String(tr(\"routed\",\"по маршруту\")))"
   ]
  },
  "31760903": {
@@ -2940,7 +3163,7 @@
    "shared"
   ],
   "where": [
-   "src/MeshRadio.cpp:428: String hops=m.hops==255?String():!m.hops?String(brief?tr(\"direct\",\"напр.\"):tr(\"direct\",\"напрямую\")):(brief?String(m.hops)+tr(\" rpt\",\" ретр.\"):String(tr(\"via \",\"через \"))+m.hops+tr(\" rpt\",\" ретр.\"));"
+   "src/MeshRadio.cpp:429: String hops=m.hops==255?String():!m.hops?String(brief?tr(\"direct\",\"напр.\"):tr(\"direct\",\"напрямую\")):(brief?String(m.hops)+tr(\" rpt\",\" ретр.\"):String(tr(\"via \",\"через \"))+m.hops+tr(\" rpt\",\" ретр.\"));"
   ]
  },
  "326bd72e": {
@@ -2969,7 +3192,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:716: case NotifyPage:title=t(\"Notifications\",\"Уведомления\");say(0,28,t(\"LED / screen / popup\",\"LED / экран / окно\"),small);say(0,42,t(\"hold: menu\",\"держ: меню\"),small);break;",
-   "src/UiHires.inc:436: case NotifyPage:statusBar(t(\"Notifications\",\"Уведомления\"));lines(t(\"LED / screen / popup\",\"LED / экран / окно\"),10,60,220,18,2,ColInk);break;case Home:home();break;case Messages:messages();break;case Nodes:nodes();break"
+   "src/UiHires.inc:476: case NotifyPage:statusBar(t(\"Notifications\",\"Уведомления\"));lines(t(\"LED / screen / popup\",\"LED / экран / окно\"),10,60,220,18,2,ColInk);break;case Home:home();break;case Messages:messages();break;case Nodes:nodes();break"
   ]
  },
  "3297560c": {
@@ -3026,6 +3249,15 @@
    "src/UiHeltec.cpp:511: case ActResetPath:{Peer* p=shownNode();notice(p&&!meshRadio.busy()&&meshRadio.resetPath(p->id)?t(\"Path reset\",\"Путь сброшен\"):t(\"Path reset failed\",\"Путь не сброшен\"));break;}"
   ]
  },
+ "336d57a2": {
+  "cells": 9,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:224: text(18,64,t(\"Sheet of \",\"Лист: \")+diceDraft,ink,bold);diceSel=constrain(diceSel,0,int(dice::TemplateCount)-1);"
+  ]
+ },
  "33712d5b": {
   "cells": 47,
   "families": [
@@ -3042,6 +3274,15 @@
   ],
   "where": [
    "src/UiTour.inc:162: String r[3];unsigned n=wrap(t(\"Players see it in the invitation and the standings. OK changes it, > goes on.\",\"Его увидят игроки в приглашении и таблице. OK — изменить, > — дальше.\"),r,3,290,small);for(unsigned i=0;i<n;i"
+  ]
+ },
+ "33894318": {
+  "cells": 17,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:242: const auto& o=dicer.out;if(o.parts){String st=o.done?t(\"Delivered to \",\"Доставлен: \")+o.name:o.failed?t(\"Not delivered to \",\"Не доставлен: \")+o.name:t(\"Sending: part \",\"Отправка: часть \")+String(o.part+1)+\"/\"+String(o.pa"
   ]
  },
  "338a95a4": {
@@ -3080,13 +3321,22 @@
    "src/UiHeltec.cpp:308: String wdPosition(){int32_t lat,lon;bool phone;if(!wardrive::position(lat,lon,phone))return t(\"No position: GPS/phone\",\"Нет позиции: GPS/тел.\");return String(phone?t(\"Phone \",\"Тел. \"):\"GPS \")+String(lat/1e6,5)+\" \"+String"
   ]
  },
+ "3414a928": {
+  "cells": 18,
+  "families": [
+   "compact"
+  ],
+  "where": [
+   "src/UiDiceCompact.inc:16: if(r.fail)return r.fail==1?t(\"Critical failure\",\"Критический провал\"):t(\"Failure, d4: \",\"Провал, d4: \")+String(r.fail);"
+  ]
+ },
  "34338a17": {
   "cells": 10,
   "families": [
    "compact"
   ],
   "where": [
-   "src/UiHires.inc:455: else if(diceTapOn())footer({t(\"click: +1\",\"клик: +1\"),t(\"hold: -1\",\"держ: -1\"),t(\"5 s: exit\",\"5 с: выход\")});"
+   "src/UiHires.inc:495: else if(diceTapOn())footer({t(\"click: +1\",\"клик: +1\"),t(\"hold: -1\",\"держ: -1\"),t(\"5 s: exit\",\"5 с: выход\")});"
   ]
  },
  "34b27b92": {
@@ -3096,7 +3346,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:772: say(0,23,!config.gps?t(\"GPS off\",\"GPS выключен\"):fix?t(\"Position fix\",\"Позиция есть\"):hardware.clockConflict?t(\"Old GPS date\",\"Старая дата GPS\"):hardware.gps.passedChecksum()?t(\"Searching sky\",\"Поиск спутников\"):t(\"No da",
-   "src/UiHires.inc:300: text(36,42,fit(!config.gps?t(\"GPS off\",\"GPS выключен\"):fix?t(\"Position fix\",\"Позиция есть\"):hardware.clockConflict?t(\"Old GPS date\",\"Старая дата GPS\"):hardware.gps.passedChecksum()?t(\"Searching sky\",\"Поиск спутников\"):t("
+   "src/UiHires.inc:340: text(36,42,fit(!config.gps?t(\"GPS off\",\"GPS выключен\"):fix?t(\"Position fix\",\"Позиция есть\"):hardware.clockConflict?t(\"Old GPS date\",\"Старая дата GPS\"):hardware.gps.passedChecksum()?t(\"Searching sky\",\"Поиск спутников\"):t("
   ]
  },
  "34bbbe05": {
@@ -3170,7 +3420,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:149: String diceEditOk(){return diceEditing==EditQuick?t(\"OK: roll   BACK: cancel\",\"OK: бросить   BACK: отменить\"):diceEditing==EditNewFormula?t(\"OK: next   BACK: cancel\",\"OK: далее   BACK: отменить\"):t(\"OK: save   BACK: canc"
+   "src/UiDice.inc:279: String diceEditOk(){return diceEditing==EditQuick?t(\"OK: roll   BACK: cancel\",\"OK: бросить   BACK: отменить\"):diceEditing==EditNewFormula||diceEditing==EditHeroNew?t(\"OK: next   BACK: cancel\",\"OK: далее   BACK: отменить\""
   ]
  },
  "365be1b5": {
@@ -3220,6 +3470,15 @@
   ],
   "where": [
    "src/Ui.cpp:466: row(t(\"Longitude\",\"Долгота\"),fix?String(hardware.gps.location.lng(),5):String(\"-\"),ink);"
+  ]
+ },
+ "37813a0c": {
+  "cells": 8,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:369: String mid[6]={t(\"Intellect\",\"Интеллект\"),t(\"Perception\",\"Восприятие\"),t(\"Empathy\",\"Эмпатия\"),t(\"Will\",\"Воля\"),t(\"Strength\",\"Сила\"),t(\"Agility\",\"Ловкость\")};"
   ]
  },
  "379c485e": {
@@ -3283,7 +3542,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:63: else if(r->special&&!spin)text(16,188,t(\"d66 and d%: each die on its own\",\"d66 и d%: каждая кость отдельно\"),faint,small);"
+   "src/UiDice.inc:72: else if(r->special&&!spin)text(16,188,t(\"d66 and d%: each die on its own\",\"d66 и d%: каждая кость отдельно\"),faint,small);"
   ]
  },
  "3919be94": {
@@ -3357,7 +3616,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:777: case Ble:title=\"Bluetooth\";if(bleActive()){String n=bleName();say(0,23,n,width(n,bold)<=128?bold:small);say(0,37,\"PIN \"+String(blePin()),bold);}else{say(0,27,t(\"Bluetooth off\",\"Bluetooth выкл.\"));say(0,41,t(\"Secure pairi",
-   "src/UiHires.inc:313: text(36,58,fit(t(\"Secure pairing\",\"Защищённое сопряжение\"),196,tiny),ColDim,tiny);"
+   "src/UiHires.inc:353: text(36,58,fit(t(\"Secure pairing\",\"Защищённое сопряжение\"),196,tiny),ColDim,tiny);"
   ]
  },
  "3b05ab8e": {
@@ -3366,7 +3625,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:152: auto bad1=[&](const String& m){notice(m,bad);};String formulaError=t(\"Formula: 2d6+1, d20, d%, d66\",\"Формула: 2d6+1, d20, d%, d66\"),nameError=t(\"Name: 1-23 UTF-8 bytes\",\"Имя: 1-23 байта UTF-8\");"
+   "src/UiDice.inc:282: auto bad1=[&](const String& m){notice(m,bad);};String formulaError=t(\"Formula: 2d6+1, d20, d%, d66\",\"Формула: 2d6+1, d20, d%, d66\"),nameError=t(\"Name: 1-23 UTF-8 bytes\",\"Имя: 1-23 байта UTF-8\");"
   ]
  },
  "3b0ee2bf": {
@@ -3414,6 +3673,15 @@
    "src/UiHeltec.cpp:238: case RowPower:return t(\"Power\",\"Мощность\");case RowHops:return t(\"Relay limit\",\"Предел перес.\");case RowRelay:return t(\"Relaying\",\"Ретрансляция\");case RowHash:return t(\"Path hash\",\"Хэш пути\");"
   ]
  },
+ "3bd30657": {
+  "cells": 9,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:370: String low[12]={t(\"Education\",\"Образование\"),t(\"Wits\",\"Сообразительность\"),t(\"Attention\",\"Внимание\"),t(\"Intuition\",\"Интуиция\"),t(\"Inspiration\",\"Вдохновение\"),t(\"Charisma\",\"Харизма\"),"
+  ]
+ },
  "3c59a92b": {
   "cells": 34,
   "families": [
@@ -3432,6 +3700,16 @@
    "src/Ui.cpp:645: if(key=='p'||key=='P'){int32_t lat,lon;bool phone;notice(wardrive::ping()?t(\"Ping queued\",\"Пинг в очереди\"):!wardrive::position(lat,lon,phone)?t(\"No position yet\",\"Позиции пока нет\"):t(\"Wait: a ping is under way\",\"Подожд"
   ]
  },
+ "3c927275": {
+  "cells": 10,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:341: add(Stat,Quarter,Diamond,Bonus,\"init\",t(\"Initiative\",\"Инициатива\"),0,0,\"@dex\",9);",
+   "src/Dice.cpp:388: add(Ability,Half,Circle,Plain,\"\",t(\"Initiative\",\"Инициатива\"),0,0,\"@per\",4);"
+  ]
+ },
  "3ca29d6b": {
   "cells": 8,
   "families": [
@@ -3448,6 +3726,15 @@
   ],
   "where": [
    "src/UiServer.inc:21: const char* about[][2]={{tr(\"Screen, chats, maps, radar and games\",\"Экран, чаты, карты, радар и игры\"),tr(\"A MeshCore chat node; relays as set\",\"Узел-собеседник MeshCore; пересылка по настройке\")},"
+  ]
+ },
+ "3d2ab823": {
+  "cells": 10,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:356: t(\"Persuasion\",\"Убеждение\"),t(\"Survival\",\"Выживание\")};"
   ]
  },
  "3d4328cc": {
@@ -3487,6 +3774,15 @@
    "src/Ui.cpp:438: {t(\"Route\",\"Маршрут\"),pathText(*p)+(p->pathLength==255?t(\" · flood\",\" · flood\"):String())},"
   ]
  },
+ "3dc8649f": {
+  "cells": 3,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:337: String names[6]={t(\"STR\",\"СИЛ\"),t(\"DEX\",\"ЛОВ\"),t(\"CON\",\"ТЕЛ\"),t(\"INT\",\"ИНТ\"),t(\"WIS\",\"МДР\"),t(\"CHA\",\"ХАР\")};"
+  ]
+ },
  "3e153c9f": {
   "cells": 12,
   "families": [
@@ -3513,15 +3809,6 @@
   "where": [
    "src/UiHeltec.cpp:723: if(m){String who=m->outgoing?t(\"You\",\"Вы\"):String(m->name);if(channels::isChannel(m->destination))who+=channelTag(m->destination);const char* states[]={\"\",tr(\"queued\",\"очередь\"),tr(\"sent\",\"отправл.\"),tr(\"delivered\",\"дост",
    "src/UiHires.inc:148: const char* states[]={\"\",tr(\"queued\",\"очередь\"),tr(\"sent\",\"отправл.\"),tr(\"delivered\",\"доставл.\"),tr(\"no ACK\",\"нет ACK\")};"
-  ]
- },
- "3eab825d": {
-  "cells": 14,
-  "families": [
-   "compact"
-  ],
-  "where": [
-   "src/UiDiceCompact.inc:57: case ActDiceNextCounter:return t(\"Next counter\",\"Другой счётчик\");"
   ]
  },
  "3efed7d9": {
@@ -3648,6 +3935,15 @@
    "src/UiHires.inc:247: if(!creature.alive()){text(106,90,fit(t(\"lived \",\"прожил \")+creature.ageText(s.age),130,small),ColInk,small);"
   ]
  },
+ "40f96906": {
+  "cells": 39,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:179: textCenter(160,154,t(\"P, A: a character from D&D or R.E.T.\",\"P, A: персонаж из D&D или Р.Э.Т.\"),faint,small);textCenter(160,166,t(\"Blocks: on the web page or in the app\",\"Блоки: на веб-странице или в приложении\"),faint,s"
+  ]
+ },
  "410872bd": {
   "cells": 10,
   "families": [
@@ -3738,6 +4034,15 @@
    "src/UiChannels.inc:82: switch(addStep){case AddTag:return t(\"Hashtag channel\",\"Канал-хештег\");case AddName:return t(\"Channel name\",\"Название канала\");"
   ]
  },
+ "429cae82": {
+  "cells": 15,
+  "families": [
+   "compact"
+  ],
+  "where": [
+   "src/UiDiceCompact.inc:69: case ActDicePrevBlock:return t(\"Previous block\",\"Предыдущий блок\");"
+  ]
+ },
  "42bb1cb5": {
   "cells": 14,
   "families": [
@@ -3750,10 +4055,13 @@
  "42dc0a3a": {
   "cells": 8,
   "families": [
-   "full"
+   "full",
+   "shared"
   ],
   "where": [
-   "src/UiTour.inc:180: footer({{\"<>\",t(\"Value\",\"Значение\")},{\"^v\",t(\"Item\",\"Пункт\")},{\"OK\",t(\"Next\",\"Далее\")},{\"BACK\",t(\"Back\",\"Назад\")}});return;}"
+   "src/UiTour.inc:180: footer({{\"<>\",t(\"Value\",\"Значение\")},{\"^v\",t(\"Item\",\"Пункт\")},{\"OK\",t(\"Next\",\"Далее\")},{\"BACK\",t(\"Back\",\"Назад\")}});return;}",
+   "src/UiDice.inc:267: if(act.length())footer({{\"OK\",act},{\"+/-\",\"±1\"},{\"V\",t(\"Value\",\"Значение\")},{\"P\",t(\"Character\",\"Персонаж\")}});",
+   "src/UiDice.inc:268: else footer({{\"<>\",t(\"Select\",\"Выбор\")},{\"+/-\",\"±1\"},{\"V\",t(\"Value\",\"Значение\")},{\"P\",t(\"Character\",\"Персонаж\")}});break;}"
   ]
  },
  "43021aae": {
@@ -3781,6 +4089,15 @@
   ],
   "where": [
    "src/UiChannels.inc:8: String channelKind(const channels::Channel& c){return channels::isPublic(c.secret)?t(\"Public channel of MeshCore\",\"Общий канал MeshCore\"):privateChannel(c)?t(\"Private channel\",\"Закрытый канал\"):t(\"Hashtag channel\",\"Канал"
+  ]
+ },
+ "43846a23": {
+  "cells": 7,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:380: add(Stat,Quarter,Diamond,Plain,\"lvl\",t(\"Level\",\"Уровень\"),3,0,\"(@mind+@emo+@body)/3\",10);"
   ]
  },
  "43d3ee81": {
@@ -3933,6 +4250,15 @@
    "src/Ui.cpp:397: bool fix=hardware.gpsFix();String gps=!config.gps?t(\"GPS off\",\"GPS выкл\"):fix?\"GPS \"+String(hardware.gps.satellites.value()):hardware.clockConflict?t(\"GPS: old date\",\"GPS: старая дата\"):t(\"GPS: searching\",\"GPS: поиск\");"
   ]
  },
+ "46b668cb": {
+  "cells": 15,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:371: t(\"Composure\",\"Самообладание\"),t(\"Leadership\",\"Лидерство\"),t(\"Physique\",\"Телосложение\"),t(\"Endurance\",\"Выносливость\"),t(\"Fine motor\",\"Мелкая моторика\"),t(\"Body control\",\"Контроль тела\")};"
+  ]
+ },
  "46b8241c": {
   "cells": 11,
   "families": [
@@ -3989,6 +4315,15 @@
    "src/UiTour.inc:116: else{text(16,y+10,t(\"Your games\",\"Ваши партии\"),faint,small);"
   ]
  },
+ "47698093": {
+  "cells": 16,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:234: text(18,64,fit(t(\"Send the sheet: \",\"Отправить лист: \")+dicer.heroName(dicer.s.character),284,bold),ink,bold);"
+  ]
+ },
  "477dcb8c": {
   "cells": 9,
   "families": [
@@ -3998,6 +4333,16 @@
    "src/ChessNet.cpp:157: news(m,tr(\"Rating: \",\"Рейтинг: \")+String(d->before)+\" > \"+String(d->after)+\" (\"+(diff>=0?\"+\":\"\")+String(diff)+\")\"+(d->counted?String():String(tr(\", over the daily limit\",\", сверх дневного предела\"))));}"
   ]
  },
+ "47882878": {
+  "cells": 22,
+  "families": [
+   "compact"
+  ],
+  "where": [
+   "src/UiDiceCompact.inc:153: if(i<0){say(0,30,t(\"The sheet is empty\",\"Лист пуст\"));say(0,44,t(\"Blocks: web page, app\",\"Блоки: веб, приложение\"),small);return;}",
+   "src/UiHires.inc:271: if(n<=0){empty(IcDice,t(\"The sheet is empty\",\"Лист пуст\"),t(\"Blocks: web page, app\",\"Блоки: веб, приложение\"));return;}"
+  ]
+ },
  "478d1b4e": {
   "cells": 22,
   "families": [
@@ -4005,15 +4350,6 @@
   ],
   "where": [
    "src/UiChess.inc:253: {\"N\",t(\"Rematch after the game\",\"Реванш после партии\")},{\"DEL\",t(\"Decline, cancel, remove\",\"Отказ, отмена, удаление\")}};"
-  ]
- },
- "47a608e8": {
-  "cells": 26,
-  "families": [
-   "full"
-  ],
-  "where": [
-   "src/UiDice.inc:150: String diceEditHint(){return diceEditRaw()?t(\"2d6+1, d20, 4d6-2, d%, d66\",\"2d6+1, d20, 4к6-2, d%, d66\"):String();}"
   ]
  },
  "47cf8db9": {
@@ -4154,7 +4490,7 @@
   "where": [
    "src/UiChessCompact.inc:168: say(68,55,t(\"click: next\",\"клик: далее\"),u8g2_font_4x6_t_cyrillic);",
    "src/UiHires.inc:109: String clickHint(const String& action){String k=t(\"click: next\",\"клик: далее\");int c=k.indexOf(':');return (c>0?k.substring(0,c):k)+\": \"+action;}",
-   "src/UiHires.inc:381: if(picking)chip(X-2,113,t(\"click: next\",\"клик: далее\"),238);"
+   "src/UiHires.inc:421: if(picking)chip(X-2,113,t(\"click: next\",\"клик: далее\"),238);"
   ]
  },
  "49d02c04": {
@@ -4172,7 +4508,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:146: return t(\"Character name\",\"Имя персонажа\");"
+   "src/UiDice.inc:276: return t(\"Character name\",\"Имя персонажа\");"
   ]
  },
  "4a098655": {
@@ -4297,18 +4633,19 @@
   "where": [
    "src/Ui.cpp:583: void drawOff(){panel(30,62,260,116,card,10);icon(IcPower,160,96,14,farewell?dim:warn,card);textCenter(160,138,farewell?t(\"Device is off\",\"Устройство выключено\"):t(\"Turning off...\",\"Выключение...\"),ink,bold);textCenter(16",
    "src/UiHeltec.cpp:680: auto& c=*hardware.canvas;c.fillScreen(0);say(0,24,farewell?t(\"Device is off\",\"Устройство выключено\"):t(\"Turning off...\",\"Выключение...\"),bold);",
-   "src/UiHires.inc:411: void offPage(){g().fillScreen(ColBack);icon(IcPower,120,42,12,ColWarn);center(120,82,farewell?t(\"Device is off\",\"Устройство выключено\"):t(\"Turning off...\",\"Выключение...\"),ColInk,bold);center(120,106,t(\"To turn on:\",\"Вкл"
+   "src/UiHires.inc:451: void offPage(){g().fillScreen(ColBack);icon(IcPower,120,42,12,ColWarn);center(120,82,farewell?t(\"Device is off\",\"Устройство выключено\"):t(\"Turning off...\",\"Выключение...\"),ColInk,bold);center(120,106,t(\"To turn on:\",\"Вкл"
   ]
  },
  "4be35553": {
   "cells": 7,
   "families": [
-   "full"
+   "full",
+   "shared"
   ],
   "where": [
-   "src/UiDice.inc:133: if(diceSheet==DiceSaved){drawDiceSaved();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"A\",t(\"Add\",\"Добавить\")},{\"^v\",t(\"Select\",\"Выбор\")},{\"BACK\",t(\"Close\",\"Закрыть\")}});return;}",
-   "src/UiDice.inc:136: case dice::Rpg:drawDiceRpg();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"S\",t(\"Saved\",\"Броски\")},{\"E\",t(\"Formula\",\"Формула\")},{\"M\",t(\"Mode\",\"Режим\")}});break;",
-   "src/UiDice.inc:137: case dice::Grid:drawDiceGrid();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"<>\",t(\"Count\",\"Число\")},{\"M\",t(\"Mode\",\"Режим\")},{\"P\",t(\"Character\",\"Персонаж\")}});break;"
+   "src/UiDice.inc:256: case DiceSaved:drawDiceSaved();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"A\",t(\"Add\",\"Добавить\")},{\"^v\",t(\"Select\",\"Выбор\")},{\"BACK\",t(\"Close\",\"Закрыть\")}});return;",
+   "src/UiDice.inc:264: case dice::Rpg:drawDiceRpg();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"S\",t(\"Saved\",\"Броски\")},{\"E\",t(\"Formula\",\"Формула\")},{\"M\",t(\"Mode\",\"Режим\")}});break;",
+   "src/UiDice.inc:265: case dice::Grid:drawDiceGrid();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"<>\",t(\"Count\",\"Число\")},{\"M\",t(\"Mode\",\"Режим\")},{\"P\",t(\"Character\",\"Персонаж\")}});break;"
   ]
  },
  "4bff5478": {
@@ -4318,7 +4655,7 @@
   ],
   "where": [
    "src/Ui.cpp:797: text(26,175,page==DiceView?diceEditOk():page==ChannelAdd?channelEditOk():page==Remote?(remoteEdit==EditPassword?t(\"OK: log in   BACK: cancel\",\"OK: войти   BACK: отменить\"):t(\"OK: send   BACK: cancel\",\"OK: отправить   BAC",
-   "src/UiDice.inc:149: String diceEditOk(){return diceEditing==EditQuick?t(\"OK: roll   BACK: cancel\",\"OK: бросить   BACK: отменить\"):diceEditing==EditNewFormula?t(\"OK: next   BACK: cancel\",\"OK: далее   BACK: отменить\"):t(\"OK: save   BACK: canc"
+   "src/UiDice.inc:279: String diceEditOk(){return diceEditing==EditQuick?t(\"OK: roll   BACK: cancel\",\"OK: бросить   BACK: отменить\"):diceEditing==EditNewFormula||diceEditing==EditHeroNew?t(\"OK: next   BACK: cancel\",\"OK: далее   BACK: отменить\""
   ]
  },
  "4ca756d0": {
@@ -4339,8 +4676,8 @@
   ],
   "where": [
    "src/Ui.cpp:225: String pathText(const Peer& p){if(p.pathLength==255)return t(\"path unknown\",\"путь неизвестен\");if(!(p.pathLength&63))return t(\"direct\",\"напрямую\");return count(p.pathLength&63,\"hop\",\"hops\",\"хоп\",\"хопа\",\"хопов\");}",
-   "src/UiHeltec.cpp:106: String pathText(const Peer& p){if(p.pathLength==255)return t(\"path ?\",\"путь ?\");if(!(p.pathLength&63))return t(\"direct\",\"напрямую\");return String(p.pathLength&63)+t(\" hops\",\" хоп.\");}",
-   "src/MeshRadio.cpp:428: String hops=m.hops==255?String():!m.hops?String(brief?tr(\"direct\",\"напр.\"):tr(\"direct\",\"напрямую\")):(brief?String(m.hops)+tr(\" rpt\",\" ретр.\"):String(tr(\"via \",\"через \"))+m.hops+tr(\" rpt\",\" ретр.\"));"
+   "src/UiDice.inc:240: if(p&&p->heard)textRight(300,y+15,p->hops?String(p->hops)+t(\" hops\",\" хоп.\"):t(\"direct\",\"напрямую\"),faint,small);diceSpot(14,y,292,22,TapPick,i);}",
+   "src/UiHeltec.cpp:106: String pathText(const Peer& p){if(p.pathLength==255)return t(\"path ?\",\"путь ?\");if(!(p.pathLength&63))return t(\"direct\",\"напрямую\");return String(p.pathLength&63)+t(\" hops\",\" хоп.\");}"
   ]
  },
  "4d14e8f8": {
@@ -4460,6 +4797,16 @@
   ],
   "where": [
    "src/Ui.cpp:217: const char* months[]={tr(\"January\",\"января\"),tr(\"February\",\"февраля\"),tr(\"March\",\"марта\"),tr(\"April\",\"апреля\"),tr(\"May\",\"мая\"),tr(\"June\",\"июня\"),tr(\"July\",\"июля\"),tr(\"August\",\"августа\"),tr(\"September\",\"сентября\"),tr(\"Oct"
+  ]
+ },
+ "4f3d9c85": {
+  "cells": 23,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:559: else if(status==ChatMessage::Failed){out.msg=0;if(++out.tries>=3){out.failed=true;out.text=\"\";note=t(\"Sheet not delivered to \",\"Лист не доставлен: \")+out.name;notes++;events++;}else sendNext();}",
+   "src/Dice.cpp:575: if(out.parts&&!out.done&&!out.failed&&((!out.msg&&now-out.at>3000)||(out.msg&&now-out.at>120000))){if(out.msg&&++out.tries>=3){out.failed=true;out.msg=0;out.text=\"\";note=t(\"Sheet not delivered to \",\"Лист не доставлен: \")"
   ]
  },
  "4f430bf3": {
@@ -4607,7 +4954,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:145: case EditFormula:return t(\"Formula\",\"Формула\");case EditName:return t(\"Roll name\",\"Имя броска\");case EditCounter:return t(\"Counter name\",\"Имя счётчика\");case EditHeroNew:return t(\"New character\",\"Новый персонаж\");}"
+   "src/UiDice.inc:275: case EditFormula:return t(\"Formula\",\"Формула\");case EditName:return t(\"Roll name\",\"Имя броска\");case EditValue:return fit(t(\"Value: \",\"Значение: \")+(dicer.sheet.count?String(dicer.sheet.block[sheetSel].name):String()),26"
   ]
  },
  "51345e46": {
@@ -4691,6 +5038,15 @@
    "src/UiServer.inc:112: String serverEditTitle(){ServerRow r=serverRow(selected);return r==RowPost?t(\"Post to the room\",\"Пост в комнату\"):serverName(r);}"
   ]
  },
+ "5255200b": {
+  "cells": 9,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:353: String skillName[18]={t(\"Acrobatics\",\"Акробатика\"),t(\"Animal Handling\",\"Уход за животными\"),t(\"Arcana\",\"Магия\"),t(\"Athletics\",\"Атлетика\"),t(\"Deception\",\"Обман\"),"
+  ]
+ },
  "5257b1c1": {
   "cells": 5,
   "families": [
@@ -4719,6 +5075,15 @@
    "src/UiHeltec.cpp:546: case ActSelfTest:{bool valid=meshRadio.selfTest();meshRadio.event=valid?\"Encryption test OK\":\"Encryption test FAILED\";notice(valid?t(\"Encryption: OK\",\"Шифрование: OK\"):t(\"Encryption: ERROR\",\"Шифрование: ошибка\"));break;}"
   ]
  },
+ "529ee6ca": {
+  "cells": 11,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:355: t(\"Perception\",\"Восприятие\"),t(\"Performance\",\"Выступление\"),t(\"Religion\",\"Религия\"),t(\"Sleight of Hand\",\"Ловкость рук\"),t(\"Stealth\",\"Скрытность\"),"
+  ]
+ },
  "52dc749b": {
   "cells": 14,
   "families": [
@@ -4726,6 +5091,15 @@
   ],
   "where": [
    "src/UiChannels.inc:112: return config.region[0]?t(\"Default: \",\"По умолчанию: \")+String(config.region):String(t(\"Default: none\",\"По умолчанию: нет\"));"
+  ]
+ },
+ "52e38488": {
+  "cells": 8,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:355: t(\"Perception\",\"Восприятие\"),t(\"Performance\",\"Выступление\"),t(\"Religion\",\"Религия\"),t(\"Sleight of Hand\",\"Ловкость рук\"),t(\"Stealth\",\"Скрытность\"),"
   ]
  },
  "533f225b": {
@@ -4764,6 +5138,15 @@
    "src/UiTour.inc:189: if(!edit.length()||edit.length()>32||!meshmesh::validUtf8((const uint8_t*)edit.c_str(),edit.length())){notice(t(\"Name: 1-32 UTF-8 bytes\",\"Название: 1-32 байта UTF-8\"),bad);return;}"
   ]
  },
+ "53b5a623": {
+  "cells": 5,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:368: String top[3]={t(\"Mind\",\"Разум\"),t(\"Emotions\",\"Эмоции\"),t(\"Body\",\"Тело\")};"
+  ]
+ },
  "53c958eb": {
   "cells": 28,
   "families": [
@@ -4771,6 +5154,27 @@
   ],
   "where": [
    "src/Ui.cpp:970: String eventLabel(const String& value){if(value.startsWith(\"New message from \"))return tr(\"New message from \",\"Сообщение от \")+value.substring(17);if(value.startsWith(\"Delivered to \"))return tr(\"Delivered to \",\"Доставлен"
+  ]
+ },
+ "53ed2c15": {
+  "cells": 36,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:179: textCenter(160,154,t(\"P, A: a character from D&D or R.E.T.\",\"P, A: персонаж из D&D или Р.Э.Т.\"),faint,small);textCenter(160,166,t(\"Blocks: on the web page or in the app\",\"Блоки: на веб-странице или в приложении\"),faint,s"
+  ]
+ },
+ "54007713": {
+  "cells": 18,
+  "families": [
+   "compact",
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:178: if(!n){icon(IcDice,160,96,18,faint);textCenter(160,136,t(\"The sheet is empty\",\"Лист пуст\"),dim);",
+   "src/UiDiceCompact.inc:153: if(i<0){say(0,30,t(\"The sheet is empty\",\"Лист пуст\"));say(0,44,t(\"Blocks: web page, app\",\"Блоки: веб, приложение\"),small);return;}",
+   "src/UiHires.inc:271: if(n<=0){empty(IcDice,t(\"The sheet is empty\",\"Лист пуст\"),t(\"Blocks: web page, app\",\"Блоки: веб, приложение\"));return;}"
   ]
  },
  "540d1e4a": {
@@ -4954,7 +5358,7 @@
   ],
   "where": [
    "src/UiChannels.inc:93: String channelEditOk(){return addStep==AddName?t(\"OK: next   BACK: cancel\",\"OK: далее   BACK: отменить\"):addStep==AddCreate?t(\"OK: create   BACK: cancel\",\"OK: создать   BACK: отменить\"):t(\"OK: join   BACK: cancel\",\"OK: в",
-   "src/UiDice.inc:149: String diceEditOk(){return diceEditing==EditQuick?t(\"OK: roll   BACK: cancel\",\"OK: бросить   BACK: отменить\"):diceEditing==EditNewFormula?t(\"OK: next   BACK: cancel\",\"OK: далее   BACK: отменить\"):t(\"OK: save   BACK: canc"
+   "src/UiDice.inc:279: String diceEditOk(){return diceEditing==EditQuick?t(\"OK: roll   BACK: cancel\",\"OK: бросить   BACK: отменить\"):diceEditing==EditNewFormula||diceEditing==EditHeroNew?t(\"OK: next   BACK: cancel\",\"OK: далее   BACK: отменить\""
   ]
  },
  "58c6fad0": {
@@ -4972,7 +5376,16 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:53: case ActDiceGridFive:return t(\"Dice +5: \",\"Кости +5: \")+String(s.gridChosen);"
+   "src/UiDiceCompact.inc:64: case ActDiceGridFive:return t(\"Dice +5: \",\"Кости +5: \")+String(s.gridChosen);"
+  ]
+ },
+ "59897c89": {
+  "cells": 9,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:369: String mid[6]={t(\"Intellect\",\"Интеллект\"),t(\"Perception\",\"Восприятие\"),t(\"Empathy\",\"Эмпатия\"),t(\"Will\",\"Воля\"),t(\"Strength\",\"Сила\"),t(\"Agility\",\"Ловкость\")};"
   ]
  },
  "5a4ec350": {
@@ -5059,6 +5472,15 @@
    "src/Ui.cpp:617: switch(i){case 0:return t(\"OK: edit, 1-24 UTF-8 bytes\",\"OK: изменить, 1-24 байта UTF-8\");case 1:return t(\"Menu language; typing layout is the @ key\",\"Язык меню; раскладка ввода - клавиша @\");case 2:return \"10-255\";case 3"
   ]
  },
+ "5b6ba3e5": {
+  "cells": 102,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:379: add(Track,Third,Circle,Plain,\"luck\",t(\"Luck\",\"Удача\"),6,0,\"@lvl*2\",7);note(t(\"Declared before a roll and added to it; a failure burns it. A failure gives 1 luck, a critical one 3.\",\"Заявляется до броска и прибавляется к "
+  ]
+ },
  "5b98ebce": {
   "cells": 24,
   "families": [
@@ -5066,6 +5488,15 @@
   ],
   "where": [
    "src/Pet.cpp:130: case Hungry:line=r%2?t(\"Hungry: the air is empty\",\"Голодно: эфир пуст\"):t(\"A snack?\",\"Вкусняшку?\");break;"
+  ]
+ },
+ "5ba1cdf0": {
+  "cells": 20,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:291: if(!v.length()||*end||!(rel?dicer.change(sheetSel,n):dicer.setValue(sheetSel,n))){bad1(t(\"A number: 23, +5, -7\",\"Число: 23, +5, -7\"));return;}editing=false;return;}"
   ]
  },
  "5bb9392e": {
@@ -5094,6 +5525,15 @@
   ],
   "where": [
    "src/UiTour.inc:175: String hints[]={t(\"suggested for \",\"для \")+count(picked+1,\"player\",\"players\",\"игрока\",\"игроков\",\"игроков\")+\": \"+String(tourSuggested(picked+1)),t(\"a LoRa move takes up to a few minutes\",\"по LoRa ход идёт до нескольких ми"
+  ]
+ },
+ "5bef85ef": {
+  "cells": 8,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:370: String low[12]={t(\"Education\",\"Образование\"),t(\"Wits\",\"Сообразительность\"),t(\"Attention\",\"Внимание\"),t(\"Intuition\",\"Интуиция\"),t(\"Inspiration\",\"Вдохновение\"),t(\"Charisma\",\"Харизма\"),"
   ]
  },
  "5bf49151": {
@@ -5153,9 +5593,11 @@
  "5cfad88d": {
   "cells": 5,
   "families": [
-   "compact"
+   "compact",
+   "full"
   ],
   "where": [
+   "src/UiDice.inc:240: if(p&&p->heard)textRight(300,y+15,p->hops?String(p->hops)+t(\" hops\",\" хоп.\"):t(\"direct\",\"напрямую\"),faint,small);diceSpot(14,y,292,22,TapPick,i);}",
    "src/UiHeltec.cpp:106: String pathText(const Peer& p){if(p.pathLength==255)return t(\"path ?\",\"путь ?\");if(!(p.pathLength&63))return t(\"direct\",\"напрямую\");return String(p.pathLength&63)+t(\" hops\",\" хоп.\");}"
   ]
  },
@@ -5212,7 +5654,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:116: text(18,208,t(\"F: formula  N: name  C: colour  DEL: delete\",\"F: формула  N: имя  C: цвет  DEL: удалить\"),faint,small);"
+   "src/UiDice.inc:205: text(18,208,t(\"F: formula  N: name  C: colour  DEL: delete\",\"F: формула  N: имя  C: цвет  DEL: удалить\"),faint,small);"
   ]
  },
  "5e28fa87": {
@@ -5242,16 +5684,6 @@
    "src/UiHeltec.cpp:111: switch(s->login){case remote::Waiting:return t(\"login: waiting\",\"вход: ждём\");case remote::Done:return s->admin?t(\"logged in: admin\",\"вход: админ\"):t(\"logged in\",\"вход выполнен\");case remote::Refused:return t(\"login refu"
   ]
  },
- "5f0511a3": {
-  "cells": 19,
-  "families": [
-   "compact"
-  ],
-  "where": [
-   "src/UiDiceCompact.inc:118: if(!k){say(0,30,t(\"No counters\",\"Счётчиков нет\"));say(0,44,t(\"Add one in the menu\",\"Добавьте в меню\"),small);return;}",
-   "src/UiHires.inc:270: const auto& c=dicer.hero();if(!diceShownCounter()){empty(IcDice,t(\"No counters\",\"Счётчиков нет\"),t(\"Add one in the menu\",\"Добавьте в меню\"));return;}"
-  ]
- },
  "5f25e382": {
   "cells": 13,
   "families": [
@@ -5259,7 +5691,7 @@
   ],
   "where": [
    "src/UiChessCompact.inc:169: say(68,63,chessCursor<0?(chessHeld<0?t(\"hold: menu\",\"держ: меню\"):t(\"hold: cancel\",\"держ: отмена\")):chessHeld<0?t(\"hold: pick\",\"держ: взять\"):t(\"hold: move\",\"держ: сходить\"),u8g2_font_4x6_t_cyrillic);}",
-   "src/UiHires.inc:382: chip(X-2,131,!picking||chessCursor<0?(chessHeld<0?t(\"hold: menu\",\"держ: меню\"):t(\"hold: cancel\",\"держ: отмена\")):chessHeld<0?t(\"hold: pick\",\"держ: взять\"):t(\"hold: move\",\"держ: сходить\"),238);"
+   "src/UiHires.inc:422: chip(X-2,131,!picking||chessCursor<0?(chessHeld<0?t(\"hold: menu\",\"держ: меню\"):t(\"hold: cancel\",\"держ: отмена\")):chessHeld<0?t(\"hold: pick\",\"держ: взять\"):t(\"hold: move\",\"держ: сходить\"),238);"
   ]
  },
  "5f4593c3": {
@@ -5370,7 +5802,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:776: case Wifi:title=\"Wi-Fi\";if(portalActive()){say(0,23,\"MM-\"+meshRadio.idText(meshRadio.nodeId).substring(6),bold);say(0,36,portalPassword());say(0,48,\"192.168.4.1\",small);}else{say(0,27,t(\"Access point off\",\"Точка доступа ",
-   "src/UiHires.inc:308: else{text(36,42,fit(t(\"Access point off\",\"Точка доступа выкл.\"),196,bold),ColInk,bold);text(36,58,fit(t(\"Web chat and settings\",\"Веб-чат и настройки\"),196,tiny),ColDim,tiny);}"
+   "src/UiHires.inc:348: else{text(36,42,fit(t(\"Access point off\",\"Точка доступа выкл.\"),196,bold),ColInk,bold);text(36,58,fit(t(\"Web chat and settings\",\"Веб-чат и настройки\"),196,tiny),ColDim,tiny);}"
   ]
  },
  "60ca84b7": {
@@ -5445,14 +5877,13 @@
    "src/UiChess.inc:62: String r=m.won()?t(\"You won\",\"Победа\"):m.lost()?t(\"You lost\",\"Поражение\"):t(\"Draw\",\"Ничья\");"
   ]
  },
- "61af3343": {
-  "cells": 13,
+ "61b2b6dc": {
+  "cells": 6,
   "families": [
-   "compact"
+   "shared"
   ],
   "where": [
-   "src/UiDiceCompact.inc:118: if(!k){say(0,30,t(\"No counters\",\"Счётчиков нет\"));say(0,44,t(\"Add one in the menu\",\"Добавьте в меню\"),small);return;}",
-   "src/UiHires.inc:270: const auto& c=dicer.hero();if(!diceShownCounter()){empty(IcDice,t(\"No counters\",\"Счётчиков нет\"),t(\"Add one in the menu\",\"Добавьте в меню\"));return;}"
+   "src/Dice.cpp:349: add(Ability,Half,Circle,Plain,\"\",t(\"Damage\",\"Урон\"),0,0,\"1d8+@str\",0);"
   ]
  },
  "621ee201": {
@@ -5471,7 +5902,7 @@
   ],
   "where": [
    "src/UiChessCompact.inc:157: say(68,8,clipped(m.name,11),small);say(68,17,t(\"you: \",\"вы: \")+(m.mine==chess::White?t(\"white\",\"белые\"):t(\"black\",\"чёрные\")),small);",
-   "src/UiHires.inc:374: text(X+12,33,fit(t(\"you: \",\"вы: \")+(white?t(\"white\",\"белые\"):t(\"black\",\"чёрные\")),W-12,tiny),ColDim,tiny);"
+   "src/UiHires.inc:414: text(X+12,33,fit(t(\"you: \",\"вы: \")+(white?t(\"white\",\"белые\"):t(\"black\",\"чёрные\")),W-12,tiny),ColDim,tiny);"
   ]
  },
  "624e042e": {
@@ -5501,6 +5932,15 @@
    "src/UiChess.inc:165: String colors[]={t(\"White\",\"Белыми\"),t(\"Black\",\"Чёрными\"),t(\"Random\",\"Случайно\")};int cx=222;tri(cx-58,39,3,4,accent);tri(cx+58,39,1,4,accent);"
   ]
  },
+ "62bdb04c": {
+  "cells": 8,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:187: else if(b.kind==dice::Track&&b.formula[0])detail=t(\"max = \",\"макс. = \")+b.formula;"
+  ]
+ },
  "62d398c0": {
   "cells": 20,
   "families": [
@@ -5525,7 +5965,7 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:51: case ActDiceMode:return t(\"Mode: \",\"Режим: \")+diceModeName((s.mode+1)%dice::ModeCount);"
+   "src/UiDiceCompact.inc:62: case ActDiceMode:return t(\"Mode: \",\"Режим: \")+diceModeName((s.mode+1)%dice::ModeCount);"
   ]
  },
  "6391ad44": {
@@ -5562,7 +6002,7 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:46: case ActDiceNextSaved:return t(\"Next saved roll\",\"Другой бросок\");"
+   "src/UiDiceCompact.inc:57: case ActDiceNextSaved:return t(\"Next saved roll\",\"Другой бросок\");"
   ]
  },
  "64af19bb": {
@@ -5703,6 +6143,24 @@
    "src/ChessNet.cpp:306: free(buf);if(dropped){event=tr(\"Chess: a damaged game was dropped\",\"Шахматы: повреждённая партия удалена\");events++;}dirty=true;"
   ]
  },
+ "683693d8": {
+  "cells": 14,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:212: if(dicer.offered){panel(14,y0,292,20,rgb(0x3a2f12),6);text(22,y0+14,fit(t(\"O: sheet from \",\"O: лист от \")+dicer.offer.from+\": \"+dicer.offer.name,276,small),warn,small);y0+=22;}"
+  ]
+ },
+ "685746dd": {
+  "cells": 37,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:227: String detail=i==dice::DndTemplate?t(\"6 stats, AC, hit points, 18 skills, slots\",\"6 характеристик, КД, хиты, 18 навыков, ячейки\"):i==dice::RetTemplate?t(\"Stat tree, dice by level, health, sanity, luck\",\"Дерево параметров"
+  ]
+ },
  "6859f362": {
   "cells": 20,
   "families": [
@@ -5710,6 +6168,15 @@
   ],
   "where": [
    "src/UiChess.inc:348: if(chessNet.offerDraw(m))notice(t(\"Draw offered\",\"Ничья предложена\"),info);else notice(m.drawOffer==ChessMatch::OfferedByMe?t(\"Draw already offered\",\"Ничья уже предложена\"):t(\"No game in progress\",\"Партия не идёт\"),dim);"
+  ]
+ },
+ "685b8070": {
+  "cells": 9,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:370: String low[12]={t(\"Education\",\"Образование\"),t(\"Wits\",\"Сообразительность\"),t(\"Attention\",\"Внимание\"),t(\"Intuition\",\"Интуиция\"),t(\"Inspiration\",\"Вдохновение\"),t(\"Charisma\",\"Харизма\"),"
   ]
  },
  "685cc410": {
@@ -5748,7 +6215,7 @@
   "where": [
    "src/Ui.cpp:283: {IcCompass,warn,t(\"Navigation\",\"Навигация\"),hardware.gpsFix()?\"GPS: \"+count(hardware.gps.satellites.value(),\"sat\",\"sats\",\"спутник\",\"спутника\",\"спутников\"):config.gps?t(\"GPS: searching\",\"GPS: поиск\"):t(\"GPS off\",\"GPS выкл",
    "src/UiHeltec.cpp:772: say(0,23,!config.gps?t(\"GPS off\",\"GPS выключен\"):fix?t(\"Position fix\",\"Позиция есть\"):hardware.clockConflict?t(\"Old GPS date\",\"Старая дата GPS\"):hardware.gps.passedChecksum()?t(\"Searching sky\",\"Поиск спутников\"):t(\"No da",
-   "src/UiHires.inc:300: text(36,42,fit(!config.gps?t(\"GPS off\",\"GPS выключен\"):fix?t(\"Position fix\",\"Позиция есть\"):hardware.clockConflict?t(\"Old GPS date\",\"Старая дата GPS\"):hardware.gps.passedChecksum()?t(\"Searching sky\",\"Поиск спутников\"):t("
+   "src/UiHires.inc:340: text(36,42,fit(!config.gps?t(\"GPS off\",\"GPS выключен\"):fix?t(\"Position fix\",\"Позиция есть\"):hardware.clockConflict?t(\"Old GPS date\",\"Старая дата GPS\"):hardware.gps.passedChecksum()?t(\"Searching sky\",\"Поиск спутников\"):t("
   ]
  },
  "68dd789c": {
@@ -5786,6 +6253,15 @@
   ],
   "where": [
    "src/UiTour.inc:122: textRight(304,ry+13,won?t(\"win\",\"победа\"):lost?t(\"loss\",\"поражение\"):q->result==tour::Drawn?t(\"draw\",\"ничья\"):t(\"playing\",\"идёт\"),won?ok:lost?bad:dim,small);}}"
+  ]
+ },
+ "69541534": {
+  "cells": 26,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:27: if(r.fail)return r.fail==1?t(\"Critical failure (d4: 1)\",\"Критический провал (d4: 1)\"):t(\"Failure, d4: \",\"Провал, d4: \")+String(r.fail);"
   ]
  },
  "696ee294": {
@@ -5894,7 +6370,7 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:52: case ActDiceGridMore:return t(\"Dice +1: \",\"Кости +1: \")+String(s.gridChosen);"
+   "src/UiDiceCompact.inc:63: case ActDiceGridMore:return t(\"Dice +1: \",\"Кости +1: \")+String(s.gridChosen);"
   ]
  },
  "6bad4c1a": {
@@ -6023,6 +6499,15 @@
    "src/Ui.cpp:617: switch(i){case 0:return t(\"OK: edit, 1-24 UTF-8 bytes\",\"OK: изменить, 1-24 байта UTF-8\");case 1:return t(\"Menu language; typing layout is the @ key\",\"Язык меню; раскладка ввода - клавиша @\");case 2:return \"10-255\";case 3"
   ]
  },
+ "6e017f89": {
+  "cells": 23,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:247: if(!dicer.offered){textCenter(160,130,t(\"No sheets sent to you\",\"Вам не присылали листов\"),dim);return;}"
+  ]
+ },
  "6e08749f": {
   "cells": 13,
   "families": [
@@ -6119,7 +6604,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:86: if(dicer.gridRolled&&s.thresholdOn&&!spin){String n=count(dicer.gridSuccesses(),\"success\",\"successes\",\"успех\",\"успеха\",\"успехов\");text(x,y,n,ok,bold);x+=measure(n,bold)+8;}"
+   "src/UiDice.inc:95: if(dicer.gridRolled&&s.thresholdOn&&!spin){String n=count(dicer.gridSuccesses(),\"success\",\"successes\",\"успех\",\"успеха\",\"успехов\");text(x,y,n,ok,bold);x+=measure(n,bold)+8;}"
   ]
  },
  "6f228773": {
@@ -6169,6 +6654,15 @@
   ],
   "where": [
    "src/Ui.cpp:721: if(selected>0&&unsigned(selected-1)<total&&rows[selected-1].saved){String name=rows[selected-1].ssid;if(internet.forget(name))notice(t(\"Forgotten: \",\"Забыта: \")+name,dim);selected=min(selected,int(netCount()));return;}"
+  ]
+ },
+ "70131023": {
+  "cells": 16,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:354: t(\"History\",\"История\"),t(\"Insight\",\"Проницательность\"),t(\"Intimidation\",\"Запугивание\"),t(\"Investigation\",\"Анализ\"),t(\"Medicine\",\"Медицина\"),t(\"Nature\",\"Природа\"),"
   ]
  },
  "7014dc62": {
@@ -6244,6 +6738,15 @@
    "src/UiTour.inc:56: void tourStartWizard(){tourStep=0;tourRounds=0;tourHoursAt=2;memset(tourPicked,0,sizeof tourPicked);tm v;tourName=t(\"Tournament\",\"Турнир\");if(localTime(time(nullptr),v)){char b[8];snprintf(b,sizeof b,\" %02d.%02d\",v.tm_md"
   ]
  },
+ "712a7007": {
+  "cells": 8,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:369: String mid[6]={t(\"Intellect\",\"Интеллект\"),t(\"Perception\",\"Восприятие\"),t(\"Empathy\",\"Эмпатия\"),t(\"Will\",\"Воля\"),t(\"Strength\",\"Сила\"),t(\"Agility\",\"Ловкость\")};"
+  ]
+ },
  "7146cbaf": {
   "cells": 16,
   "families": [
@@ -6307,6 +6810,15 @@
   ],
   "where": [
    "src/UiHeltec.cpp:408: case ActPeopleDelete:return tallyArmed?t(\"Hold again: delete\",\"Держите ещё: удалить\"):t(\"Delete this counter\",\"Удалить этот счётчик\");case ActPeopleReset:return t(\"Reset to 0\",\"Сбросить в 0\");case ActPeopleBle:return \"BL"
+  ]
+ },
+ "72cf5600": {
+  "cells": 4,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:368: String top[3]={t(\"Mind\",\"Разум\"),t(\"Emotions\",\"Эмоции\"),t(\"Body\",\"Тело\")};"
   ]
  },
  "7311d31b": {
@@ -6408,15 +6920,6 @@
    "src/Ui.cpp:795: textRight(294,160,String(edit.length())+\"/\"+String(key?64:page==Radio||page==ChannelInfo?int(regions::NameBytes):page==ChannelAdd?channelEditLimit():page==ServerHome?serverEditLimit():page==Remote?remoteEditLimit():pass?"
   ]
  },
- "753a50c9": {
-  "cells": 33,
-  "families": [
-   "full"
-  ],
-  "where": [
-   "src/UiDice.inc:103: if(!c.counters)textCenter(160,190,t(\"Counters: life, wounds, resources\",\"Счётчики: жизни, раны, ресурсы\"),faint,small);"
-  ]
- },
  "75481d2e": {
   "cells": 18,
   "families": [
@@ -6424,6 +6927,24 @@
   ],
   "where": [
    "src/UiServer.inc:51: case RowFlood:return t(\"Network advert\",\"Объявление на сеть\");case RowAnnounce:return t(\"Advertise now\",\"Объявить сейчас\");case RowMode:return t(\"Device mode\",\"Режим работы\");}return \"\";"
+  ]
+ },
+ "754a17a2": {
+  "cells": 7,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:354: t(\"History\",\"История\"),t(\"Insight\",\"Проницательность\"),t(\"Intimidation\",\"Запугивание\"),t(\"Investigation\",\"Анализ\"),t(\"Medicine\",\"Медицина\"),t(\"Nature\",\"Природа\"),"
+  ]
+ },
+ "754ea536": {
+  "cells": 7,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:347: add(Header,Whole,Circle,Plain,\"\",t(\"Attacks\",\"Атаки\"),0,0,\"\",0);"
   ]
  },
  "75714961": {
@@ -6469,6 +6990,15 @@
   ],
   "where": [
    "src/UiHeltec.cpp:310: String wdLast(){const auto& r=wardrive::last();if(wardrive::pinging())return t(\"Ping: listening...\",\"Пинг: слушаю...\");if(!r.done)return t(\"No pings yet\",\"Пингов пока нет\");if(!r.count)return t(\"Ping: nobody repeated\",\"П"
+  ]
+ },
+ "75c9867d": {
+  "cells": 80,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:385: add(Ability,Half,Circle,Plain,\"\",t(\"Skill: Persuasion\",\"Навык: Убеждение\"),0,0,\"@cha+3\",5);note(t(\"A skill: the die of its stat plus the skill's level (3 at the start, 7 at most).\",\"Навык: куб параметра плюс уровень навы"
   ]
  },
  "75ea9303": {
@@ -6517,15 +7047,6 @@
   ],
   "where": [
    "src/UiHeltec.cpp:440: case ActLanguage:return t(\"Language: \",\"Язык: \")+langNames[config.lang<LangCount?config.lang:0];case ActBattery:return config.batteryVolts?t(\"Battery: volts\",\"Батарея: вольты\"):t(\"Battery: percent\",\"Батарея: проценты\");"
-  ]
- },
- "76fe485a": {
-  "cells": 11,
-  "families": [
-   "full"
-  ],
-  "where": [
-   "src/UiDice.inc:95: if(i==c.counters){d.drawRoundRect(x,y,98,78,8,line);textCenter(x+49,y+38,\"+\",dim,big);textCenter(x+49,y+58,t(\"A: add\",\"A: добавить\"),faint,small);diceSpot(x,y,98,78,TapAdd,0);break;}"
   ]
  },
  "77001ca0": {
@@ -6582,6 +7103,15 @@
    "src/Ui.cpp:707: const char* map[][2]={{\"Wrong password or refused: \",\"Неверный пароль или отказ: \"},{\"No answer from \",\"Нет ответа от \"},{\"No saved network in range\",\"Сохранённых сетей рядом нет\"},{\"Connection lost\",\"Связь с сетью потер"
   ]
  },
+ "77bcf2fd": {
+  "cells": 14,
+  "families": [
+   "compact"
+  ],
+  "where": [
+   "src/UiDiceCompact.inc:68: case ActDiceNextCounter:return t(\"Next block\",\"Следующий блок\");"
+  ]
+ },
  "78219be4": {
   "cells": 20,
   "families": [
@@ -6599,7 +7129,7 @@
   "where": [
    "src/UiHeltec.cpp:105: String ago(uint32_t ms){uint32_t s=ms/1000;if(s<60)return String(s)+t(\"s\",\"с\");if(s<3600)return String(s/60)+t(\"m\",\"м\");if(s<86400)return String(s/3600)+t(\"h\",\"ч\");return String(s/86400)+t(\"d\",\"д\");}",
    "src/UiHeltec.cpp:637: sayRight(128,63,rolePickBoot?t(\"as now in \",\"как сейчас через \")+String(left)+t(\"s\",\"с\"):",
-   "src/UiHires.inc:350: footer({rolePickBoot?t(\"as now in \",\"как сейчас через \")+String(left)+t(\"s\",\"с\"):t(\"click-next hold-choose\",\"клик-далее держ-выбор\")});"
+   "src/UiHires.inc:390: footer({rolePickBoot?t(\"as now in \",\"как сейчас через \")+String(left)+t(\"s\",\"с\"):t(\"click-next hold-choose\",\"клик-далее держ-выбор\")});"
   ]
  },
  "78941dac": {
@@ -6637,7 +7167,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:219: if(key==Erase){if(diceConfirm()){dicer.deleteRoll(diceSel);diceSel=max(0,diceSel-1);notice(t(\"Roll deleted\",\"Бросок удалён\"),dim);}return true;}"
+   "src/UiDice.inc:356: if(key==Erase){if(diceConfirm()){dicer.deleteRoll(diceSel);diceSel=max(0,diceSel-1);notice(t(\"Roll deleted\",\"Бросок удалён\"),dim);}return true;}"
   ]
  },
  "78fe2f73": {
@@ -6655,7 +7185,7 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:122: if(!r){say(0,30,t(\"No rolls yet\",\"Бросков ещё нет\"));say(0,44,appOpen?t(\"Click to roll\",\"Клик - бросить\"):t(\"hold: open\",\"держ: открыть\"),small);return;}"
+   "src/UiDiceCompact.inc:168: if(!r){say(0,30,t(\"No rolls yet\",\"Бросков ещё нет\"));say(0,44,appOpen?t(\"Click to roll\",\"Клик - бросить\"):t(\"hold: open\",\"держ: открыть\"),small);return;}"
   ]
  },
  "7953d271": {
@@ -6721,7 +7251,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:144: switch(diceEditing){case EditQuick:return t(\"Formula to roll\",\"Формула броска\");case EditNewFormula:return t(\"New roll: formula\",\"Новый бросок: формула\");case EditNewName:return t(\"New roll: name\",\"Новый бросок: имя\");"
+   "src/UiDice.inc:274: switch(diceEditing){case EditQuick:return t(\"Formula to roll\",\"Формула броска\");case EditNewFormula:return t(\"New roll: formula\",\"Новый бросок: формула\");case EditNewName:return t(\"New roll: name\",\"Новый бросок: имя\");"
   ]
  },
  "7a531229": {
@@ -6805,6 +7335,16 @@
   ],
   "where": [
    "src/Pet.cpp:184: case Sleepy:return t(\"asleep\",\"спит\");case Sick:return t(\"ill\",\"болеет\");case Eating:return t(\"eating\",\"ест\");default:return t(\"gone\",\"умер\");}"
+  ]
+ },
+ "7b538b6a": {
+  "cells": 11,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:362: add(Pips,Half,Circle,Plain,\"insp\",t(\"Inspiration\",\"Вдохновение\"),0,1,\"\",7);",
+   "src/Dice.cpp:370: String low[12]={t(\"Education\",\"Образование\"),t(\"Wits\",\"Сообразительность\"),t(\"Attention\",\"Внимание\"),t(\"Intuition\",\"Интуиция\"),t(\"Inspiration\",\"Вдохновение\"),t(\"Charisma\",\"Харизма\"),"
   ]
  },
  "7b6f9672": {
@@ -6925,7 +7465,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:136: case dice::Rpg:drawDiceRpg();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"S\",t(\"Saved\",\"Броски\")},{\"E\",t(\"Formula\",\"Формула\")},{\"M\",t(\"Mode\",\"Режим\")}});break;"
+   "src/UiDice.inc:264: case dice::Rpg:drawDiceRpg();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"S\",t(\"Saved\",\"Броски\")},{\"E\",t(\"Formula\",\"Формула\")},{\"M\",t(\"Mode\",\"Режим\")}});break;"
   ]
  },
  "7c3e6a67": {
@@ -6946,14 +7486,23 @@
    "src/UiHeltec.cpp:510: case ActNodeOk:{Peer* p=shownNode();bool sent=p&&meshRadio.sendMessage(\"OK\",p->id);notice(sent?t(\"OK queued\",\"OK в очереди\"):t(\"Not queued\",\"Не отправлено\"));break;}"
   ]
  },
+ "7c7e42ff": {
+  "cells": 29,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:221: String diceTemplateName(int i){return i==dice::DndTemplate?String(\"D&D 5e\"):i==dice::RetTemplate?t(\"R.E.T. (Mind, Emotions, Body)\",\"Р.Э.Т. (Разум, Эмоции, Тело)\"):t(\"Empty sheet\",\"Пустой лист\");}"
+  ]
+ },
  "7ca84b76": {
   "cells": 6,
   "families": [
    "shared"
   ],
   "where": [
-   "src/MeshRadio.cpp:428: String hops=m.hops==255?String():!m.hops?String(brief?tr(\"direct\",\"напр.\"):tr(\"direct\",\"напрямую\")):(brief?String(m.hops)+tr(\" rpt\",\" ретр.\"):String(tr(\"via \",\"через \"))+m.hops+tr(\" rpt\",\" ретр.\"));",
-   "src/MeshRadio.cpp:428: String hops=m.hops==255?String():!m.hops?String(brief?tr(\"direct\",\"напр.\"):tr(\"direct\",\"напрямую\")):(brief?String(m.hops)+tr(\" rpt\",\" ретр.\"):String(tr(\"via \",\"через \"))+m.hops+tr(\" rpt\",\" ретр.\"));"
+   "src/MeshRadio.cpp:429: String hops=m.hops==255?String():!m.hops?String(brief?tr(\"direct\",\"напр.\"):tr(\"direct\",\"напрямую\")):(brief?String(m.hops)+tr(\" rpt\",\" ретр.\"):String(tr(\"via \",\"через \"))+m.hops+tr(\" rpt\",\" ретр.\"));",
+   "src/MeshRadio.cpp:429: String hops=m.hops==255?String():!m.hops?String(brief?tr(\"direct\",\"напр.\"):tr(\"direct\",\"напрямую\")):(brief?String(m.hops)+tr(\" rpt\",\" ретр.\"):String(tr(\"via \",\"через \"))+m.hops+tr(\" rpt\",\" ретр.\"));"
   ]
  },
  "7cbcaad7": {
@@ -6963,6 +7512,15 @@
   ],
   "where": [
    "src/Pet.cpp:131: case Lonely:line=r%2?t(\"Write to someone?\",\"Напиши кому-нибудь?\"):t(\"It's lonely here\",\"Мне одиноко\");break;"
+  ]
+ },
+ "7cd504e5": {
+  "cells": 8,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:354: t(\"History\",\"История\"),t(\"Insight\",\"Проницательность\"),t(\"Intimidation\",\"Запугивание\"),t(\"Investigation\",\"Анализ\"),t(\"Medicine\",\"Медицина\"),t(\"Nature\",\"Природа\"),"
   ]
  },
  "7d67f337": {
@@ -7020,7 +7578,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:772: say(0,23,!config.gps?t(\"GPS off\",\"GPS выключен\"):fix?t(\"Position fix\",\"Позиция есть\"):hardware.clockConflict?t(\"Old GPS date\",\"Старая дата GPS\"):hardware.gps.passedChecksum()?t(\"Searching sky\",\"Поиск спутников\"):t(\"No da",
-   "src/UiHires.inc:300: text(36,42,fit(!config.gps?t(\"GPS off\",\"GPS выключен\"):fix?t(\"Position fix\",\"Позиция есть\"):hardware.clockConflict?t(\"Old GPS date\",\"Старая дата GPS\"):hardware.gps.passedChecksum()?t(\"Searching sky\",\"Поиск спутников\"):t("
+   "src/UiHires.inc:340: text(36,42,fit(!config.gps?t(\"GPS off\",\"GPS выключен\"):fix?t(\"Position fix\",\"Позиция есть\"):hardware.clockConflict?t(\"Old GPS date\",\"Старая дата GPS\"):hardware.gps.passedChecksum()?t(\"Searching sky\",\"Поиск спутников\"):t("
   ]
  },
  "7e7e954a": {
@@ -7051,7 +7609,7 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:58: case ActDiceAddCounter:return t(\"Add counter\",\"Добавить счётчик\");"
+   "src/UiDiceCompact.inc:70: case ActDiceAddCounter:return t(\"Add counter\",\"Добавить счётчик\");"
   ]
  },
  "7edbb5d8": {
@@ -7071,24 +7629,6 @@
   "where": [
    "src/UiTour.inc:172: footer({{\"SPC\",t(\"Choose\",\"Отметить\")},{\"OK\",t(\"Next\",\"Далее\")},{\"BACK\",t(\"Back\",\"Назад\")}});return;}",
    "src/UiTour.inc:180: footer({{\"<>\",t(\"Value\",\"Значение\")},{\"^v\",t(\"Item\",\"Пункт\")},{\"OK\",t(\"Next\",\"Далее\")},{\"BACK\",t(\"Back\",\"Назад\")}});return;}"
-  ]
- },
- "7f0e2ad9": {
-  "cells": 21,
-  "families": [
-   "full"
-  ],
-  "where": [
-   "src/UiDice.inc:197: if(key=='a'||key=='A'){if(dicer.addCounter())diceCounter=c.counters-1;else notice(t(\"6 counters at most\",\"Не больше 6 счётчиков\"),warn);return true;}"
-  ]
- },
- "7f5f4e27": {
-  "cells": 9,
-  "families": [
-   "full"
-  ],
-  "where": [
-   "src/UiDice.inc:127: String detail=count(c.rolls,\"roll\",\"rolls\",\"бросок\",\"броска\",\"бросков\")+\" · \"+count(c.counters,\"counter\",\"counters\",\"счётчик\",\"счётчика\",\"счётчиков\");textRight(i==s.character?262:300,y+14,detail,faint,small);"
   ]
  },
  "7f70d1b6": {
@@ -7198,7 +7738,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:43: if(!r){icon(IcDice,108,104,20,faint,card);textCenter(108,152,t(\"OK: roll \",\"OK: бросить \")+dicer.poolText(),dim);textCenter(108,168,t(\"E: any formula, 3d8+2\",\"E: любая формула, 3к8+2\"),faint,small);}"
+   "src/UiDice.inc:51: if(!r){icon(IcDice,108,104,20,faint,card);textCenter(108,152,t(\"OK: roll \",\"OK: бросить \")+dicer.poolText(),dim);textCenter(108,168,t(\"E: any formula, 3d8+2\",\"E: любая формула, 3к8+2\"),faint,small);}"
   ]
  },
  "81762a63": {
@@ -7208,7 +7748,7 @@
   ],
   "where": [
    "src/UiChessCompact.inc:169: say(68,63,chessCursor<0?(chessHeld<0?t(\"hold: menu\",\"держ: меню\"):t(\"hold: cancel\",\"держ: отмена\")):chessHeld<0?t(\"hold: pick\",\"держ: взять\"):t(\"hold: move\",\"держ: сходить\"),u8g2_font_4x6_t_cyrillic);}",
-   "src/UiHires.inc:382: chip(X-2,131,!picking||chessCursor<0?(chessHeld<0?t(\"hold: menu\",\"держ: меню\"):t(\"hold: cancel\",\"держ: отмена\")):chessHeld<0?t(\"hold: pick\",\"держ: взять\"):t(\"hold: move\",\"держ: сходить\"),238);"
+   "src/UiHires.inc:422: chip(X-2,131,!picking||chessCursor<0?(chessHeld<0?t(\"hold: menu\",\"держ: меню\"):t(\"hold: cancel\",\"держ: отмена\")):chessHeld<0?t(\"hold: pick\",\"держ: взять\"):t(\"hold: move\",\"держ: сходить\"),238);"
   ]
  },
  "81b9b550": {
@@ -7237,6 +7777,15 @@
   "where": [
    "src/UiSolitaire.inc:212: if(gameHeld>=0)footer({{\"OK\",t(\"Put\",\"Положить\")},{\"SPC\",t(\"Auto\",\"Само\")},{\"BACK\",t(\"Cancel\",\"Отмена\")}});",
    "src/UiSolitaire.inc:213: else footer({{\"OK\",gameCursor==sol::Stock?t(\"Turn\",\"Сдать\"):t(\"Take\",\"Взять\")},{\"SPC\",t(\"Auto\",\"Само\")},{\"H\",t(\"Keys\",\"Клавиши\")}});"
+  ]
+ },
+ "82433458": {
+  "cells": 16,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:242: const auto& o=dicer.out;if(o.parts){String st=o.done?t(\"Delivered to \",\"Доставлен: \")+o.name:o.failed?t(\"Not delivered to \",\"Не доставлен: \")+o.name:t(\"Sending: part \",\"Отправка: часть \")+String(o.part+1)+\"/\"+String(o.pa"
   ]
  },
  "82a48d1c": {
@@ -7292,15 +7841,6 @@
   ],
   "where": [
    "src/Ui.cpp:468: row(t(\"Compass\",\"Компас\"),navigation.calibrating?count(navigation.samples,\"sample\",\"samples\",\"отсчёт\",\"отсчёта\",\"отсчётов\"):navigation.calibrated?t(\"calibrated\",\"откалиброван\"):t(\"needs calibration\",\"нужна калибровка\"),n"
-  ]
- },
- "847159d6": {
-  "cells": 33,
-  "families": [
-   "full"
-  ],
-  "where": [
-   "src/UiDice.inc:104: else text(8,217,t(\"N: name   C: colour   DEL: delete\",\"N: имя   C: цвет   DEL: удалить\"),faint,small);"
   ]
  },
  "8487497d": {
@@ -7375,7 +7915,16 @@
   ],
   "where": [
    "src/UiHeltec.cpp:777: case Ble:title=\"Bluetooth\";if(bleActive()){String n=bleName();say(0,23,n,width(n,bold)<=128?bold:small);say(0,37,\"PIN \"+String(blePin()),bold);}else{say(0,27,t(\"Bluetooth off\",\"Bluetooth выкл.\"));say(0,41,t(\"Secure pairi",
-   "src/UiHires.inc:312: {String n=on?bleName():String(t(\"Bluetooth off\",\"Bluetooth выкл.\"));const uint8_t* f=width(n,bold)<=196?bold:small;text(36,42,fit(n,196,f),ColInk,f);} // the whole name, key digits too"
+   "src/UiHires.inc:352: {String n=on?bleName():String(t(\"Bluetooth off\",\"Bluetooth выкл.\"));const uint8_t* f=width(n,bold)<=196?bold:small;text(36,42,fit(n,196,f),ColInk,f);} // the whole name, key digits too"
+  ]
+ },
+ "857767dd": {
+  "cells": 21,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:580: note=t(\"Character sheet from \",\"Лист персонажа от \")+offer.from+\": \"+offer.name;notes++;events++;}"
   ]
  },
  "857a3f77": {
@@ -7385,7 +7934,7 @@
   ],
   "where": [
    "src/UiChessCompact.inc:189: if(focus)c.fillRect(0,y,128,15,1);say(2,y+7,clipped(String(m.unseen?\"* \":\"\")+m.name,14),small,!focus);sayRight(126,y+7,m.game.plies?String((m.game.plies+1)/2)+t(\" mv\",\" ход\"):String(\"\"),small,!focus);",
-   "src/UiHires.inc:362: if(m.game.plies)right(230,y+14,String((m.game.plies+1)/2)+t(\" mv\",\" ход\"),ColDim,tiny);if(m.unseen)g().fillCircle(30,y+5,3,ColWarn); // news not opened yet"
+   "src/UiHires.inc:402: if(m.game.plies)right(230,y+14,String((m.game.plies+1)/2)+t(\" mv\",\" ход\"),ColDim,tiny);if(m.unseen)g().fillCircle(30,y+5,3,ColWarn); // news not opened yet"
   ]
  },
  "85866a15": {
@@ -7470,7 +8019,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:791: say(0,30,String(ESP.getFreeHeap()/1024)+\"K RAM\"+(ESP.getPsramSize()?\"  \"+String(ESP.getFreePsram()/1024)+\"K PSRAM\":String()),small);say(0,39,t(\"relayed \",\"переслано \")+String(meshRadio.relayed)+t(\"  rejected \",\"  откл. \"",
-   "src/UiHires.inc:329: text(6,88,fit(t(\"relayed \",\"переслано \")+String(meshRadio.relayed)+t(\"  rejected \",\"  откл. \")+String(meshRadio.rejected),228,small),ColDim,small);"
+   "src/UiHires.inc:369: text(6,88,fit(t(\"relayed \",\"переслано \")+String(meshRadio.relayed)+t(\"  rejected \",\"  откл. \")+String(meshRadio.rejected),228,small),ColDim,small);"
   ]
  },
  "85f7f65a": {
@@ -7546,6 +8095,15 @@
    "src/Ui.cpp:677: if(page==Display&&selected==0)footer({{\"OK\",t(\"Edit name\",\"Изменить имя\")},{\"^v\",t(\"Select\",\"Выбор\")},{\"BACK\",t(\"Cancel\",\"Отмена\")}});"
   ]
  },
+ "875bc45a": {
+  "cells": 8,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:368: String top[3]={t(\"Mind\",\"Разум\"),t(\"Emotions\",\"Эмоции\"),t(\"Body\",\"Тело\")};"
+  ]
+ },
  "877d6155": {
   "cells": 13,
   "families": [
@@ -7603,7 +8161,16 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:110: if(!c.rolls){icon(IcDice,160,112,14,faint,cardHi);textCenter(160,146,t(\"No saved rolls\",\"Сохранённых бросков нет\"),dim);textCenter(160,162,t(\"A: save a formula with a name\",\"A: сохранить формулу с именем\"),faint,small);}"
+   "src/UiDice.inc:199: if(!count){icon(IcDice,160,112,14,faint,cardHi);textCenter(160,146,t(\"No saved rolls\",\"Сохранённых бросков нет\"),dim);textCenter(160,162,t(\"A: save a formula with a name\",\"A: сохранить формулу с именем\"),faint,small);}"
+  ]
+ },
+ "88de00dc": {
+  "cells": 15,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:355: t(\"Perception\",\"Восприятие\"),t(\"Performance\",\"Выступление\"),t(\"Religion\",\"Религия\"),t(\"Sleight of Hand\",\"Ловкость рук\"),t(\"Stealth\",\"Скрытность\"),"
   ]
  },
  "88ec3f75": {
@@ -7716,6 +8283,15 @@
    "src/Ui.cpp:926: else if(page==Library&&library.size()){if(maps.selectArea(library[selected][\"id\"].as<String>()))change(Map);else notice(t(\"Map unavailable\",\"Карта недоступна\"),bad);}"
   ]
  },
+ "8b4f535c": {
+  "cells": 5,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:379: add(Track,Third,Circle,Plain,\"luck\",t(\"Luck\",\"Удача\"),6,0,\"@lvl*2\",7);note(t(\"Declared before a roll and added to it; a failure burns it. A failure gives 1 luck, a critical one 3.\",\"Заявляется до броска и прибавляется к "
+  ]
+ },
  "8b52ceba": {
   "cells": 17,
   "families": [
@@ -7773,7 +8349,7 @@
   "where": [
    "src/UiHeltec.cpp:722: case Messages:{const ChatMessage* m=shownMessage();title=t(\"Messages\",\"Сообщения\")+(m?\" \"+String(meshRadio.historyCount-messageOffset)+\"/\"+String(meshRadio.historyCount):\"\");",
    "src/UiHires.inc:104: case Messages:return t(\"Messages\",\"Сообщения\");case Nodes:return t(\"Nodes\",\"Узлы\");case Chess:return t(\"Chess\",\"Шахматы\");",
-   "src/UiHires.inc:419: if(popupAt&&millis()-popupAt<8000&&last&&!last->outgoing){statusBar(t(\"Messages\",\"Сообщения\"));popup(*last);footer({t(\"click: close\",\"клик: закрыть\")});hardware.flush();return;}"
+   "src/UiHires.inc:459: if(popupAt&&millis()-popupAt<8000&&last&&!last->outgoing){statusBar(t(\"Messages\",\"Сообщения\"));popup(*last);footer({t(\"click: close\",\"клик: закрыть\")});hardware.flush();return;}"
   ]
  },
  "8be6cc03": {
@@ -7810,7 +8386,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:778: case Settings:title=t(\"Settings\",\"Настройки\");say(0,20,t(\"Language: \",\"Язык: \")+langNames[config.lang<LangCount?config.lang:0],small);say(0,28,t(\"Battery: \",\"Батарея: \")+(config.batteryVolts?t(\"volts\",\"вольты\"):t(\"percen",
-   "src/UiHires.inc:319: {IcPulse,ColGood,t(\"Battery: \",\"Батарея: \")+(config.batteryVolts?t(\"volts\",\"вольты\"):t(\"percent\",\"проценты\"))},"
+   "src/UiHires.inc:359: {IcPulse,ColGood,t(\"Battery: \",\"Батарея: \")+(config.batteryVolts?t(\"volts\",\"вольты\"):t(\"percent\",\"проценты\"))},"
   ]
  },
  "8c6e79c7": {
@@ -7831,13 +8407,22 @@
    "src/Pet.cpp:153: healAt=millis();s.snacks--;s.health=clampPoints(s.health+300);gain(0,0,2);say(t(\"Better now\",\"Уже лучше\"),Medicine);save(true);return speech;"
   ]
  },
+ "8cd30453": {
+  "cells": 13,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:371: t(\"Composure\",\"Самообладание\"),t(\"Leadership\",\"Лидерство\"),t(\"Physique\",\"Телосложение\"),t(\"Endurance\",\"Выносливость\"),t(\"Fine motor\",\"Мелкая моторика\"),t(\"Body control\",\"Контроль тела\")};"
+  ]
+ },
  "8ced0833": {
   "cells": 14,
   "families": [
    "full"
   ],
   "where": [
-   "src/UiDice.inc:145: case EditFormula:return t(\"Formula\",\"Формула\");case EditName:return t(\"Roll name\",\"Имя броска\");case EditCounter:return t(\"Counter name\",\"Имя счётчика\");case EditHeroNew:return t(\"New character\",\"Новый персонаж\");}"
+   "src/UiDice.inc:275: case EditFormula:return t(\"Formula\",\"Формула\");case EditName:return t(\"Roll name\",\"Имя броска\");case EditValue:return fit(t(\"Value: \",\"Значение: \")+(dicer.sheet.count?String(dicer.sheet.block[sheetSel].name):String()),26"
   ]
  },
  "8d1fda3e": {
@@ -7847,6 +8432,15 @@
   ],
   "where": [
    "src/UiChess.inc:65: case ChessMatch::DeadPosition:return r+t(\": no mating material\",\": мало фигур\");case ChessMatch::TooLong:return r+t(\": move limit\",\": предел ходов\");case ChessMatch::Agreed:return r+t(\" by agreement\",\" по соглашению\");de"
+  ]
+ },
+ "8db3dc56": {
+  "cells": 32,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:160: if(!n)text(x+6,y+24,t(\"Empty: write on the web page\",\"Пусто: заполните на веб-странице\"),faint,small);"
   ]
  },
  "8dc24eb8": {
@@ -7904,7 +8498,17 @@
   ],
   "where": [
    "src/UiHeltec.cpp:773: say(0,33,t(\"Satellites \",\"Спутники \")+String(hardware.gps.satellites.value())+\"  NMEA \"+String(hardware.gps.passedChecksum()),small);",
-   "src/UiHires.inc:301: text(36,58,t(\"Satellites \",\"Спутники \")+String(hardware.gps.satellites.value())+\"  NMEA \"+String(hardware.gps.passedChecksum()),ColDim,tiny);"
+   "src/UiHires.inc:341: text(36,58,t(\"Satellites \",\"Спутники \")+String(hardware.gps.satellites.value())+\"  NMEA \"+String(hardware.gps.passedChecksum()),ColDim,tiny);"
+  ]
+ },
+ "8e7738b2": {
+  "cells": 18,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:341: if(key=='+'||key=='='||key=='-'||key=='_'){if(!dicer.change(sheetSel,key=='+'||key=='='?1:-1))notice(dicer.sheet.block[sheetSel].formula[0]?t(\"Computed by its formula\",\"Считается по формуле\"):t(\"No value here\",\"Здесь нет",
+   "src/UiDice.inc:342: if(key=='v'||key=='V'){const dice::Block& b=dicer.sheet.block[sheetSel];if((b.kind==dice::Stat&&!b.formula[0])||b.kind==dice::Track||b.kind==dice::Pips)diceEdit(EditValue,String(b.value));else notice(t(\"No value here\",\"З"
   ]
  },
  "8e999555": {
@@ -7952,6 +8556,15 @@
    "src/UiTour.inc:79: textRight(304,y+13,i==0?t(\"organiser\",\"организатор\"):p.state==tour::Joined?t(\"joins\",\"участвует\"):p.state==tour::Refused?t(\"declined\",\"отказался\"):t(\"no answer yet\",\"ждём ответа\"),p.state==tour::Joined?ok:p.state==tour::"
   ]
  },
+ "90446a7a": {
+  "cells": 7,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:290: default:b.width=Whole;name=t(\"Section\",\"Раздел\");break;}"
+  ]
+ },
  "9044df68": {
   "cells": 59,
   "families": [
@@ -7961,13 +8574,22 @@
    "src/Ui.cpp:575: }else text(12,130,fit(t(\"Place the boards 2-5 m apart; motion between them is sensed\",\"Расставьте платы в 2-5 м; движение между ними будет видно\"),296,small),dim,small);"
   ]
  },
+ "904a1eca": {
+  "cells": 33,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:280: String diceEditHint(){return diceEditing==EditValue?t(\"23 sets it, +5 or -7 changes it\",\"23 - задать, +5 или -7 - изменить\"):diceEditRaw()?t(\"2d6+1, d20, 4d6-2, d%, d66, r4\",\"2d6+1, d20, 4к6-2, d%, d66, r4\"):String();}"
+  ]
+ },
  "904dbaa5": {
   "cells": 24,
   "families": [
    "full"
   ],
   "where": [
-   "src/UiDice.inc:229: if(key==Erase){if(!diceSel){notice(t(\"The general set stays\",\"Общий набор не удаляется\"),warn);return true;}"
+   "src/UiDice.inc:368: if(key==Erase){if(!diceSel){notice(t(\"The general set stays\",\"Общий набор не удаляется\"),warn);return true;}"
   ]
  },
  "90807320": {
@@ -8004,7 +8626,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:776: case Wifi:title=\"Wi-Fi\";if(portalActive()){say(0,23,\"MM-\"+meshRadio.idText(meshRadio.nodeId).substring(6),bold);say(0,36,portalPassword());say(0,48,\"192.168.4.1\",small);}else{say(0,27,t(\"Access point off\",\"Точка доступа ",
-   "src/UiHires.inc:308: else{text(36,42,fit(t(\"Access point off\",\"Точка доступа выкл.\"),196,bold),ColInk,bold);text(36,58,fit(t(\"Web chat and settings\",\"Веб-чат и настройки\"),196,tiny),ColDim,tiny);}"
+   "src/UiHires.inc:348: else{text(36,42,fit(t(\"Access point off\",\"Точка доступа выкл.\"),196,bold),ColInk,bold);text(36,58,fit(t(\"Web chat and settings\",\"Веб-чат и настройки\"),196,tiny),ColDim,tiny);}"
   ]
  },
  "91106b04": {
@@ -8022,7 +8644,7 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:49: case ActDiceMod:return t(\"Modifier: \",\"Модификатор: \")+diceSigned(s.mod);"
+   "src/UiDiceCompact.inc:60: case ActDiceMod:return t(\"Modifier: \",\"Модификатор: \")+diceSigned(s.mod);"
   ]
  },
  "914eb578": {
@@ -8127,7 +8749,7 @@
   "where": [
    "src/UiHeltec.cpp:440: case ActLanguage:return t(\"Language: \",\"Язык: \")+langNames[config.lang<LangCount?config.lang:0];case ActBattery:return config.batteryVolts?t(\"Battery: volts\",\"Батарея: вольты\"):t(\"Battery: percent\",\"Батарея: проценты\");",
    "src/UiHeltec.cpp:778: case Settings:title=t(\"Settings\",\"Настройки\");say(0,20,t(\"Language: \",\"Язык: \")+langNames[config.lang<LangCount?config.lang:0],small);say(0,28,t(\"Battery: \",\"Батарея: \")+(config.batteryVolts?t(\"volts\",\"вольты\"):t(\"percen",
-   "src/UiHires.inc:318: {IcChat,ColAccent,t(\"Language: \",\"Язык: \")+langNames[config.lang<LangCount?config.lang:0]},"
+   "src/UiHires.inc:358: {IcChat,ColAccent,t(\"Language: \",\"Язык: \")+langNames[config.lang<LangCount?config.lang:0]},"
   ]
  },
  "92baa128": {
@@ -8148,6 +8770,15 @@
    "src/UiTour.inc:41: case tour::Inviting:tourPill(x,y,t(\"gathering\",\"набор\"),warn,rgb(0x3b3016));break;case tour::Over:tourPill(x,y,t(\"finished\",\"окончен\"),dim,line);break;default:tourPill(x,y,t(\"off\",\"нет\"),faint,line);}"
   ]
  },
+ "9388530a": {
+  "cells": 6,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:217: if(i==s.character)textRight(300,y+14,count(dicer.sheet.count,\"block\",\"blocks\",\"блок\",\"блока\",\"блоков\")+\" · \"+t(\"now\",\"сейчас\"),ok,small);diceSpot(14,y,292,20,TapHeroRow,i);}"
+  ]
+ },
  "93a5052f": {
   "cells": 24,
   "families": [
@@ -8155,6 +8786,15 @@
   ],
   "where": [
    "src/UiHeltec.cpp:924: }else if(config.notifyFailed&&(e.kind==notifications::TxError||e.kind==notifications::Unconfirmed)){ledAt=now;ledPattern=3;notice(e.kind==notifications::TxError?t(\"Radio TX error\",\"Ошибка передачи\"):channels::isChannel(e"
+  ]
+ },
+ "93c8b75f": {
+  "cells": 6,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:348: add(Ability,Half,Circle,Plain,\"\",t(\"Attack\",\"Атака\"),0,0,\"d20+@str+@pb\",0);note(t(\"Melee: STR + proficiency. Finesse or ranged: change @str to @dex.\",\"Ближний бой: СИЛ + мастерство. Фехтовальное или дальнобойное: заменит"
   ]
  },
  "93d18358": {
@@ -8182,6 +8822,16 @@
   ],
   "where": [
    "src/UiTour.inc:179: String r[3];unsigned n=wrap(t(\"Every game is rated. Pairings are automatic: round 1 by lot, then by score without repeated games.\",\"Все партии — на рейтинг. Пары составляются сами: первый тур по жребию, дальше по очкам б"
+  ]
+ },
+ "9461ecf5": {
+  "cells": 9,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:257: case DiceHeroes:drawDiceHeroes();footer({{\"OK\",t(\"Choose\",\"Выбрать\")},{\"^v\",t(\"Select\",\"Выбор\")},{\"S\",t(\"Send\",\"Отправить\")},{\"BACK\",t(\"Close\",\"Закрыть\")}});return;",
+   "src/UiDice.inc:259: case DiceSend:drawDiceSend();footer({{\"OK\",t(\"Send\",\"Отправить\")},{\"^v\",t(\"Select\",\"Выбор\")},{\"BACK\",t(\"Close\",\"Закрыть\")}});return;"
   ]
  },
  "947716e6": {
@@ -8234,6 +8884,17 @@
    "src/Ui.cpp:239: case Sensors:return t(\"Navigation\",\"Навигация\");case Settings:return t(\"Settings\",\"Настройки\");case Radio:return t(\"Radio\",\"Радио\");case Display:return t(\"Screen & device\",\"Экран и устройство\");case Network:return t(\"Con",
    "src/Ui.cpp:294: {IcGear,dim,t(\"Settings\",\"Настройки\"),t(\"Radio, screen\",\"Радио, экран\"),0}};",
    "src/Ui.cpp:766: Hint keys[]={{\"MSG\",t(\"Chats\",\"Чаты\")},{\"MAP\",t(\"Map; L - saved maps\",\"Карта; L - список карт\")},{\"HOME\",t(\"Menu\",\"Главное меню\")},{\"BACK\",t(\"Previous screen\",\"Предыдущий экран\")},{\"CTRL\",t(\"Settings\",\"Настройки\")},"
+  ]
+ },
+ "95d4f097": {
+  "cells": 13,
+  "families": [
+   "compact",
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:27: if(r.fail)return r.fail==1?t(\"Critical failure (d4: 1)\",\"Критический провал (d4: 1)\"):t(\"Failure, d4: \",\"Провал, d4: \")+String(r.fail);",
+   "src/UiDiceCompact.inc:16: if(r.fail)return r.fail==1?t(\"Critical failure\",\"Критический провал\"):t(\"Failure, d4: \",\"Провал, d4: \")+String(r.fail);"
   ]
  },
  "962a598f": {
@@ -8304,8 +8965,8 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:67: case ActDiceRoll:diceRepeatSaved=false;if(s.mode==dice::Grid){if(!s.gridChosen){notice(t(\"Choose dice: Dice +1\",\"Выберите: Кости +1\"));break;}dicer.gridRoll();}else dicer.rollPool();break;",
-   "src/UiHires.inc:267: if(s.gridSize<=30&&!s.gridChosen)center(120,104,fit(t(\"Choose dice: Dice +1\",\"Выберите: Кости +1\"),228,tiny),ColDim,tiny);"
+   "src/UiDiceCompact.inc:82: case ActDiceRoll:diceRepeatSaved=false;if(s.mode==dice::Grid){if(!s.gridChosen){notice(t(\"Choose dice: Dice +1\",\"Выберите: Кости +1\"));break;}dicer.gridRoll();}else dicer.rollPool();break;",
+   "src/UiHires.inc:313: if(s.gridSize<=30&&!s.gridChosen)center(120,104,fit(t(\"Choose dice: Dice +1\",\"Выберите: Кости +1\"),228,tiny),ColDim,tiny);"
   ]
  },
  "96dcf5df": {
@@ -8362,7 +9023,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:43: if(!r){icon(IcDice,108,104,20,faint,card);textCenter(108,152,t(\"OK: roll \",\"OK: бросить \")+dicer.poolText(),dim);textCenter(108,168,t(\"E: any formula, 3d8+2\",\"E: любая формула, 3к8+2\"),faint,small);}"
+   "src/UiDice.inc:51: if(!r){icon(IcDice,108,104,20,faint,card);textCenter(108,152,t(\"OK: roll \",\"OK: бросить \")+dicer.poolText(),dim);textCenter(108,168,t(\"E: any formula, 3d8+2\",\"E: любая формула, 3к8+2\"),faint,small);}"
   ]
  },
  "9817a867": {
@@ -8434,7 +9095,7 @@
    "compact"
   ],
   "where": [
-   "src/UiHires.inc:455: else if(diceTapOn())footer({t(\"click: +1\",\"клик: +1\"),t(\"hold: -1\",\"держ: -1\"),t(\"5 s: exit\",\"5 с: выход\")});"
+   "src/UiHires.inc:495: else if(diceTapOn())footer({t(\"click: +1\",\"клик: +1\"),t(\"hold: -1\",\"держ: -1\"),t(\"5 s: exit\",\"5 с: выход\")});"
   ]
  },
  "99609c59": {
@@ -8467,7 +9128,7 @@
   "where": [
    "src/Ui.cpp:663: footer({{\"^v\",t(\"choose\",\"выбор\")},{\"OK\",quickTargets||selected==0?t(\"select\",\"выбрать\"):t(\"send\",\"слать\")},{\"BACK\",t(\"exit\",\"выход\")}});",
    "src/UiHeltec.cpp:806: String(\"^v \")+t(\"choose\",\"выбор\")+\" OK \"+(quickTargets||!quickIndex?t(\"select\",\"выбрать\"):quickIndex>quickSend::Count?t(\"exit\",\"выход\"):t(\"send\",\"слать\")):",
-   "src/UiHires.inc:459: else if(page==QuickPage)footer({t(\"click: choose\",\"клик: выбор\"),quickTargets||!quickIndex?t(\"hold: \",\"держ: \")+t(\"select\",\"выбрать\"):quickIndex>quickSend::Count?t(\"hold: \",\"держ: \")+t(\"exit\",\"выход\"):t(\"hold: send\",\"дер"
+   "src/UiHires.inc:499: else if(page==QuickPage)footer({t(\"click: choose\",\"клик: выбор\"),quickTargets||!quickIndex?t(\"hold: \",\"держ: \")+t(\"select\",\"выбрать\"):quickIndex>quickSend::Count?t(\"hold: \",\"держ: \")+t(\"exit\",\"выход\"):t(\"hold: send\",\"дер"
   ]
  },
  "99d92ee5": {
@@ -8542,7 +9203,7 @@
    "compact"
   ],
   "where": [
-   "src/UiHires.inc:403: if(wardriveList){unsigned order[24];const wardrive::Repeater* l;unsigned n=wdOrder(order,l);if(!n){empty(IcTower,t(\"No repeaters yet\",\"Ретрансляторов пока нет\"),t(\"hold: menu\",\"держ: меню\"));return;}"
+   "src/UiHires.inc:443: if(wardriveList){unsigned order[24];const wardrive::Repeater* l;unsigned n=wdOrder(order,l);if(!n){empty(IcTower,t(\"No repeaters yet\",\"Ретрансляторов пока нет\"),t(\"hold: menu\",\"держ: меню\"));return;}"
   ]
  },
  "9b3514a0": {
@@ -8579,7 +9240,7 @@
   ],
   "where": [
    "src/UiChessCompact.inc:180: if(!n){say(0,28,t(\"No games yet\",\"Партий пока нет\"));",
-   "src/UiHires.inc:357: if(!n){icon(IcChess,120,42,10,ColFaint);center(120,76,t(\"No games yet\",\"Партий пока нет\"));"
+   "src/UiHires.inc:397: if(!n){icon(IcChess,120,42,10,ColFaint);center(120,76,t(\"No games yet\",\"Партий пока нет\"));"
   ]
  },
  "9bb3e8ef": {
@@ -8653,6 +9314,15 @@
   ],
   "where": [
    "src/Ui.cpp:218: String s=t(\"{weekday}, {month} {day}\",\"{weekday}, {day} {month}\");s.replace(\"{weekday}\",days[v.tm_wday]);s.replace(\"{month}\",months[v.tm_mon]);s.replace(\"{day}\",String(v.tm_mday));return s;"
+  ]
+ },
+ "9cc29aa1": {
+  "cells": 10,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:371: t(\"Composure\",\"Самообладание\"),t(\"Leadership\",\"Лидерство\"),t(\"Physique\",\"Телосложение\"),t(\"Endurance\",\"Выносливость\"),t(\"Fine motor\",\"Мелкая моторика\"),t(\"Body control\",\"Контроль тела\")};"
   ]
  },
  "9ce0d721": {
@@ -8795,7 +9465,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:772: say(0,23,!config.gps?t(\"GPS off\",\"GPS выключен\"):fix?t(\"Position fix\",\"Позиция есть\"):hardware.clockConflict?t(\"Old GPS date\",\"Старая дата GPS\"):hardware.gps.passedChecksum()?t(\"Searching sky\",\"Поиск спутников\"):t(\"No da",
-   "src/UiHires.inc:300: text(36,42,fit(!config.gps?t(\"GPS off\",\"GPS выключен\"):fix?t(\"Position fix\",\"Позиция есть\"):hardware.clockConflict?t(\"Old GPS date\",\"Старая дата GPS\"):hardware.gps.passedChecksum()?t(\"Searching sky\",\"Поиск спутников\"):t("
+   "src/UiHires.inc:340: text(36,42,fit(!config.gps?t(\"GPS off\",\"GPS выключен\"):fix?t(\"Position fix\",\"Позиция есть\"):hardware.clockConflict?t(\"Old GPS date\",\"Старая дата GPS\"):hardware.gps.passedChecksum()?t(\"Searching sky\",\"Поиск спутников\"):t("
   ]
  },
  "9fb377cf": {
@@ -8815,6 +9485,16 @@
   "where": [
    "src/UiHeltec.cpp:295: return radioRow>=RowSave?t(\"up/down, OK\",\"вверх/вниз, OK\"):t(\"up/down, <> change\",\"вверх/вниз, <> изменить\");",
    "src/UiHeltec.cpp:639: t(\"up/down, OK\",\"вверх/вниз, OK\")"
+  ]
+ },
+ "9ff63298": {
+  "cells": 10,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:363: add(Note,Whole,Circle,Plain,\"\",t(\"Equipment\",\"Снаряжение\"),0,0,\"\",0);",
+   "src/Dice.cpp:391: add(Note,Whole,Circle,Plain,\"\",t(\"Equipment\",\"Снаряжение\"),0,0,\"\",0);"
   ]
  },
  "a000f97c": {
@@ -8860,7 +9540,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:137: case dice::Grid:drawDiceGrid();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"<>\",t(\"Count\",\"Число\")},{\"M\",t(\"Mode\",\"Режим\")},{\"P\",t(\"Character\",\"Персонаж\")}});break;"
+   "src/UiDice.inc:265: case dice::Grid:drawDiceGrid();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"<>\",t(\"Count\",\"Число\")},{\"M\",t(\"Mode\",\"Режим\")},{\"P\",t(\"Character\",\"Персонаж\")}});break;"
   ]
  },
  "a0b2a8a1": {
@@ -8986,6 +9666,15 @@
    "src/Ui.cpp:746: switch(k){case 0:return \"-\";case KeyMsg:return \"MSG\";case KeyHome:return \"HOME\";case KeyAt:return t(\"@ (input language)\",\"@ (язык ввода)\");case KeyAdv:return \"ADV\";case 0x87:return t(\"hold ADV (GPS)\",\"удерж. ADV (GPS)\");"
   ]
  },
+ "a1f5edbc": {
+  "cells": 11,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:288: case Ability:b.width=Half;name=t(\"Ability\",\"Способность\");break;"
+  ]
+ },
  "a218bb10": {
   "cells": 20,
   "families": [
@@ -9011,7 +9700,7 @@
   ],
   "where": [
    "src/UiChessCompact.inc:157: say(68,8,clipped(m.name,11),small);say(68,17,t(\"you: \",\"вы: \")+(m.mine==chess::White?t(\"white\",\"белые\"):t(\"black\",\"чёрные\")),small);",
-   "src/UiHires.inc:374: text(X+12,33,fit(t(\"you: \",\"вы: \")+(white?t(\"white\",\"белые\"):t(\"black\",\"чёрные\")),W-12,tiny),ColDim,tiny);"
+   "src/UiHires.inc:414: text(X+12,33,fit(t(\"you: \",\"вы: \")+(white?t(\"white\",\"белые\"):t(\"black\",\"чёрные\")),W-12,tiny),ColDim,tiny);"
   ]
  },
  "a23ea557": {
@@ -9070,8 +9759,35 @@
   ],
   "where": [
    "src/Ui.cpp:891: if(editing){if(key==KeyBack){editing=false;return;}if(key==Erase){edit.remove(meshmesh::previousCharacter(edit.c_str(),edit.length()));return;}if(key==KeyRight&&page!=Network){toggleLastCase(edit);return;}if(key==Enter){",
-   "src/UiDice.inc:159: case EditName:if(diceSel<int(c.rolls)&&dicer.editRoll(diceSel,c.roll[diceSel].formula,edit)){editing=false;notice(t(\"Name saved\",\"Имя сохранено\"),ok);}else bad1(nameError);return;",
-   "src/UiDice.inc:160: case EditCounter:if(dicer.renameCounter(diceCounter,edit)){editing=false;notice(t(\"Name saved\",\"Имя сохранено\"),ok);}else bad1(nameError);return;"
+   "src/UiDice.inc:289: case EditName:if(diceSel<int(count)&&dicer.editRoll(diceSel,dicer.sheet.block[block].formula,edit)){editing=false;notice(t(\"Name saved\",\"Имя сохранено\"),ok);}else bad1(nameError);return;",
+   "src/UiDice.inc:293: default:if(dicer.renameCharacter(edit)){editing=false;notice(t(\"Name saved\",\"Имя сохранено\"),ok);}else bad1(nameError);return;"
+  ]
+ },
+ "a37452dd": {
+  "cells": 11,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:221: String diceTemplateName(int i){return i==dice::DndTemplate?String(\"D&D 5e\"):i==dice::RetTemplate?t(\"R.E.T. (Mind, Emotions, Body)\",\"Р.Э.Т. (Разум, Эмоции, Тело)\"):t(\"Empty sheet\",\"Пустой лист\");}"
+  ]
+ },
+ "a377db8b": {
+  "cells": 9,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:260: case DiceOffer:drawDiceOffer();footer({{\"OK\",t(\"Accept\",\"Принять\")},{\"DEL\",t(\"Decline\",\"Отклонить\")},{\"BACK\",t(\"Later\",\"Позже\")}});return;"
+  ]
+ },
+ "a3aaaf5d": {
+  "cells": 17,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:385: add(Ability,Half,Circle,Plain,\"\",t(\"Skill: Persuasion\",\"Навык: Убеждение\"),0,0,\"@cha+3\",5);note(t(\"A skill: the die of its stat plus the skill's level (3 at the start, 7 at most).\",\"Навык: куб параметра плюс уровень навы"
   ]
  },
  "a3e2d1e0": {
@@ -9090,7 +9806,7 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:54: case ActDiceThreshold:return t(\"Threshold: \",\"Порог: \")+(s.thresholdOn?dice::valueText(s.gridType,s.threshold)+\"+\":t(\"off\",\"выкл.\"));"
+   "src/UiDiceCompact.inc:65: case ActDiceThreshold:return t(\"Threshold: \",\"Порог: \")+(s.thresholdOn?dice::valueText(s.gridType,s.threshold)+\"+\":t(\"off\",\"выкл.\"));"
   ]
  },
  "a46ee9f8": {
@@ -9129,7 +9845,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:637: sayRight(128,63,rolePickBoot?t(\"as now in \",\"как сейчас через \")+String(left)+t(\"s\",\"с\"):",
-   "src/UiHires.inc:350: footer({rolePickBoot?t(\"as now in \",\"как сейчас через \")+String(left)+t(\"s\",\"с\"):t(\"click-next hold-choose\",\"клик-далее держ-выбор\")});"
+   "src/UiHires.inc:390: footer({rolePickBoot?t(\"as now in \",\"как сейчас через \")+String(left)+t(\"s\",\"с\"):t(\"click-next hold-choose\",\"клик-далее держ-выбор\")});"
   ]
  },
  "a514c5d1": {
@@ -9148,7 +9864,7 @@
    "shared"
   ],
   "where": [
-   "src/Dice.cpp:52: String Dicer::heroName(uint8_t i) const{if(i>=s.characters)return String();return s.list[i].name[0]?String(s.list[i].name):t(\"General\",\"Общий\");}"
+   "src/Dice.cpp:137: String Dicer::heroName(uint8_t i) const{if(i>=s.characters)return String();return s.list[i].name[0]?String(s.list[i].name):t(\"General\",\"Общий\");}"
   ]
  },
  "a55a28b5": {
@@ -9157,8 +9873,17 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:167: bool diceConfirm(){if(diceArmed&&millis()-diceArmed<5000){diceArmed=0;return true;}diceArmed=millis();notice(t(\"DEL again: delete\",\"Ещё раз DEL: удалить\"),warn);return false;}",
+   "src/UiDice.inc:298: bool diceConfirm(){if(diceArmed&&millis()-diceArmed<5000){diceArmed=0;return true;}diceArmed=millis();notice(t(\"DEL again: delete\",\"Ещё раз DEL: удалить\"),warn);return false;}",
    "src/UiTally.inc:38: tallyArmKey=key;tallyArmed=millis();notice(key==Erase?t(\"DEL again: delete\",\"Ещё раз DEL: удалить\"):t(\"R again: reset to 0\",\"Ещё раз R: сбросить в 0\"),warn);return false;"
+  ]
+ },
+ "a5e550ca": {
+  "cells": 3,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:337: String names[6]={t(\"STR\",\"СИЛ\"),t(\"DEX\",\"ЛОВ\"),t(\"CON\",\"ТЕЛ\"),t(\"INT\",\"ИНТ\"),t(\"WIS\",\"МДР\"),t(\"CHA\",\"ХАР\")};"
   ]
  },
  "a6022a7a": {
@@ -9359,7 +10084,7 @@
    "compact"
   ],
   "where": [
-   "src/UiHeltec.cpp:802: page==DicePage&&dicer.s.mode!=dice::Tally?t(\"click-roll hold-menu\",\"клик-бросок держ-меню\"):"
+   "src/UiHeltec.cpp:802: page==DicePage?(dicer.s.mode==dice::Sheet?t(\"click-next hold-menu\",\"клик-далее держ-меню\"):t(\"click-roll hold-menu\",\"клик-бросок держ-меню\")):"
   ]
  },
  "a8dee5ea": {
@@ -9473,6 +10198,15 @@
   ],
   "where": [
    "src/Ui.cpp:217: const char* months[]={tr(\"January\",\"января\"),tr(\"February\",\"февраля\"),tr(\"March\",\"марта\"),tr(\"April\",\"апреля\"),tr(\"May\",\"мая\"),tr(\"June\",\"июня\"),tr(\"July\",\"июля\"),tr(\"August\",\"августа\"),tr(\"September\",\"сентября\"),tr(\"Oct"
+  ]
+ },
+ "ab6fbe0b": {
+  "cells": 9,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:246: if(b.kind==Ability&&b.use[0]&&b.spend)return t(\"Use\",\"Применить\");"
   ]
  },
  "ab7cf561": {
@@ -9611,6 +10345,15 @@
    "src/UiHeltec.cpp:407: if(a>=ActPeopleMinus&&a<=ActPeopleExit){switch(a){case ActPeopleMinus:return \"-1\";case ActPeopleNext:return t(\"Next: \",\"Дальше: \")+people::name((people::tally.current+1)%people::tally.count);case ActPeopleAdd:return t(\"N"
   ]
  },
+ "ae4cbe4b": {
+  "cells": 5,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:248: icon(IcPerson,40,92,14,warn,cardHi);text(66,84,fit(dicer.offer.name,236,bold),ink,bold);text(66,100,fit(t(\"from \",\"от \")+dicer.offer.from,236,small),dim,small);"
+  ]
+ },
  "ae5eb2bd": {
   "cells": 11,
   "families": [
@@ -9693,6 +10436,15 @@
    "src/UiSolitaire.inc:181: panel(6,24,308,194,cardHi,10);g().drawRoundRect(6,24,308,194,10,line);text(16,42,t(\"Solitaire keys\",\"Клавиши «Косынки»\"),ink,bold);"
   ]
  },
+ "b02f3570": {
+  "cells": 31,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:236: if(!n){textCenter(160,130,t(\"No chat contacts yet\",\"Пока нет контактов-собеседников\"),dim);return;}"
+  ]
+ },
  "b0430fb1": {
   "cells": 9,
   "families": [
@@ -9745,7 +10497,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:230: if(diceConfirm()){dicer.useCharacter(diceSel);dicer.deleteCharacter();diceSel=0;notice(t(\"Character deleted\",\"Персонаж удалён\"),dim);}return true;}"
+   "src/UiDice.inc:369: if(diceConfirm()){dicer.useCharacter(diceSel);dicer.deleteCharacter();diceSel=0;notice(t(\"Character deleted\",\"Персонаж удалён\"),dim);}return true;}"
   ]
  },
  "b1475adf": {
@@ -9775,6 +10527,15 @@
    "src/Ui.cpp:573: if(!n)textCenter(160,175,t(\"Walk between the boards to see the trace\",\"Пройдите между платами — появится след\"),faint,small);"
   ]
  },
+ "b26e4ba3": {
+  "cells": 18,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:384: add(Header,Whole,Circle,Plain,\"\",t(\"Skills and talents\",\"Навыки и таланты\"),0,0,\"\",0);"
+  ]
+ },
  "b2715af0": {
   "cells": 7,
   "families": [
@@ -9790,7 +10551,7 @@
    "shared"
   ],
   "where": [
-   "src/MeshRadio.cpp:432: if(m.outgoing&&m.tries>1)s+=m.status==ChatMessage::Delivered?(brief?\" #\"+String(m.tries):String(tr(\" · try \",\" · попытка \"))+m.tries):\" \"+String(m.tries)+\"/3\";"
+   "src/MeshRadio.cpp:433: if(m.outgoing&&m.tries>1)s+=m.status==ChatMessage::Delivered?(brief?\" #\"+String(m.tries):String(tr(\" · try \",\" · попытка \"))+m.tries):\" \"+String(m.tries)+\"/3\";"
   ]
  },
  "b367cee2": {
@@ -9821,6 +10582,24 @@
    "src/UiRemote.inc:16: if(!s||s->login==remote::Idle)return remote::saved(p.id)?t(\"not logged in · password saved\",\"вход не выполнен · пароль сохранён\"):t(\"not logged in\",\"вход не выполнен\");"
   ]
  },
+ "b3e34b39": {
+  "cells": 46,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:251: if(dicer.s.characters>=dice::Characters)text(20,200,t(\"6 characters at most: delete one first\",\"Не больше 6 персонажей: сначала удалите одного\"),bad,small);"
+  ]
+ },
+ "b4184ab6": {
+  "cells": 14,
+  "families": [
+   "compact"
+  ],
+  "where": [
+   "src/UiDiceCompact.inc:73: case ActDiceAccept:return t(\"Accept sheet: \",\"Принять лист: \")+dicer.offer.name;"
+  ]
+ },
  "b468fe02": {
   "cells": 10,
   "families": [
@@ -9837,6 +10616,15 @@
   ],
   "where": [
    "src/Ui.cpp:937: else if(page==Network){if(selected==0)portalToggle();if(selected==1){if(config.role!=RoleNormal)notice(t(\"Internet over Wi-Fi is off in this mode\",\"Интернет по Wi-Fi выключен в этом режиме\"),warn);else change(NetList);}i"
+  ]
+ },
+ "b478a72f": {
+  "cells": 3,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:337: String names[6]={t(\"STR\",\"СИЛ\"),t(\"DEX\",\"ЛОВ\"),t(\"CON\",\"ТЕЛ\"),t(\"INT\",\"ИНТ\"),t(\"WIS\",\"МДР\"),t(\"CHA\",\"ХАР\")};"
   ]
  },
  "b4b0095b": {
@@ -9857,6 +10645,16 @@
    "src/UiSolitaire.inc:200: panel(40,88,240,92,cardHi,10);d.drawRoundRect(40,88,240,92,10,ok);textCenter(160,114,t(\"You won!\",\"Победа!\"),ok,big);"
   ]
  },
+ "b4d49a31": {
+  "cells": 10,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:355: t(\"Perception\",\"Восприятие\"),t(\"Performance\",\"Выступление\"),t(\"Religion\",\"Религия\"),t(\"Sleight of Hand\",\"Ловкость рук\"),t(\"Stealth\",\"Скрытность\"),",
+   "src/Dice.cpp:369: String mid[6]={t(\"Intellect\",\"Интеллект\"),t(\"Perception\",\"Восприятие\"),t(\"Empathy\",\"Эмпатия\"),t(\"Will\",\"Воля\"),t(\"Strength\",\"Сила\"),t(\"Agility\",\"Ловкость\")};"
+  ]
+ },
  "b4ff4ddb": {
   "cells": 19,
   "families": [
@@ -9875,6 +10673,15 @@
   ],
   "where": [
    "src/UiHeltec.cpp:148: String bleState(){return radar.ble==Radar::BleBusy?t(\"BLE busy\",\"BLE занят\"):radar.ble==Radar::BleFailed?t(\"BLE error\",\"Ошибка BLE\"):\"\";}"
+  ]
+ },
+ "b556ba90": {
+  "cells": 30,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:280: String diceEditHint(){return diceEditing==EditValue?t(\"23 sets it, +5 or -7 changes it\",\"23 - задать, +5 или -7 - изменить\"):diceEditRaw()?t(\"2d6+1, d20, 4d6-2, d%, d66, r4\",\"2d6+1, d20, 4к6-2, d%, d66, r4\"):String();}"
   ]
  },
  "b5692498": {
@@ -10098,10 +10905,22 @@
  "ba4ec213": {
   "cells": 9,
   "families": [
-   "full"
+   "full",
+   "shared"
   ],
   "where": [
-   "src/UiDice.inc:137: case dice::Grid:drawDiceGrid();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"<>\",t(\"Count\",\"Число\")},{\"M\",t(\"Mode\",\"Режим\")},{\"P\",t(\"Character\",\"Персонаж\")}});break;"
+   "src/UiDice.inc:265: case dice::Grid:drawDiceGrid();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"<>\",t(\"Count\",\"Число\")},{\"M\",t(\"Mode\",\"Режим\")},{\"P\",t(\"Character\",\"Персонаж\")}});break;",
+   "src/UiDice.inc:267: if(act.length())footer({{\"OK\",act},{\"+/-\",\"±1\"},{\"V\",t(\"Value\",\"Значение\")},{\"P\",t(\"Character\",\"Персонаж\")}});",
+   "src/UiDice.inc:268: else footer({{\"<>\",t(\"Select\",\"Выбор\")},{\"+/-\",\"±1\"},{\"V\",t(\"Value\",\"Значение\")},{\"P\",t(\"Character\",\"Персонаж\")}});break;}"
+  ]
+ },
+ "ba5c62ed": {
+  "cells": 13,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:354: t(\"History\",\"История\"),t(\"Insight\",\"Проницательность\"),t(\"Intimidation\",\"Запугивание\"),t(\"Investigation\",\"Анализ\"),t(\"Medicine\",\"Медицина\"),t(\"Nature\",\"Природа\"),"
   ]
  },
  "ba7b24ea": {
@@ -10122,6 +10941,15 @@
   "where": [
    "src/UiPet.inc:34: if(!creature.has())return t(\"No pet\",\"Нет питомца\");if(!creature.alive())return t(\"Gone\",\"Умер\");if(creature.s.stage==pet::Egg)return t(\"Egg · \",\"Яйцо · \")+creature.ageText(creature.hatchLeft());",
    "src/Pet.cpp:180: return t(\"Gone\",\"Умер\");"
+  ]
+ },
+ "baa190e9": {
+  "cells": 7,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:287: case Pips:b.width=Third;b.max=3;name=t(\"Marks\",\"Отметки\");break;"
   ]
  },
  "baaea3e0": {
@@ -10196,10 +11024,13 @@
  "bbd248b0": {
   "cells": 8,
   "families": [
-   "full"
+   "full",
+   "shared"
   ],
   "where": [
-   "src/UiPet.inc:74: petBar(x,100,w,t(\"Food\",\"Сытость\"),s.food);petBar(x,124,w,t(\"Joy\",\"Радость\"),s.joy);petBar(x,148,w,t(\"Health\",\"Здоровье\"),s.health);"
+   "src/UiPet.inc:74: petBar(x,100,w,t(\"Food\",\"Сытость\"),s.food);petBar(x,124,w,t(\"Joy\",\"Радость\"),s.joy);petBar(x,148,w,t(\"Health\",\"Здоровье\"),s.health);",
+   "src/Dice.cpp:286: case Track:b.width=Whole;b.value=b.max=10;name=t(\"Health\",\"Здоровье\");break;",
+   "src/Dice.cpp:377: add(Track,Third,Circle,Plain,\"hp\",t(\"Health\",\"Здоровье\"),6,0,\"@body*2\",0);"
   ]
  },
  "bbe40d91": {
@@ -10305,6 +11136,18 @@
    "src/Ui.cpp:630: const auto& r=wardrive::last();String last=wardrive::pinging()?t(\"Ping sent, listening for repeaters...\",\"Пинг отправлен, слушаю ретрансляторы...\"):!r.done?t(\"No pings yet: P sends one\",\"Пингов пока нет: P отправит пинг\""
   ]
  },
+ "bd7b3d19": {
+  "cells": 5,
+  "families": [
+   "compact",
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:20: String diceModeName(uint8_t m){return m==dice::Rpg?String(\"RPG\"):m==dice::Grid?String(\"Warhammer\"):t(\"Sheet\",\"Лист\");}",
+   "src/UiDiceCompact.inc:10: String diceModeName(uint8_t m){return m==dice::Rpg?String(\"RPG\"):m==dice::Grid?String(\"Warhammer\"):t(\"Sheet\",\"Лист\");}",
+   "src/UiDiceCompact.inc:124: if(s.mode==dice::Sheet)return t(\"Sheet\",\"Лист\")+(dicer.sheet.count?\" \"+String(diceBlock()+1)+\"/\"+String(dicer.sheet.count):String());"
+  ]
+ },
  "bd7e131a": {
   "cells": 56,
   "families": [
@@ -10314,6 +11157,15 @@
    "src/UiRemote.inc:40: } else if(!server){text(14,y,remote::traceable(p->id)?t(\"Trace shows the SNR at every repeater of the route\",\"Трассировка покажет SNR на каждом ретрансляторе маршрута\"):t(\"No route through repeaters to trace\",\"Нет маршру"
   ]
  },
+ "bdd474ca": {
+  "cells": 10,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:275: case EditFormula:return t(\"Formula\",\"Формула\");case EditName:return t(\"Roll name\",\"Имя броска\");case EditValue:return fit(t(\"Value: \",\"Значение: \")+(dicer.sheet.count?String(dicer.sheet.block[sheetSel].name):String()),26"
+  ]
+ },
  "bde1b411": {
   "cells": 13,
   "families": [
@@ -10321,8 +11173,8 @@
   ],
   "where": [
    "src/UiHeltec.cpp:795: if(menuOpen)drawMenu();else footer(appClosed()?t(\"hold: open\",\"держ: открыть\"):page==PeoplePage?",
-   "src/UiDiceCompact.inc:122: if(!r){say(0,30,t(\"No rolls yet\",\"Бросков ещё нет\"));say(0,44,appOpen?t(\"Click to roll\",\"Клик - бросить\"):t(\"hold: open\",\"держ: открыть\"),small);return;}",
-   "src/UiHires.inc:453: else if(appClosed())footer({t(\"hold: open\",\"держ: открыть\"),clickHint(pageTitle(nextPage(page)))});"
+   "src/UiDiceCompact.inc:168: if(!r){say(0,30,t(\"No rolls yet\",\"Бросков ещё нет\"));say(0,44,appOpen?t(\"Click to roll\",\"Клик - бросить\"):t(\"hold: open\",\"держ: открыть\"),small);return;}",
+   "src/UiHires.inc:493: else if(appClosed())footer({t(\"hold: open\",\"держ: открыть\"),clickHint(pageTitle(nextPage(page)))});"
   ]
  },
  "bdfe1fbd": {
@@ -10369,7 +11221,7 @@
    "compact"
   ],
   "where": [
-   "src/UiHires.inc:459: else if(page==QuickPage)footer({t(\"click: choose\",\"клик: выбор\"),quickTargets||!quickIndex?t(\"hold: \",\"держ: \")+t(\"select\",\"выбрать\"):quickIndex>quickSend::Count?t(\"hold: \",\"держ: \")+t(\"exit\",\"выход\"):t(\"hold: send\",\"дер"
+   "src/UiHires.inc:499: else if(page==QuickPage)footer({t(\"click: choose\",\"клик: выбор\"),quickTargets||!quickIndex?t(\"hold: \",\"держ: \")+t(\"select\",\"выбрать\"):quickIndex>quickSend::Count?t(\"hold: \",\"держ: \")+t(\"exit\",\"выход\"):t(\"hold: send\",\"дер"
   ]
  },
  "bec55541": {
@@ -10406,6 +11258,15 @@
   ],
   "where": [
    "src/Ui.cpp:577: else footer({{\"OK\",t(\"Calibrate\",\"Калибровка\")},{\"<>\",t(\"Signals\",\"Сигналы\")},{\"B\",t(\"Beacon\",\"Маяк\")},{\"BACK\",t(\"Menu\",\"Меню\")}});"
+  ]
+ },
+ "bf19f12f": {
+  "cells": 62,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:386: add(Ability,Half,Circle,Plain,\"\",t(\"Talent: Shooting\",\"Талант: Стрельба\"),0,0,\"r3+@fine!\",0);note(t(\"A talent: the die of its own level plus the level of its stat.\",\"Талант: куб своего уровня плюс уровень параметра-основ"
   ]
  },
  "bf27012a": {
@@ -10483,6 +11344,24 @@
    "src/Ui.cpp:708: {\"Wi-Fi scan failed\",\"Сбой поиска сетей\"},{\"Wi-Fi scan timed out\",\"Поиск сетей не завершился\"},{\"Clock not set\",\"Часы не установлены\"},{\"SSID 1-32 bytes, password empty or 8-63\",\"Имя 1-32 байта, пароль пустой или 8-63\"},"
   ]
  },
+ "c0bc8c0a": {
+  "cells": 13,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:371: t(\"Composure\",\"Самообладание\"),t(\"Leadership\",\"Лидерство\"),t(\"Physique\",\"Телосложение\"),t(\"Endurance\",\"Выносливость\"),t(\"Fine motor\",\"Мелкая моторика\"),t(\"Body control\",\"Контроль тела\")};"
+  ]
+ },
+ "c0c558ee": {
+  "cells": 8,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:244: if(b.kind==Pips)return t(\"Mark\",\"Отметить\");"
+  ]
+ },
  "c0d1fe23": {
   "cells": 19,
   "families": [
@@ -10490,6 +11369,15 @@
   ],
   "where": [
    "src/UiHeltec.cpp:426: :page==Messages&&m&&!publicChat?t(\"Write reply...\",\"Ответить текстом...\"):t(\"Write to channel...\",\"Написать в канал...\");"
+  ]
+ },
+ "c0de6bb4": {
+  "cells": 8,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:190: if(detail.length()){detail.replace(\"\\n\",\" \");text(8,215,fit(detail,b.kind==dice::Ability&&b.noteLen?250:304,small),faint,small);if(b.kind==dice::Ability&&b.noteLen)textRight(312,215,t(\"I: more\",\"I: далее\"),accent,small);"
   ]
  },
  "c0f5f34b": {
@@ -10601,13 +11489,22 @@
    "src/UiServer.inc:113: String serverEditHint(){ServerRow r=serverRow(selected);return r==RowPost?t(\"Up to 151 bytes; @: input language\",\"До 151 байта; @ - язык ввода\"):r==RowAdmin?t(\"1-15 characters; -> after a letter: capital\",\"1-15 символов;"
   ]
  },
+ "c1e6c1ab": {
+  "cells": 10,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:381: add(Stat,Quarter,Shield,Plain,\"hit\",t(\"Strike\",\"Сила удара\"),1,0,\"@str/2\",0);"
+  ]
+ },
  "c1eb04c4": {
   "cells": 12,
   "families": [
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:55: case ActDiceGridRow:return t(\"Add 5 dice\",\"Ещё 5 костей\");"
+   "src/UiDiceCompact.inc:66: case ActDiceGridRow:return t(\"Add 5 dice\",\"Ещё 5 костей\");"
   ]
  },
  "c1f1d7de": {
@@ -10646,7 +11543,7 @@
   "where": [
    "src/Ui.cpp:583: void drawOff(){panel(30,62,260,116,card,10);icon(IcPower,160,96,14,farewell?dim:warn,card);textCenter(160,138,farewell?t(\"Device is off\",\"Устройство выключено\"):t(\"Turning off...\",\"Выключение...\"),ink,bold);textCenter(16",
    "src/UiHeltec.cpp:680: auto& c=*hardware.canvas;c.fillScreen(0);say(0,24,farewell?t(\"Device is off\",\"Устройство выключено\"):t(\"Turning off...\",\"Выключение...\"),bold);",
-   "src/UiHires.inc:411: void offPage(){g().fillScreen(ColBack);icon(IcPower,120,42,12,ColWarn);center(120,82,farewell?t(\"Device is off\",\"Устройство выключено\"):t(\"Turning off...\",\"Выключение...\"),ColInk,bold);center(120,106,t(\"To turn on:\",\"Вкл"
+   "src/UiHires.inc:451: void offPage(){g().fillScreen(ColBack);icon(IcPower,120,42,12,ColWarn);center(120,82,farewell?t(\"Device is off\",\"Устройство выключено\"):t(\"Turning off...\",\"Выключение...\"),ColInk,bold);center(120,106,t(\"To turn on:\",\"Вкл"
   ]
  },
  "c229145c": {
@@ -10693,6 +11590,15 @@
   ],
   "where": [
    "src/UiTour.inc:149: if(key==Erase&&!T.active()){tour::net.remove(T);tourOpen=nullptr;change(ChessList);chessTab=1;notice(t(\"Tournament removed\",\"Турнир удалён\"),ok);return true;}"
+  ]
+ },
+ "c2a9f50e": {
+  "cells": 67,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:249: String rows[4];unsigned n=wrap(t(\"A character sheet came over the mesh. Accept it as a new character?\",\"По сети пришёл лист персонажа. Добавить его новым персонажем?\"),rows,4,280);"
   ]
  },
  "c2aec922": {
@@ -10805,13 +11711,22 @@
    "src/UiHires.inc:158: if(!p){empty(IcMesh,t(\"No nodes heard\",\"Узлы пока не найдены\"),t(\"hold: announce\",\"держите: объявить\"));return;}"
   ]
  },
+ "c544eba1": {
+  "cells": 7,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:369: String mid[6]={t(\"Intellect\",\"Интеллект\"),t(\"Perception\",\"Восприятие\"),t(\"Empathy\",\"Эмпатия\"),t(\"Will\",\"Воля\"),t(\"Strength\",\"Сила\"),t(\"Agility\",\"Ловкость\")};"
+  ]
+ },
  "c594495d": {
   "cells": 15,
   "families": [
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:43: case ActDiceExit:return \"< \"+t(\"Exit dice\",\"Выйти из костей\");"
+   "src/UiDiceCompact.inc:54: case ActDiceExit:return \"< \"+t(\"Exit dice\",\"Выйти из костей\");"
   ]
  },
  "c5a8f128": {
@@ -10880,6 +11795,25 @@
    "src/Ui.cpp:403: footer({{\"<>\",t(\"Pan\",\"Сдвиг\")},{\"+/-\",t(\"Zoom\",\"Масштаб\")},{\"OK\",maps.follow?t(\"Following\",\"Следую\"):t(\"To GPS\",\"К GPS\")},{\"L\",t(\"Maps\",\"Карты\")}});"
   ]
  },
+ "c74322b8": {
+  "cells": 17,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:370: String low[12]={t(\"Education\",\"Образование\"),t(\"Wits\",\"Сообразительность\"),t(\"Attention\",\"Внимание\"),t(\"Intuition\",\"Интуиция\"),t(\"Inspiration\",\"Вдохновение\"),t(\"Charisma\",\"Харизма\"),"
+  ]
+ },
+ "c7549e7b": {
+  "cells": 19,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:287: case EditNewName:if(dicer.addRoll(diceDraft,edit)){editing=false;diceSel=dicer.savedCount()-1;notice(t(\"Roll saved\",\"Бросок сохранён\"),ok);}else bad1(dicer.sheet.count>=dice::Blocks?t(\"64 blocks at most\",\"Не больше 64 бл",
+   "src/UiDice.inc:349: if(key=='a'||key=='A'){if(dicer.sheet.count>=dice::Blocks)notice(t(\"64 blocks at most\",\"Не больше 64 блоков\"),warn);else diceEdit(EditNewFormula,dicer.poolText());return true;}"
+  ]
+ },
  "c7768961": {
   "cells": 42,
   "families": [
@@ -10905,7 +11839,16 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:187: if(key=='a'||key=='A'){if(s.gridSize>=dice::GridMax)notice(t(\"50 dice at most\",\"Не больше 50 костей\"),warn);else dicer.gridAddRow();return true;}"
+   "src/UiDice.inc:318: if(key=='a'||key=='A'){if(s.gridSize>=dice::GridMax)notice(t(\"50 dice at most\",\"Не больше 50 костей\"),warn);else dicer.gridAddRow();return true;}"
+  ]
+ },
+ "c79cd1ef": {
+  "cells": 4,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:369: String mid[6]={t(\"Intellect\",\"Интеллект\"),t(\"Perception\",\"Восприятие\"),t(\"Empathy\",\"Эмпатия\"),t(\"Will\",\"Воля\"),t(\"Strength\",\"Сила\"),t(\"Agility\",\"Ловкость\")};"
   ]
  },
  "c79e0520": {
@@ -10926,6 +11869,15 @@
   "where": [
    "src/Ui.cpp:663: footer({{\"^v\",t(\"choose\",\"выбор\")},{\"OK\",quickTargets||selected==0?t(\"select\",\"выбрать\"):t(\"send\",\"слать\")},{\"BACK\",t(\"exit\",\"выход\")}});",
    "src/UiHeltec.cpp:806: String(\"^v \")+t(\"choose\",\"выбор\")+\" OK \"+(quickTargets||!quickIndex?t(\"select\",\"выбрать\"):quickIndex>quickSend::Count?t(\"exit\",\"выход\"):t(\"send\",\"слать\")):"
+  ]
+ },
+ "c7cc0357": {
+  "cells": 10,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:355: t(\"Perception\",\"Восприятие\"),t(\"Performance\",\"Выступление\"),t(\"Religion\",\"Религия\"),t(\"Sleight of Hand\",\"Ловкость рук\"),t(\"Stealth\",\"Скрытность\"),"
   ]
  },
  "c7f0da14": {
@@ -11034,7 +11986,7 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:44: case ActDiceRoll:return t(\"Roll \",\"Бросить \")+(s.mode==dice::Grid?String(s.gridChosen)+\"x\"+diceTypeName(s.gridType):dicer.poolText());"
+   "src/UiDiceCompact.inc:55: case ActDiceRoll:return t(\"Roll \",\"Бросить \")+(s.mode==dice::Grid?String(s.gridChosen)+\"x\"+diceTypeName(s.gridType):dicer.poolText());"
   ]
  },
  "c9d19938": {
@@ -11089,6 +12041,15 @@
   ],
   "where": [
    "src/UiHeltec.cpp:436: case ActOlder:return t(\"Older message\",\"Предыдущее\");case ActNewer:return t(\"Newer message\",\"Следующее\");case ActNextNode:return t(\"Next node\",\"Следующий узел\");case ActNodeOk:return t(\"Send: OK\",\"Написать: OK\");case Act"
+  ]
+ },
+ "cafbc847": {
+  "cells": 17,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:353: String skillName[18]={t(\"Acrobatics\",\"Акробатика\"),t(\"Animal Handling\",\"Уход за животными\"),t(\"Arcana\",\"Магия\"),t(\"Athletics\",\"Атлетика\"),t(\"Deception\",\"Обман\"),"
   ]
  },
  "cb27d627": {
@@ -11153,7 +12114,7 @@
   ],
   "where": [
    "src/UiChessCompact.inc:169: say(68,63,chessCursor<0?(chessHeld<0?t(\"hold: menu\",\"держ: меню\"):t(\"hold: cancel\",\"держ: отмена\")):chessHeld<0?t(\"hold: pick\",\"держ: взять\"):t(\"hold: move\",\"держ: сходить\"),u8g2_font_4x6_t_cyrillic);}",
-   "src/UiHires.inc:382: chip(X-2,131,!picking||chessCursor<0?(chessHeld<0?t(\"hold: menu\",\"держ: меню\"):t(\"hold: cancel\",\"держ: отмена\")):chessHeld<0?t(\"hold: pick\",\"держ: взять\"):t(\"hold: move\",\"держ: сходить\"),238);"
+   "src/UiHires.inc:422: chip(X-2,131,!picking||chessCursor<0?(chessHeld<0?t(\"hold: menu\",\"держ: меню\"):t(\"hold: cancel\",\"держ: отмена\")):chessHeld<0?t(\"hold: pick\",\"держ: взять\"):t(\"hold: move\",\"держ: сходить\"),238);"
   ]
  },
  "cbdba42f": {
@@ -11163,6 +12124,15 @@
   ],
   "where": [
    "src/Ui.cpp:403: footer({{\"<>\",t(\"Pan\",\"Сдвиг\")},{\"+/-\",t(\"Zoom\",\"Масштаб\")},{\"OK\",maps.follow?t(\"Following\",\"Следую\"):t(\"To GPS\",\"К GPS\")},{\"L\",t(\"Maps\",\"Карты\")}});"
+  ]
+ },
+ "cbefd188": {
+  "cells": 8,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:378: add(Track,Third,Circle,Plain,\"san\",t(\"Sanity\",\"Рассудок\"),6,0,\"@mind+@emo\",9);"
   ]
  },
  "cc1f16a5": {
@@ -11240,7 +12210,8 @@
    "full"
   ],
   "where": [
-   "src/UiChess.inc:262: else if(m.state==ChessMatch::Invited)footer({{\"OK\",t(\"Accept\",\"Принять\")},{\"DEL\",t(\"Decline\",\"Отказать\")},{\"BACK\",t(\"Games\",\"Партии\")}});"
+   "src/UiChess.inc:262: else if(m.state==ChessMatch::Invited)footer({{\"OK\",t(\"Accept\",\"Принять\")},{\"DEL\",t(\"Decline\",\"Отказать\")},{\"BACK\",t(\"Games\",\"Партии\")}});",
+   "src/UiDice.inc:260: case DiceOffer:drawDiceOffer();footer({{\"OK\",t(\"Accept\",\"Принять\")},{\"DEL\",t(\"Decline\",\"Отклонить\")},{\"BACK\",t(\"Later\",\"Позже\")}});return;"
   ]
  },
  "cda0bfbb": {
@@ -11350,9 +12321,8 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:136: case dice::Rpg:drawDiceRpg();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"S\",t(\"Saved\",\"Броски\")},{\"E\",t(\"Formula\",\"Формула\")},{\"M\",t(\"Mode\",\"Режим\")}});break;",
-   "src/UiDice.inc:137: case dice::Grid:drawDiceGrid();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"<>\",t(\"Count\",\"Число\")},{\"M\",t(\"Mode\",\"Режим\")},{\"P\",t(\"Character\",\"Персонаж\")}});break;",
-   "src/UiDice.inc:138: default:drawDiceTally();footer({{\"^v\",\"±1\"},{\"+/-\",\"±5\"},{\"<>\",t(\"Select\",\"Выбор\")},{\"M\",t(\"Mode\",\"Режим\")}});break;"
+   "src/UiDice.inc:264: case dice::Rpg:drawDiceRpg();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"S\",t(\"Saved\",\"Броски\")},{\"E\",t(\"Formula\",\"Формула\")},{\"M\",t(\"Mode\",\"Режим\")}});break;",
+   "src/UiDice.inc:265: case dice::Grid:drawDiceGrid();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"<>\",t(\"Count\",\"Число\")},{\"M\",t(\"Mode\",\"Режим\")},{\"P\",t(\"Character\",\"Персонаж\")}});break;"
   ]
  },
  "ced2141d": {
@@ -11517,6 +12487,15 @@
    "src/UiServer.inc:59: case RowAdvert:return t(\"Zero-hop advert: off or 60-240 min\",\"Объявление без пересылки: выкл или 60-240 мин\");case RowFlood:return t(\"Flooded advert: off or 3-168 h\",\"Объявление на всю сеть: выкл или 3-168 ч\");"
   ]
  },
+ "d14c9078": {
+  "cells": 44,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:218: text(18,208,t(\"A: new  N: name  S: send  DEL: delete\",\"A: новый  N: имя  S: отправить  DEL: удалить\"),faint,small);"
+  ]
+ },
  "d1f0e683": {
   "cells": 14,
   "families": [
@@ -11551,7 +12530,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:89: text(8,212,t(\"A: +5 dice   R: reset   D: die   T, +/-: threshold\",\"A: +5 костей   R: сброс   D: кость   T, +/-: порог\"),faint,small);"
+   "src/UiDice.inc:98: text(8,212,t(\"A: +5 dice   R: reset   D: die   T, +/-: threshold\",\"A: +5 костей   R: сброс   D: кость   T, +/-: порог\"),faint,small);"
   ]
  },
  "d2606f92": {
@@ -11587,7 +12566,7 @@
    "shared"
   ],
   "where": [
-   "src/MeshRadio.cpp:428: String hops=m.hops==255?String():!m.hops?String(brief?tr(\"direct\",\"напр.\"):tr(\"direct\",\"напрямую\")):(brief?String(m.hops)+tr(\" rpt\",\" ретр.\"):String(tr(\"via \",\"через \"))+m.hops+tr(\" rpt\",\" ретр.\"));"
+   "src/MeshRadio.cpp:429: String hops=m.hops==255?String():!m.hops?String(brief?tr(\"direct\",\"напр.\"):tr(\"direct\",\"напрямую\")):(brief?String(m.hops)+tr(\" rpt\",\" ретр.\"):String(tr(\"via \",\"через \"))+m.hops+tr(\" rpt\",\" ретр.\"));"
   ]
  },
  "d2b3452b": {
@@ -11733,7 +12712,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:73: String saved=String(dicer.hero().rolls);textRight(312,212,t(\"S: saved \",\"S: сохранённые \")+saved,dicer.hero().rolls?accent:faint,small);"
+   "src/UiDice.inc:82: unsigned saved=dicer.savedCount();textRight(312,212,t(\"S: saved \",\"S: сохранённые \")+String(saved),saved?accent:faint,small);"
   ]
  },
  "d4327754": {
@@ -11891,7 +12870,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:681: say(0,44,t(\"To turn on:\",\"Включить:\"),small);say(0,54,powerOnHint(),small);hardware.flush();",
-   "src/UiHires.inc:411: void offPage(){g().fillScreen(ColBack);icon(IcPower,120,42,12,ColWarn);center(120,82,farewell?t(\"Device is off\",\"Устройство выключено\"):t(\"Turning off...\",\"Выключение...\"),ColInk,bold);center(120,106,t(\"To turn on:\",\"Вкл"
+   "src/UiHires.inc:451: void offPage(){g().fillScreen(ColBack);icon(IcPower,120,42,12,ColWarn);center(120,82,farewell?t(\"Device is off\",\"Устройство выключено\"):t(\"Turning off...\",\"Выключение...\"),ColInk,bold);center(120,106,t(\"To turn on:\",\"Вкл"
   ]
  },
  "d7a4d1f0": {
@@ -11997,6 +12976,15 @@
    "src/ChessNet.cpp:196: if(m->state==ChessMatch::Over)what+=m->won()?tr(\" · you won\",\", вы победили\"):m->lost()?tr(\" · you lost\",\", вы проиграли\"):tr(\" · draw\",\", ничья\");"
   ]
  },
+ "d8f206ca": {
+  "cells": 84,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:348: add(Ability,Half,Circle,Plain,\"\",t(\"Attack\",\"Атака\"),0,0,\"d20+@str+@pb\",0);note(t(\"Melee: STR + proficiency. Finesse or ranged: change @str to @dex.\",\"Ближний бой: СИЛ + мастерство. Фехтовальное или дальнобойное: заменит"
+  ]
+ },
  "d9601486": {
   "cells": 16,
   "families": [
@@ -12077,7 +13065,7 @@
   "where": [
    "src/UiHeltec.cpp:441: case ActScreen:return t(\"Screen off: \",\"Гасить: \")+(config.dimAfter?String(config.dimAfter)+t(\" s\",\" с\"):t(\"never\",\"никогда\"));case ActContrast:return t(\"Contrast: \",\"Контраст: \")+String(config.brightness);",
    "src/UiHeltec.cpp:779: say(0,36,t(\"Screen off: \",\"Гасить экран: \")+(config.dimAfter?String(config.dimAfter)+t(\" s\",\" с\"):t(\"never\",\"никогда\")),small);say(0,44,t(\"Contrast: \",\"Контраст: \")+String(config.brightness),small);",
-   "src/UiHires.inc:320: {IcScreen,ColInfo,t(\"Screen off: \",\"Гасить экран: \")+(config.dimAfter?String(config.dimAfter)+t(\" s\",\" с\"):t(\"never\",\"никогда\"))},"
+   "src/UiHires.inc:360: {IcScreen,ColInfo,t(\"Screen off: \",\"Гасить экран: \")+(config.dimAfter?String(config.dimAfter)+t(\" s\",\" с\"):t(\"never\",\"никогда\"))},"
   ]
  },
  "daf0f315": {
@@ -12107,6 +13095,15 @@
    "src/UiHeltec.cpp:147: switch(radar.wifi){case Radar::WifiPortal:return t(\"Wi-Fi: access point\",\"Wi-Fi: точка доступа\");case Radar::WifiBusy:return t(\"Wi-Fi busy\",\"Wi-Fi занят\");case Radar::WifiFailed:return t(\"Wi-Fi error\",\"Ошибка Wi-Fi\");def"
   ]
  },
+ "dbb9c4a0": {
+  "cells": 6,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:389: add(Note,Whole,Circle,Plain,\"\",t(\"Rolls\",\"Броски\"),0,0,\"\",0);"
+  ]
+ },
  "dbd2bbf3": {
   "cells": 6,
   "families": [
@@ -12114,7 +13111,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:778: case Settings:title=t(\"Settings\",\"Настройки\");say(0,20,t(\"Language: \",\"Язык: \")+langNames[config.lang<LangCount?config.lang:0],small);say(0,28,t(\"Battery: \",\"Батарея: \")+(config.batteryVolts?t(\"volts\",\"вольты\"):t(\"percen",
-   "src/UiHires.inc:319: {IcPulse,ColGood,t(\"Battery: \",\"Батарея: \")+(config.batteryVolts?t(\"volts\",\"вольты\"):t(\"percent\",\"проценты\"))},"
+   "src/UiHires.inc:359: {IcPulse,ColGood,t(\"Battery: \",\"Батарея: \")+(config.batteryVolts?t(\"volts\",\"вольты\"):t(\"percent\",\"проценты\"))},"
   ]
  },
  "dbdadd08": {
@@ -12134,7 +13131,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:629: if(config.role==RoleNormal)sayRight(126,62,t(\"hold: open the game\",\"держ: открыть партию\"),small);",
-   "src/UiHires.inc:421: if(chessPopupAt&&millis()-chessPopupAt<8000){statusBar(t(\"Chess\",\"Шахматы\"));chessPopup();footer({config.role==RoleNormal?t(\"hold: open the game\",\"держ: открыть партию\"):String()});hardware.flush();return;}"
+   "src/UiHires.inc:461: if(chessPopupAt&&millis()-chessPopupAt<8000){statusBar(t(\"Chess\",\"Шахматы\"));chessPopup();footer({config.role==RoleNormal?t(\"hold: open the game\",\"держ: открыть партию\"):String()});hardware.flush();return;}"
   ]
  },
  "dbef9d2d": {
@@ -12162,7 +13159,8 @@
    "full"
   ],
   "where": [
-   "src/UiTour.inc:74: if(T.state==tour::Invited)footer({{\"OK\",t(\"Join\",\"Участвовать\")},{\"DEL\",t(\"Decline\",\"Отказаться\")},{\"BACK\",t(\"Later\",\"Позже\")}});else footer({{\"DEL\",t(\"Remove\",\"Удалить\")},{\"BACK\",t(\"Back\",\"Назад\")}});"
+   "src/UiTour.inc:74: if(T.state==tour::Invited)footer({{\"OK\",t(\"Join\",\"Участвовать\")},{\"DEL\",t(\"Decline\",\"Отказаться\")},{\"BACK\",t(\"Later\",\"Позже\")}});else footer({{\"DEL\",t(\"Remove\",\"Удалить\")},{\"BACK\",t(\"Back\",\"Назад\")}});",
+   "src/UiDice.inc:260: case DiceOffer:drawDiceOffer();footer({{\"OK\",t(\"Accept\",\"Принять\")},{\"DEL\",t(\"Decline\",\"Отклонить\")},{\"BACK\",t(\"Later\",\"Позже\")}});return;"
   ]
  },
  "dc58258c": {
@@ -12181,7 +13179,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:641: t(\"click-next hold-choose\",\"клик-далее держ-выбор\")",
-   "src/UiHires.inc:350: footer({rolePickBoot?t(\"as now in \",\"как сейчас через \")+String(left)+t(\"s\",\"с\"):t(\"click-next hold-choose\",\"клик-далее держ-выбор\")});"
+   "src/UiHires.inc:390: footer({rolePickBoot?t(\"as now in \",\"как сейчас через \")+String(left)+t(\"s\",\"с\"):t(\"click-next hold-choose\",\"клик-далее держ-выбор\")});"
   ]
  },
  "dca15068": {
@@ -12331,7 +13329,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:792: say(0,48,t(\"up \",\"работа \")+ago(millis())+t(\"  boot \",\"  загр. \")+String(config.bootCounter),small);",
-   "src/UiHires.inc:330: text(6,106,fit(t(\"up \",\"работа \")+ago(millis())+t(\"  boot \",\"  загр. \")+String(config.bootCounter),228,small),ColDim,small);"
+   "src/UiHires.inc:370: text(6,106,fit(t(\"up \",\"работа \")+ago(millis())+t(\"  boot \",\"  загр. \")+String(config.bootCounter),228,small),ColDim,small);"
   ]
  },
  "df643044": {
@@ -12451,7 +13449,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:144: switch(diceEditing){case EditQuick:return t(\"Formula to roll\",\"Формула броска\");case EditNewFormula:return t(\"New roll: formula\",\"Новый бросок: формула\");case EditNewName:return t(\"New roll: name\",\"Новый бросок: имя\");"
+   "src/UiDice.inc:274: switch(diceEditing){case EditQuick:return t(\"Formula to roll\",\"Формула броска\");case EditNewFormula:return t(\"New roll: formula\",\"Новый бросок: формула\");case EditNewName:return t(\"New roll: name\",\"Новый бросок: имя\");"
   ]
  },
  "e1c84bdb": {
@@ -12563,7 +13561,8 @@
    "full"
   ],
   "where": [
-   "src/UiTour.inc:53: footer({{\"OK\",tourSel?t(\"Open\",\"Открыть\"):t(\"Create\",\"Создать\")},{\"<>\",t(\"Tabs\",\"Разделы\")},{\"BACK\",t(\"Menu\",\"Меню\")}});"
+   "src/UiTour.inc:53: footer({{\"OK\",tourSel?t(\"Open\",\"Открыть\"):t(\"Create\",\"Создать\")},{\"<>\",t(\"Tabs\",\"Разделы\")},{\"BACK\",t(\"Menu\",\"Меню\")}});",
+   "src/UiDice.inc:258: case DiceTemplates:drawDiceTemplates();footer({{\"OK\",t(\"Create\",\"Создать\")},{\"^v\",t(\"Select\",\"Выбор\")},{\"BACK\",t(\"Cancel\",\"Отмена\")}});return;"
   ]
  },
  "e3e8ef63": {
@@ -12599,8 +13598,8 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:136: case dice::Rpg:drawDiceRpg();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"S\",t(\"Saved\",\"Броски\")},{\"E\",t(\"Formula\",\"Формула\")},{\"M\",t(\"Mode\",\"Режим\")}});break;",
-   "src/UiDice.inc:145: case EditFormula:return t(\"Formula\",\"Формула\");case EditName:return t(\"Roll name\",\"Имя броска\");case EditCounter:return t(\"Counter name\",\"Имя счётчика\");case EditHeroNew:return t(\"New character\",\"Новый персонаж\");}"
+   "src/UiDice.inc:264: case dice::Rpg:drawDiceRpg();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"S\",t(\"Saved\",\"Броски\")},{\"E\",t(\"Formula\",\"Формула\")},{\"M\",t(\"Mode\",\"Режим\")}});break;",
+   "src/UiDice.inc:275: case EditFormula:return t(\"Formula\",\"Формула\");case EditName:return t(\"Roll name\",\"Имя броска\");case EditValue:return fit(t(\"Value: \",\"Значение: \")+(dicer.sheet.count?String(dicer.sheet.block[sheetSel].name):String()),26"
   ]
  },
  "e4fe0cf0": {
@@ -12648,6 +13647,15 @@
    "src/ChessTour.cpp:96: const uint8_t* self=meshRadio.nodeKey();Tour* t=slot();if(!self||!t){event=tr(\"Tournament: no free place\",\"Турнир: нет свободного места\");events++;dirty=true;return nullptr;}"
   ]
  },
+ "e5dceda2": {
+  "cells": 10,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:343: add(Track,Whole,Circle,Plain,\"hp\",t(\"Hit points\",\"Хиты\"),10,10,\"\",0);"
+  ]
+ },
  "e6255712": {
   "cells": 17,
   "families": [
@@ -12669,6 +13677,15 @@
    "src/Ui.cpp:695: footer({{\"OK\",selected==1?t(\"Networks\",\"Сети\"):t(\"Toggle\",\"Переключить\")},{\"^v\",t(\"Select\",\"Выбор\")},{\"BACK\",t(\"Back\",\"Назад\")}});"
   ]
  },
+ "e7005165": {
+  "cells": 6,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:353: String skillName[18]={t(\"Acrobatics\",\"Акробатика\"),t(\"Animal Handling\",\"Уход за животными\"),t(\"Arcana\",\"Магия\"),t(\"Athletics\",\"Атлетика\"),t(\"Deception\",\"Обман\"),"
+  ]
+ },
  "e7150b06": {
   "cells": 14,
   "families": [
@@ -12676,6 +13693,15 @@
   ],
   "where": [
    "src/UiServer.inc:49: switch(r){case RowForward:return t(\"Forwarding\",\"Пересылка\");case RowAdmin:return t(\"Admin password\",\"Пароль администратора\");case RowGuest:return room?t(\"Room password\",\"Пароль комнаты\"):t(\"Guest password\",\"Гостевой пар"
+  ]
+ },
+ "e73278a2": {
+  "cells": 3,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:337: String names[6]={t(\"STR\",\"СИЛ\"),t(\"DEX\",\"ЛОВ\"),t(\"CON\",\"ТЕЛ\"),t(\"INT\",\"ИНТ\"),t(\"WIS\",\"МДР\"),t(\"CHA\",\"ХАР\")};"
   ]
  },
  "e7bfbbfb": {
@@ -12749,7 +13775,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:778: case Settings:title=t(\"Settings\",\"Настройки\");say(0,20,t(\"Language: \",\"Язык: \")+langNames[config.lang<LangCount?config.lang:0],small);say(0,28,t(\"Battery: \",\"Батарея: \")+(config.batteryVolts?t(\"volts\",\"вольты\"):t(\"percen",
-   "src/UiHires.inc:319: {IcPulse,ColGood,t(\"Battery: \",\"Батарея: \")+(config.batteryVolts?t(\"volts\",\"вольты\"):t(\"percent\",\"проценты\"))},"
+   "src/UiHires.inc:359: {IcPulse,ColGood,t(\"Battery: \",\"Батарея: \")+(config.batteryVolts?t(\"volts\",\"вольты\"):t(\"percent\",\"проценты\"))},"
   ]
  },
  "e8ecae43": {
@@ -12785,7 +13811,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:158: case EditFormula:if(diceSel<int(c.rolls)&&dicer.editRoll(diceSel,edit,c.roll[diceSel].name)){editing=false;notice(t(\"Formula saved\",\"Формула сохранена\"),ok);}else bad1(formulaError);return;"
+   "src/UiDice.inc:288: case EditFormula:if(diceSel<int(count)&&dicer.editRoll(diceSel,edit,dicer.sheet.block[block].name)){editing=false;notice(t(\"Formula saved\",\"Формула сохранена\"),ok);}else bad1(formulaError);return;"
   ]
  },
  "e96a0252": {
@@ -12821,7 +13847,8 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:152: auto bad1=[&](const String& m){notice(m,bad);};String formulaError=t(\"Formula: 2d6+1, d20, d%, d66\",\"Формула: 2d6+1, d20, d%, d66\"),nameError=t(\"Name: 1-23 UTF-8 bytes\",\"Имя: 1-23 байта UTF-8\");"
+   "src/UiDice.inc:282: auto bad1=[&](const String& m){notice(m,bad);};String formulaError=t(\"Formula: 2d6+1, d20, d%, d66\",\"Формула: 2d6+1, d20, d%, d66\"),nameError=t(\"Name: 1-23 UTF-8 bytes\",\"Имя: 1-23 байта UTF-8\");",
+   "src/UiDice.inc:375: if(key==Enter||key==KeyHold){if(dicer.addCharacter(diceDraft,diceSel)){dicer.setMode(dice::Sheet);diceSheet=DiceMain;sheetSel=sheetTop=0;notice(dicer.heroName(dicer.s.character),ok);}else notice(t(\"Name: 1-23 UTF-8 bytes"
   ]
  },
  "ea142785": {
@@ -12907,7 +13934,7 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:47: case ActDiceCount:return t(\"Dice: \",\"Кости: \")+String(s.count);"
+   "src/UiDiceCompact.inc:58: case ActDiceCount:return t(\"Dice: \",\"Кости: \")+String(s.count);"
   ]
  },
  "eb72ee48": {
@@ -12945,7 +13972,7 @@
   ],
   "where": [
    "src/Ui.cpp:220: String ago(uint32_t ms){uint32_t s=ms/1000;if(s<60)return t(\"now\",\"сейчас\");if(s<3600)return String(s/60)+t(\" min\",\" мин\");if(s<86400)return String(s/3600)+t(\" h\",\" ч\");return String(s/86400)+t(\" d\",\" д\");}",
-   "src/UiDice.inc:128: if(i==s.character)textRight(300,y+14,t(\"now\",\"сейчас\"),ok,small);diceSpot(14,y,292,20,TapHeroRow,i);}",
+   "src/UiDice.inc:217: if(i==s.character)textRight(300,y+14,count(dicer.sheet.count,\"block\",\"blocks\",\"блок\",\"блока\",\"блоков\")+\" · \"+t(\"now\",\"сейчас\"),ok,small);diceSpot(14,y,292,20,TapHeroRow,i);}",
    "src/UiHeltec.cpp:634: for(int r=0;r<RoleCount;r++){int y=21+r*12;bool focus=r==roleSel;if(focus)c.fillRect(0,y-10,128,12,1);say(3,y,roleShort(r),body,!focus);if(r==config.role)sayRight(125,y,t(\"now\",\"сейчас\"),small,!focus);}"
   ]
  },
@@ -12973,7 +14000,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:88: String th=s.thresholdOn?t(\"Threshold \",\"Порог \")+dice::valueText(s.gridType,s.threshold)+\"+\":t(\"No threshold\",\"Без порога\");textRight(312,y,th,s.thresholdOn?warn:faint,small);"
+   "src/UiDice.inc:97: String th=s.thresholdOn?t(\"Threshold \",\"Порог \")+dice::valueText(s.gridType,s.threshold)+\"+\":t(\"No threshold\",\"Без порога\");textRight(312,y,th,s.thresholdOn?warn:faint,small);"
   ]
  },
  "ec7f8c84": {
@@ -13031,14 +14058,50 @@
    "src/UiTour.inc:118: text(16,ry+13,t(\"R\",\"Т\")+String(r),faint,small);"
   ]
  },
+ "ed00fa0d": {
+  "cells": 11,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:339: add(Stat,Quarter,Square,Plain,\"pb\",t(\"Proficiency\",\"Мастерство\"),2,0,\"\",7);"
+  ]
+ },
  "ed2f5230": {
   "cells": 7,
   "families": [
    "full"
   ],
   "where": [
-   "src/UiDice.inc:71: int x=8;if(dicer.resultCount>1){text(x,212,t(\"Before:\",\"Ранее:\"),faint,small);x+=measure(t(\"Before:\",\"Ранее:\"),small)+6;}",
-   "src/UiDice.inc:71: int x=8;if(dicer.resultCount>1){text(x,212,t(\"Before:\",\"Ранее:\"),faint,small);x+=measure(t(\"Before:\",\"Ранее:\"),small)+6;}"
+   "src/UiDice.inc:80: int x=8;if(dicer.resultCount>1){text(x,212,t(\"Before:\",\"Ранее:\"),faint,small);x+=measure(t(\"Before:\",\"Ранее:\"),small)+6;}",
+   "src/UiDice.inc:80: int x=8;if(dicer.resultCount>1){text(x,212,t(\"Before:\",\"Ранее:\"),faint,small);x+=measure(t(\"Before:\",\"Ранее:\"),small)+6;}"
+  ]
+ },
+ "ed34c2d5": {
+  "cells": 28,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:257: if(!f.length()&&j<0){why=b.kind==Ability&&b.formula[0]?t(\"The formula does not compute\",\"Формула не считается\"):String();return false;}"
+  ]
+ },
+ "ed3cff16": {
+  "cells": 14,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:361: add(Pips,Half,Circle,Plain,\"sl1\",t(\"Slots, level 1\",\"Ячейки 1 круга\"),2,2,\"\",9);"
+  ]
+ },
+ "ed4ac5a0": {
+  "cells": 21,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:549: note=t(\"Sending the sheet to \",\"Отправка листа: \")+out.name;notes++;events++;sendNext();return true;"
   ]
  },
  "edbb065e": {
@@ -13048,6 +14111,24 @@
   ],
   "where": [
    "src/UiPet.inc:75: text(x,175,fit(t(\"Snacks \",\"Вкусняшки \")+String(s.snacks)+\" · \"+count(s.friends,\"friend\",\"friends\",\"друг\",\"друга\",\"друзей\"),w,small),ink,small);"
+  ]
+ },
+ "edc7a2c3": {
+  "cells": 12,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:371: t(\"Composure\",\"Самообладание\"),t(\"Leadership\",\"Лидерство\"),t(\"Physique\",\"Телосложение\"),t(\"Endurance\",\"Выносливость\"),t(\"Fine motor\",\"Мелкая моторика\"),t(\"Body control\",\"Контроль тела\")};"
+  ]
+ },
+ "edd3cba9": {
+  "cells": 15,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:346: add(Pips,Third,Circle,Plain,\"dsf\",t(\"Death: fails\",\"Смерть: провалы\"),0,3,\"\",0);"
   ]
  },
  "ee4bed74": {
@@ -13093,6 +14174,15 @@
   ],
   "where": [
    "src/UiChannels.inc:157: if(meshRadio.removeChannel(id)){notice(t(\"Left \",\"Покинут: \")+name,ok);change(Threads);}else notice(t(\"Cannot leave while sending\",\"Нельзя во время отправки\"),bad);"
+  ]
+ },
+ "ef0a0d6f": {
+  "cells": 13,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:383: add(Stat,Quarter,Square,Plain,\"dev\",t(\"Growth points\",\"Очки развития\"),0,0,\"\",12);"
   ]
  },
  "ef107ddc": {
@@ -13197,8 +14287,8 @@
    "compact"
   ],
   "where": [
-   "src/UiHires.inc:455: else if(diceTapOn())footer({t(\"click: +1\",\"клик: +1\"),t(\"hold: -1\",\"держ: -1\"),t(\"5 s: exit\",\"5 с: выход\")});",
-   "src/UiHires.inc:458: else if(page==PeoplePage)footer({t(\"click: +1\",\"клик: +1\"),t(\"hold: menu\",\"держ: меню\")});"
+   "src/UiHires.inc:495: else if(diceTapOn())footer({t(\"click: +1\",\"клик: +1\"),t(\"hold: -1\",\"держ: -1\"),t(\"5 s: exit\",\"5 с: выход\")});",
+   "src/UiHires.inc:498: else if(page==PeoplePage)footer({t(\"click: +1\",\"клик: +1\"),t(\"hold: menu\",\"держ: меню\")});"
   ]
  },
  "f0ff5e78": {
@@ -13225,8 +14315,16 @@
    "full"
   ],
   "where": [
-   "src/Ui.cpp:793: text(26,82,key?t(\"Network key · 64 hex\",\"Ключ сети · 64 hex\"):page==ChannelAdd?channelEditTitle():page==ChessTourNew?String(t(\"Tournament name\",\"Название турнира\")):page==PetView?String(t(\"Pet name\",\"Имя питомца\")):page=",
-   "src/UiDice.inc:145: case EditFormula:return t(\"Formula\",\"Формула\");case EditName:return t(\"Roll name\",\"Имя броска\");case EditCounter:return t(\"Counter name\",\"Имя счётчика\");case EditHeroNew:return t(\"New character\",\"Новый персонаж\");}"
+   "src/Ui.cpp:793: text(26,82,key?t(\"Network key · 64 hex\",\"Ключ сети · 64 hex\"):page==ChannelAdd?channelEditTitle():page==ChessTourNew?String(t(\"Tournament name\",\"Название турнира\")):page==PetView?String(t(\"Pet name\",\"Имя питомца\")):page="
+  ]
+ },
+ "f133d5b4": {
+  "cells": 10,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:353: String skillName[18]={t(\"Acrobatics\",\"Акробатика\"),t(\"Animal Handling\",\"Уход за животными\"),t(\"Arcana\",\"Магия\"),t(\"Athletics\",\"Атлетика\"),t(\"Deception\",\"Обман\"),"
   ]
  },
  "f1404ee2": {
@@ -13244,7 +14342,7 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:50: case ActDiceHero:return t(\"Character: \",\"Персонаж: \")+dicer.heroName(s.character);"
+   "src/UiDiceCompact.inc:61: case ActDiceHero:return t(\"Character: \",\"Персонаж: \")+dicer.heroName(s.character);"
   ]
  },
  "f16f8305": {
@@ -13265,13 +14363,22 @@
    "src/UiHeltec.cpp:423: case ActNotifyLed:case ActNotifyWake:case ActNotifyPopup:{uint8_t mode=a==ActNotifyLed?config.notifyLed:a==ActNotifyWake?config.notifyWake:config.notifyPopup;return (a==ActNotifyLed?String(\"LED: \"):a==ActNotifyWake?t(\"Wa"
   ]
  },
+ "f1fd2cf6": {
+  "cells": 9,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:356: t(\"Persuasion\",\"Убеждение\"),t(\"Survival\",\"Выживание\")};"
+  ]
+ },
  "f2176011": {
   "cells": 5,
   "families": [
    "compact"
   ],
   "where": [
-   "src/UiHires.inc:404: for(unsigned i=0;i<n&&i<4;i++){auto& e=l[order[i]];int y=42+i*19;text(12,y,wdHash(e.hash,e.size),ColInk,bold);text(84,y,wdSnr(e.snr),e.snr>=20?ColGood:e.snr>=-20?ColWarn:ColBad,small);right(230,y,t(\"echo \",\"эхо \")+String"
+   "src/UiHires.inc:444: for(unsigned i=0;i<n&&i<4;i++){auto& e=l[order[i]];int y=42+i*19;text(12,y,wdHash(e.hash,e.size),ColInk,bold);text(84,y,wdSnr(e.snr),e.snr>=20?ColGood:e.snr>=-20?ColWarn:ColBad,small);right(230,y,t(\"echo \",\"эхо \")+String"
   ]
  },
  "f26a580c": {
@@ -13283,7 +14390,7 @@
   "where": [
    "src/Ui.cpp:663: footer({{\"^v\",t(\"choose\",\"выбор\")},{\"OK\",quickTargets||selected==0?t(\"select\",\"выбрать\"):t(\"send\",\"слать\")},{\"BACK\",t(\"exit\",\"выход\")}});",
    "src/UiHeltec.cpp:806: String(\"^v \")+t(\"choose\",\"выбор\")+\" OK \"+(quickTargets||!quickIndex?t(\"select\",\"выбрать\"):quickIndex>quickSend::Count?t(\"exit\",\"выход\"):t(\"send\",\"слать\")):",
-   "src/UiHires.inc:459: else if(page==QuickPage)footer({t(\"click: choose\",\"клик: выбор\"),quickTargets||!quickIndex?t(\"hold: \",\"держ: \")+t(\"select\",\"выбрать\"):quickIndex>quickSend::Count?t(\"hold: \",\"держ: \")+t(\"exit\",\"выход\"):t(\"hold: send\",\"дер"
+   "src/UiHires.inc:499: else if(page==QuickPage)footer({t(\"click: choose\",\"клик: выбор\"),quickTargets||!quickIndex?t(\"hold: \",\"держ: \")+t(\"select\",\"выбрать\"):quickIndex>quickSend::Count?t(\"hold: \",\"держ: \")+t(\"exit\",\"выход\"):t(\"hold: send\",\"дер"
   ]
  },
  "f29830d4": {
@@ -13365,7 +14472,7 @@
   ],
   "where": [
    "src/UiHeltec.cpp:779: say(0,36,t(\"Screen off: \",\"Гасить экран: \")+(config.dimAfter?String(config.dimAfter)+t(\" s\",\" с\"):t(\"never\",\"никогда\")),small);say(0,44,t(\"Contrast: \",\"Контраст: \")+String(config.brightness),small);",
-   "src/UiHires.inc:320: {IcScreen,ColInfo,t(\"Screen off: \",\"Гасить экран: \")+(config.dimAfter?String(config.dimAfter)+t(\" s\",\" с\"):t(\"never\",\"никогда\"))},"
+   "src/UiHires.inc:360: {IcScreen,ColInfo,t(\"Screen off: \",\"Гасить экран: \")+(config.dimAfter?String(config.dimAfter)+t(\" s\",\" с\"):t(\"never\",\"никогда\"))},"
   ]
  },
  "f3b78c07": {
@@ -13435,18 +14542,6 @@
    "src/Ui.cpp:610: if(page==Radio){switch(i){case 0:return String(c.frequency,3)+t(\" MHz\",\" МГц\");case 1:return String(c.bandwidth,1)+t(\" kHz\",\" кГц\");case 2:return \"SF\"+String(c.sf);case 3:return \"4/\"+String(c.cr);case 4:return String(c.p",
    "src/UiHeltec.cpp:686: say(0,21,roleShort(config.role),bold);if(meshRadio.ready)sayRight(128,20,String(config.frequency,3)+t(\" MHz\",\" МГц\"));else sayRight(128,20,hardware.fsOk?t(\"Radio error\",\"Ошибка радио\"):t(\"No storage\",\"Нет хранилища\"));",
    "src/UiHeltec.cpp:718: if(meshRadio.ready){sayRight(128,20,String(config.frequency,3)+t(\" MHz\",\" МГц\"));sayRight(128,30,\"SF\"+String(config.sf)+\" BW\"+String(config.bandwidth,1));}else sayRight(128,24,t(\"Radio error \",\"Ошибка радио \")+String(mes"
-  ]
- },
- "f53f52d9": {
-  "cells": 8,
-  "families": [
-   "compact",
-   "full"
-  ],
-  "where": [
-   "src/UiDice.inc:18: String diceModeName(uint8_t m){return m==dice::Rpg?String(\"RPG\"):m==dice::Grid?String(\"Warhammer\"):t(\"Counters\",\"Счётчики\");}",
-   "src/UiDiceCompact.inc:9: String diceModeName(uint8_t m){return m==dice::Rpg?String(\"RPG\"):m==dice::Grid?String(\"Warhammer\"):t(\"Counters\",\"Счётчики\");}",
-   "src/UiDiceCompact.inc:100: if(s.mode==dice::Tally){const auto& c=dicer.hero();return t(\"Counters\",\"Счётчики\")+(c.counters?\" \"+String(diceCounterSel+1)+\"/\"+String(c.counters):String());}"
   ]
  },
  "f639bb47": {
@@ -13553,6 +14648,15 @@
    "src/UiTally.inc:38: tallyArmKey=key;tallyArmed=millis();notice(key==Erase?t(\"DEL again: delete\",\"Ещё раз DEL: удалить\"):t(\"R again: reset to 0\",\"Ещё раз R: сбросить в 0\"),warn);return false;"
   ]
  },
+ "f85d8ac1": {
+  "cells": 60,
+  "families": [
+   "full"
+  ],
+  "where": [
+   "src/UiDice.inc:227: String detail=i==dice::DndTemplate?t(\"6 stats, AC, hit points, 18 skills, slots\",\"6 характеристик, КД, хиты, 18 навыков, ячейки\"):i==dice::RetTemplate?t(\"Stat tree, dice by level, health, sanity, luck\",\"Дерево параметров"
+  ]
+ },
  "f8c2e2b0": {
   "cells": 8,
   "families": [
@@ -13629,7 +14733,7 @@
   "where": [
    "src/UiHeltec.cpp:441: case ActScreen:return t(\"Screen off: \",\"Гасить: \")+(config.dimAfter?String(config.dimAfter)+t(\" s\",\" с\"):t(\"never\",\"никогда\"));case ActContrast:return t(\"Contrast: \",\"Контраст: \")+String(config.brightness);",
    "src/UiHeltec.cpp:779: say(0,36,t(\"Screen off: \",\"Гасить экран: \")+(config.dimAfter?String(config.dimAfter)+t(\" s\",\" с\"):t(\"never\",\"никогда\")),small);say(0,44,t(\"Contrast: \",\"Контраст: \")+String(config.brightness),small);",
-   "src/UiHires.inc:321: {IcGear,ColDim,t(\"Contrast: \",\"Контраст: \")+String(config.brightness)},"
+   "src/UiHires.inc:361: {IcGear,ColDim,t(\"Contrast: \",\"Контраст: \")+String(config.brightness)},"
   ]
  },
  "f9b1ccca": {
@@ -13638,7 +14742,16 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:110: if(!c.rolls){icon(IcDice,160,112,14,faint,cardHi);textCenter(160,146,t(\"No saved rolls\",\"Сохранённых бросков нет\"),dim);textCenter(160,162,t(\"A: save a formula with a name\",\"A: сохранить формулу с именем\"),faint,small);}"
+   "src/UiDice.inc:199: if(!count){icon(IcDice,160,112,14,faint,cardHi);textCenter(160,146,t(\"No saved rolls\",\"Сохранённых бросков нет\"),dim);textCenter(160,162,t(\"A: save a formula with a name\",\"A: сохранить формулу с именем\"),faint,small);}"
+  ]
+ },
+ "f9f644e0": {
+  "cells": 3,
+  "families": [
+   "shared"
+  ],
+  "where": [
+   "src/Dice.cpp:337: String names[6]={t(\"STR\",\"СИЛ\"),t(\"DEX\",\"ЛОВ\"),t(\"CON\",\"ТЕЛ\"),t(\"INT\",\"ИНТ\"),t(\"WIS\",\"МДР\"),t(\"CHA\",\"ХАР\")};"
   ]
  },
  "fa43649a": {
@@ -13738,7 +14851,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:121: text(18,64,t(\"Characters\",\"Персонажи\"),ink,bold);textRight(302,64,String(s.characters)+\"/\"+String(dice::Characters),faint,small);"
+   "src/UiDice.inc:210: text(18,64,t(\"Characters\",\"Персонажи\"),ink,bold);textRight(302,64,String(s.characters)+\"/\"+String(dice::Characters),faint,small);"
   ]
  },
  "fbcdc319": {
@@ -13759,23 +14872,31 @@
    "src/UiHeltec.cpp:525: case ActCalibrate:if(radar.beaconHeard()){radar.calibrate();notice(t(\"Calibrating 10 s\",\"Калибровка 10 с\"));}else notice(t(\"No beacon heard\",\"Маяк не слышен\"));break;"
   ]
  },
+ "fbe55d29": {
+  "cells": 17,
+  "families": [
+   "compact"
+  ],
+  "where": [
+   "src/UiDiceCompact.inc:74: case ActDiceDecline:return t(\"Decline the sheet\",\"Отклонить лист\");"
+  ]
+ },
  "fc25f0c0": {
   "cells": 13,
   "families": [
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:37: else if(key==0xa4){if(diceTapUndo)dicer.setCounter(diceCounterSel,diceTapBefore);diceTapUndo=diceTapping=false;notice(t(\"Counting done\",\"Счёт завершён\"));}"
+   "src/UiDiceCompact.inc:48: else if(key==0xa4){if(diceTapUndo)dicer.setValue(i,diceTapBefore);diceTapUndo=diceTapping=false;notice(t(\"Counting done\",\"Счёт завершён\"));}"
   ]
  },
- "fc8c1178": {
-  "cells": 22,
+ "fc8f7da9": {
+  "cells": 16,
   "families": [
-   "full"
+   "shared"
   ],
   "where": [
-   "src/UiDice.inc:157: case EditNewName:if(dicer.addRoll(diceDraft,edit)){editing=false;diceSel=c.rolls-1;notice(t(\"Roll saved\",\"Бросок сохранён\"),ok);}else bad1(c.rolls>=dice::Rolls?t(\"10 saved rolls at most\",\"Не больше 10 бросков\"):nameError",
-   "src/UiDice.inc:212: if(key=='a'||key=='A'){if(n>=int(dice::Rolls))notice(t(\"10 saved rolls at most\",\"Не больше 10 бросков\"),warn);else diceEdit(EditNewFormula,dicer.poolText());return true;}"
+   "src/Dice.cpp:386: add(Ability,Half,Circle,Plain,\"\",t(\"Talent: Shooting\",\"Талант: Стрельба\"),0,0,\"r3+@fine!\",0);note(t(\"A talent: the die of its own level plus the level of its stat.\",\"Талант: куб своего уровня плюс уровень параметра-основ"
   ]
  },
  "fcaab742": {
@@ -13784,7 +14905,7 @@
    "compact"
   ],
   "where": [
-   "src/UiDiceCompact.inc:48: case ActDiceType:case ActDiceGridType:return t(\"Die: \",\"Кость: \")+diceTypeName(a==ActDiceType?s.type:s.gridType);"
+   "src/UiDiceCompact.inc:59: case ActDiceType:case ActDiceGridType:return t(\"Die: \",\"Кость: \")+diceTypeName(a==ActDiceType?s.type:s.gridType);"
   ]
  },
  "fcc3ce37": {
@@ -13940,7 +15061,7 @@
    "full"
   ],
   "where": [
-   "src/UiDice.inc:133: if(diceSheet==DiceSaved){drawDiceSaved();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"A\",t(\"Add\",\"Добавить\")},{\"^v\",t(\"Select\",\"Выбор\")},{\"BACK\",t(\"Close\",\"Закрыть\")}});return;}",
+   "src/UiDice.inc:256: case DiceSaved:drawDiceSaved();footer({{\"OK\",t(\"Roll\",\"Бросить\")},{\"A\",t(\"Add\",\"Добавить\")},{\"^v\",t(\"Select\",\"Выбор\")},{\"BACK\",t(\"Close\",\"Закрыть\")}});return;",
    "src/UiTally.inc:32: if(adding)footer({{\"OK\",t(\"Add\",\"Добавить\")},{\"<>\",t(\"Cards\",\"Карточки\")},{\"BACK\",t(\"Exit\",\"Выход\")}});"
   ]
  },

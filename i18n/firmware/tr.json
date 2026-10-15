@@ -234,15 +234,445 @@
   "ru": "Турнир: нет свободного места",
   "text": "Turnuva: boş yer yok"
  },
- "22423572": {
-  "en": "Counter ",
-  "ru": "Счётчик ",
-  "text": "Sayaç "
- },
  "a521fdd8": {
   "en": "General",
   "ru": "Общий",
   "text": "Genel"
+ },
+ "c0c558ee": {
+  "en": "Mark",
+  "ru": "Отметить",
+  "text": "İşaretle"
+ },
+ "ab6fbe0b": {
+  "en": "Use",
+  "ru": "Применить",
+  "text": "Uygula"
+ },
+ "23b35276": {
+  "en": "No block with code ",
+  "ru": "Нет блока с кодом ",
+  "text": "Bu kodla blok yok: "
+ },
+ "1e9b954e": {
+  "en": "Not enough: ",
+  "ru": "Не хватает: ",
+  "text": "Yetersiz: "
+ },
+ "ed34c2d5": {
+  "en": "The formula does not compute",
+  "ru": "Формула не считается",
+  "text": "Formül hesaplanamıyor"
+ },
+ "baa190e9": {
+  "en": "Marks",
+  "ru": "Отметки",
+  "text": "İşaretler"
+ },
+ "a1f5edbc": {
+  "en": "Ability",
+  "ru": "Способность",
+  "text": "Yetenek"
+ },
+ "26282b58": {
+  "en": "Notes",
+  "ru": "Заметки",
+  "text": "Notlar"
+ },
+ "90446a7a": {
+  "en": "Section",
+  "ru": "Раздел",
+  "text": "Bölüm"
+ },
+ "b478a72f": {
+  "en": "STR",
+  "ru": "СИЛ",
+  "text": "GÜÇ"
+ },
+ "a5e550ca": {
+  "en": "DEX",
+  "ru": "ЛОВ",
+  "text": "ÇEV"
+ },
+ "f9f644e0": {
+  "en": "CON",
+  "ru": "ТЕЛ",
+  "text": "DAY"
+ },
+ "e73278a2": {
+  "en": "INT",
+  "ru": "ИНТ",
+  "text": "ZEK"
+ },
+ "3dc8649f": {
+  "en": "WIS",
+  "ru": "МДР",
+  "text": "BİL"
+ },
+ "17ae8b25": {
+  "en": "CHA",
+  "ru": "ХАР",
+  "text": "KAR"
+ },
+ "ed00fa0d": {
+  "en": "Proficiency",
+  "ru": "Мастерство",
+  "text": "Yeterlilik"
+ },
+ "0ba2e802": {
+  "en": "Armor class",
+  "ru": "Класс доспеха",
+  "text": "Zırh sınıfı"
+ },
+ "3c927275": {
+  "en": "Initiative",
+  "ru": "Инициатива",
+  "text": "İnisiyatif"
+ },
+ "2b663be9": {
+  "en": "Speed",
+  "ru": "Скорость",
+  "text": "Hız"
+ },
+ "e5dceda2": {
+  "en": "Hit points",
+  "ru": "Хиты",
+  "text": "Can puanı"
+ },
+ "134ce2e4": {
+  "en": "Hit dice",
+  "ru": "Кости хитов",
+  "text": "Can zarları"
+ },
+ "287e02c3": {
+  "en": "Death: saves",
+  "ru": "Смерть: успехи",
+  "text": "Ölüm: başarı"
+ },
+ "edd3cba9": {
+  "en": "Death: fails",
+  "ru": "Смерть: провалы",
+  "text": "Ölüm: başarısız"
+ },
+ "754ea536": {
+  "en": "Attacks",
+  "ru": "Атаки",
+  "text": "Saldırılar"
+ },
+ "93c8b75f": {
+  "en": "Attack",
+  "ru": "Атака",
+  "text": "Saldırı"
+ },
+ "d8f206ca": {
+  "en": "Melee: STR + proficiency. Finesse or ranged: change @str to @dex.",
+  "ru": "Ближний бой: СИЛ + мастерство. Фехтовальное или дальнобойное: замените @str на @dex.",
+  "text": "Yakın dövüş: GÜÇ + yeterlilik. Zarif ya da menzilli: @str yerine @dex yazın."
+ },
+ "61b2b6dc": {
+  "en": "Damage",
+  "ru": "Урон",
+  "text": "Hasar"
+ },
+ "083006b7": {
+  "en": "Skills",
+  "ru": "Навыки",
+  "text": "Beceriler"
+ },
+ "f133d5b4": {
+  "en": "Acrobatics",
+  "ru": "Акробатика",
+  "text": "Akrobasi"
+ },
+ "cafbc847": {
+  "en": "Animal Handling",
+  "ru": "Уход за животными",
+  "text": "Hayvan Terbiyesi"
+ },
+ "e7005165": {
+  "en": "Arcana",
+  "ru": "Магия",
+  "text": "Arkana"
+ },
+ "1d52b27b": {
+  "en": "Athletics",
+  "ru": "Атлетика",
+  "text": "Atletizm"
+ },
+ "5255200b": {
+  "en": "Deception",
+  "ru": "Обман",
+  "text": "Aldatma"
+ },
+ "754a17a2": {
+  "en": "History",
+  "ru": "История",
+  "text": "Tarih"
+ },
+ "70131023": {
+  "en": "Insight",
+  "ru": "Проницательность",
+  "text": "İçgörü"
+ },
+ "2fe5d64c": {
+  "en": "Intimidation",
+  "ru": "Запугивание",
+  "text": "Gözdağı"
+ },
+ "ba5c62ed": {
+  "en": "Investigation",
+  "ru": "Анализ",
+  "text": "Araştırma"
+ },
+ "7cd504e5": {
+  "en": "Medicine",
+  "ru": "Медицина",
+  "text": "Tıp"
+ },
+ "24f54510": {
+  "en": "Nature",
+  "ru": "Природа",
+  "text": "Doğa"
+ },
+ "b4d49a31": {
+  "en": "Perception",
+  "ru": "Восприятие",
+  "text": "Algı"
+ },
+ "529ee6ca": {
+  "en": "Performance",
+  "ru": "Выступление",
+  "text": "Gösteri"
+ },
+ "52e38488": {
+  "en": "Religion",
+  "ru": "Религия",
+  "text": "Din"
+ },
+ "88de00dc": {
+  "en": "Sleight of Hand",
+  "ru": "Ловкость рук",
+  "text": "El Çabukluğu"
+ },
+ "c7cc0357": {
+  "en": "Stealth",
+  "ru": "Скрытность",
+  "text": "Gizlilik"
+ },
+ "3d2ab823": {
+  "en": "Persuasion",
+  "ru": "Убеждение",
+  "text": "İkna"
+ },
+ "f1fd2cf6": {
+  "en": "Survival",
+  "ru": "Выживание",
+  "text": "Hayatta Kalma"
+ },
+ "2480a0b0": {
+  "en": "Magic",
+  "ru": "Магия",
+  "text": "Büyü"
+ },
+ "ed3cff16": {
+  "en": "Slots, level 1",
+  "ru": "Ячейки 1 круга",
+  "text": "1. seviye yuva"
+ },
+ "7b538b6a": {
+  "en": "Inspiration",
+  "ru": "Вдохновение",
+  "text": "İlham"
+ },
+ "9ff63298": {
+  "en": "Equipment",
+  "ru": "Снаряжение",
+  "text": "Ekipman"
+ },
+ "53b5a623": {
+  "en": "Mind",
+  "ru": "Разум",
+  "text": "Zihin"
+ },
+ "875bc45a": {
+  "en": "Emotions",
+  "ru": "Эмоции",
+  "text": "Duygular"
+ },
+ "72cf5600": {
+  "en": "Body",
+  "ru": "Тело",
+  "text": "Beden"
+ },
+ "59897c89": {
+  "en": "Intellect",
+  "ru": "Интеллект",
+  "text": "Zekâ"
+ },
+ "c544eba1": {
+  "en": "Empathy",
+  "ru": "Эмпатия",
+  "text": "Empati"
+ },
+ "c79cd1ef": {
+  "en": "Will",
+  "ru": "Воля",
+  "text": "İrade"
+ },
+ "712a7007": {
+  "en": "Strength",
+  "ru": "Сила",
+  "text": "Güç"
+ },
+ "37813a0c": {
+  "en": "Agility",
+  "ru": "Ловкость",
+  "text": "Çeviklik"
+ },
+ "28da84a3": {
+  "en": "Education",
+  "ru": "Образование",
+  "text": "Eğitim"
+ },
+ "c74322b8": {
+  "en": "Wits",
+  "ru": "Сообразительность",
+  "text": "Kavrayış"
+ },
+ "3bd30657": {
+  "en": "Attention",
+  "ru": "Внимание",
+  "text": "Dikkat"
+ },
+ "685b8070": {
+  "en": "Intuition",
+  "ru": "Интуиция",
+  "text": "Sezgi"
+ },
+ "5bef85ef": {
+  "en": "Charisma",
+  "ru": "Харизма",
+  "text": "Karizma"
+ },
+ "c0bc8c0a": {
+  "en": "Composure",
+  "ru": "Самообладание",
+  "text": "Soğukkanlılık"
+ },
+ "9cc29aa1": {
+  "en": "Leadership",
+  "ru": "Лидерство",
+  "text": "Liderlik"
+ },
+ "2d57e7f8": {
+  "en": "Physique",
+  "ru": "Телосложение",
+  "text": "Bünye"
+ },
+ "edc7a2c3": {
+  "en": "Endurance",
+  "ru": "Выносливость",
+  "text": "Dayanıklılık"
+ },
+ "46b668cb": {
+  "en": "Fine motor",
+  "ru": "Мелкая моторика",
+  "text": "İnce motorik"
+ },
+ "8cd30453": {
+  "en": "Body control",
+  "ru": "Контроль тела",
+  "text": "Beden kontrolü"
+ },
+ "cbefd188": {
+  "en": "Sanity",
+  "ru": "Рассудок",
+  "text": "Akıl sağlığı"
+ },
+ "8b4f535c": {
+  "en": "Luck",
+  "ru": "Удача",
+  "text": "Şans"
+ },
+ "5b6ba3e5": {
+  "en": "Declared before a roll and added to it; a failure burns it. A failure gives 1 luck, a critical one 3.",
+  "ru": "Заявляется до броска и прибавляется к нему, при провале сгорает. Провал даёт 1 удачи, критический — 3.",
+  "text": "Atıştan önce bildirilir ve ona eklenir; başarısızlıkta yanar. Başarısızlık 1 şans, kritik olanı 3 verir."
+ },
+ "43846a23": {
+  "en": "Level",
+  "ru": "Уровень",
+  "text": "Seviye"
+ },
+ "c1e6c1ab": {
+  "en": "Strike",
+  "ru": "Сила удара",
+  "text": "Vuruş gücü"
+ },
+ "ef0a0d6f": {
+  "en": "Growth points",
+  "ru": "Очки развития",
+  "text": "Gelişim puanı"
+ },
+ "b26e4ba3": {
+  "en": "Skills and talents",
+  "ru": "Навыки и таланты",
+  "text": "Beceri ve hünerler"
+ },
+ "a3aaaf5d": {
+  "en": "Skill: Persuasion",
+  "ru": "Навык: Убеждение",
+  "text": "Beceri: İkna"
+ },
+ "75c9867d": {
+  "en": "A skill: the die of its stat plus the skill's level (3 at the start, 7 at most).",
+  "ru": "Навык: куб параметра плюс уровень навыка (на старте 3, не больше 7).",
+  "text": "Beceri: özelliğin zarı artı becerinin seviyesi (başta 3, en çok 7)."
+ },
+ "fc8f7da9": {
+  "en": "Talent: Shooting",
+  "ru": "Талант: Стрельба",
+  "text": "Hüner: Atıcılık"
+ },
+ "bf19f12f": {
+  "en": "A talent: the die of its own level plus the level of its stat.",
+  "ru": "Талант: куб своего уровня плюс уровень параметра-основы.",
+  "text": "Hüner: kendi seviyesinin zarı artı temel özelliğin seviyesi."
+ },
+ "0232d141": {
+  "en": "Dodge",
+  "ru": "Уклонение",
+  "text": "Kaçınma"
+ },
+ "dbb9c4a0": {
+  "en": "Rolls",
+  "ru": "Броски",
+  "text": "Atışlar"
+ },
+ "254276bb": {
+  "en": "The top value of a die is a success: roll the die of the next level and add it, up to d100. A 1 is a failure: d4 of failure, 1 is critical; bonuses are lost.",
+  "ru": "Максимум — успех: + куб следующего уровня (до d100). Единица — провал: d4, на 1 — критический, бонусы сгорают.",
+  "text": "Zarın en yüksek değeri başarıdır: sonraki seviyenin zarını atıp ekleyin, d100'e kadar. 1 başarısızlıktır: başarısızlık için d4, 1 gelirse kritik; bonuslar yanar."
+ },
+ "ed4ac5a0": {
+  "en": "Sending the sheet to ",
+  "ru": "Отправка листа: ",
+  "text": "Sayfa gönderiliyor: "
+ },
+ "1f9080b6": {
+  "en": "Sheet delivered to ",
+  "ru": "Лист доставлен: ",
+  "text": "Sayfa iletildi: "
+ },
+ "4f3d9c85": {
+  "en": "Sheet not delivered to ",
+  "ru": "Лист не доставлен: ",
+  "text": "Sayfa iletilmedi: "
+ },
+ "857767dd": {
+  "en": "Character sheet from ",
+  "ru": "Лист персонажа от ",
+  "text": "Gelen sayfa: "
  },
  "576dfcbc": {
   "en": "Paused: access point on",
@@ -4634,15 +5064,35 @@
   "ru": "Кому: ",
   "text": "Kime: "
  },
- "753a50c9": {
-  "en": "Counters: life, wounds, resources",
-  "ru": "Счётчики: жизни, раны, ресурсы",
-  "text": "Sayaçlar: can, yara, kaynak"
+ "8db3dc56": {
+  "en": "Empty: write on the web page",
+  "ru": "Пусто: заполните на веб-странице",
+  "text": "Boş: web sayfasında doldurun"
  },
- "847159d6": {
-  "en": "N: name   C: colour   DEL: delete",
-  "ru": "N: имя   C: цвет   DEL: удалить",
-  "text": "N: ad   C: renk   DEL: sil"
+ "54007713": {
+  "en": "The sheet is empty",
+  "ru": "Лист пуст",
+  "text": "Sayfa boş"
+ },
+ "53ed2c15": {
+  "en": "P, A: a character from D&D or R.E.T.",
+  "ru": "P, A: персонаж из D&D или Р.Э.Т.",
+  "text": "P, A: D&D veya R.E.T. karakteri"
+ },
+ "40f96906": {
+  "en": "Blocks: on the web page or in the app",
+  "ru": "Блоки: на веб-странице или в приложении",
+  "text": "Bloklar: web sayfasında veya uygulamada"
+ },
+ "62bdb04c": {
+  "en": "max = ",
+  "ru": "макс. = ",
+  "text": "maks. = "
+ },
+ "c0de6bb4": {
+  "en": "I: more",
+  "ru": "I: далее",
+  "text": "I: devamı"
  },
  "2a033d73": {
   "en": "Saved rolls · ",
@@ -4664,45 +5114,125 @@
   "ru": "F: формула  N: имя  C: цвет  DEL: удалить",
   "text": "F: formül  N: ad  C: renk  DEL: sil"
  },
+ "bd7b3d19": {
+  "en": "Sheet",
+  "ru": "Лист",
+  "text": "Sayfa"
+ },
  "fbc08e80": {
   "en": "Characters",
   "ru": "Персонажи",
   "text": "Karakterler"
  },
- "1bde5876": {
+ "683693d8": {
+  "en": "O: sheet from ",
+  "ru": "O: лист от ",
+  "text": "O: gelen sayfa: "
+ },
+ "9388530a": {
   "en": {
-   "one": "roll",
-   "other": "rolls"
+   "one": "block",
+   "other": "blocks"
   },
   "ru": {
-   "one": "бросок",
-   "few": "броска",
-   "many": "бросков"
+   "one": "блок",
+   "few": "блока",
+   "many": "блоков"
   },
   "forms": {
-   "one": "{n} atış",
-   "other": "{n} atış"
+   "one": "{n} blok",
+   "other": "{n} blok"
   }
  },
- "7f5f4e27": {
-  "en": {
-   "one": "counter",
-   "other": "counters"
-  },
-  "ru": {
-   "one": "счётчик",
-   "few": "счётчика",
-   "many": "счётчиков"
-  },
-  "forms": {
-   "one": "{n} sayaç",
-   "other": "{n} sayaç"
-  }
+ "d14c9078": {
+  "en": "A: new  N: name  S: send  DEL: delete",
+  "ru": "A: новый  N: имя  S: отправить  DEL: удалить",
+  "text": "A: yeni  N: ad  S: gönder  DEL: sil"
  },
- "2faba250": {
-  "en": "A: new   N: rename   DEL: delete",
-  "ru": "A: новый   N: имя   DEL: удалить",
-  "text": "A: yeni   N: ad   DEL: sil"
+ "7c7e42ff": {
+  "en": "R.E.T. (Mind, Emotions, Body)",
+  "ru": "Р.Э.Т. (Разум, Эмоции, Тело)",
+  "text": "R.E.T. (Zihin, Duygular, Beden)"
+ },
+ "a37452dd": {
+  "en": "Empty sheet",
+  "ru": "Пустой лист",
+  "text": "Boş sayfa"
+ },
+ "336d57a2": {
+  "en": "Sheet of ",
+  "ru": "Лист: ",
+  "text": "Sayfa: "
+ },
+ "2c2de947": {
+  "en": "6 stats, AC, hit points, 18 skills, slots",
+  "ru": "6 характеристик, КД, хиты, 18 навыков, ячейки",
+  "text": "6 özellik, ZS, can puanı, 18 beceri, yuvalar"
+ },
+ "f85d8ac1": {
+  "en": "Stat tree, dice by level, health, sanity, luck",
+  "ru": "Дерево параметров, кубы по уровню, здоровье, рассудок, удача",
+  "text": "Özellik ağacı, seviyeye göre zar, sağlık, akıl sağlığı, şans"
+ },
+ "685746dd": {
+  "en": "One counter; blocks from the web page",
+  "ru": "Один счётчик; блоки — на веб-странице",
+  "text": "Tek sayaç; bloklar web sayfasından"
+ },
+ "47698093": {
+  "en": "Send the sheet: ",
+  "ru": "Отправить лист: ",
+  "text": "Sayfayı gönder: "
+ },
+ "b02f3570": {
+  "en": "No chat contacts yet",
+  "ru": "Пока нет контактов-собеседников",
+  "text": "Henüz sohbet kişisi yok"
+ },
+ "5cfad88d": {
+  "en": " hops",
+  "ru": " хоп.",
+  "text": " atl."
+ },
+ "02ac6627": {
+  "en": "Delivered to ",
+  "ru": "Доставлен: ",
+  "text": "İletildi: "
+ },
+ "33894318": {
+  "en": "Not delivered to ",
+  "ru": "Не доставлен: ",
+  "text": "İletilmedi: "
+ },
+ "82433458": {
+  "en": "Sending: part ",
+  "ru": "Отправка: часть ",
+  "text": "Gönderiliyor: parça "
+ },
+ "0f10aa88": {
+  "en": "Parts go one by one, each with its ACK",
+  "ru": "Части уходят по одной, каждая с подтверждением",
+  "text": "Parçalar tek tek gider, her biri ACK ile"
+ },
+ "6e017f89": {
+  "en": "No sheets sent to you",
+  "ru": "Вам не присылали листов",
+  "text": "Size sayfa gönderilmedi"
+ },
+ "ae4cbe4b": {
+  "en": "from ",
+  "ru": "от ",
+  "text": "kimden: "
+ },
+ "c2a9f50e": {
+  "en": "A character sheet came over the mesh. Accept it as a new character?",
+  "ru": "По сети пришёл лист персонажа. Добавить его новым персонажем?",
+  "text": "Ağdan bir karakter sayfası geldi. Yeni karakter olarak eklensin mi?"
+ },
+ "b3e34b39": {
+  "en": "6 characters at most: delete one first",
+  "ru": "Не больше 6 персонажей: сначала удалите одного",
+  "text": "En fazla 6 karakter: önce birini silin"
  },
  "4be35553": {
   "en": "Roll",
@@ -4718,6 +5248,16 @@
   "en": "Close",
   "ru": "Закрыть",
   "text": "Kapat"
+ },
+ "9461ecf5": {
+  "en": "Send",
+  "ru": "Отправить",
+  "text": "Gönder"
+ },
+ "a377db8b": {
+  "en": "Decline",
+  "ru": "Отклонить",
+  "text": "Reddet"
  },
  "7c3624b1": {
   "en": "Saved",
@@ -4764,6 +5304,11 @@
   "ru": "Имя броска",
   "text": "Atış adı"
  },
+ "bdd474ca": {
+  "en": "Value: ",
+  "ru": "Значение: ",
+  "text": "Değer: "
+ },
  "8ced0833": {
   "en": "New character",
   "ru": "Новый персонаж",
@@ -4779,10 +5324,25 @@
   "ru": "OK: бросить   BACK: отменить",
   "text": "OK: at   BACK: iptal"
  },
- "47a608e8": {
-  "en": "2d6+1, d20, 4d6-2, d%, d66",
-  "ru": "2d6+1, d20, 4к6-2, d%, d66",
-  "text": "2d6+1, d20, 4d6-2, d%, d66"
+ "69541534": {
+  "en": "Critical failure (d4: 1)",
+  "ru": "Критический провал (d4: 1)",
+  "text": "Kritik başarısızlık (d4: 1)"
+ },
+ "95d4f097": {
+  "en": "Failure, d4: ",
+  "ru": "Провал, d4: ",
+  "text": "Başarısız, d4: "
+ },
+ "904a1eca": {
+  "en": "23 sets it, +5 or -7 changes it",
+  "ru": "23 - задать, +5 или -7 - изменить",
+  "text": "23 ayarlar, +5 veya -7 değiştirir"
+ },
+ "b556ba90": {
+  "en": "2d6+1, d20, 4d6-2, d%, d66, r4",
+  "ru": "2d6+1, d20, 4к6-2, d%, d66, r4",
+  "text": "2d6+1, d20, 4d6-2, d%, d66, r4"
  },
  "3b05ab8e": {
   "en": "Formula: 2d6+1, d20, d%, d66",
@@ -4799,15 +5359,30 @@
   "ru": "Бросок сохранён",
   "text": "Atış kaydedildi"
  },
- "fc8c1178": {
-  "en": "10 saved rolls at most",
-  "ru": "Не больше 10 бросков",
-  "text": "En fazla 10 atış"
+ "c7549e7b": {
+  "en": "64 blocks at most",
+  "ru": "Не больше 64 блоков",
+  "text": "En fazla 64 blok"
  },
  "e93489cf": {
   "en": "Formula saved",
   "ru": "Формула сохранена",
   "text": "Formül kaydedildi"
+ },
+ "12ae6876": {
+  "en": "Success x",
+  "ru": "Успех x",
+  "text": "Başarı x"
+ },
+ "1a0576b6": {
+  "en": "Success",
+  "ru": "Успех",
+  "text": "Başarı"
+ },
+ "5ba1cdf0": {
+  "en": "A number: 23, +5, -7",
+  "ru": "Число: 23, +5, -7",
+  "text": "Bir sayı: 23, +5, -7"
  },
  "a55a28b5": {
   "en": "DEL again: delete",
@@ -4819,20 +5394,15 @@
   "ru": "Не больше 50 костей",
   "text": "En fazla 50 zar"
  },
- "f53f52d9": {
-  "en": "Counters",
-  "ru": "Счётчики",
-  "text": "Sayaçlar"
+ "0927f7a3": {
+  "en": "Computed by its formula",
+  "ru": "Считается по формуле",
+  "text": "Formülle hesaplanır"
  },
- "7f0e2ad9": {
-  "en": "6 counters at most",
-  "ru": "Не больше 6 счётчиков",
-  "text": "En fazla 6 sayaç"
- },
- "113cbc15": {
-  "en": "Counter deleted",
-  "ru": "Счётчик удалён",
-  "text": "Sayaç silindi"
+ "8e7738b2": {
+  "en": "No value here",
+  "ru": "Здесь нет значения",
+  "text": "Burada değer yok"
  },
  "78b42472": {
   "en": "Roll deleted",
@@ -4853,6 +5423,11 @@
   "en": "Character deleted",
   "ru": "Персонаж удалён",
   "text": "Karakter silindi"
+ },
+ "0cf7b383": {
+  "en": "Sheet declined",
+  "ru": "Лист отклонён",
+  "text": "Sayfa reddedildi"
  },
  "97bf0171": {
   "en": "OK: roll ",
@@ -4919,25 +5494,20 @@
   "ru": "A: +5 костей   R: сброс   D: кость   T, +/-: порог",
   "text": "A: +5 zar   R: sıfırla   D: zar   T, +/-: eşik"
  },
- "76fe485a": {
-  "en": "A: add",
-  "ru": "A: добавить",
-  "text": "A: ekle"
+ "22423572": {
+  "en": "Counter ",
+  "ru": "Счётчик ",
+  "text": "Sayaç "
  },
  "07a7234e": {
   "en": "Dice ",
   "ru": "Кости ",
   "text": "Zar "
  },
- "61af3343": {
-  "en": "No counters",
-  "ru": "Счётчиков нет",
-  "text": "Sayaç yok"
- },
- "5f0511a3": {
-  "en": "Add one in the menu",
-  "ru": "Добавьте в меню",
-  "text": "Menüden ekle"
+ "47882878": {
+  "en": "Blocks: web page, app",
+  "ru": "Блоки: веб, приложение",
+  "text": "Bloklar: web, uygulama"
  },
  "2eb80aa3": {
   "en": "No rolls yet",
@@ -4948,6 +5518,11 @@
   "en": "Click to roll",
   "ru": "Клик - бросить",
   "text": "Atmak için tıkla"
+ },
+ "3414a928": {
+  "en": "Critical failure",
+  "ru": "Критический провал",
+  "text": "Kritik başarısızlık"
  },
  "fc25f0c0": {
   "en": "Counting done",
@@ -5019,10 +5594,15 @@
   "ru": "Ещё 5 костей",
   "text": "5 zar ekle"
  },
- "3eab825d": {
-  "en": "Next counter",
-  "ru": "Другой счётчик",
-  "text": "Sonraki sayaç"
+ "77bcf2fd": {
+  "en": "Next block",
+  "ru": "Следующий блок",
+  "text": "Sonraki blok"
+ },
+ "429cae82": {
+  "en": "Previous block",
+  "ru": "Предыдущий блок",
+  "text": "Önceki blok"
  },
  "7ec8f659": {
   "en": "Add counter",
@@ -5033,6 +5613,16 @@
   "en": "Count with button",
   "ru": "Считать кнопкой",
   "text": "Düğmeyle say"
+ },
+ "b4184ab6": {
+  "en": "Accept sheet: ",
+  "ru": "Принять лист: ",
+  "text": "Sayfayı kabul et: "
+ },
+ "fbe55d29": {
+  "en": "Decline the sheet",
+  "ru": "Отклонить лист",
+  "text": "Sayfayı reddet"
  },
  "96da71cd": {
   "en": "Choose dice: Dice +1",
@@ -5063,11 +5653,6 @@
   "en": "path ?",
   "ru": "путь ?",
   "text": "yol ?"
- },
- "5cfad88d": {
-  "en": " hops",
-  "ru": " хоп.",
-  "text": " atl."
  },
  "8c0d6692": {
   "en": "repeater",
@@ -6249,6 +6834,11 @@
   "ru": "клик +1 держ-меню",
   "text": "tık +1 basılı-menü"
  },
+ "2a4aaf5e": {
+  "en": "click-next hold-menu",
+  "ru": "клик-далее держ-меню",
+  "text": "tık-ileri basılı-menü"
+ },
  "a8a8a9c7": {
   "en": "click-roll hold-menu",
   "ru": "клик-бросок держ-меню",
@@ -7218,6 +7808,11 @@
   "en": "The last counter stays",
   "ru": "Последний счётчик остаётся",
   "text": "Son sayaç kalır"
+ },
+ "113cbc15": {
+  "en": "Counter deleted",
+  "ru": "Счётчик удалён",
+  "text": "Sayaç silindi"
  },
  "1f4a8e16": {
   "en": "on",

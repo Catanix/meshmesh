@@ -28,7 +28,7 @@ MeshCore nodes.
 - **Motion sensor** — two boards detect a person walking between them (Wi-Fi CSI).
 - **Chess** with your contacts over the mesh, and Klondike solitaire on the M9.
 - **Mesh pet** — a Tamagotchi-like pixel creature on every board that feeds on radio traffic, grows up and can die of hunger or loneliness. [docs/en/pet.md](docs/en/pet.md)
-- **Dice** — the DIC3R dice roller on every board: RPG pools and formulas (2d6+1, d20, d66, d%), a Warhammer grid with a success threshold, counters and characters, the same on the screen, the web page and the app. [docs/en/dice.md](docs/en/dice.md)
+- **Dice** — the DIC3R dice roller on every board: RPG pools and formulas (2d6+1, d20, d66, d%), a Warhammer grid with a success threshold and a character sheet of blocks (stats, tracks, marks, abilities that roll and spend) with D&D 5e and R.E.T. templates, built on the web page or in the app and sent to a contact over the mesh; the same on the screen, the web page and the app. [docs/en/dice.md](docs/en/dice.md)
 - **Chess without MeshMesh on your device**: [the chess page](https://ikrasnodymov.github.io/meshmesh/chess/) plays through a
   board running the official MeshCore Companion firmware, over USB (Web Serial) or Bluetooth (Web Bluetooth), in Chrome or Edge.
 - **Repeater and room server modes** — chosen at boot (M9 screen, Heltec button) or in Settings,
@@ -111,6 +111,8 @@ the RSSI tracker and radar HUDs by [Stevee87](https://github.com/Stevee87).
 Release 0.4.0: [event waits on every board](docs/en/power.md) and [independent firmware/Android versions and publishing](docs/en/releases.md). Battery-life gains have not been measured.
 
 Firmware 0.4.1 reduces history-export memory use and reports allocation failures explicitly; Android remains 0.4.0.
+
+Firmware 0.25.0 and Android 0.18.0: the [character sheet](docs/en/dice.md#the-character-sheet) replaces the dice counters (they become its tracks); D&D 5e and R.E.T. templates, formulas between blocks, sending a sheet to a contact; the nRF52 libraries are built for size (`-Os`).
 
 Firmware 0.8.1: switching off also writes the dice counters changed in the last two seconds.
 

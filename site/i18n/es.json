@@ -235,7 +235,7 @@
  "doc.pet": "Mascota de la red",
  "news.dice": "<b>Nuevo:</b> dados — el lanzador DIC3R para rol y Warhammer en todas las placas",
  "f.dice.t": "Dados",
- "f.dice.d": "El lanzador de dados DIC3R en todas las placas. Rol: una reserva como 2d6+1 o cualquier fórmula, cada dado con su forma, la suma; d66 y d%. Warhammer: una cuadrícula de hasta 50 dados, ordenados de mayor a menor, con umbral de éxito. Contadores de vida y recursos, personajes con sus tiradas guardadas. El dispositivo lo guarda todo: la pantalla, la página web y la app muestran las mismas tiradas. En una placa de un solo botón, el propio botón cuenta: clic +1, mantener −1, mantener 5 s para salir.",
+ "f.dice.d": "El lanzador de dados DIC3R en todas las placas. Rol: una reserva como 2d6+1 o cualquier fórmula, cada dado con su forma, la suma; d66 y d%. Warhammer: una cuadrícula de hasta 50 dados, ordenados de mayor a menor, con umbral de éxito. Una hoja de personaje hecha de bloques; las tiradas guardadas son sus aptitudes. El dispositivo lo guarda todo: la pantalla, la página web y la app muestran las mismas tiradas. En una placa de un solo botón, el propio botón cuenta: clic +1, mantener −1, mantener 5 s para salir.",
  "shot.m9-dice-shapes": "Cada dado con su forma: de d4 a d20",
  "shot.t114-dice-saved": "Una tirada guardada en el T114",
  "shot.m9-dice-grid": "Warhammer: 8 éxitos a 4+",
@@ -280,5 +280,14 @@
  "shot.m9-people-cards": "Una tarjeta del contador",
  "shot.m9-people-new": "Una tarjeta nueva",
  "shot.t114-people-two": "T114: dos tarjetas",
- "shot.heltec-people-two": "Heltec: dos tarjetas"
+ "shot.heltec-people-two": "Heltec: dos tarjetas",
+ "news.sheet": "<b>Nuevo:</b> una hoja de personaje en Dados: bloques, plantillas de D&D y R.E.T., envío por la red",
+ "f.sheet.t": "Hoja de personaje",
+ "f.sheet.d": "Una hoja hecha de bloques en Dados: atributos en círculos, cuadrados, escudos, rombos y hexágonos, barras de puntos de golpe y maná, marcas para espacios de conjuro y salvaciones contra muerte, aptitudes con tirada, coste y descripción, notas. Los bloques se refieren unos a otros: CA = 10+@dex, una tirada d20+@dex+@pb. Plantillas listas para D&D 5e (modificadores de característica) y R.E.T. (el árbol Mente — Emociones — Cuerpo, un dado según el nivel, un éxito suma el dado del nivel siguiente). Se crea en la página web o en la app y se juega en la pantalla de cualquier placa. Envía una hoja a un contacto por MeshCore: llega en partes confirmadas y propone añadir el personaje.",
+ "shot.m9-dice-sheet": "Una hoja de D&D en el M9",
+ "shot.m9-dice-sheet-ret": "R.E.T.: dados por nivel",
+ "shot.t114-dice-sheet": "T114: la hoja en color",
+ "shot.m9-dice-templates": "Un personaje nuevo desde una plantilla",
+ "shot.heltec-dice-sheet": "OLED: bloque a bloque",
+ "shot.m9-dice-offer": "Una hoja de un contacto"
 }

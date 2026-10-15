@@ -235,7 +235,7 @@
  "doc.pet": "Animal du réseau",
  "news.dice": "<b>Nouveau :</b> dés — le lanceur DIC3R pour le JdR et Warhammer sur toutes les cartes",
  "f.dice.t": "Dés",
- "f.dice.d": "Le lanceur de dés DIC3R sur toutes les cartes. JdR : une réserve comme 2d6+1 ou toute formule, chaque dé dans sa forme, la somme ; d66 et d%. Warhammer : une grille jusqu’à 50 dés, du plus fort au plus faible, avec seuil de réussite. Compteurs de vie et de ressources, personnages avec leurs jets enregistrés. L’appareil garde tout : l’écran, la page web et l’appli montrent les mêmes jets. Sur une carte à un seul bouton, le bouton compte lui-même : clic +1, maintien −1, maintien 5 s pour sortir.",
+ "f.dice.d": "Le lanceur de dés DIC3R sur toutes les cartes. JdR : une réserve comme 2d6+1 ou toute formule, chaque dé dans sa forme, la somme ; d66 et d%. Warhammer : une grille jusqu’à 50 dés, du plus fort au plus faible, avec seuil de réussite. Une fiche de personnage faite de blocs ; les jets enregistrés en sont les capacités. L’appareil garde tout : l’écran, la page web et l’appli montrent les mêmes jets. Sur une carte à un seul bouton, le bouton compte lui-même : clic +1, maintien −1, maintien 5 s pour sortir.",
  "shot.m9-dice-shapes": "Chaque dé dans sa forme : de d4 à d20",
  "shot.t114-dice-saved": "Un jet enregistré sur le T114",
  "shot.m9-dice-grid": "Warhammer : 8 réussites à 4+",
@@ -280,5 +280,14 @@
  "shot.m9-people-cards": "Une carte de compteur",
  "shot.m9-people-new": "Une nouvelle carte",
  "shot.t114-people-two": "T114 : deux cartes",
- "shot.heltec-people-two": "Heltec : deux cartes"
+ "shot.heltec-people-two": "Heltec : deux cartes",
+ "news.sheet": "<b>Nouveau :</b> une fiche de personnage dans les Dés — blocs, modèles D&D et R.E.T., envoi par le réseau",
+ "f.sheet.t": "Fiche de personnage",
+ "f.sheet.d": "Une fiche faite de blocs dans les Dés : caractéristiques dans des cercles, carrés, boucliers, losanges et hexagones, jauges de points de vie et de mana, cases pour les emplacements de sorts et les jets de sauvegarde contre la mort, capacités avec un jet, un coût et une description, notes. Les blocs se réfèrent les uns aux autres : CA = 10+@dex, un jet d20+@dex+@pb. Modèles prêts pour D&D 5e (modificateurs de caractéristiques) et R.E.T. (l’arbre Esprit — Émotions — Corps, un dé selon le niveau, une réussite ajoute le dé du niveau suivant). On la construit sur la page web ou dans l’appli, on joue sur l’écran de n’importe quelle carte. Envoyez une fiche à un contact via MeshCore : elle arrive en parties confirmées et propose d’ajouter le personnage.",
+ "shot.m9-dice-sheet": "Une fiche D&D sur le M9",
+ "shot.m9-dice-sheet-ret": "R.E.T. : des dés selon le niveau",
+ "shot.t114-dice-sheet": "T114 : la fiche en couleur",
+ "shot.m9-dice-templates": "Un nouveau personnage à partir d’un modèle",
+ "shot.heltec-dice-sheet": "OLED : bloc par bloc",
+ "shot.m9-dice-offer": "Une fiche reçue d’un contact"
 }

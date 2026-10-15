@@ -9,3 +9,6 @@ void drawIcon(Adafruit_GFX& d,Icon id,int cx,int cy,int s,uint16_t c,uint16_t ho
 // diamond, d10 a kite, d12 a pentagon, d20 a hexagon with a facet in edge, d66, d% and other dice a tile for
 // two digits. s: half the size. The value is written by the caller (each screen has its fonts).
 void drawDieShape(Adafruit_GFX& d,uint8_t shape,int cx,int cy,int s,uint16_t fill,uint16_t edge,uint16_t face,unsigned pips);
+// A stat's shape on the character sheet by its dice::Shape: a circle, a square, a shield, a diamond, a hexagon;
+// r: half the size, edge: a two-pixel outline in the block's colour. The value is written by the caller.
+void drawStatShape(Adafruit_GFX& d,uint8_t shape,int cx,int cy,int r,uint16_t fill,uint16_t edge);

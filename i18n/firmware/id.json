@@ -234,15 +234,445 @@
   "ru": "Турнир: нет свободного места",
   "text": "Turnamen: tak ada slot kosong"
  },
- "22423572": {
-  "en": "Counter ",
-  "ru": "Счётчик ",
-  "text": "Hitungan "
- },
  "a521fdd8": {
   "en": "General",
   "ru": "Общий",
   "text": "Umum"
+ },
+ "c0c558ee": {
+  "en": "Mark",
+  "ru": "Отметить",
+  "text": "Tandai"
+ },
+ "ab6fbe0b": {
+  "en": "Use",
+  "ru": "Применить",
+  "text": "Pakai"
+ },
+ "23b35276": {
+  "en": "No block with code ",
+  "ru": "Нет блока с кодом ",
+  "text": "Tak ada blok kode "
+ },
+ "1e9b954e": {
+  "en": "Not enough: ",
+  "ru": "Не хватает: ",
+  "text": "Kurang: "
+ },
+ "ed34c2d5": {
+  "en": "The formula does not compute",
+  "ru": "Формула не считается",
+  "text": "Rumus tak bisa dihitung"
+ },
+ "baa190e9": {
+  "en": "Marks",
+  "ru": "Отметки",
+  "text": "Tanda"
+ },
+ "a1f5edbc": {
+  "en": "Ability",
+  "ru": "Способность",
+  "text": "Kemampuan"
+ },
+ "26282b58": {
+  "en": "Notes",
+  "ru": "Заметки",
+  "text": "Catatan"
+ },
+ "90446a7a": {
+  "en": "Section",
+  "ru": "Раздел",
+  "text": "Bagian"
+ },
+ "b478a72f": {
+  "en": "STR",
+  "ru": "СИЛ",
+  "text": "STR"
+ },
+ "a5e550ca": {
+  "en": "DEX",
+  "ru": "ЛОВ",
+  "text": "DEX"
+ },
+ "f9f644e0": {
+  "en": "CON",
+  "ru": "ТЕЛ",
+  "text": "CON"
+ },
+ "e73278a2": {
+  "en": "INT",
+  "ru": "ИНТ",
+  "text": "INT"
+ },
+ "3dc8649f": {
+  "en": "WIS",
+  "ru": "МДР",
+  "text": "WIS"
+ },
+ "17ae8b25": {
+  "en": "CHA",
+  "ru": "ХАР",
+  "text": "CHA"
+ },
+ "ed00fa0d": {
+  "en": "Proficiency",
+  "ru": "Мастерство",
+  "text": "Proficiency"
+ },
+ "0ba2e802": {
+  "en": "Armor class",
+  "ru": "Класс доспеха",
+  "text": "Armor Class"
+ },
+ "3c927275": {
+  "en": "Initiative",
+  "ru": "Инициатива",
+  "text": "Inisiatif"
+ },
+ "2b663be9": {
+  "en": "Speed",
+  "ru": "Скорость",
+  "text": "Kecepatan"
+ },
+ "e5dceda2": {
+  "en": "Hit points",
+  "ru": "Хиты",
+  "text": "Hit Points"
+ },
+ "134ce2e4": {
+  "en": "Hit dice",
+  "ru": "Кости хитов",
+  "text": "Hit Dice"
+ },
+ "287e02c3": {
+  "en": "Death: saves",
+  "ru": "Смерть: успехи",
+  "text": "Maut: berhasil"
+ },
+ "edd3cba9": {
+  "en": "Death: fails",
+  "ru": "Смерть: провалы",
+  "text": "Maut: gagal"
+ },
+ "754ea536": {
+  "en": "Attacks",
+  "ru": "Атаки",
+  "text": "Serangan"
+ },
+ "93c8b75f": {
+  "en": "Attack",
+  "ru": "Атака",
+  "text": "Serangan"
+ },
+ "d8f206ca": {
+  "en": "Melee: STR + proficiency. Finesse or ranged: change @str to @dex.",
+  "ru": "Ближний бой: СИЛ + мастерство. Фехтовальное или дальнобойное: замените @str на @dex.",
+  "text": "Jarak dekat: STR + proficiency. Finesse atau jarak jauh: ganti @str dengan @dex."
+ },
+ "61b2b6dc": {
+  "en": "Damage",
+  "ru": "Урон",
+  "text": "Damage"
+ },
+ "083006b7": {
+  "en": "Skills",
+  "ru": "Навыки",
+  "text": "Skill"
+ },
+ "f133d5b4": {
+  "en": "Acrobatics",
+  "ru": "Акробатика",
+  "text": "Acrobatics"
+ },
+ "cafbc847": {
+  "en": "Animal Handling",
+  "ru": "Уход за животными",
+  "text": "Animal Handling"
+ },
+ "e7005165": {
+  "en": "Arcana",
+  "ru": "Магия",
+  "text": "Arcana"
+ },
+ "1d52b27b": {
+  "en": "Athletics",
+  "ru": "Атлетика",
+  "text": "Athletics"
+ },
+ "5255200b": {
+  "en": "Deception",
+  "ru": "Обман",
+  "text": "Deception"
+ },
+ "754a17a2": {
+  "en": "History",
+  "ru": "История",
+  "text": "History"
+ },
+ "70131023": {
+  "en": "Insight",
+  "ru": "Проницательность",
+  "text": "Insight"
+ },
+ "2fe5d64c": {
+  "en": "Intimidation",
+  "ru": "Запугивание",
+  "text": "Intimidation"
+ },
+ "ba5c62ed": {
+  "en": "Investigation",
+  "ru": "Анализ",
+  "text": "Investigation"
+ },
+ "7cd504e5": {
+  "en": "Medicine",
+  "ru": "Медицина",
+  "text": "Medicine"
+ },
+ "24f54510": {
+  "en": "Nature",
+  "ru": "Природа",
+  "text": "Nature"
+ },
+ "b4d49a31": {
+  "en": "Perception",
+  "ru": "Восприятие",
+  "text": "Persepsi"
+ },
+ "529ee6ca": {
+  "en": "Performance",
+  "ru": "Выступление",
+  "text": "Performance"
+ },
+ "52e38488": {
+  "en": "Religion",
+  "ru": "Религия",
+  "text": "Religion"
+ },
+ "88de00dc": {
+  "en": "Sleight of Hand",
+  "ru": "Ловкость рук",
+  "text": "Sleight of Hand"
+ },
+ "c7cc0357": {
+  "en": "Stealth",
+  "ru": "Скрытность",
+  "text": "Stealth"
+ },
+ "3d2ab823": {
+  "en": "Persuasion",
+  "ru": "Убеждение",
+  "text": "Persuasion"
+ },
+ "f1fd2cf6": {
+  "en": "Survival",
+  "ru": "Выживание",
+  "text": "Survival"
+ },
+ "2480a0b0": {
+  "en": "Magic",
+  "ru": "Магия",
+  "text": "Sihir"
+ },
+ "ed3cff16": {
+  "en": "Slots, level 1",
+  "ru": "Ячейки 1 круга",
+  "text": "Slot level 1"
+ },
+ "7b538b6a": {
+  "en": "Inspiration",
+  "ru": "Вдохновение",
+  "text": "Inspirasi"
+ },
+ "9ff63298": {
+  "en": "Equipment",
+  "ru": "Снаряжение",
+  "text": "Perlengkapan"
+ },
+ "53b5a623": {
+  "en": "Mind",
+  "ru": "Разум",
+  "text": "Pikiran"
+ },
+ "875bc45a": {
+  "en": "Emotions",
+  "ru": "Эмоции",
+  "text": "Emosi"
+ },
+ "72cf5600": {
+  "en": "Body",
+  "ru": "Тело",
+  "text": "Tubuh"
+ },
+ "59897c89": {
+  "en": "Intellect",
+  "ru": "Интеллект",
+  "text": "Intelek"
+ },
+ "c544eba1": {
+  "en": "Empathy",
+  "ru": "Эмпатия",
+  "text": "Empati"
+ },
+ "c79cd1ef": {
+  "en": "Will",
+  "ru": "Воля",
+  "text": "Tekad"
+ },
+ "712a7007": {
+  "en": "Strength",
+  "ru": "Сила",
+  "text": "Kekuatan"
+ },
+ "37813a0c": {
+  "en": "Agility",
+  "ru": "Ловкость",
+  "text": "Kelincahan"
+ },
+ "28da84a3": {
+  "en": "Education",
+  "ru": "Образование",
+  "text": "Pendidikan"
+ },
+ "c74322b8": {
+  "en": "Wits",
+  "ru": "Сообразительность",
+  "text": "Kecerdikan"
+ },
+ "3bd30657": {
+  "en": "Attention",
+  "ru": "Внимание",
+  "text": "Perhatian"
+ },
+ "685b8070": {
+  "en": "Intuition",
+  "ru": "Интуиция",
+  "text": "Intuisi"
+ },
+ "5bef85ef": {
+  "en": "Charisma",
+  "ru": "Харизма",
+  "text": "Karisma"
+ },
+ "c0bc8c0a": {
+  "en": "Composure",
+  "ru": "Самообладание",
+  "text": "Ketenangan"
+ },
+ "9cc29aa1": {
+  "en": "Leadership",
+  "ru": "Лидерство",
+  "text": "Kepemimpinan"
+ },
+ "2d57e7f8": {
+  "en": "Physique",
+  "ru": "Телосложение",
+  "text": "Fisik"
+ },
+ "edc7a2c3": {
+  "en": "Endurance",
+  "ru": "Выносливость",
+  "text": "Daya tahan"
+ },
+ "46b668cb": {
+  "en": "Fine motor",
+  "ru": "Мелкая моторика",
+  "text": "Motorik halus"
+ },
+ "8cd30453": {
+  "en": "Body control",
+  "ru": "Контроль тела",
+  "text": "Kontrol tubuh"
+ },
+ "cbefd188": {
+  "en": "Sanity",
+  "ru": "Рассудок",
+  "text": "Kewarasan"
+ },
+ "8b4f535c": {
+  "en": "Luck",
+  "ru": "Удача",
+  "text": "Hoki"
+ },
+ "5b6ba3e5": {
+  "en": "Declared before a roll and added to it; a failure burns it. A failure gives 1 luck, a critical one 3.",
+  "ru": "Заявляется до броска и прибавляется к нему, при провале сгорает. Провал даёт 1 удачи, критический — 3.",
+  "text": "Dinyatakan sebelum lemparan dan ditambahkan; hangus jika gagal. Gagal memberi 1 hoki, gagal kritis 3."
+ },
+ "43846a23": {
+  "en": "Level",
+  "ru": "Уровень",
+  "text": "Level"
+ },
+ "c1e6c1ab": {
+  "en": "Strike",
+  "ru": "Сила удара",
+  "text": "Daya pukul"
+ },
+ "ef0a0d6f": {
+  "en": "Growth points",
+  "ru": "Очки развития",
+  "text": "Poin progres"
+ },
+ "b26e4ba3": {
+  "en": "Skills and talents",
+  "ru": "Навыки и таланты",
+  "text": "Keahlian dan bakat"
+ },
+ "a3aaaf5d": {
+  "en": "Skill: Persuasion",
+  "ru": "Навык: Убеждение",
+  "text": "Keahlian: Persuasi"
+ },
+ "75c9867d": {
+  "en": "A skill: the die of its stat plus the skill's level (3 at the start, 7 at most).",
+  "ru": "Навык: куб параметра плюс уровень навыка (на старте 3, не больше 7).",
+  "text": "Keahlian: dadu parameternya ditambah level keahlian (awal 3, maks. 7)."
+ },
+ "fc8f7da9": {
+  "en": "Talent: Shooting",
+  "ru": "Талант: Стрельба",
+  "text": "Bakat: Menembak"
+ },
+ "bf19f12f": {
+  "en": "A talent: the die of its own level plus the level of its stat.",
+  "ru": "Талант: куб своего уровня плюс уровень параметра-основы.",
+  "text": "Bakat: dadu levelnya sendiri ditambah level parameter dasarnya."
+ },
+ "0232d141": {
+  "en": "Dodge",
+  "ru": "Уклонение",
+  "text": "Mengelak"
+ },
+ "dbb9c4a0": {
+  "en": "Rolls",
+  "ru": "Броски",
+  "text": "Lemparan"
+ },
+ "254276bb": {
+  "en": "The top value of a die is a success: roll the die of the next level and add it, up to d100. A 1 is a failure: d4 of failure, 1 is critical; bonuses are lost.",
+  "ru": "Максимум — успех: + куб следующего уровня (до d100). Единица — провал: d4, на 1 — критический, бонусы сгорают.",
+  "text": "Nilai tertinggi dadu berarti sukses: lempar dadu level berikutnya dan tambahkan, hingga d100. Angka 1 berarti gagal: d4 kegagalan, 1 berarti kritis; bonus hilang."
+ },
+ "ed4ac5a0": {
+  "en": "Sending the sheet to ",
+  "ru": "Отправка листа: ",
+  "text": "Mengirim lembar ke "
+ },
+ "1f9080b6": {
+  "en": "Sheet delivered to ",
+  "ru": "Лист доставлен: ",
+  "text": "Lembar terkirim ke "
+ },
+ "4f3d9c85": {
+  "en": "Sheet not delivered to ",
+  "ru": "Лист не доставлен: ",
+  "text": "Lembar tak terkirim ke "
+ },
+ "857767dd": {
+  "en": "Character sheet from ",
+  "ru": "Лист персонажа от ",
+  "text": "Lembar karakter dari "
  },
  "576dfcbc": {
   "en": "Paused: access point on",
@@ -4615,15 +5045,35 @@
   "ru": "Кому: ",
   "text": "Ke "
  },
- "753a50c9": {
-  "en": "Counters: life, wounds, resources",
-  "ru": "Счётчики: жизни, раны, ресурсы",
-  "text": "Hitungan: nyawa, luka, sumber daya"
+ "8db3dc56": {
+  "en": "Empty: write on the web page",
+  "ru": "Пусто: заполните на веб-странице",
+  "text": "Kosong: isi di halaman web"
  },
- "847159d6": {
-  "en": "N: name   C: colour   DEL: delete",
-  "ru": "N: имя   C: цвет   DEL: удалить",
-  "text": "N: nama   C: warna   DEL: hapus"
+ "54007713": {
+  "en": "The sheet is empty",
+  "ru": "Лист пуст",
+  "text": "Lembar kosong"
+ },
+ "53ed2c15": {
+  "en": "P, A: a character from D&D or R.E.T.",
+  "ru": "P, A: персонаж из D&D или Р.Э.Т.",
+  "text": "P, A: karakter dari D&D atau R.E.T."
+ },
+ "40f96906": {
+  "en": "Blocks: on the web page or in the app",
+  "ru": "Блоки: на веб-странице или в приложении",
+  "text": "Blok: di halaman web atau aplikasi"
+ },
+ "62bdb04c": {
+  "en": "max = ",
+  "ru": "макс. = ",
+  "text": "maks. = "
+ },
+ "c0de6bb4": {
+  "en": "I: more",
+  "ru": "I: далее",
+  "text": "I: lanjut"
  },
  "2a033d73": {
   "en": "Saved rolls · ",
@@ -4645,43 +5095,124 @@
   "ru": "F: формула  N: имя  C: цвет  DEL: удалить",
   "text": "F: rumus  N: nama  C: warna  DEL: hapus"
  },
+ "bd7b3d19": {
+  "en": "Sheet",
+  "ru": "Лист",
+  "text": "Lembar"
+ },
  "fbc08e80": {
   "en": "Characters",
   "ru": "Персонажи",
   "text": "Karakter"
  },
- "1bde5876": {
+ "683693d8": {
+  "en": "O: sheet from ",
+  "ru": "O: лист от ",
+  "text": "O: lembar dari "
+ },
+ "9388530a": {
   "en": {
-   "one": "roll",
-   "other": "rolls"
+   "one": "block",
+   "other": "blocks"
   },
   "ru": {
-   "one": "бросок",
-   "few": "броска",
-   "many": "бросков"
+   "one": "блок",
+   "few": "блока",
+   "many": "блоков"
   },
   "forms": {
-   "other": "{n} lemparan"
+   "other": "{n} blok"
   }
  },
- "7f5f4e27": {
-  "en": {
-   "one": "counter",
-   "other": "counters"
-  },
-  "ru": {
-   "one": "счётчик",
-   "few": "счётчика",
-   "many": "счётчиков"
-  },
-  "forms": {
-   "other": "{n} hitungan"
-  }
+ "d14c9078": {
+  "en": "A: new  N: name  S: send  DEL: delete",
+  "ru": "A: новый  N: имя  S: отправить  DEL: удалить",
+  "text": "A: baru  N: nama  S: kirim  DEL: hapus"
  },
- "2faba250": {
-  "en": "A: new   N: rename   DEL: delete",
-  "ru": "A: новый   N: имя   DEL: удалить",
-  "text": "A: baru   N: ganti nama   DEL: hapus"
+ "7c7e42ff": {
+  "en": "R.E.T. (Mind, Emotions, Body)",
+  "ru": "Р.Э.Т. (Разум, Эмоции, Тело)",
+  "text": "R.E.T. (Pikiran, Emosi, Tubuh)"
+ },
+ "a37452dd": {
+  "en": "Empty sheet",
+  "ru": "Пустой лист",
+  "text": "Lembar kosong"
+ },
+ "336d57a2": {
+  "en": "Sheet of ",
+  "ru": "Лист: ",
+  "text": "Lembar: "
+ },
+ "2c2de947": {
+  "en": "6 stats, AC, hit points, 18 skills, slots",
+  "ru": "6 характеристик, КД, хиты, 18 навыков, ячейки",
+  "text": "6 stat, AC, hit points, 18 skill, slot"
+ },
+ "f85d8ac1": {
+  "en": "Stat tree, dice by level, health, sanity, luck",
+  "ru": "Дерево параметров, кубы по уровню, здоровье, рассудок, удача",
+  "text": "Pohon parameter, dadu per level, sehat, kewarasan, hoki"
+ },
+ "685746dd": {
+  "en": "One counter; blocks from the web page",
+  "ru": "Один счётчик; блоки — на веб-странице",
+  "text": "Satu penghitung; blok dari halaman web"
+ },
+ "47698093": {
+  "en": "Send the sheet: ",
+  "ru": "Отправить лист: ",
+  "text": "Kirim lembar: "
+ },
+ "b02f3570": {
+  "en": "No chat contacts yet",
+  "ru": "Пока нет контактов-собеседников",
+  "text": "Belum ada kontak chat"
+ },
+ "5cfad88d": {
+  "en": " hops",
+  "ru": " хоп.",
+  "text": " hop"
+ },
+ "02ac6627": {
+  "en": "Delivered to ",
+  "ru": "Доставлен: ",
+  "text": "Terkirim ke "
+ },
+ "33894318": {
+  "en": "Not delivered to ",
+  "ru": "Не доставлен: ",
+  "text": "Tak terkirim ke "
+ },
+ "82433458": {
+  "en": "Sending: part ",
+  "ru": "Отправка: часть ",
+  "text": "Mengirim: bagian "
+ },
+ "0f10aa88": {
+  "en": "Parts go one by one, each with its ACK",
+  "ru": "Части уходят по одной, каждая с подтверждением",
+  "text": "Dikirim per bagian, masing-masing dengan ACK"
+ },
+ "6e017f89": {
+  "en": "No sheets sent to you",
+  "ru": "Вам не присылали листов",
+  "text": "Belum ada lembar masuk"
+ },
+ "ae4cbe4b": {
+  "en": "from ",
+  "ru": "от ",
+  "text": "dari "
+ },
+ "c2a9f50e": {
+  "en": "A character sheet came over the mesh. Accept it as a new character?",
+  "ru": "По сети пришёл лист персонажа. Добавить его новым персонажем?",
+  "text": "Lembar karakter datang lewat mesh. Terima sebagai karakter baru?"
+ },
+ "b3e34b39": {
+  "en": "6 characters at most: delete one first",
+  "ru": "Не больше 6 персонажей: сначала удалите одного",
+  "text": "Maksimal 6 karakter: hapus satu dulu"
  },
  "4be35553": {
   "en": "Roll",
@@ -4697,6 +5228,16 @@
   "en": "Close",
   "ru": "Закрыть",
   "text": "Tutup"
+ },
+ "9461ecf5": {
+  "en": "Send",
+  "ru": "Отправить",
+  "text": "Kirim"
+ },
+ "a377db8b": {
+  "en": "Decline",
+  "ru": "Отклонить",
+  "text": "Tolak"
  },
  "7c3624b1": {
   "en": "Saved",
@@ -4743,6 +5284,11 @@
   "ru": "Имя броска",
   "text": "Nama lemparan"
  },
+ "bdd474ca": {
+  "en": "Value: ",
+  "ru": "Значение: ",
+  "text": "Nilai: "
+ },
  "8ced0833": {
   "en": "New character",
   "ru": "Новый персонаж",
@@ -4758,10 +5304,25 @@
   "ru": "OK: бросить   BACK: отменить",
   "text": "OK: lempar   BACK: batal"
  },
- "47a608e8": {
-  "en": "2d6+1, d20, 4d6-2, d%, d66",
-  "ru": "2d6+1, d20, 4к6-2, d%, d66",
-  "text": "2d6+1, d20, 4d6-2, d%, d66"
+ "69541534": {
+  "en": "Critical failure (d4: 1)",
+  "ru": "Критический провал (d4: 1)",
+  "text": "Gagal kritis (d4: 1)"
+ },
+ "95d4f097": {
+  "en": "Failure, d4: ",
+  "ru": "Провал, d4: ",
+  "text": "Gagal, d4: "
+ },
+ "904a1eca": {
+  "en": "23 sets it, +5 or -7 changes it",
+  "ru": "23 - задать, +5 или -7 - изменить",
+  "text": "23 - atur, +5 atau -7 - ubah"
+ },
+ "b556ba90": {
+  "en": "2d6+1, d20, 4d6-2, d%, d66, r4",
+  "ru": "2d6+1, d20, 4к6-2, d%, d66, r4",
+  "text": "2d6+1, d20, 4d6-2, d%, d66, r4"
  },
  "3b05ab8e": {
   "en": "Formula: 2d6+1, d20, d%, d66",
@@ -4778,15 +5339,30 @@
   "ru": "Бросок сохранён",
   "text": "Lemparan disimpan"
  },
- "fc8c1178": {
-  "en": "10 saved rolls at most",
-  "ru": "Не больше 10 бросков",
-  "text": "Maksimal 10 lemparan"
+ "c7549e7b": {
+  "en": "64 blocks at most",
+  "ru": "Не больше 64 блоков",
+  "text": "Maksimal 64 blok"
  },
  "e93489cf": {
   "en": "Formula saved",
   "ru": "Формула сохранена",
   "text": "Rumus disimpan"
+ },
+ "12ae6876": {
+  "en": "Success x",
+  "ru": "Успех x",
+  "text": "Sukses x"
+ },
+ "1a0576b6": {
+  "en": "Success",
+  "ru": "Успех",
+  "text": "Sukses"
+ },
+ "5ba1cdf0": {
+  "en": "A number: 23, +5, -7",
+  "ru": "Число: 23, +5, -7",
+  "text": "Angka: 23, +5, -7"
  },
  "a55a28b5": {
   "en": "DEL again: delete",
@@ -4798,20 +5374,15 @@
   "ru": "Не больше 50 костей",
   "text": "Maksimal 50 dadu"
  },
- "f53f52d9": {
-  "en": "Counters",
-  "ru": "Счётчики",
-  "text": "Hitungan"
+ "0927f7a3": {
+  "en": "Computed by its formula",
+  "ru": "Считается по формуле",
+  "text": "Dihitung dari rumus"
  },
- "7f0e2ad9": {
-  "en": "6 counters at most",
-  "ru": "Не больше 6 счётчиков",
-  "text": "Maksimal 6 hitungan"
- },
- "113cbc15": {
-  "en": "Counter deleted",
-  "ru": "Счётчик удалён",
-  "text": "Hitungan dihapus"
+ "8e7738b2": {
+  "en": "No value here",
+  "ru": "Здесь нет значения",
+  "text": "Tak ada nilai di sini"
  },
  "78b42472": {
   "en": "Roll deleted",
@@ -4832,6 +5403,11 @@
   "en": "Character deleted",
   "ru": "Персонаж удалён",
   "text": "Karakter dihapus"
+ },
+ "0cf7b383": {
+  "en": "Sheet declined",
+  "ru": "Лист отклонён",
+  "text": "Lembar ditolak"
  },
  "97bf0171": {
   "en": "OK: roll ",
@@ -4897,25 +5473,20 @@
   "ru": "A: +5 костей   R: сброс   D: кость   T, +/-: порог",
   "text": "A: +5 dadu   R: reset   D: jenis   T, +/-: ambang"
  },
- "76fe485a": {
-  "en": "A: add",
-  "ru": "A: добавить",
-  "text": "A: tambah"
+ "22423572": {
+  "en": "Counter ",
+  "ru": "Счётчик ",
+  "text": "Hitungan "
  },
  "07a7234e": {
   "en": "Dice ",
   "ru": "Кости ",
   "text": "Dadu "
  },
- "61af3343": {
-  "en": "No counters",
-  "ru": "Счётчиков нет",
-  "text": "Hitungan kosong"
- },
- "5f0511a3": {
-  "en": "Add one in the menu",
-  "ru": "Добавьте в меню",
-  "text": "Tambah lewat menu"
+ "47882878": {
+  "en": "Blocks: web page, app",
+  "ru": "Блоки: веб, приложение",
+  "text": "Blok: web, aplikasi"
  },
  "2eb80aa3": {
   "en": "No rolls yet",
@@ -4926,6 +5497,11 @@
   "en": "Click to roll",
   "ru": "Клик - бросить",
   "text": "Klik untuk lempar"
+ },
+ "3414a928": {
+  "en": "Critical failure",
+  "ru": "Критический провал",
+  "text": "Gagal kritis"
  },
  "fc25f0c0": {
   "en": "Counting done",
@@ -4997,10 +5573,15 @@
   "ru": "Ещё 5 костей",
   "text": "Tambah 5 dadu"
  },
- "3eab825d": {
-  "en": "Next counter",
-  "ru": "Другой счётчик",
-  "text": "Hitungan lain"
+ "77bcf2fd": {
+  "en": "Next block",
+  "ru": "Следующий блок",
+  "text": "Blok berikutnya"
+ },
+ "429cae82": {
+  "en": "Previous block",
+  "ru": "Предыдущий блок",
+  "text": "Blok sebelumnya"
  },
  "7ec8f659": {
   "en": "Add counter",
@@ -5011,6 +5592,16 @@
   "en": "Count with button",
   "ru": "Считать кнопкой",
   "text": "Hitung dengan tombol"
+ },
+ "b4184ab6": {
+  "en": "Accept sheet: ",
+  "ru": "Принять лист: ",
+  "text": "Terima lembar: "
+ },
+ "fbe55d29": {
+  "en": "Decline the sheet",
+  "ru": "Отклонить лист",
+  "text": "Tolak lembar"
  },
  "96da71cd": {
   "en": "Choose dice: Dice +1",
@@ -5041,11 +5632,6 @@
   "en": "path ?",
   "ru": "путь ?",
   "text": "jalur ?"
- },
- "5cfad88d": {
-  "en": " hops",
-  "ru": " хоп.",
-  "text": " hop"
  },
  "8c0d6692": {
   "en": "repeater",
@@ -6226,6 +6812,11 @@
   "ru": "клик +1 держ-меню",
   "text": "klik +1 tahan-menu"
  },
+ "2a4aaf5e": {
+  "en": "click-next hold-menu",
+  "ru": "клик-далее держ-меню",
+  "text": "klik-maju tahan-menu"
+ },
  "a8a8a9c7": {
   "en": "click-roll hold-menu",
   "ru": "клик-бросок держ-меню",
@@ -7192,6 +7783,11 @@
   "en": "The last counter stays",
   "ru": "Последний счётчик остаётся",
   "text": "Penghitung terakhir tetap"
+ },
+ "113cbc15": {
+  "en": "Counter deleted",
+  "ru": "Счётчик удалён",
+  "text": "Hitungan dihapus"
  },
  "1f4a8e16": {
   "en": "on",

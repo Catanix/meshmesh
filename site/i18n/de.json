@@ -235,7 +235,7 @@
  "doc.pet": "Mesh-Haustier",
  "news.dice": "<b>Neu:</b> Würfel — der Würfler DIC3R für RPG und Warhammer auf jeder Platine",
  "f.dice.t": "Würfel",
- "f.dice.d": "Der Würfler DIC3R auf jeder Platine. RPG: ein Pool wie 2d6+1 oder jede Formel, jeder Würfel in seiner Form, die Summe; d66 und d%. Warhammer: ein Raster bis 50 Würfel, vom höchsten zum niedrigsten, mit Erfolgsschwelle. Zähler für Leben und Ressourcen, Charaktere mit eigenen gespeicherten Würfen. Das Gerät speichert alles, daher zeigen Bildschirm, Webseite und App dieselben Würfe. Auf Boards mit einer Taste zählt die Taste selbst: Klick +1, Halten −1, 5 s halten zum Beenden.",
+ "f.dice.d": "Der Würfler DIC3R auf jeder Platine. RPG: ein Pool wie 2d6+1 oder jede Formel, jeder Würfel in seiner Form, die Summe; d66 und d%. Warhammer: ein Raster bis 50 Würfel, vom höchsten zum niedrigsten, mit Erfolgsschwelle. Ein Charakterbogen aus Blöcken; gespeicherte Würfe sind seine Fähigkeiten. Das Gerät speichert alles, daher zeigen Bildschirm, Webseite und App dieselben Würfe. Auf Boards mit einer Taste zählt die Taste selbst: Klick +1, Halten −1, 5 s halten zum Beenden.",
  "shot.m9-dice-shapes": "Jeder Würfel in seiner Form: d4 bis d20",
  "shot.t114-dice-saved": "Ein gespeicherter Wurf auf dem T114",
  "shot.m9-dice-grid": "Warhammer: 8 Erfolge bei 4+",
@@ -280,5 +280,14 @@
  "shot.m9-people-cards": "Eine Zählerkarte",
  "shot.m9-people-new": "Eine neue Karte",
  "shot.t114-people-two": "T114: zwei Karten",
- "shot.heltec-people-two": "Heltec: zwei Karten"
+ "shot.heltec-people-two": "Heltec: zwei Karten",
+ "news.sheet": "<b>Neu:</b> ein Charakterbogen in den Würfeln — Blöcke, Vorlagen für D&D und R.E.T., Versand über das Mesh",
+ "f.sheet.t": "Charakterbogen",
+ "f.sheet.d": "Ein Bogen aus Blöcken in den Würfeln: Attribute in Kreisen, Quadraten, Schilden, Rauten und Sechsecken, Leisten für Treffer- und Manapunkte, Marken für Zauberplätze und Todesrettungswürfe, Fähigkeiten mit Wurf, Kosten und Beschreibung, Notizen. Blöcke verweisen aufeinander: RK = 10+@dex, ein Wurf d20+@dex+@pb. Fertige Vorlagen für D&D 5e (Attributsmodifikatoren) und R.E.T. (der Baum Verstand — Emotionen — Körper, ein Würfel je Stufe, ein Erfolg addiert den Würfel der nächsten Stufe). Gebaut wird auf der Webseite oder in der App, gespielt auf dem Bildschirm jeder Platine. Einen Bogen können Sie über MeshCore an einen Kontakt senden: Er kommt in bestätigten Teilen an und bietet an, den Charakter hinzuzufügen.",
+ "shot.m9-dice-sheet": "Ein D&D-Bogen auf dem M9",
+ "shot.m9-dice-sheet-ret": "R.E.T.: Würfel nach Stufe",
+ "shot.t114-dice-sheet": "T114: der Bogen in Farbe",
+ "shot.m9-dice-templates": "Ein neuer Charakter aus einer Vorlage",
+ "shot.heltec-dice-sheet": "OLED: Block für Block",
+ "shot.m9-dice-offer": "Ein Bogen von einem Kontakt"
 }

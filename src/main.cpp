@@ -1,3 +1,6 @@
+#if defined(MM_NRF52)
+#pragma GCC optimize("Os") // 1 MB flash: the start-up and the USB commands are not speed-critical (the rest of our nRF52 code is -O2)
+#endif
 #include "Version.h"
 #include <Arduino.h>
 #include "App.h"

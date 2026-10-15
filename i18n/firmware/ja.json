@@ -234,15 +234,445 @@
   "ru": "Турнир: нет свободного места",
   "text": "大会:空きがありません"
  },
- "22423572": {
-  "en": "Counter ",
-  "ru": "Счётчик ",
-  "text": "カウンタ "
- },
  "a521fdd8": {
   "en": "General",
   "ru": "Общий",
   "text": "共通"
+ },
+ "c0c558ee": {
+  "en": "Mark",
+  "ru": "Отметить",
+  "text": "マーク"
+ },
+ "ab6fbe0b": {
+  "en": "Use",
+  "ru": "Применить",
+  "text": "使用"
+ },
+ "23b35276": {
+  "en": "No block with code ",
+  "ru": "Нет блока с кодом ",
+  "text": "該当ブロックなし: "
+ },
+ "1e9b954e": {
+  "en": "Not enough: ",
+  "ru": "Не хватает: ",
+  "text": "不足: "
+ },
+ "ed34c2d5": {
+  "en": "The formula does not compute",
+  "ru": "Формула не считается",
+  "text": "数式を計算できません"
+ },
+ "baa190e9": {
+  "en": "Marks",
+  "ru": "Отметки",
+  "text": "マーク"
+ },
+ "a1f5edbc": {
+  "en": "Ability",
+  "ru": "Способность",
+  "text": "能力"
+ },
+ "26282b58": {
+  "en": "Notes",
+  "ru": "Заметки",
+  "text": "メモ"
+ },
+ "90446a7a": {
+  "en": "Section",
+  "ru": "Раздел",
+  "text": "見出し"
+ },
+ "b478a72f": {
+  "en": "STR",
+  "ru": "СИЛ",
+  "text": "筋"
+ },
+ "a5e550ca": {
+  "en": "DEX",
+  "ru": "ЛОВ",
+  "text": "敏"
+ },
+ "f9f644e0": {
+  "en": "CON",
+  "ru": "ТЕЛ",
+  "text": "耐"
+ },
+ "e73278a2": {
+  "en": "INT",
+  "ru": "ИНТ",
+  "text": "知"
+ },
+ "3dc8649f": {
+  "en": "WIS",
+  "ru": "МДР",
+  "text": "判"
+ },
+ "17ae8b25": {
+  "en": "CHA",
+  "ru": "ХАР",
+  "text": "魅"
+ },
+ "ed00fa0d": {
+  "en": "Proficiency",
+  "ru": "Мастерство",
+  "text": "習熟ボーナス"
+ },
+ "0ba2e802": {
+  "en": "Armor class",
+  "ru": "Класс доспеха",
+  "text": "アーマークラス"
+ },
+ "3c927275": {
+  "en": "Initiative",
+  "ru": "Инициатива",
+  "text": "イニシアチブ"
+ },
+ "2b663be9": {
+  "en": "Speed",
+  "ru": "Скорость",
+  "text": "移動速度"
+ },
+ "e5dceda2": {
+  "en": "Hit points",
+  "ru": "Хиты",
+  "text": "ヒットポイント"
+ },
+ "134ce2e4": {
+  "en": "Hit dice",
+  "ru": "Кости хитов",
+  "text": "ヒットダイス"
+ },
+ "287e02c3": {
+  "en": "Death: saves",
+  "ru": "Смерть: успехи",
+  "text": "死亡セーヴ成功"
+ },
+ "edd3cba9": {
+  "en": "Death: fails",
+  "ru": "Смерть: провалы",
+  "text": "死亡セーヴ失敗"
+ },
+ "754ea536": {
+  "en": "Attacks",
+  "ru": "Атаки",
+  "text": "攻撃"
+ },
+ "93c8b75f": {
+  "en": "Attack",
+  "ru": "Атака",
+  "text": "攻撃"
+ },
+ "d8f206ca": {
+  "en": "Melee: STR + proficiency. Finesse or ranged: change @str to @dex.",
+  "ru": "Ближний бой: СИЛ + мастерство. Фехтовальное или дальнобойное: замените @str на @dex.",
+  "text": "近接: 筋力+習熟ボーナス。妙技か遠隔なら @str を @dex に変更。"
+ },
+ "61b2b6dc": {
+  "en": "Damage",
+  "ru": "Урон",
+  "text": "ダメージ"
+ },
+ "083006b7": {
+  "en": "Skills",
+  "ru": "Навыки",
+  "text": "技能"
+ },
+ "f133d5b4": {
+  "en": "Acrobatics",
+  "ru": "Акробатика",
+  "text": "軽業"
+ },
+ "cafbc847": {
+  "en": "Animal Handling",
+  "ru": "Уход за животными",
+  "text": "動物使い"
+ },
+ "e7005165": {
+  "en": "Arcana",
+  "ru": "Магия",
+  "text": "魔法学"
+ },
+ "1d52b27b": {
+  "en": "Athletics",
+  "ru": "Атлетика",
+  "text": "運動"
+ },
+ "5255200b": {
+  "en": "Deception",
+  "ru": "Обман",
+  "text": "ペテン"
+ },
+ "754a17a2": {
+  "en": "History",
+  "ru": "История",
+  "text": "歴史"
+ },
+ "70131023": {
+  "en": "Insight",
+  "ru": "Проницательность",
+  "text": "看破"
+ },
+ "2fe5d64c": {
+  "en": "Intimidation",
+  "ru": "Запугивание",
+  "text": "威圧"
+ },
+ "ba5c62ed": {
+  "en": "Investigation",
+  "ru": "Анализ",
+  "text": "捜査"
+ },
+ "7cd504e5": {
+  "en": "Medicine",
+  "ru": "Медицина",
+  "text": "医術"
+ },
+ "24f54510": {
+  "en": "Nature",
+  "ru": "Природа",
+  "text": "自然"
+ },
+ "b4d49a31": {
+  "en": "Perception",
+  "ru": "Восприятие",
+  "text": "知覚"
+ },
+ "529ee6ca": {
+  "en": "Performance",
+  "ru": "Выступление",
+  "text": "芸能"
+ },
+ "52e38488": {
+  "en": "Religion",
+  "ru": "Религия",
+  "text": "宗教"
+ },
+ "88de00dc": {
+  "en": "Sleight of Hand",
+  "ru": "Ловкость рук",
+  "text": "手先の早業"
+ },
+ "c7cc0357": {
+  "en": "Stealth",
+  "ru": "Скрытность",
+  "text": "隠密"
+ },
+ "3d2ab823": {
+  "en": "Persuasion",
+  "ru": "Убеждение",
+  "text": "説得"
+ },
+ "f1fd2cf6": {
+  "en": "Survival",
+  "ru": "Выживание",
+  "text": "生存"
+ },
+ "2480a0b0": {
+  "en": "Magic",
+  "ru": "Магия",
+  "text": "魔法"
+ },
+ "ed3cff16": {
+  "en": "Slots, level 1",
+  "ru": "Ячейки 1 круга",
+  "text": "呪文スロット1"
+ },
+ "7b538b6a": {
+  "en": "Inspiration",
+  "ru": "Вдохновение",
+  "text": "鼓舞"
+ },
+ "9ff63298": {
+  "en": "Equipment",
+  "ru": "Снаряжение",
+  "text": "装備"
+ },
+ "53b5a623": {
+  "en": "Mind",
+  "ru": "Разум",
+  "text": "精神"
+ },
+ "875bc45a": {
+  "en": "Emotions",
+  "ru": "Эмоции",
+  "text": "感情"
+ },
+ "72cf5600": {
+  "en": "Body",
+  "ru": "Тело",
+  "text": "肉体"
+ },
+ "59897c89": {
+  "en": "Intellect",
+  "ru": "Интеллект",
+  "text": "知性"
+ },
+ "c544eba1": {
+  "en": "Empathy",
+  "ru": "Эмпатия",
+  "text": "共感"
+ },
+ "c79cd1ef": {
+  "en": "Will",
+  "ru": "Воля",
+  "text": "意志"
+ },
+ "712a7007": {
+  "en": "Strength",
+  "ru": "Сила",
+  "text": "筋力"
+ },
+ "37813a0c": {
+  "en": "Agility",
+  "ru": "Ловкость",
+  "text": "敏捷"
+ },
+ "28da84a3": {
+  "en": "Education",
+  "ru": "Образование",
+  "text": "教養"
+ },
+ "c74322b8": {
+  "en": "Wits",
+  "ru": "Сообразительность",
+  "text": "機転"
+ },
+ "3bd30657": {
+  "en": "Attention",
+  "ru": "Внимание",
+  "text": "注意力"
+ },
+ "685b8070": {
+  "en": "Intuition",
+  "ru": "Интуиция",
+  "text": "直感"
+ },
+ "5bef85ef": {
+  "en": "Charisma",
+  "ru": "Харизма",
+  "text": "魅力"
+ },
+ "c0bc8c0a": {
+  "en": "Composure",
+  "ru": "Самообладание",
+  "text": "冷静"
+ },
+ "9cc29aa1": {
+  "en": "Leadership",
+  "ru": "Лидерство",
+  "text": "統率"
+ },
+ "2d57e7f8": {
+  "en": "Physique",
+  "ru": "Телосложение",
+  "text": "体格"
+ },
+ "edc7a2c3": {
+  "en": "Endurance",
+  "ru": "Выносливость",
+  "text": "持久力"
+ },
+ "46b668cb": {
+  "en": "Fine motor",
+  "ru": "Мелкая моторика",
+  "text": "器用さ"
+ },
+ "8cd30453": {
+  "en": "Body control",
+  "ru": "Контроль тела",
+  "text": "身体制御"
+ },
+ "cbefd188": {
+  "en": "Sanity",
+  "ru": "Рассудок",
+  "text": "正気"
+ },
+ "8b4f535c": {
+  "en": "Luck",
+  "ru": "Удача",
+  "text": "幸運"
+ },
+ "5b6ba3e5": {
+  "en": "Declared before a roll and added to it; a failure burns it. A failure gives 1 luck, a critical one 3.",
+  "ru": "Заявляется до броска и прибавляется к нему, при провале сгорает. Провал даёт 1 удачи, критический — 3.",
+  "text": "ロール前に宣言して加算、失敗すると消える。失敗で幸運1、致命的失敗で3を得る。"
+ },
+ "43846a23": {
+  "en": "Level",
+  "ru": "Уровень",
+  "text": "レベル"
+ },
+ "c1e6c1ab": {
+  "en": "Strike",
+  "ru": "Сила удара",
+  "text": "打撃力"
+ },
+ "ef0a0d6f": {
+  "en": "Growth points",
+  "ru": "Очки развития",
+  "text": "成長ポイント"
+ },
+ "b26e4ba3": {
+  "en": "Skills and talents",
+  "ru": "Навыки и таланты",
+  "text": "技能と才能"
+ },
+ "a3aaaf5d": {
+  "en": "Skill: Persuasion",
+  "ru": "Навык: Убеждение",
+  "text": "技能: 説得"
+ },
+ "75c9867d": {
+  "en": "A skill: the die of its stat plus the skill's level (3 at the start, 7 at most).",
+  "ru": "Навык: куб параметра плюс уровень навыка (на старте 3, не больше 7).",
+  "text": "技能: 能力値のダイス+技能レベル (初期3、最大7)。"
+ },
+ "fc8f7da9": {
+  "en": "Talent: Shooting",
+  "ru": "Талант: Стрельба",
+  "text": "才能: 射撃"
+ },
+ "bf19f12f": {
+  "en": "A talent: the die of its own level plus the level of its stat.",
+  "ru": "Талант: куб своего уровня плюс уровень параметра-основы.",
+  "text": "才能: 自身のレベルのダイス+基礎能力値のレベル。"
+ },
+ "0232d141": {
+  "en": "Dodge",
+  "ru": "Уклонение",
+  "text": "回避"
+ },
+ "dbb9c4a0": {
+  "en": "Rolls",
+  "ru": "Броски",
+  "text": "ロール"
+ },
+ "254276bb": {
+  "en": "The top value of a die is a success: roll the die of the next level and add it, up to d100. A 1 is a failure: d4 of failure, 1 is critical; bonuses are lost.",
+  "ru": "Максимум — успех: + куб следующего уровня (до d100). Единица — провал: d4, на 1 — критический, бонусы сгорают.",
+  "text": "ダイスの最大値は成功: 次のレベルのダイスを振って加算、d100まで。1は失敗: 失敗のd4を振り、1なら致命的。ボーナスは失われる。"
+ },
+ "ed4ac5a0": {
+  "en": "Sending the sheet to ",
+  "ru": "Отправка листа: ",
+  "text": "シート送信中: "
+ },
+ "1f9080b6": {
+  "en": "Sheet delivered to ",
+  "ru": "Лист доставлен: ",
+  "text": "シート配達済み: "
+ },
+ "4f3d9c85": {
+  "en": "Sheet not delivered to ",
+  "ru": "Лист не доставлен: ",
+  "text": "シート未配達: "
+ },
+ "857767dd": {
+  "en": "Character sheet from ",
+  "ru": "Лист персонажа от ",
+  "text": "キャラシート受信: "
  },
  "576dfcbc": {
   "en": "Paused: access point on",
@@ -4615,15 +5045,35 @@
   "ru": "Кому: ",
   "text": "宛先: "
  },
- "753a50c9": {
-  "en": "Counters: life, wounds, resources",
-  "ru": "Счётчики: жизни, раны, ресурсы",
-  "text": "カウンタ: ライフ、負傷、資源"
+ "8db3dc56": {
+  "en": "Empty: write on the web page",
+  "ru": "Пусто: заполните на веб-странице",
+  "text": "空です: Webページで入力"
  },
- "847159d6": {
-  "en": "N: name   C: colour   DEL: delete",
-  "ru": "N: имя   C: цвет   DEL: удалить",
-  "text": "N: 名前   C: 色   DEL: 削除"
+ "54007713": {
+  "en": "The sheet is empty",
+  "ru": "Лист пуст",
+  "text": "シートは空です"
+ },
+ "53ed2c15": {
+  "en": "P, A: a character from D&D or R.E.T.",
+  "ru": "P, A: персонаж из D&D или Р.Э.Т.",
+  "text": "P, A: D&DかR.E.T.のキャラ"
+ },
+ "40f96906": {
+  "en": "Blocks: on the web page or in the app",
+  "ru": "Блоки: на веб-странице или в приложении",
+  "text": "ブロック: Webページかアプリで"
+ },
+ "62bdb04c": {
+  "en": "max = ",
+  "ru": "макс. = ",
+  "text": "最大 = "
+ },
+ "c0de6bb4": {
+  "en": "I: more",
+  "ru": "I: далее",
+  "text": "I: 詳細"
  },
  "2a033d73": {
   "en": "Saved rolls · ",
@@ -4645,43 +5095,124 @@
   "ru": "F: формула  N: имя  C: цвет  DEL: удалить",
   "text": "F: 数式  N: 名前  C: 色  DEL: 削除"
  },
+ "bd7b3d19": {
+  "en": "Sheet",
+  "ru": "Лист",
+  "text": "シート"
+ },
  "fbc08e80": {
   "en": "Characters",
   "ru": "Персонажи",
   "text": "キャラクター"
  },
- "1bde5876": {
+ "683693d8": {
+  "en": "O: sheet from ",
+  "ru": "O: лист от ",
+  "text": "O: シート受信 "
+ },
+ "9388530a": {
   "en": {
-   "one": "roll",
-   "other": "rolls"
+   "one": "block",
+   "other": "blocks"
   },
   "ru": {
-   "one": "бросок",
-   "few": "броска",
-   "many": "бросков"
+   "one": "блок",
+   "few": "блока",
+   "many": "блоков"
   },
   "forms": {
-   "other": "{n}ロール"
+   "other": "{n}ブロック"
   }
  },
- "7f5f4e27": {
-  "en": {
-   "one": "counter",
-   "other": "counters"
-  },
-  "ru": {
-   "one": "счётчик",
-   "few": "счётчика",
-   "many": "счётчиков"
-  },
-  "forms": {
-   "other": "{n}カウンタ"
-  }
+ "d14c9078": {
+  "en": "A: new  N: name  S: send  DEL: delete",
+  "ru": "A: новый  N: имя  S: отправить  DEL: удалить",
+  "text": "A: 新規  N: 名前  S: 送信  DEL: 削除"
  },
- "2faba250": {
-  "en": "A: new   N: rename   DEL: delete",
-  "ru": "A: новый   N: имя   DEL: удалить",
-  "text": "A: 新規   N: 改名   DEL: 削除"
+ "7c7e42ff": {
+  "en": "R.E.T. (Mind, Emotions, Body)",
+  "ru": "Р.Э.Т. (Разум, Эмоции, Тело)",
+  "text": "R.E.T. (精神・感情・肉体)"
+ },
+ "a37452dd": {
+  "en": "Empty sheet",
+  "ru": "Пустой лист",
+  "text": "空のシート"
+ },
+ "336d57a2": {
+  "en": "Sheet of ",
+  "ru": "Лист: ",
+  "text": "シート: "
+ },
+ "2c2de947": {
+  "en": "6 stats, AC, hit points, 18 skills, slots",
+  "ru": "6 характеристик, КД, хиты, 18 навыков, ячейки",
+  "text": "能力値6種、AC、HP、技能18種、スロット"
+ },
+ "f85d8ac1": {
+  "en": "Stat tree, dice by level, health, sanity, luck",
+  "ru": "Дерево параметров, кубы по уровню, здоровье, рассудок, удача",
+  "text": "能力値ツリー、レベル別ダイス、健康、正気、幸運"
+ },
+ "685746dd": {
+  "en": "One counter; blocks from the web page",
+  "ru": "Один счётчик; блоки — на веб-странице",
+  "text": "カウンター1つ。ブロックはWebページで"
+ },
+ "47698093": {
+  "en": "Send the sheet: ",
+  "ru": "Отправить лист: ",
+  "text": "シートを送信: "
+ },
+ "b02f3570": {
+  "en": "No chat contacts yet",
+  "ru": "Пока нет контактов-собеседников",
+  "text": "チャット連絡先がまだありません"
+ },
+ "5cfad88d": {
+  "en": " hops",
+  "ru": " хоп.",
+  "text": " ホップ"
+ },
+ "02ac6627": {
+  "en": "Delivered to ",
+  "ru": "Доставлен: ",
+  "text": "配達済み: "
+ },
+ "33894318": {
+  "en": "Not delivered to ",
+  "ru": "Не доставлен: ",
+  "text": "未配達: "
+ },
+ "82433458": {
+  "en": "Sending: part ",
+  "ru": "Отправка: часть ",
+  "text": "送信中: パート "
+ },
+ "0f10aa88": {
+  "en": "Parts go one by one, each with its ACK",
+  "ru": "Части уходят по одной, каждая с подтверждением",
+  "text": "パートを1つずつ、それぞれACK付きで送信"
+ },
+ "6e017f89": {
+  "en": "No sheets sent to you",
+  "ru": "Вам не присылали листов",
+  "text": "受信したシートはありません"
+ },
+ "ae4cbe4b": {
+  "en": "from ",
+  "ru": "от ",
+  "text": "送信元: "
+ },
+ "c2a9f50e": {
+  "en": "A character sheet came over the mesh. Accept it as a new character?",
+  "ru": "По сети пришёл лист персонажа. Добавить его новым персонажем?",
+  "text": "メッシュ経由でキャラシートが届きました。新しいキャラとして追加しますか?"
+ },
+ "b3e34b39": {
+  "en": "6 characters at most: delete one first",
+  "ru": "Не больше 6 персонажей: сначала удалите одного",
+  "text": "キャラは6人まで: 先に1人削除してください"
  },
  "4be35553": {
   "en": "Roll",
@@ -4697,6 +5228,16 @@
   "en": "Close",
   "ru": "Закрыть",
   "text": "閉じる"
+ },
+ "9461ecf5": {
+  "en": "Send",
+  "ru": "Отправить",
+  "text": "送信"
+ },
+ "a377db8b": {
+  "en": "Decline",
+  "ru": "Отклонить",
+  "text": "辞退"
  },
  "7c3624b1": {
   "en": "Saved",
@@ -4743,6 +5284,11 @@
   "ru": "Имя броска",
   "text": "ロール名"
  },
+ "bdd474ca": {
+  "en": "Value: ",
+  "ru": "Значение: ",
+  "text": "値: "
+ },
  "8ced0833": {
   "en": "New character",
   "ru": "Новый персонаж",
@@ -4758,10 +5304,25 @@
   "ru": "OK: бросить   BACK: отменить",
   "text": "OK: 振る   BACK: キャンセル"
  },
- "47a608e8": {
-  "en": "2d6+1, d20, 4d6-2, d%, d66",
-  "ru": "2d6+1, d20, 4к6-2, d%, d66",
-  "text": "2d6+1, d20, 4d6-2, d%, d66"
+ "69541534": {
+  "en": "Critical failure (d4: 1)",
+  "ru": "Критический провал (d4: 1)",
+  "text": "致命的失敗 (d4: 1)"
+ },
+ "95d4f097": {
+  "en": "Failure, d4: ",
+  "ru": "Провал, d4: ",
+  "text": "失敗、d4: "
+ },
+ "904a1eca": {
+  "en": "23 sets it, +5 or -7 changes it",
+  "ru": "23 - задать, +5 или -7 - изменить",
+  "text": "23で設定、+5や-7で増減"
+ },
+ "b556ba90": {
+  "en": "2d6+1, d20, 4d6-2, d%, d66, r4",
+  "ru": "2d6+1, d20, 4к6-2, d%, d66, r4",
+  "text": "2d6+1, d20, 4d6-2, d%, d66, r4"
  },
  "3b05ab8e": {
   "en": "Formula: 2d6+1, d20, d%, d66",
@@ -4778,15 +5339,30 @@
   "ru": "Бросок сохранён",
   "text": "ロールを保存"
  },
- "fc8c1178": {
-  "en": "10 saved rolls at most",
-  "ru": "Не больше 10 бросков",
-  "text": "ロールは10個まで"
+ "c7549e7b": {
+  "en": "64 blocks at most",
+  "ru": "Не больше 64 блоков",
+  "text": "ブロックは64個まで"
  },
  "e93489cf": {
   "en": "Formula saved",
   "ru": "Формула сохранена",
   "text": "数式を保存"
+ },
+ "12ae6876": {
+  "en": "Success x",
+  "ru": "Успех x",
+  "text": "成功 x"
+ },
+ "1a0576b6": {
+  "en": "Success",
+  "ru": "Успех",
+  "text": "成功"
+ },
+ "5ba1cdf0": {
+  "en": "A number: 23, +5, -7",
+  "ru": "Число: 23, +5, -7",
+  "text": "数値: 23, +5, -7"
  },
  "a55a28b5": {
   "en": "DEL again: delete",
@@ -4798,20 +5374,15 @@
   "ru": "Не больше 50 костей",
   "text": "ダイスは50個まで"
  },
- "f53f52d9": {
-  "en": "Counters",
-  "ru": "Счётчики",
-  "text": "カウンタ"
+ "0927f7a3": {
+  "en": "Computed by its formula",
+  "ru": "Считается по формуле",
+  "text": "数式で計算"
  },
- "7f0e2ad9": {
-  "en": "6 counters at most",
-  "ru": "Не больше 6 счётчиков",
-  "text": "カウンタは6個まで"
- },
- "113cbc15": {
-  "en": "Counter deleted",
-  "ru": "Счётчик удалён",
-  "text": "カウンタを削除"
+ "8e7738b2": {
+  "en": "No value here",
+  "ru": "Здесь нет значения",
+  "text": "ここに値はありません"
  },
  "78b42472": {
   "en": "Roll deleted",
@@ -4832,6 +5403,11 @@
   "en": "Character deleted",
   "ru": "Персонаж удалён",
   "text": "キャラを削除"
+ },
+ "0cf7b383": {
+  "en": "Sheet declined",
+  "ru": "Лист отклонён",
+  "text": "シートを辞退"
  },
  "97bf0171": {
   "en": "OK: roll ",
@@ -4897,25 +5473,20 @@
   "ru": "A: +5 костей   R: сброс   D: кость   T, +/-: порог",
   "text": "A: +5個   R: リセット   D: ダイス   T, +/-: 目標値"
  },
- "76fe485a": {
-  "en": "A: add",
-  "ru": "A: добавить",
-  "text": "A: 追加"
+ "22423572": {
+  "en": "Counter ",
+  "ru": "Счётчик ",
+  "text": "カウンタ "
  },
  "07a7234e": {
   "en": "Dice ",
   "ru": "Кости ",
   "text": "ダイス "
  },
- "61af3343": {
-  "en": "No counters",
-  "ru": "Счётчиков нет",
-  "text": "カウンタなし"
- },
- "5f0511a3": {
-  "en": "Add one in the menu",
-  "ru": "Добавьте в меню",
-  "text": "メニューで追加"
+ "47882878": {
+  "en": "Blocks: web page, app",
+  "ru": "Блоки: веб, приложение",
+  "text": "ブロック: Web、アプリ"
  },
  "2eb80aa3": {
   "en": "No rolls yet",
@@ -4926,6 +5497,11 @@
   "en": "Click to roll",
   "ru": "Клик - бросить",
   "text": "クリックで振る"
+ },
+ "3414a928": {
+  "en": "Critical failure",
+  "ru": "Критический провал",
+  "text": "致命的失敗"
  },
  "fc25f0c0": {
   "en": "Counting done",
@@ -4997,10 +5573,15 @@
   "ru": "Ещё 5 костей",
   "text": "ダイス5個追加"
  },
- "3eab825d": {
-  "en": "Next counter",
-  "ru": "Другой счётчик",
-  "text": "次のカウンタ"
+ "77bcf2fd": {
+  "en": "Next block",
+  "ru": "Следующий блок",
+  "text": "次のブロック"
+ },
+ "429cae82": {
+  "en": "Previous block",
+  "ru": "Предыдущий блок",
+  "text": "前のブロック"
  },
  "7ec8f659": {
   "en": "Add counter",
@@ -5011,6 +5592,16 @@
   "en": "Count with button",
   "ru": "Считать кнопкой",
   "text": "ボタンで数える"
+ },
+ "b4184ab6": {
+  "en": "Accept sheet: ",
+  "ru": "Принять лист: ",
+  "text": "シート承諾: "
+ },
+ "fbe55d29": {
+  "en": "Decline the sheet",
+  "ru": "Отклонить лист",
+  "text": "シートを辞退"
  },
  "96da71cd": {
   "en": "Choose dice: Dice +1",
@@ -5041,11 +5632,6 @@
   "en": "path ?",
   "ru": "путь ?",
   "text": "経路 ?"
- },
- "5cfad88d": {
-  "en": " hops",
-  "ru": " хоп.",
-  "text": " ホップ"
  },
  "8c0d6692": {
   "en": "repeater",
@@ -6226,6 +6812,11 @@
   "ru": "клик +1 держ-меню",
   "text": "クリック+1 長押しメニュー"
  },
+ "2a4aaf5e": {
+  "en": "click-next hold-menu",
+  "ru": "клик-далее держ-меню",
+  "text": "押す:次 長押し:メニュー"
+ },
  "a8a8a9c7": {
   "en": "click-roll hold-menu",
   "ru": "клик-бросок держ-меню",
@@ -7192,6 +7783,11 @@
   "en": "The last counter stays",
   "ru": "Последний счётчик остаётся",
   "text": "最後のカウンターは残ります"
+ },
+ "113cbc15": {
+  "en": "Counter deleted",
+  "ru": "Счётчик удалён",
+  "text": "カウンタを削除"
  },
  "1f4a8e16": {
   "en": "on",

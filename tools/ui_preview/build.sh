@@ -46,6 +46,8 @@ eval c++ -std=gnu++17 -O1 -Wall $DEF $INC -c "$ROOT/src/HistoryReply.cpp" -o "$B
 eval c++ -std=gnu++17 -O1 -Wall $DEF $INC -c "$ROOT/src/Clock.cpp" -o "$B/clock.o"
 for f in SHA256 Hash Crypto;do eval c++ -std=gnu++17 -O1 -w $DEF $INC -c "$LIB/Crypto/$f.cpp" -o "$B/crypto-$f.o";done
 c++ "$B"/*.o -o "$B/preview"
+# KEEP=PATH: keep the program (tools/ui_preview/preview.cpp "--dice" serves the dice to the web page checks).
+if [ -n "$KEEP" ];then rm -f "$KEEP";cp "$B/preview" "$KEEP";fi # a new file: macOS kills a binary overwritten in place
 # Several languages ("ru en de"): one build, a folder per language.
 case "${3:-ru}" in
 *" "*)for L in $3;do mkdir -p "$OUT/$L";"$B/preview" "$OUT/$L" $L >/dev/null;done;;

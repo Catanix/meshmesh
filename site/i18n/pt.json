@@ -235,7 +235,7 @@
  "doc.pet": "Bichinho da rede",
  "news.dice": "<b>Novo:</b> dados — o rolador DIC3R para RPG e Warhammer em todas as placas",
  "f.dice.t": "Dados",
- "f.dice.d": "O rolador de dados DIC3R em todas as placas. RPG: uma parada como 2d6+1 ou qualquer fórmula, cada dado com seu formato, a soma; d66 e d%. Warhammer: uma grade de até 50 dados, do maior para o menor, com limiar de sucesso. Contadores de vida e recursos, personagens com suas rolagens salvas. O dispositivo guarda tudo: a tela, a página web e o app mostram as mesmas rolagens. Numa placa de um só botão, o próprio botão conta: clique +1, segurar −1, segurar 5 s para sair.",
+ "f.dice.d": "O rolador de dados DIC3R em todas as placas. RPG: uma parada como 2d6+1 ou qualquer fórmula, cada dado com seu formato, a soma; d66 e d%. Warhammer: uma grade de até 50 dados, do maior para o menor, com limiar de sucesso. Uma ficha de personagem feita de blocos; as rolagens salvas são as suas habilidades. O dispositivo guarda tudo: a tela, a página web e o app mostram as mesmas rolagens. Numa placa de um só botão, o próprio botão conta: clique +1, segurar −1, segurar 5 s para sair.",
  "shot.m9-dice-shapes": "Cada dado com seu formato: de d4 a d20",
  "shot.t114-dice-saved": "Uma rolagem salva no T114",
  "shot.m9-dice-grid": "Warhammer: 8 sucessos em 4+",
@@ -280,5 +280,14 @@
  "shot.m9-people-cards": "Um cartão do contador",
  "shot.m9-people-new": "Um cartão novo",
  "shot.t114-people-two": "T114: dois cartões",
- "shot.heltec-people-two": "Heltec: dois cartões"
+ "shot.heltec-people-two": "Heltec: dois cartões",
+ "news.sheet": "<b>Novo:</b> ficha de personagem nos Dados — blocos, modelos D&D e R.E.T., envio pela rede",
+ "f.sheet.t": "Ficha de personagem",
+ "f.sheet.d": "Uma ficha feita de blocos nos Dados: atributos em círculos, quadrados, escudos, losangos e hexágonos, barras de pontos de vida e mana, marcas para espaços de magia e testes contra a morte, habilidades com rolagem, custo e descrição, notas. Os blocos se referem uns aos outros: CA = 10+@dex, uma rolagem d20+@dex+@pb. Modelos prontos para D&D 5e (modificadores de atributo) e R.E.T. (a árvore Mente — Emoções — Corpo, um dado por nível, um sucesso soma o dado do nível seguinte). Monte-a na página web ou no app e jogue na tela de qualquer placa. Envie uma ficha a um contato pela MeshCore: ela chega em partes confirmadas e propõe adicionar o personagem.",
+ "shot.m9-dice-sheet": "Uma ficha de D&D no M9",
+ "shot.m9-dice-sheet-ret": "R.E.T.: dados por nível",
+ "shot.t114-dice-sheet": "T114: a ficha em cores",
+ "shot.m9-dice-templates": "Um novo personagem a partir de um modelo",
+ "shot.heltec-dice-sheet": "OLED: bloco por bloco",
+ "shot.m9-dice-offer": "Uma ficha de um contato"
 }

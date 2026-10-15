@@ -235,7 +235,7 @@
  "doc.pet": "Zwierzak sieci",
  "news.dice": "<b>Nowość:</b> kości — rzucacz DIC3R do RPG i Warhammera na każdej płytce",
  "f.dice.t": "Kości",
- "f.dice.d": "Rzucacz kośćmi DIC3R na każdej płytce. RPG: pula jak 2d6+1 lub dowolna formuła, każda kość w swoim kształcie, suma; d66 i d%. Warhammer: siatka do 50 kości, od najwyższej do najniższej, z progiem sukcesu. Liczniki życia i zasobów, postacie z własnymi zapisanymi rzutami. Urządzenie przechowuje wszystko, więc ekran, strona WWW i aplikacja pokazują te same rzuty. Na płytce z jednym przyciskiem liczy sam przycisk: klik +1, przytrzymanie −1, przytrzymanie 5 s — wyjście.",
+ "f.dice.d": "Rzucacz kośćmi DIC3R na każdej płytce. RPG: pula jak 2d6+1 lub dowolna formuła, każda kość w swoim kształcie, suma; d66 i d%. Warhammer: siatka do 50 kości, od najwyższej do najniższej, z progiem sukcesu. Karta postaci z bloków; zapisane rzuty to jej zdolności. Urządzenie przechowuje wszystko, więc ekran, strona WWW i aplikacja pokazują te same rzuty. Na płytce z jednym przyciskiem liczy sam przycisk: klik +1, przytrzymanie −1, przytrzymanie 5 s — wyjście.",
  "shot.m9-dice-shapes": "Każda kość w swoim kształcie: od d4 do d20",
  "shot.t114-dice-saved": "Zapisany rzut na T114",
  "shot.m9-dice-grid": "Warhammer: 8 sukcesów przy 4+",
@@ -280,5 +280,14 @@
  "shot.m9-people-cards": "Karta licznika",
  "shot.m9-people-new": "Nowa karta",
  "shot.t114-people-two": "T114: dwie karty",
- "shot.heltec-people-two": "Heltec: dwie karty"
+ "shot.heltec-people-two": "Heltec: dwie karty",
+ "news.sheet": "<b>Nowość:</b> karta postaci w kościach — bloki, szablony D&D i R.E.T., wysyłanie przez sieć",
+ "f.sheet.t": "Karta postaci",
+ "f.sheet.d": "Karta z bloków w kościach: cechy w kółkach, kwadratach, tarczach, rombach i sześciokątach, paski punktów wytrzymałości i many, znaczniki komórek czarów i rzutów przeciw śmierci, zdolności z rzutem, kosztem i opisem, notatki. Bloki odwołują się do siebie: KP = 10+@dex, rzut d20+@dex+@pb. Gotowe szablony D&D 5e (modyfikatory cech) i R.E.T. (drzewo Umysł — Emocje — Ciało, kość według poziomu, sukces dodaje kość następnego poziomu). Kreator jest na stronie WWW i w aplikacji, gra — na ekranie każdej płytki. Kartę można wysłać kontaktowi przez sieć MeshCore: przyjdzie w częściach z potwierdzeniem i zaproponuje dodanie postaci.",
+ "shot.m9-dice-sheet": "Karta D&D na M9",
+ "shot.m9-dice-sheet-ret": "R.E.T.: kości według poziomu",
+ "shot.t114-dice-sheet": "T114: karta w kolorze",
+ "shot.m9-dice-templates": "Nowa postać z szablonu",
+ "shot.heltec-dice-sheet": "OLED: blok po bloku",
+ "shot.m9-dice-offer": "Karta od kontaktu"
 }

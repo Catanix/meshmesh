@@ -250,13 +250,59 @@ void petPage(){
 }
 #endif
 #if MM_DICE
-// Dice: the RPG card with the dice in the M9's shapes and the pool, the Warhammer grid, three counters a page.
+// Dice: the RPG card with the dice in the M9's shapes and the pool, the Warhammer grid, the character sheet.
 void hiDie(int cx,int cy,uint8_t shape,unsigned v,bool negative,int s){
  unsigned top=shape<dice::D66?dice::faces(shape):0;bool high=top&&v==top,one=top>=4&&v==1;
  uint8_t fill=negative?ColDim:shape==dice::D66||shape==dice::DPercent?ColAccent:high?ColGood:one?ColBad:ColInk,face=one?ColInk:ColBack;
  drawDieShape(g(),shape,cx,cy,s,fill,ColDim,face,shape==dice::D6?v:0);
  if(shape==dice::D6&&v>=1&&v<=6)return;
  String l=shape==dice::DPercent?dice::valueText(dice::DPercent,v):String(v);center(cx,cy+(shape==dice::D4?s/2+4:5),l,face,l.length()>2?tiny:small);
+}
+// The sheet as on the M9: blocks in rows of twelve columns over 232 px; the shown block ringed, the page
+// scrolled to it; the roll of that block over the bottom for a few seconds.
+struct HiBox{int16_t x,y,w,h;};HiBox hiBoxes[dice::Blocks];
+int hiBlockHeight(unsigned i,int w){
+ const dice::Block& b=dicer.sheet.block[i];
+ switch(b.kind){case dice::Stat:return w<64?46:30;case dice::Track:return dicer.maxOf(i)?26:30;case dice::Pips:return 24;case dice::Ability:return 18;
+ case dice::Note:return 30;default:return 14;}
+}
+void sheetPage(){
+ auto& d=g();int n=dicer.sheet.count,sel=diceBlock();
+ if(n<=0){empty(IcDice,t("The sheet is empty","Лист пуст"),t("Blocks: web page, app","Блоки: веб, приложение"));return;}
+ int col=0,y=0,start=0,rowH=0,all=0;
+ auto close=[&](int upto){for(int k=start;k<upto;k++)hiBoxes[k].h=rowH;y+=rowH+3;rowH=0;col=0;start=upto;};
+ for(int i=0;i<n;i++){int sp=dice::span(dicer.sheet.block[i].width);if(col+sp>12)close(i);int x0=4+col*235/12,x1=4+(col+sp)*235/12-3;
+  hiBoxes[i]={int16_t(x0),int16_t(y),int16_t(x1-x0),0};rowH=max(rowH,hiBlockHeight(i,x1-x0));col+=sp;}
+ close(n);all=y-3;
+ const int top0=22,room=94;static int scrollY=0;const HiBox& at=hiBoxes[sel];
+ if(at.y<scrollY)scrollY=at.y;if(at.y+at.h>scrollY+room)scrollY=at.y+at.h-room;scrollY=constrain(scrollY,0,max(0,all-room));
+ for(int i=0;i<n;i++){const HiBox& b=hiBoxes[i];int by=top0+b.y-scrollY;if(by<top0-1||by+b.h>top0+room+1)continue;
+  const dice::Block& k=dicer.sheet.block[i];bool focus=i==sel;uint8_t hue=ColDice0+k.color%dice::Colors;int x=b.x,w=b.w,h=b.h;
+  if(k.kind==dice::Header){text(x+2,by+11,fit(k.name,w-4,small),focus?ColInk:ColDim,small);d.drawFastHLine(x,by+13,w,focus?ColAccent:ColLine);continue;}
+  panel(x,by,w,h,focus?ColCardHi:ColCard,5);if(focus){d.drawRoundRect(x,by,w,h,5,k.kind==dice::Stat?hue:ColAccent);d.drawRoundRect(x+1,by+1,w-2,h-2,4,k.kind==dice::Stat?hue:ColAccent);}
+  switch(k.kind){
+  case dice::Stat:{bool bad1=!dicer.derivedOk(i);String v=bad1?String("?"):k.rule==dice::Bonus?diceSigned(dicer.value(i)):String(dicer.value(i)),bd=dicer.badge(i);uint8_t vc=bad1?ColBad:k.formula[0]?ColInfo:ColInk;
+   if(w<64){int r=min(w/2-5,10),cy=by+12;drawStatShape(d,k.shape,x+w/2,cy,r,ColCard,hue);center(x+w/2,cy+5,v,vc,width(v,bold)<=2*r+2?bold:small);
+    center(x+w/2,by+33,fit(k.name,w-4,tiny),focus?ColInk:ColDim,tiny);if(bd.length()&&!bad1)center(x+w/2,by+44,bd,k.rule==dice::Ret?ColViolet:ColAccent,tiny);}
+   else{int r=min(h/2-3,11),cx=x+4+r,cy=by+h/2;drawStatShape(d,k.shape,cx,cy,r,ColCard,hue);center(cx,cy+5,v,vc,width(v,bold)<=2*r?bold:small);
+    text(cx+r+5,by+12,fit(k.name,x+w-cx-r-8,tiny),focus?ColInk:ColDim,tiny);if(bd.length()&&!bad1)text(cx+r+5,by+h-5,bd,k.rule==dice::Ret?ColViolet:ColAccent,small);}
+   break;}
+  case dice::Track:{int v=dicer.value(i),m=dicer.maxOf(i);d.fillRoundRect(x,by,3,h,1,hue);text(x+6,by+10,fit(k.name,w-50,tiny),focus?ColInk:ColDim,tiny);
+   if(m){right(x+w-4,by+12,String(v)+"/"+String(m),v<=0?ColBad:ColInk,small);int bw=w-12,fw=constrain(v,0,m)*bw/m;d.fillRoundRect(x+6,by+16,bw,6,2,ColLine);if(fw)d.fillRoundRect(x+6,by+16,fw,6,2,v*4<=m?ColBad:hue);}
+   else center(x+w/2,by+h-4,String(v),ColInk,bold);break;}
+  case dice::Pips:{int m=dicer.maxOf(i),v=dicer.value(i),step=min(12,(w-8)/max(1,m)),r=min(4,step/2-1);text(x+4,by+9,fit(k.name,w-8,tiny),focus?ColInk:ColDim,tiny);
+   for(int q=0;q<m;q++){int cx=x+4+r+q*step;if(q<v)d.fillCircle(cx,by+17,r,hue);else d.drawCircle(cx,by+17,r,ColFaint);}break;}
+  case dice::Ability:{d.fillCircle(x+6,by+9,3,hue);String side=diceBlockValue(i);int sw=side.length()?width(side,tiny)+4:0;
+   text(x+12,by+13,fit(k.name,w-16-sw,small),focus?ColInk:ColDim,small);if(sw)right(x+w-3,by+12,side,side=="?"?ColBad:focus?ColAccent:ColFaint,tiny);break;}
+  default:text(x+4,by+9,fit(k.name,w-8,tiny),ColFaint,tiny);lines(dicer.noteText(i),x+4,by+19,w-8,9,2,focus?ColInk:ColDim,tiny);break;}
+ }
+ // The roll of the shown block.
+ const dice::Result* r=dicer.last();const dice::Block& b=dicer.sheet.block[sel];
+ if(r&&millis()-diceSeenAt<4000&&String(r->label)==b.name){panel(4,78,232,38,ColCardHi,8);d.drawRoundRect(4,78,232,38,8,ColLine);
+  text(10,91,fit(String(r->label)+" · "+dice::readable(r->formula),150,tiny),ColViolet,tiny);
+  if(r->successes||r->fail)right(230,91,fit(diceRetText(*r),80,tiny),r->fail?ColBad:ColGood,tiny);
+  int x=16;for(unsigned q=0;q<r->parts&&x<180;q++){if(r->kind[q]==dice::PartNumber){String l=String(r->negative[q]?"-":"+")+String(r->value[q]);text(x-6,110,l,ColInfo,small);x+=width(l,small)+6;continue;}hiDie(x,104,r->shape[q],r->value[q],r->negative[q],8);x+=22;}
+  if(!r->special)right(230,112,String(r->total),r->fail?ColBad:ColWarn,big);}
 }
 void dicePage(){
  auto& d=g();const auto& s=dicer.s;
@@ -266,17 +312,11 @@ void dicePage(){
    if(chosen)center(x+11,y+13,dice::valueText(s.gridType,dicer.grid[i]),ColInk,small);}
   if(s.gridSize<=30&&!s.gridChosen)center(120,104,fit(t("Choose dice: Dice +1","Выберите: Кости +1"),228,tiny),ColDim,tiny);
   return;}
- if(s.mode==dice::Tally){
-  const auto& c=dicer.hero();if(!diceShownCounter()){empty(IcDice,t("No counters","Счётчиков нет"),t("Add one in the menu","Добавьте в меню"));return;}
-  int first=diceCounterSel/3*3;
-  for(int i=first;i<int(c.counters)&&i<first+3;i++){int x=4+(i-first)*79;const dice::Counter& k=c.counter[i];bool focus=i==diceCounterSel;uint8_t hue=ColDice0+k.color%dice::Colors;
-   panel(x,24,74,90,focus?ColCardHi:ColCard,8);d.fillRoundRect(x,24,74,5,2,hue);if(focus){d.drawRoundRect(x,24,74,90,8,hue);d.drawRoundRect(x+1,25,72,88,7,hue);}
-   text(x+6,44,fit(k.name,64,tiny),focus?ColInk:ColDim,tiny);String v=String(k.value);center(x+37,88,v,ColInk,width(v,big)<=68?big:bold);}
-  return;}
+ if(s.mode==dice::Sheet){sheetPage();return;}
  const dice::Result* r=dicer.last();panel(4,24,150,90,ColCard,8);
  if(!r){icon(IcDice,79,54,12,ColFaint,ColCard);center(79,96,fit(t("No rolls yet","Бросков ещё нет"),146,small),ColDim,small);}
  else{
-  text(10,40,fit(r->label[0]?String(r->label)+" · "+r->formula:String(r->formula),138,tiny),r->label[0]?ColViolet:ColDim,tiny);
+  text(10,40,fit(r->label[0]?String(r->label)+" · "+dice::readable(r->formula):dice::readable(r->formula),138,tiny),r->label[0]?ColViolet:ColDim,tiny);
   auto label=[&](unsigned i){unsigned v=r->value[i];return r->kind[i]==dice::PartNumber?String(r->negative[i]?"-":"+")+String(v):r->kind[i]==dice::PartPercent?dice::valueText(dice::DPercent,v):String(v);};
   auto wide=[&](unsigned i){return r->kind[i]==dice::PartNumber?width(label(i),small)+8:r->shape[i]>=dice::D66?30:26;};
   int x=10;bool many=r->more;for(unsigned i=0;i<r->parts&&!many;i++){x+=wide(i)+2;many=x>150;}
@@ -453,7 +493,7 @@ void draw(){
  else if(appClosed())footer({t("hold: open","держ: открыть"),clickHint(pageTitle(nextPage(page)))});
 #if MM_DICE
  else if(diceTapOn())footer({t("click: +1","клик: +1"),t("hold: -1","держ: -1"),t("5 s: exit","5 с: выход")});
- else if(page==DicePage&&dicer.s.mode!=dice::Tally)footer({t("click: roll","клик: бросок"),t("hold: menu","держ: меню")});
+ else if(page==DicePage)footer({dicer.s.mode==dice::Sheet?t("click: next","клик: далее"):t("click: roll","клик: бросок"),t("hold: menu","держ: меню")});
  #endif
  else if(page==PeoplePage)footer({t("click: +1","клик: +1"),t("hold: menu","держ: меню")});
  else if(page==QuickPage)footer({t("click: choose","клик: выбор"),quickTargets||!quickIndex?t("hold: ","держ: ")+t("select","выбрать"):quickIndex>quickSend::Count?t("hold: ","держ: ")+t("exit","выход"):t("hold: send","держ: слать")});

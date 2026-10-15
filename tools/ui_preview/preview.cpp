@@ -1,3 +1,4 @@
+#include <iostream>
 // Host renderer for the production screen UI. It links the real src/Ui.cpp
 // (or src/UiHeltec.cpp) against in-memory state and writes PPM frames, so
 // layout can be reviewed without a device. It is not a hardware check.
@@ -167,6 +168,14 @@ int main(int argc,char** argv){
   add(peerId(5),meshRadio.nodeId,"Марат",channels::link(invite).c_str(),false,ChatMessage::Received,200);}
  maps.available=true;maps.tileCount=1240;maps.title="Казань";maps.zoom=15;maps.center(55.7963,49.1088);
  navigation.headingValid=true;navigation.heading=37;navigation.calibrated=true;
+ // "--dice LANG": the dice of src/Dice.cpp as a server for the web page checks: a command a line on stdin, its answer
+ // a line on stdout. "loopback" delivers the sheet parts sent so far and hands them back as if the contact sent them.
+ if(std::string(outDir)=="--dice"){dicer.begin();std::string line;size_t done=0;
+  while(std::getline(std::cin,line)){fakeMillis+=2500;
+   if(line=="loopback"){while(done<previewSent.size()){PreviewSent p=previewSent[done++];if(p.text.rfind("\xf0\x9f\x8e\xb2",0)!=0)continue;dicer.delivery(p.id,ChatMessage::Delivered);
+     const Peer* from=meshRadio.findContact(p.peer);dicer.receive(p.peer,from?from->name:"",p.text.c_str());}dicer.tick();printf("OK loopback\n");fflush(stdout);continue;}
+   String r=dicer.command(String(line.c_str()));dicer.tick();printf("%s\n",r.c_str());fflush(stdout);}
+  return 0;}
  quickSend::begin();people::begin();wardrive::begin();wishlistChecks();uiBegin();scenario();return 0;
 }
 #include "scenario.inc"

@@ -69,12 +69,12 @@ static void scenario(){
  // Storage left by another firmware: OK on Module health, then OK again, formats and restarts.
  hardware.fsOk=false;key(0x82);key(0x83);shot("tdeck-format");previewCommands="";key(13);key(13);
  if(previewCommands!="fsformat;restart;"){printf("FAIL create storage: %s\n",previewCommands.c_str());exit(1);}hardware.fsOk=true;
- // Dice: taps on a tab, a grid die, the roll card and a counter's +5.
- {dicer.begin();dicer.addCounter("HP");tile("dice");key(13);expect("dice tile","\"page\":\"dice\"");
+ // Dice: taps on a tab, a grid die, the roll card and a sheet block (a tap chooses, a second one rolls its check).
+ {dicer.begin();dicer.applyTemplate(dice::DndTemplate);tile("dice");key(13);expect("dice tile","\"page\":\"dice\"");
   touch('t',80,34);if(dicer.s.mode!=dice::Grid){printf("FAIL dice tab tap: %s\n",dicer.json().c_str());exit(1);}
   touch('t',20,60);touch('t',50,60);if(dicer.s.gridChosen!=2){printf("FAIL dice grid tap: %s\n",dicer.json().c_str());exit(1);}
   touch('t',20,34);uint32_t rolls=dicer.rolls;touch('t',100,120);if(dicer.rolls!=rolls+1){printf("FAIL dice roll tap: %s\n",dicer.json().c_str());exit(1);}shot("tdeck-dice");
-  dicer.setMode(dice::Tally);tick();touch('t',8+3+3*24+5,48+66);if(dicer.hero().counter[0].value!=25){printf("FAIL counter +5 tap: %s\n",dicer.json().c_str());exit(1);}
+  dicer.setMode(dice::Sheet);tick();touch('t',8+60,60);touch('t',8+60,60);if(dicer.rolls!=rolls+2||String(dicer.last()->formula)!="d20"){printf("FAIL sheet block taps: %s\n",dicer.json().c_str());exit(1);}shot("tdeck-dice-sheet");
   touch('t',160,10);expect("dice back","\"page\":\"home\"");}
  // Quick Send: the pinned recipient card and first/last templates use their own touch targets.
  {strlcpy(config.apps,"quick people dice",sizeof config.apps);config.dimAfter=0;config.autoLock=0;key(0x82);key(13);expect("Quick tile","\"page\":\"quick\"");shot("tdeck-quick");unsigned before=meshRadio.historyCount;
@@ -351,37 +351,100 @@ static void scenario(){
    if(creature.has()||creature.s.graveCount!=graves){printf("FAIL release: %s\n",creature.json().c_str());exit(1);}
    snap("pet-none");creature.command("pet adopt");if(creature.s.stage!=pet::Egg){printf("FAIL adopt: %s\n",creature.json().c_str());exit(1);}}config.dimAfter=dim;config.autoLock=lock;config.utcOffset=offset;
   printf("pet checks passed\n");}
- // Dice (DIC3R, Dice.h): the rules of formulas, rolls, the grid and the commands first, then the screens.
+ // Dice (DIC3R, Dice.h): the rules of formulas, rolls, the grid, the sheet and the commands first, then the screens.
  {uint16_t dim=config.dimAfter,lock=config.autoLock;config.dimAfter=config.autoLock=0;srand(11);dicer.begin();
   auto must=[](bool v,const char* what){if(!v){printf("FAIL dice %s: %s\n",what,dicer.json().c_str());exit(1);}};
-  using dice::Dicer;
-  must(Dicer::valid("2d6+1")&&Dicer::valid("d20")&&Dicer::valid("4к6-2")&&Dicer::valid("d%")&&Dicer::valid("3D8 + 2d4 - 1")&&Dicer::valid("-1d4+3")&&Dicer::valid("99d1000"),"good formulas");
-  must(!Dicer::valid("")&&!Dicer::valid("2d")&&!Dicer::valid("d1")&&!Dicer::valid("100d6")&&!Dicer::valid("2d6+")&&!Dicer::valid("abc")&&!Dicer::valid("1+1+1+1+1+1+1+1+1")&&!Dicer::valid("2d6 3")&&!Dicer::valid("0d6"),"bad formulas");
+  using dice::Dicer;dicer.applyTemplate(dice::Blank);dicer.deleteBlock(0);
+  must(Dicer::valid("2d6+1")&&Dicer::valid("d20")&&Dicer::valid("4к6-2")&&Dicer::valid("d%")&&Dicer::valid("3D8 + 2d4 - 1")&&Dicer::valid("-1d4+3")&&Dicer::valid("99d1000")&&Dicer::valid("r3+2")&&Dicer::valid("r0"),"good formulas");
+  must(!Dicer::valid("")&&!Dicer::valid("2d")&&!Dicer::valid("d1")&&!Dicer::valid("100d6")&&!Dicer::valid("2d6+")&&!Dicer::valid("abc")&&!Dicer::valid("1+1+1+1+1+1+1+1+1")&&!Dicer::valid("2d6 3")&&!Dicer::valid("0d6")&&!Dicer::valid("r9")&&!Dicer::valid("2r3"),"bad formulas");
   for(int i=0;i<400;i++){must(dicer.roll("3d6+2"),"3d6+2");const dice::Result* r=dicer.last();must(r->total>=5&&r->total<=20&&r->parts==4&&!r->special,"3d6+2 range");}
   {bool ends=false;for(int i=0;i<400;i++){dicer.roll("d%");unsigned v=dicer.last()->value[0];must(v>=1&&v<=100&&dicer.last()->special,"d% range");ends|=v==1||v==100;
     dicer.roll("d66");v=dicer.last()->value[0];must(v/10>=1&&v/10<=6&&v%10>=1&&v%10<=6,"d66 digits");}must(ends,"d% reaches its ends");}
   {must(dicer.roll("2d6-1d4-1"),"subtraction");const dice::Result* r=dicer.last();must(r->negative[2]&&r->negative[3]&&r->total==int(r->value[0]+r->value[1])-int(r->value[2])-1,"subtraction sum");}
   must(dicer.roll("40d6")&&dicer.last()->more&&dicer.last()->parts==dice::Parts&&dicer.resultCount==dice::Results,"many dice, eight results kept");
+  // R.E.T. dice: the top value adds the die of the next level; a 1 first is a failure that drops the bonus.
+  {bool fail=false,chain=false,plain=false;for(int i=0;i<3000;i++){must(dicer.roll("r3+2"),"r3+2");const dice::Result& r=*dicer.last();
+    if(r.fail){fail=true;must(r.fail>=1&&r.fail<=4&&r.total==1&&r.value[0]==1,"failure: the die alone");continue;}
+    if(r.successes){chain=true;must(r.value[0]==6&&r.shape[1]==dice::D8&&r.total>=6+1+2,"success adds the d8");if(r.successes>=2)must(r.value[1]==8&&r.shape[2]==dice::D10,"a second success adds the d10");continue;}
+    plain=true;must(r.value[0]>=2&&r.value[0]<=5&&r.total==int(r.value[0])+2,"ordinary r3");}
+   must(fail&&chain&&plain,"failures, successes and ordinary rolls");
+   for(int i=0;i<200;i++){dicer.roll("r0");const dice::Result& r=*dicer.last();if(r.fail)continue;must(r.kind[1]==dice::PartNumber&&r.negative[1]&&r.value[1]==3&&r.total>=-1,"d6-3");}
+   for(int i=0;i<500;i++){dicer.roll("r8");const dice::Result& r=*dicer.last();must(r.parts==1||r.fail,"d100 adds no die");}}
   dicer.gridReset();dicer.gridChoose(12);dicer.gridRoll();for(unsigned i=0;i+1<12;i++)must(dicer.grid[i]>=dicer.grid[i+1],"grid from high to low");
   dicer.gridSetThreshold(true,4);{unsigned n=0;for(unsigned i=0;i<12;i++)n+=dicer.grid[i]>=4;must(dicer.gridSuccesses()==n,"successes");}
   dicer.gridSetThreshold(true,99);must(dicer.s.threshold==6,"threshold within the die");
   for(int i=0;i<8;i++)dicer.gridAddRow();must(dicer.s.gridSize==dice::GridMax,"50 dice at most");
-  must(dicer.command("dice saved add 8d6 Fire ball").startsWith("OK")&&String(dicer.hero().roll[0].name)=="Fire ball","saved add");
+  must(dicer.command("dice saved add 8d6 Fire ball").startsWith("OK")&&dicer.savedCount()==1&&String(dicer.sheet.block[dicer.savedBlock(0)].name)=="Fire ball","saved add");
   must(dicer.command("dice saved add 2d Bad").startsWith("ERR"),"a bad saved roll");
   must(dicer.command("dice saved roll 0").startsWith("OK")&&String(dicer.last()->label)=="Fire ball","saved roll");
-  must(dicer.command("dice counter add Life").startsWith("OK")&&dicer.command("dice counter 0 -3").startsWith("OK")&&dicer.hero().counter[0].value==17,"counter");
-  must(dicer.command("dice char add Hero").startsWith("OK")&&dicer.s.character==1&&dicer.hero().counters==1&&!dicer.hero().rolls,"character");
-  must(dicer.command("dice char use 0").startsWith("OK")&&dicer.hero().rolls==1,"general set");
+  must(dicer.command("dice char add Hero").startsWith("OK")&&dicer.s.character==1&&dicer.sheet.count==1&&dicer.sheet.block[0].kind==dice::Track&&!dicer.savedCount(),"character: one counter");
+  must(dicer.command("dice sheet 0 -3").startsWith("OK")&&dicer.value(0)==17,"counter -3");
+  must(dicer.command("dice char use 0").startsWith("OK")&&dicer.savedCount()==1,"general set: its sheet comes back");
+  must(dicer.command("dice char use 1").startsWith("OK")&&dicer.value(0)==17,"the character's sheet comes back");
   must(dicer.command("dice pool 3 d8 -2").startsWith("OK")&&dicer.poolText()=="3d8-2","pool");
-  for(int i=0;i<dice::Results;i++)dicer.roll("24d6");for(int i=0;i<9;i++)dicer.command("dice saved add 2d10+10 Long saved roll name");
-  must(dicer.json().indexOf("\"overflowed\"")<0,"the reply fits");
-  // The screens: a general set with saved rolls and counters, a second character.
+  // D&D: modifiers, derived values, skills, spending.
   bool ru=config.lang==LangRu||config.lang==LangUk;
-  dicer.s=dice::State();dicer.clearResults();dicer.gridReset();
+  must(dicer.command("dice char new dnd Arwen").startsWith("OK")&&dicer.sheet.count>=40,"D&D template");
+  int dex=dicer.find("dex"),ac=dicer.find("ac"),init=dicer.find("init"),sl1=dicer.find("sl1");must(dex>=0&&ac>=0&&init>=0&&sl1>=0,"D&D codes");
+  must(dicer.value(ac)==10&&dicer.badge(dex)=="+0","AC 10 at DEX 10");
+  dicer.setValue(dex,16);must(dicer.value(ac)==13&&dicer.badge(dex)=="+3"&&dicer.rollFormula(init)=="d20+3"&&dicer.rollFormula(dex)=="d20+3","DEX 16: +3 everywhere");
+  dicer.setValue(dex,7);must(dicer.badge(dex)=="-2"&&dicer.value(ac)==8&&dicer.rollFormula(dex)=="d20-2","DEX 7: -2, rounded down");
+  {int stealth=-1;for(unsigned i=0;i<dicer.sheet.count;i++)if(String(dicer.sheet.block[i].formula)=="d20+@dex"&&dicer.sheet.block[i].kind==dice::Ability)stealth=i;must(stealth>=0&&dicer.rollFormula(stealth)=="d20-2","a DEX skill");
+   must(dicer.setField(stealth,"formula","d20+@dex+@pb")&&dicer.rollFormula(stealth)=="d20","a proficient skill");
+   must(dicer.setField(stealth,"use","sl1")&&dicer.setField(stealth,"spend","1"),"a cost");int slots=dicer.value(sl1);
+   must(dicer.act(stealth)&&dicer.value(sl1)==slots-1&&dicer.act(stealth)&&dicer.value(sl1)==slots-2&&!dicer.act(stealth)&&dicer.why.length(),"spending until none is left");}
+  must(!dicer.setField(ac,"formula","10+(@dex")&&!dicer.setField(0,"code","dex")&&!dicer.setField(0,"code","1x"),"bad formula and codes refused");
+  // A loop of references does not hang: the values show as wrong.
+  {int a=dicer.addBlock(dice::Stat),b=dicer.addBlock(dice::Stat);must(dicer.setField(a,"code","la")&&dicer.setField(b,"code","lb")&&dicer.setField(a,"formula","@lb+1")&&dicer.setField(b,"formula","@la+1"),"a loop is accepted");
+   must(!dicer.derivedOk(a)&&dicer.badge(a)=="?"&&dicer.sheetJson().indexOf("\"bad\":true")>0,"a loop shows as wrong");dicer.deleteBlock(b);dicer.deleteBlock(a);}
+  {DynamicJsonDocument d(32768);DeserializationError e=deserializeJson(d,dicer.sheetJson());if(e)printf("%s\n%s\n",e.c_str(),dicer.sheetJson().c_str());must(!e&&d["blocks"].size()==dicer.sheet.count,"sheet JSON parses");}
+  // R.E.T.: the tree halves upwards, dice by level, derived tracks.
+  must(dicer.command("dice char new ret Yan").startsWith("OK"),"R.E.T. template");
+  int body=dicer.find("body"),hp=dicer.find("hp"),phys=dicer.find("phys"),endu=dicer.find("endu"),lvl=dicer.find("lvl");must(body>=0&&hp>=0&&phys>=0&&endu>=0&&lvl>=0,"R.E.T. codes");
+  must(dicer.value(body)==3&&dicer.maxOf(hp)==6&&dicer.badge(body)=="d6"&&dicer.rollFormula(body)=="r3","R.E.T. start");
+  dicer.setValue(phys,5);dicer.setValue(endu,5);must(dicer.value(dicer.find("str"))==5&&dicer.value(body)==4&&dicer.badge(body)=="d8"&&dicer.maxOf(hp)==8,"R.E.T. halves upwards");
+  dicer.setValue(phys,0);dicer.setValue(endu,1);must(dicer.badge(dicer.find("str"))=="d6-3"&&dicer.rollFormula(dicer.find("str"))=="r0","a penalty level");
+  {int skill=-1;for(unsigned i=0;i<dicer.sheet.count;i++)if(String(dicer.sheet.block[i].formula)=="@cha+3")skill=i;must(skill>=0&&dicer.rollFormula(skill)=="r3+3","a R.E.T. skill");
+   int talent=-1;for(unsigned i=0;i<dicer.sheet.count;i++)if(String(dicer.sheet.block[i].formula)=="r3+@fine!")talent=i;must(talent>=0&&dicer.rollFormula(talent)=="r3+3","a R.E.T. talent");}
+  must(dicer.sheet.block[dicer.find("luck")].noteLen>0,"notes kept");
+  // The sheet as one line and back: names, notes, escapes.
+  {must(dicer.setField(0,"name","A|B~C\\D")&&dicer.setField(0,"note","line 1\nline | 2 ~ end"),"escaped fields");String text=dicer.exportText();unsigned count=dicer.sheet.count;String note=dicer.noteText(0);
+   must(text.indexOf('\n')<0&&text.startsWith("MMS1~N|Yan~"),"one line");
+   must(dicer.command("dice sheet import "+text).startsWith("OK")&&dicer.sheet.count==count&&String(dicer.sheet.block[0].name)=="A|B~C\\D"&&dicer.noteText(0)==note&&dicer.exportText()==text,"import gives the same sheet");
+   {int cut=text.indexOf(' ',60);String a=text.substring(0,cut),b=text.substring(cut);must(dicer.command("dice sheet put 1/2 "+a).startsWith("OK put 1/2")&&dicer.command("dice sheet put 2/2 "+b).startsWith("OK")&&dicer.exportText()==text,"import in pieces");dicer.command("dice char del");dicer.useCharacter(dicer.s.characters-1);
+    must(dicer.command("dice sheet put 2/2 x").startsWith("ERR"),"a piece out of order");}
+   must(dicer.command("dice sheet import MMS1~N|X~9|0").startsWith("ERR")&&dicer.command("dice sheet import hello").startsWith("ERR"),"bad text refused");
+   must(dicer.command("dice char del").startsWith("OK"),"delete the copy");}
+  // Sending to a contact: acknowledged parts in order; the contact gets it as an offer.
+  {dicer.useCharacter(3);previewSent.clear();String sent=dicer.exportText();must(dicer.command("dice sheet send "+meshRadio.idText(peerId(0))).startsWith("OK"),"send starts");size_t done=0;unsigned parts=0;
+   for(int guard=0;guard<200&&done<previewSent.size();guard++){PreviewSent p=previewSent[done++];must(p.text.size()<=151&&meshmesh::validUtf8((const uint8_t*)p.text.data(),p.text.size())&&p.text.rfind("\xf0\x9f\x8e\xb2S ",0)==0,"a part fits a message");
+    parts++;must(dicer.delivery(p.id,ChatMessage::Delivered),"its ACK");must(dicer.receive(peerId(0),"Heltec V4",p.text.c_str()),"taken as a sheet part");}
+   dicer.tick();must(dicer.out.done&&parts==dicer.out.parts&&parts>1&&dicer.offered&&String(dicer.offer.name)=="Yan"&&dicer.offer.text==sent,"delivered and offered");
+   uint8_t before=dicer.s.characters;must(dicer.command("dice sheet offer accept").startsWith("OK")&&dicer.s.characters==before+1&&dicer.exportText()==sent&&!dicer.offered,"accepted as a new character");
+   dicer.command("dice char del");previewSent.clear();
+   must(dicer.receive(peerId(0),"x","\xf0\x9f\x8e\xb2S 1234 1/2 MMS1~N|half")&&!dicer.offered,"half a sheet is not offered");dicer.tick();
+   must(!dicer.receive(peerId(0),"x","hello")&&!dicer.receive(peerId(0),"x","\xe2\x99\x9f""1234 1"),"other messages pass");}
+  // dice.bin of 0.7-0.24: counters become tracks, saved rolls abilities.
+  {struct R{char name[24];char formula[28];uint8_t color;};struct C{char name[24];int16_t value;uint8_t color;};struct H{char name[24];uint8_t rolls,counters;R roll[10];C counter[6];};
+   struct V{uint32_t version;uint8_t character,characters,mode;uint8_t type,count;int8_t mod;uint8_t gridType,gridSize,gridChosen,threshold;bool thresholdOn;H list[6];uint32_t check;};
+   V* v=new V();v->version=1;v->characters=2;v->character=1;v->mode=2;v->type=dice::D20;v->count=1;v->gridType=dice::D6;v->gridSize=20;v->threshold=4;
+   strcpy(v->list[0].roll[0].name,"Fireball");strcpy(v->list[0].roll[0].formula,"8d6");v->list[0].rolls=1;
+   strcpy(v->list[1].name,"Hero");strcpy(v->list[1].counter[0].name,"Life");v->list[1].counter[0].value=17;v->list[1].counter[0].color=3;v->list[1].counters=1;
+   uint32_t h=2166136261u;const uint8_t* p=(const uint8_t*)v;for(size_t k=0;k<offsetof(V,check);k++)h=(h^p[k])*16777619u;v->check=h;
+   must(sizeof(V)==4304||sizeof(V)>4000,"V1 layout");must(dicer.migrate((const uint8_t*)v,sizeof(V)),"V1 migrates");delete v;
+   must(dicer.s.characters==2&&dicer.s.character==1&&dicer.s.mode==dice::Sheet&&dicer.sheet.count==1&&dicer.sheet.block[0].kind==dice::Track&&dicer.value(0)==17&&!dicer.maxOf(0),"counters become tracks");
+   must(dicer.command("dice char use 0").startsWith("OK")&&dicer.savedCount()==1&&dicer.rollFormula(dicer.savedBlock(0))=="8d6","saved rolls become abilities");}
+  must(dicer.json().indexOf("\"overflowed\"")<0,"the reply fits");
+  // The screens: the general set with saved rolls, a D&D and a R.E.T. character.
+  dicer.s=dice::State();dicer.clearResults();dicer.gridReset();dicer.applyTemplate(dice::Blank);dicer.deleteBlock(0);
   dicer.addRoll("8d6",ru?"Огненный шар":"Fireball");dicer.addRoll("d20+5",ru?"Атака мечом":"Sword attack");dicer.addRoll("2d6+3",ru?"Урон":"Damage");dicer.addRoll("d20+7",ru?"Скрытность":"Stealth");
   dicer.colorRoll(1,1);dicer.colorRoll(2,6);dicer.colorRoll(3,9);
-  dicer.addCounter(ru?"Жизни":"Life");dicer.addCounter(ru?"Мана":"Mana");dicer.addCounter(ru?"Стрелы":"Arrows");dicer.setCounter(0,24);dicer.setCounter(1,12);dicer.setCounter(2,18);dicer.colorCounter(2,7);
-  dicer.addCharacter(ru?"Арагорн":"Aragorn");dicer.useCharacter(0);
+  {int k=dicer.addBlock(dice::Track,0);dicer.setField(k,"name",ru?"Жизни":"Life");dicer.setValue(k,24);dicer.setField(k,"max","30");}
+  dicer.addCharacter(ru?"Арвен":"Arwen",dice::DndTemplate);
+  {const char* v[6]={"8","16","14","12","13","10"};const char* c[6]={"str","dex","con","int","wis","cha"};for(int k=0;k<6;k++)dicer.setValue(dicer.find(c[k]),atoi(v[k]));
+   dicer.setValue(dicer.find("hp"),19);dicer.setField(dicer.find("hp"),"max","27");dicer.setValue(dicer.find("dss"),1);dicer.setValue(dicer.find("sl1"),1);}
+  dicer.addCharacter(ru?"Ян":"Yan",dice::RetTemplate);dicer.setValue(dicer.find("cha"),5);dicer.setValue(dicer.find("insp"),4);dicer.setValue(dicer.find("hp"),4);
+  dicer.useCharacter(0);
 #if defined(MM_HELTEC_V4)
 #if defined(MM_JOYSTICK)
   const int next=0xb7,hold=13,run=13;const char* prefix="gat562-";
@@ -397,18 +460,29 @@ static void scenario(){
   snap("dice-empty");key(hold);snap("dice-menu");key(run);must(dicer.resultCount==1&&uiStatus().indexOf("\"menu\":false")>=0,"hold, hold rolls the pool");snap("dice-rpg");
   dicer.roll("d20+5",ru?"Атака мечом":"Sword attack");snap("dice-saved");dicer.roll("d4+d6+d8+d10+d12");snap("dice-shapes");
   dicer.setMode(dice::Grid);dicer.gridChoose(10);dicer.gridSetThreshold(true,4);dicer.gridRoll();snap("dice-grid");
-  dicer.setMode(dice::Tally);snap("dice-counters");key(hold);
+  dicer.setMode(dice::Sheet);tick();snap("dice-counters");key(hold);
 #if defined(MM_JOYSTICK)
-  key(run);must(dicer.hero().counter[0].value==25,"+1 from the menu");snap("dice-counter-menu");
-  key(0x86);key(0xb5);must(dicer.hero().counter[0].value==26,"joystick up");
+  key(run);must(dicer.value(0)==25,"+1 from the menu");snap("dice-counter-menu");
+  key(0x86);key(0xb5);must(dicer.value(0)==26,"joystick up");
 #else
   // Count with button: click +1, hold -1, a 5 s hold leaves and takes that hold's -1 back.
   key(run);must(uiStatus().indexOf("\"dice_tapping\":true")>=0,"count with button opens");snap("dice-counting");
-  key(13);key(13);must(dicer.hero().counter[0].value==26,"click +1");key(0xa3);must(dicer.hero().counter[0].value==25,"hold -1");
-  key(0xa4);must(dicer.hero().counter[0].value==26&&uiStatus().indexOf("\"dice_tapping\":false")>=0,"5 s hold leaves, -1 taken back");
+  key(13);key(13);must(dicer.value(0)==26,"click +1");key(0xa3);must(dicer.value(0)==25,"hold -1");
+  key(0xa4);must(dicer.value(0)==26&&uiStatus().indexOf("\"dice_tapping\":false")>=0,"5 s hold leaves, -1 taken back");
   for(int i=0;i<11;i++)tick();
 #endif
-  dicer.setMode(dice::Rpg);
+  // The D&D sheet: a click goes to the next block, the menu rolls the shown stat's check.
+  dicer.useCharacter(1);tick();snap("dice-sheet");
+#if !defined(MM_JOYSTICK)
+  key(13);must(uiStatus().indexOf("\"sheet_block\":1")>=0,"a click: the next block");
+#endif
+  {uint32_t rolls=dicer.rolls;key(hold);key(run);must(dicer.rolls==rolls+1&&String(dicer.last()->formula).startsWith("d20"),"the menu rolls the check");snap("dice-sheet-roll");}
+  dicer.useCharacter(2);for(int i=0;i<11;i++)tick();snap("dice-sheet-ret");
+#if !defined(MM_JOYSTICK)
+  {int want=dicer.find("cha");for(int k=0;k<80&&uiStatus().indexOf((std::string("\"sheet_block\":")+std::to_string(want)+",").c_str())<0;k++)key(13);}
+#endif
+  dicer.roll("r5+3",dicer.sheet.block[dicer.find("cha")].name);snap("dice-sheet-ret-roll");
+  dicer.useCharacter(0);dicer.setMode(dice::Rpg);
 #else
   tile("dice");shot("home-dice");key(13);
   if(uiStatus().indexOf("\"page\":\"dice\"")<0){printf("FAIL dice page: %s\n",uiStatus().c_str());exit(1);}
@@ -418,8 +492,24 @@ static void scenario(){
   key('s');shot("dice-saved");key(0xb6);key(13);must(String(dicer.last()->label)==(ru?"Атака мечом":"Sword attack"),"saved roll from the list");shot("dice-saved-roll");
   key('e');for(int i=0;i<5;i++)key(8);for(char ch:std::string("4d6-2"))key(ch);shot("dice-formula");key(13);must(String(dicer.last()->formula)=="4d6-2","typed formula");
   key('m');for(int i=0;i<10;i++)key(0xb7);key('t');key(13);must(dicer.gridRolled&&dicer.s.gridChosen==10&&dicer.s.thresholdOn,"grid roll");shot("dice-grid");
-  key('m');key(0xb7);key(0xb5);key('+');must(dicer.hero().counter[1].value==18,"counter keys");shot("dice-counters");
-  key('p');shot("dice-characters");key(0x86);key('1');
+  key('m');shot("dice-counters");key('+');must(dicer.value(0)==25,"+ on the sheet");key('v');for(int i=0;i<3;i++)key(8);key('-');key('7');key(13);must(dicer.value(0)==18,"V: -7");
+  // Characters: a new one from the R.E.T. template; the D&D sheet: arrows, OK rolls a check.
+  key('p');shot("dice-characters");key(0xb6);key(13);must(dicer.s.character==1,"choose Arwen");shot("dice-sheet");
+  key(0xb7);{uint32_t rolls=dicer.rolls;key(13);must(dicer.rolls==rolls+1&&String(dicer.last()->formula)=="d20+3"&&String(dicer.last()->label)==dicer.sheet.block[1].name,"OK rolls the DEX check");}shot("dice-sheet-roll");
+  for(int i=0;i<4;i++)tick();key(0xb6);key(0xb6);shot("dice-sheet-down");
+  auto choose=[&](int want){for(int k=0;k<80&&uiStatus().indexOf((std::string("\"sheet_block\":")+std::to_string(want)+",").c_str())<0;k++)key(0xb7);must(uiStatus().indexOf((std::string("\"sheet_block\":")+std::to_string(want)+",").c_str())>=0,"choose a block");};
+  {int atk=-1;for(unsigned i=0;i<dicer.sheet.count;i++)if(String(dicer.sheet.block[i].formula)=="d20+@str+@pb")atk=i;choose(atk);key('i');must(uiStatus().indexOf("\"sheet_note\":true")>=0,"I opens the note");shot("dice-sheet-note");key('i');}
+  key('p');key(0xb6);key(13);must(dicer.s.character==2,"choose Yan");choose(0);dicer.roll("r5+3",ru?"Харизма":"Charisma");shot("dice-sheet-ret");
+  choose(dicer.find("insp"));for(int k=0;k<3;k++)tick();shot("dice-sheet-ret-low");
+  key('p');key('a');for(char ch:std::string(ru?"Mira":"Mira"))key(ch);key(13);must(uiStatus().indexOf("\"dice_sheet\":\"templates\"")>=0,"name, then the template");shot("dice-templates");
+  key(0xb6);key(0xb6);key(13);must(dicer.s.characters==4&&dicer.find("mind")>=0,"a R.E.T. character from the screen");
+  dicer.command("dice char del");
+  // A sheet from a contact: the mark by the name, the offer page.
+  {dicer.useCharacter(1);previewSent.clear();dicer.command("dice sheet send "+meshRadio.idText(peerId(0)));size_t done=0;
+   while(done<previewSent.size()){PreviewSent p=previewSent[done++];dicer.delivery(p.id,ChatMessage::Delivered);dicer.receive(peerId(0),"Heltec V4",p.text.c_str());}dicer.tick();
+   key('p');shot("dice-characters-offer");key('o');shot("dice-offer");key(13);must(dicer.s.characters==4&&!dicer.offered,"accepted from the screen");dicer.command("dice char del");
+   dicer.useCharacter(1);key('p');key('s');shot("dice-send");key(0x86);key(0x86);}
+  dicer.useCharacter(0);key('1');
 #endif
   config.dimAfter=dim;config.autoLock=lock;printf("dice checks passed\n");}
 // Apps in the chosen order ("apps" setting): hidden ones get no tile and no click.

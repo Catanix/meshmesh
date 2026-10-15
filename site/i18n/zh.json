@@ -235,7 +235,7 @@
  "doc.pet": "网络宠物",
  "news.dice": "<b>新功能：</b>骰子 — 每块板上的 RPG 与 Warhammer 掷骰器 DIC3R",
  "f.dice.t": "骰子",
- "f.dice.d": "每块板上都有 DIC3R 掷骰器。RPG：像 2d6+1 这样的骰池或任意公式，每颗骰子按其形状绘制并求和；支持 d66 和 d%。Warhammer：最多 50 颗骰子的网格，从大到小排列，带成功阈值。生命与资源计数器，角色各有自己保存的投掷。数据都保存在设备上，屏幕、网页和应用显示相同的投掷。单按键板上直接用按键计数：单击 +1，长按 −1，长按 5 秒退出。",
+ "f.dice.d": "每块板上都有 DIC3R 掷骰器。RPG：像 2d6+1 这样的骰池或任意公式，每颗骰子按其形状绘制并求和；支持 d66 和 d%。Warhammer：最多 50 颗骰子的网格，从大到小排列，带成功阈值。由块组成的角色卡；保存的投掷就是它的能力。数据都保存在设备上，屏幕、网页和应用显示相同的投掷。单按键板上直接用按键计数：单击 +1，长按 −1，长按 5 秒退出。",
  "shot.m9-dice-shapes": "每颗骰子各有形状：d4 到 d20",
  "shot.t114-dice-saved": "T114 上保存的投掷",
  "shot.m9-dice-grid": "Warhammer：4+ 成功 8 次",
@@ -280,5 +280,14 @@
  "shot.m9-people-cards": "计数卡片",
  "shot.m9-people-new": "新卡片",
  "shot.t114-people-two": "T114：两张卡片",
- "shot.heltec-people-two": "Heltec：两张卡片"
+ "shot.heltec-people-two": "Heltec：两张卡片",
+ "news.sheet": "<b>新功能：</b>骰子中的角色卡 — 块、D&D 与 R.E.T. 模板、通过网络发送",
+ "f.sheet.t": "角色卡",
+ "f.sheet.d": "骰子中由块组成的角色卡：圆形、方形、盾形、菱形和六边形的属性，生命值与法力计量条，法术位和死亡豁免的标记，带掷骰、消耗和描述的能力，以及备注。块之间可以相互引用：AC = 10+@dex，掷骰 d20+@dex+@pb。内置 D&D 5e（属性调整值）和 R.E.T.（心智 — 情感 — 身体属性树，按等级掷骰，成功时追加下一级骰子）模板。在网页或应用中编辑，在任意板子的屏幕上游玩。可通过 MeshCore 把角色卡发送给联系人：它分段送达并逐段确认，对方会收到添加该角色的提示。",
+ "shot.m9-dice-sheet": "M9 上的 D&D 角色卡",
+ "shot.m9-dice-sheet-ret": "R.E.T.：按等级掷骰",
+ "shot.t114-dice-sheet": "T114：彩色角色卡",
+ "shot.m9-dice-templates": "从模板新建角色",
+ "shot.heltec-dice-sheet": "OLED：逐块显示",
+ "shot.m9-dice-offer": "联系人发来的角色卡"
 }
