@@ -52,7 +52,7 @@ static void scenario(){
  {ChessMatch* g=chessNet.invite(peerId(0),chess::White);char t[64];snprintf(t,sizeof t,"\xe2\x99\x9f%04X yes",g->id);chessNet.receive(peerId(0),"Heltec V4",t);
   chessNet.events=0;for(int i=0;i<9;i++)tick();
   tile("chess");touch('t',160,10);key(0x82);
-  for(int i=0;i<3;i++)key(0xb6);key(13);expect("chess list","\"page\":\"chess\"");touch('t',160,46+44+20);expect("game opens","\"page\":\"chess_board\"");
+  tile("chess");key(13);expect("chess list","\"page\":\"chess\"");touch('t',160,46+44+20);expect("game opens","\"page\":\"chess_board\"");
   touch('t',4+4*24+12,25+6*24+12);expect("tap e2 takes the pawn","\"chess_held\":\"e2\"");touch('t',4+4*24+12,25+4*24+12);
   if(g->game.plies!=1){printf("FAIL e2-e4 by taps: %u plies\n",g->game.plies);exit(1);}shot("tdeck-chess");
   touch('t',160,10);touch('t',160,10);expect("chess list back to menu","\"page\":\"home\"");

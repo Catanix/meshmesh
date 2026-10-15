@@ -53,7 +53,7 @@ static void wishlistChecks(){
  auto tally=people::tally;people::tally=people::Tally{};must(!people::change(-1)&&people::change(1)&&people::value()==1,"counter independent and bounded");
  must(people::add("Кофе")&&people::tally.count==2&&people::tally.current==1&&people::value()==0,"a new card opens at zero");must(!people::add(std::string(24,'x').c_str()),"card name byte cap");
  must(people::change(3)&&people::select(0)&&people::value()==1,"cards count apart");people::flush();people::tally=people::Tally{};people::begin();must(people::tally.count==2&&people::tally.list[1].value==3&&people::name(1)=="Кофе","cards survive reload");
- must(runPeople("delete","index",1).startsWith("OK")&&runPeople("delete","index",0).startsWith("ERR"),"the last card stays");must(people::name(0)==(config.lang==LangRu?"Счётчик 1":"Counter 1"),"an unnamed card is numbered");
+ must(runPeople("delete","index",1).startsWith("OK")&&runPeople("delete","index",0).startsWith("ERR"),"the last card stays");must(people::name(0)==String(tr("Counter ","Счётчик "))+"1","an unnamed card is numbered");
  people::tally=tally;people::flush();
  people::settings=peopleSettings;people::resetWindow();hardware.fsOk=fs;
  notifications::Event event;while(notifications::take(event)){}
