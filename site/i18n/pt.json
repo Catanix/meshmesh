@@ -273,5 +273,12 @@
  "f.wardrive.d": "Um mapa de cobertura da sua rede. Em movimento, o nó registra os pacotes que ouve com o repetidor e o sinal, e faz ping num canal: os repetidores que repassam o ping mostram onde a rede alcança você e onde não. Os pontos aparecem no mapa com cor pelo SNR; as placas ESP32 registram também pontos de acesso Wi-Fi e dispositivos Bluetooth. A posição vem de um fix GPS confiável ou do celular no app. Exportação para CSV, GeoJSON, KML e WiGLE.",
  "news.wardrive": "<b>Novo:</b> wardriving — um mapa de cobertura da sua rede: onde os repetidores ouvem você e onde não",
  "news.maps": "<b>Novidade:</b> mapas no celular com relevo e curvas de nível, e um mapa de nós para qualquer placa",
- "doc.wardrive": "Wardriving"
+ "doc.wardrive": "Wardriving",
+ "news.counter": "<b>Novo:</b> contador rápido — cartões que deslizam e contam com um toque",
+ "f.counter.t": "Contador rápido",
+ "f.counter.d": "O antigo contador de pessoas: até 8 cartões com nome e cor próprios — pessoas, voltas, séries. A tela abre direto num cartão: OK soma +1, para baixo −1, esquerda e direita passam os cartões, e depois do último há um novo. Na página e no app os cartões deslizam com o dedo e tocar no número soma +1. O cartão aberto é o mesmo na tela, na página e no app; ao lado fica a estimativa de dispositivos BLE e Wi-Fi. A tela inicial agora mostra os apps na ordem habitual: mensagens, lugares, ferramentas, jogos, ajustes.",
+ "shot.m9-people-cards": "Um cartão do contador",
+ "shot.m9-people-new": "Um cartão novo",
+ "shot.t114-people-two": "T114: dois cartões",
+ "shot.heltec-people-two": "Heltec: dois cartões"
 }

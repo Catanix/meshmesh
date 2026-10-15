@@ -938,10 +938,10 @@
   "ru": "Кости",
   "text": "Dadu"
  },
- "de059adf": {
-  "en": "People counter",
-  "ru": "Счётчик людей",
-  "text": "Penghitung orang"
+ "24f56b02": {
+  "en": "Quick counter",
+  "ru": "Быстрый счётчик",
+  "text": "Penghitung cepat"
  },
  "d108e9cf": {
   "en": "Wardrive",
@@ -1026,21 +1026,6 @@
    "other": "{n} pesan"
   }
  },
- "81fe7504": {
-  "en": "Online map",
-  "ru": "Онлайн-карта",
-  "text": "Peta online"
- },
- "d3a5328b": {
-  "en": "No SD card",
-  "ru": "Нет SD-карты",
-  "text": "Tanpa kartu SD"
- },
- "69cf6474": {
-  "en": "No maps yet",
-  "ru": "Карт пока нет",
-  "text": "Belum ada peta"
- },
  "6d76d314": {
   "en": " of ",
   "ru": " из ",
@@ -1075,15 +1060,54 @@
    "other": "{n} satelit"
   }
  },
- "d3cc0c6b": {
-  "en": "Connect",
-  "ru": "Связь",
-  "text": "Koneksi"
+ "81fe7504": {
+  "en": "Online map",
+  "ru": "Онлайн-карта",
+  "text": "Peta online"
+ },
+ "d3a5328b": {
+  "en": "No SD card",
+  "ru": "Нет SD-карты",
+  "text": "Tanpa kartu SD"
+ },
+ "69cf6474": {
+  "en": "No maps yet",
+  "ru": "Карт пока нет",
+  "text": "Belum ada peta"
  },
  "08d8e8c9": {
   "en": "Radar",
   "ru": "Радар",
   "text": "Radar"
+ },
+ "3efed7d9": {
+  "en": "Off",
+  "ru": "Выключен",
+  "text": "Mati"
+ },
+ "15c8d462": {
+  "en": {
+   "one": "point",
+   "other": "points"
+  },
+  "ru": {
+   "one": "точка",
+   "few": "точки",
+   "many": "точек"
+  },
+  "forms": {
+   "other": "{n} titik"
+  }
+ },
+ "7226324f": {
+  "en": "Solitaire",
+  "ru": "Косынка",
+  "text": "Solitaire"
+ },
+ "d3cc0c6b": {
+  "en": "Connect",
+  "ru": "Связь",
+  "text": "Koneksi"
  },
  "33c54309": {
   "en": "Module health",
@@ -1113,30 +1137,6 @@
   "en": "Radio, screen",
   "ru": "Радио, экран",
   "text": "Radio, layar"
- },
- "7226324f": {
-  "en": "Solitaire",
-  "ru": "Косынка",
-  "text": "Solitaire"
- },
- "3efed7d9": {
-  "en": "Off",
-  "ru": "Выключен",
-  "text": "Mati"
- },
- "15c8d462": {
-  "en": {
-   "one": "point",
-   "other": "points"
-  },
-  "ru": {
-   "one": "точка",
-   "few": "точки",
-   "many": "точек"
-  },
-  "forms": {
-   "other": "{n} titik"
-  }
  },
  "b784e416": {
   "en": "Open",
@@ -2375,41 +2375,6 @@
   "ru": "Сохраняется в памяти устройства",
   "text": "Disimpan di memori perangkat"
  },
- "be55afe3": {
-  "en": "Manual: ",
-  "ru": "Вручную: ",
-  "text": "Manual: "
- },
- "8467b4ea": {
-  "en": "s window",
-  "ru": "с окно",
-  "text": "dtk jendela"
- },
- "6205b8b3": {
-  "en": "Devices nearby are an estimate",
-  "ru": "Устройства рядом - приблизительная оценка",
-  "text": "Perangkat terdekat adalah perkiraan"
- },
- "78c4e048": {
-  "en": "More options in the app",
-  "ru": "Остальные настройки в приложении",
-  "text": "Opsi lain di aplikasi"
- },
- "e9009af6": {
-  "en": "+1",
-  "ru": "+1",
-  "text": "+1"
- },
- "a33a15e0": {
-  "en": "+1 / -1",
-  "ru": "+1 / -1",
-  "text": "+1 / -1"
- },
- "997f20d4": {
-  "en": "exit",
-  "ru": "выход",
-  "text": "keluar"
- },
  "d2d3074d": {
   "en": "Listening",
   "ru": "Приём",
@@ -2543,6 +2508,11 @@
   "en": "send",
   "ru": "слать",
   "text": "kirim"
+ },
+ "997f20d4": {
+  "en": "exit",
+  "ru": "выход",
+  "text": "keluar"
  },
  "bf27012a": {
   "en": "Save changes",
@@ -3027,6 +2997,11 @@
   "en": "Pet name",
   "ru": "Имя питомца",
   "text": "Nama piaraan"
+ },
+ "f12916a4": {
+  "en": "Counter name",
+  "ru": "Имя счётчика",
+  "text": "Nama hitungan"
  },
  "7b04c300": {
   "en": "Region of the channel",
@@ -4768,11 +4743,6 @@
   "ru": "Имя броска",
   "text": "Nama lemparan"
  },
- "f12916a4": {
-  "en": "Counter name",
-  "ru": "Имя счётчика",
-  "text": "Nama hitungan"
- },
  "8ced0833": {
   "en": "New character",
   "ru": "Новый персонаж",
@@ -5356,10 +5326,25 @@
   "ru": "Не удалось вступить",
   "text": "Gagal bergabung"
  },
- "24a94503": {
-  "en": "Reset manual count",
-  "ru": "Сбросить ручной счёт",
-  "text": "Nolkan hitungan manual"
+ "ae41ac73": {
+  "en": "Next: ",
+  "ru": "Дальше: ",
+  "text": "Lanjut: "
+ },
+ "6ae1f814": {
+  "en": "Hold again: delete",
+  "ru": "Держите ещё: удалить",
+  "text": "Tahan lagi: hapus"
+ },
+ "1b57d9f8": {
+  "en": "Delete this counter",
+  "ru": "Удалить этот счётчик",
+  "text": "Hapus penghitung"
+ },
+ "fd17f345": {
+  "en": "Reset to 0",
+  "ru": "Сбросить в 0",
+  "text": "Atur ke 0"
  },
  "b1475adf": {
   "en": "Window: ",
@@ -5375,11 +5360,6 @@
   "en": "Clear device window",
   "ru": "Сбросить окно устройств",
   "text": "Bersihkan jendela perangkat"
- },
- "4fb7bcd4": {
-  "en": "Exit",
-  "ru": "Выход",
-  "text": "Keluar"
  },
  "75ea9303": {
   "en": "Stop wardrive",
@@ -5421,11 +5401,6 @@
   "ru": "Окно: ",
   "text": "Jendela: "
  },
- "bb24022c": {
-  "en": "off",
-  "ru": "выкл.",
-  "text": "mati"
- },
  "c30a161e": {
   "en": "all",
   "ru": "все",
@@ -5435,11 +5410,6 @@
   "en": "TX alert: ",
   "ru": "Ошибка TX: ",
   "text": "Peringatan TX: "
- },
- "1f4a8e16": {
-  "en": "on",
-  "ru": "вкл.",
-  "text": "jalan"
  },
  "93d18358": {
   "en": "Write message...",
@@ -5715,6 +5685,16 @@
   "en": "Reply not queued",
   "ru": "Ответ не отправлен",
   "text": "Balasan gagal"
+ },
+ "03a42f46": {
+  "en": "Deleted: ",
+  "ru": "Удалён: ",
+  "text": "Dihapus: "
+ },
+ "1c6f82db": {
+  "en": "New device window",
+  "ru": "Новое окно устройств",
+  "text": "Jendela perangkat baru"
  },
  "29271733": {
   "en": "A ping is under way",
@@ -7162,6 +7142,71 @@
   "en": "Take",
   "ru": "Взять",
   "text": "Ambil"
+ },
+ "ef59e9cf": {
+  "en": "New counter",
+  "ru": "Новый счётчик",
+  "text": "Penghitung baru"
+ },
+ "b5692498": {
+  "en": "OK: add",
+  "ru": "OK: добавить",
+  "text": "OK: tambah"
+ },
+ "6ea14f15": {
+  "en": "Nearby: ",
+  "ru": "Рядом: ",
+  "text": "Dekat: "
+ },
+ "087665ad": {
+  "en": "N: name  C: colour  R: reset  DEL: delete  B: BLE",
+  "ru": "N: имя  C: цвет  R: сброс  DEL: удалить  B: BLE",
+  "text": "N: nama  C: warna  R: nol  DEL: hapus  B: BLE"
+ },
+ "ecc87675": {
+  "en": "Cards",
+  "ru": "Карточки",
+  "text": "Kartu"
+ },
+ "4fb7bcd4": {
+  "en": "Exit",
+  "ru": "Выход",
+  "text": "Keluar"
+ },
+ "f8252ad7": {
+  "en": "R again: reset to 0",
+  "ru": "Ещё раз R: сбросить в 0",
+  "text": "R lagi: atur ke 0"
+ },
+ "0f020b2d": {
+  "en": "8 counters at most",
+  "ru": "Не больше 8 счётчиков",
+  "text": "Paling banyak 8 penghitung"
+ },
+ "d32873b8": {
+  "en": "Counter reset",
+  "ru": "Счётчик сброшен",
+  "text": "Penghitung direset"
+ },
+ "84dcf6cf": {
+  "en": "The last counter stays",
+  "ru": "Последний счётчик остаётся",
+  "text": "Penghitung terakhir tetap"
+ },
+ "1f4a8e16": {
+  "en": "on",
+  "ru": "вкл.",
+  "text": "jalan"
+ },
+ "bb24022c": {
+  "en": "off",
+  "ru": "выкл.",
+  "text": "mati"
+ },
+ "9e3fd87d": {
+  "en": "Name: up to 23 UTF-8 bytes",
+  "ru": "Имя: до 23 байт UTF-8",
+  "text": "Nama: maks. 23 bita UTF-8"
  },
  "5e550939": {
   "en": "Player",

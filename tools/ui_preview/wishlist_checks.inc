@@ -50,9 +50,15 @@ static void wishlistChecks(){
  for(unsigned i=2;i<140;i++)people::hear(false,i,-60);must(people::count(false)==128&&people::saturated(false)&&people::dropped(false)>0,"bounded device table reports saturation");
  fakeMillis+=30001;must(people::count(false)==0,"device window expires");
  must(runPeople("settings","window",-1).startsWith("ERR"),"window validation");
- people::settings.manual=0;must(!people::change(-1)&&people::change(1)&&people::settings.manual==1,"manual counter independent and bounded");people::flush();people::begin();must(people::settings.manual==1,"manual counter survives reload");
+ auto tally=people::tally;people::tally=people::Tally{};must(!people::change(-1)&&people::change(1)&&people::value()==1,"counter independent and bounded");
+ must(people::add("Кофе")&&people::tally.count==2&&people::tally.current==1&&people::value()==0,"a new card opens at zero");must(!people::add(std::string(24,'x').c_str()),"card name byte cap");
+ must(people::change(3)&&people::select(0)&&people::value()==1,"cards count apart");people::flush();people::tally=people::Tally{};people::begin();must(people::tally.count==2&&people::tally.list[1].value==3&&people::name(1)=="Кофе","cards survive reload");
+ must(runPeople("delete","index",1).startsWith("OK")&&runPeople("delete","index",0).startsWith("ERR"),"the last card stays");must(people::name(0)==(config.lang==LangRu?"Счётчик 1":"Counter 1"),"an unnamed card is numbered");
+ people::tally=tally;people::flush();
  people::settings=peopleSettings;people::resetWindow();hardware.fsOk=fs;
  notifications::Event event;while(notifications::take(event)){}
  ChatMessage sent;sent.destination=meshmesh::Broadcast;sent.packet=12345;notifications::emit(notifications::Transmitted,sent);notifications::repeatPacket(12345);fakeMillis+=30001;notifications::tick();while(notifications::take(event))must(event.kind!=notifications::Unconfirmed,"repeat outside retained history cancels timeout");
+ must(appsOldDefault("chats nodes chess pet dice quick people radar gps ble settings health wardrive")&&appsOldDefault("chats map nodes nav connect radar health settings solitaire chess pet dice quick people wardrive"),"old default orders reset");
+ must(!appsOldDefault("")&&!appsOldDefault("settings chats nodes")&&!appsOldDefault("chats map nodes -pet")&&!appsOldDefault("chats quick nodes nav map radar"),"chosen orders stay");
  printf("wishlist module checks passed\n");
 }

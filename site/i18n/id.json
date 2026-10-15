@@ -273,5 +273,12 @@
  "f.wardrive.d": "Peta jangkauan jaringan Anda. Saat bergerak, node mencatat paket yang didengar beserta repeater dan sinyalnya, lalu mengirim ping ke kanal: repeater yang meneruskan ping menunjukkan di mana jaringan menjangkau Anda dan di mana tidak. Titik muncul di peta dengan warna menurut SNR; papan ESP32 juga mencatat titik akses Wi-Fi dan perangkat Bluetooth. Posisi berasal dari fix GPS tepercaya atau dari ponsel di aplikasi. Ekspor ke CSV, GeoJSON, KML, dan WiGLE.",
  "news.wardrive": "<b>Baru:</b> wardriving — peta jangkauan jaringan: di mana repeater mendengar Anda dan di mana tidak",
  "news.maps": "<b>Baru:</b> peta di ponsel dengan relief dan garis kontur, serta peta node untuk semua papan",
- "doc.wardrive": "Wardriving"
+ "doc.wardrive": "Wardriving",
+ "news.counter": "<b>Baru:</b> penghitung cepat — kartu yang digeser dan menghitung dengan sekali tekan",
+ "f.counter.t": "Penghitung cepat",
+ "f.counter.d": "Penghitung orang yang lama kini menjadi hingga 8 kartu dengan nama dan warna sendiri — orang, putaran, set. Layar langsung terbuka di kartu: OK +1, bawah −1, kiri dan kanan mengganti kartu, dan setelah yang terakhir ada kartu baru. Di halaman dan aplikasi kartu digeser dengan jari, ketuk angka untuk +1. Kartu yang terbuka sama di layar, halaman, dan aplikasi; di sampingnya tetap ada perkiraan perangkat BLE dan Wi-Fi. Layar utama kini menata aplikasi dalam urutan yang lazim: pesan, tempat, alat, permainan, pengaturan.",
+ "shot.m9-people-cards": "Kartu penghitung",
+ "shot.m9-people-new": "Kartu baru",
+ "shot.t114-people-two": "T114: dua kartu",
+ "shot.heltec-people-two": "Heltec: dua kartu"
 }

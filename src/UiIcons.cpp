@@ -35,6 +35,10 @@ void drawIcon(Adafruit_GFX& d,Icon id,int cx,int cy,int s,uint16_t c,uint16_t ho
  case IcDice:{int r=max(2,s/4),p=max(1,s/5);d.fillRoundRect(cx-s*7/8,cy-s*7/8,s*7/4,s*7/4,r,c);for(int k:{-1,0,1})d.fillCircle(cx+k*h,cy+k*h,p,hole);break;} // a die showing three
  case IcPower:{int r=s*3/4;arc(d,cx,cy+q/2,r,40,320,c);arc(d,cx,cy+q/2,r-1,40,320,c);thick(d,cx,cy-s,cx,cy,c);break;}
  case IcScreen:d.drawRoundRect(cx-s,cy-s*5/8,2*s,s*5/4,2,c);d.fillRect(cx-s+3,cy-s*5/8+3,2*s-6,s*5/4-6,c);break;
+ case IcSend:{int ax=cx-s,ay=cy-s/8,bx=cx+s,by=cy-s*15/16,ex=cx+s/5,ey=cy+s,fx=cx-s/6,fy=cy+s/4; // a paper plane, its fold cut in
+  d.fillTriangle(ax,ay,bx,by,fx,fy,c);d.fillTriangle(bx,by,ex,ey,fx,fy,c);if(s>5)d.drawLine(fx,fy,bx-1,by+1,hole);break;}
+ case IcTally:{int bw=max(1,s/5),top=cy-s*3/4,len=s*3/2;for(int k=0;k<4;k++)d.fillRect(cx-s*3/4+k*s/2-bw/2,top,bw+(s>6),len,c); // four strokes struck through
+  thick(d,cx-s,cy+h,cx+s,cy-h,c);if(s>6)thick(d,cx-s,cy+h+1,cx+s,cy-h+1,c);break;}
  case IcKey:d.drawCircle(cx-h,cy,max(2,s*3/8),c);d.drawFastHLine(cx-h+s*3/8,cy,s+1,c);d.drawFastVLine(cx+h,cy,max(2,s/3),c);d.drawFastVLine(cx+s-1,cy,max(2,s/3),c);break;
  }
 }

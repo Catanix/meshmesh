@@ -1,4 +1,6 @@
 // Screens rendered by the preview; the key codes are the production M9 codes.
+// Selects an app's tile on the M9 home grid (three a row) from the first one.
+static void tile(const char* id){key(0x82);uint8_t o[AppsMax];unsigned n=appsShown(o);for(unsigned i=0;i<n;i++)if(!strcmp(uiApps[o[i]],id)){for(unsigned k=0;k<i/3;k++)key(0xb6);for(unsigned k=0;k<i%3;k++)key(0xb7);return;}printf("FAIL no home tile %s\n",id);exit(1);}
 static void scenario(){
 #if defined(MM_JOYSTICK)
  // GAT562: joystick arrows 0xb4..0xb7, centre 13 (hold 0xa3), Back 0x86 (hold 0x82).
@@ -11,9 +13,9 @@ static void scenario(){
  ChessMatch* g=chessNet.invite(peerId(0),chess::White);sayId(0,"Heltec V4",g->id,"yes");
  for(const char* u:{"e2e4","e7e5","g1f3","b8c6","f1c4","f8c5"}){if(g->myTurn()){chess::Move mv;if(g->game.pos.parseUci(u,mv))chessNet.move(*g,mv);}else{char b[16];snprintf(b,sizeof b,"%u %s",g->game.plies+1,u);sayId(0,"Heltec V4",g->id,b);}}
  chessNet.events=0;for(int i=0;i<9;i++)tick(); // no news popup over the board
- key(0x86);key(0xb7);key(0xb7);key(0xb7);shot("gat562-chess-list");key(13);key(13);shot("gat562-chess");key(0x86);key(0x86);
- key(0xb7);for(int i=0;i<3;i++)tick();shot("gat562-radar");
- key(0xb4);key(0xb4);key(13);shot("gat562-node-menu");key(0x86);
+ key(0x86);for(int i=0;i<16&&uiStatus().indexOf("\"page\":\"chess\"")<0;i++)key(0xb7);shot("gat562-chess-list");key(13);key(13);shot("gat562-chess");key(0x86);key(0x86);
+ for(int i=0;i<16&&uiStatus().indexOf("\"page\":\"radar\"")<0;i++)key(0xb7);for(int i=0;i<3;i++)tick();shot("gat562-radar");
+ for(int i=0;i<16&&uiStatus().indexOf("\"page\":\"nodes\"")<0;i++)key(0xb4);key(13);shot("gat562-node-menu");key(0x86);
  // Radio settings: "Radio..." in the Settings menu; the frequency by digits (OK, left/right, up/down), SF by right, Save.
  {auto expect=[](const char* what,const char* part){if(uiStatus().indexOf(part)<0){printf("FAIL %s: %s\n",what,uiStatus().c_str());exit(1);}};
   for(int i=0;i<14&&uiStatus().indexOf("\"page\":\"settings\"")<0;i++)key(0xb7);key(13);key(0xb6);key(13);expect("radio screen","\"page\":\"radio\"");shot("gat562-radio");
@@ -44,17 +46,17 @@ static void scenario(){
  expect("footer DEL stays on the list","\"page\":\"internet\"");
  touch('t',160,10);expect("back to Connections","\"page\":\"network\"");shot("tdeck-network-lan");internet.state=Internet::Off;
  key(0x88);expect("locked","\"locked\":true");touch('t',160,120);expect("a tap does not unlock","\"locked\":true");touch('h',160,120);expect("hold unlocks","\"locked\":false");
- key(0x82);key(0xb6);key(0xb6);key(0xb7);key(0xb7);key(0x86);for(int i=0;i<3;i++)key(0xb6);key(0x86);
+ tile("solitaire");key(0x86);for(int i=0;i<3;i++)key(0xb6);key(0x86);
  key(0x90);for(int i=0;i<5;i++)key(0xb6);key(13);shot("tdeck-help");key(0x86);
  // Chess: the colour row, then a game opened by taps and a move made on the board.
  {ChessMatch* g=chessNet.invite(peerId(0),chess::White);char t[64];snprintf(t,sizeof t,"\xe2\x99\x9f%04X yes",g->id);chessNet.receive(peerId(0),"Heltec V4",t);
   chessNet.events=0;for(int i=0;i<9;i++)tick();
-  key(0x82);for(int i=0;i<3;i++)key(0xb6);touch('t',160,10);key(0x82);
+  tile("chess");touch('t',160,10);key(0x82);
   for(int i=0;i<3;i++)key(0xb6);key(13);expect("chess list","\"page\":\"chess\"");touch('t',160,46+44+20);expect("game opens","\"page\":\"chess_board\"");
   touch('t',4+4*24+12,25+6*24+12);expect("tap e2 takes the pawn","\"chess_held\":\"e2\"");touch('t',4+4*24+12,25+4*24+12);
   if(g->game.plies!=1){printf("FAIL e2-e4 by taps: %u plies\n",g->game.plies);exit(1);}shot("tdeck-chess");
   touch('t',160,10);touch('t',160,10);expect("chess list back to menu","\"page\":\"home\"");
-  key(0x82);for(int i=0;i<3;i++)key(0xb6);key(13);touch('t',160,60);expect("new game","\"page\":\"chess_pick\"");touch('t',160,35);expect("colour row","\"chess_color\":0");
+  tile("chess");key(13);touch('t',160,60);expect("new game","\"page\":\"chess_pick\"");touch('t',160,35);expect("colour row","\"chess_color\":0");
   touch('t',160,88+44+20);expect("first tap on another contact selects","\"selected\":1");expect("no challenge yet","\"page\":\"chess_pick\"");}
  // Channels: "add a channel" row, the hashtag editor, a channel chat, its card from the footer "<" hint.
  key(0x82);key(0x81);expect("chats","\"page\":\"threads\"");touch('t',160,24+3*48+20);expect("add row","\"page\":\"channel_add\"");
@@ -68,7 +70,7 @@ static void scenario(){
  hardware.fsOk=false;key(0x82);key(0x83);shot("tdeck-format");previewCommands="";key(13);key(13);
  if(previewCommands!="fsformat;restart;"){printf("FAIL create storage: %s\n",previewCommands.c_str());exit(1);}hardware.fsOk=true;
  // Dice: taps on a tab, a grid die, the roll card and a counter's +5.
- {dicer.begin();dicer.addCounter("HP");key(0x82);for(int i=0;i<3;i++)key(0xb6);key(0xb7);key(0xb7);key(13);expect("dice tile","\"page\":\"dice\"");
+ {dicer.begin();dicer.addCounter("HP");tile("dice");key(13);expect("dice tile","\"page\":\"dice\"");
   touch('t',80,34);if(dicer.s.mode!=dice::Grid){printf("FAIL dice tab tap: %s\n",dicer.json().c_str());exit(1);}
   touch('t',20,60);touch('t',50,60);if(dicer.s.gridChosen!=2){printf("FAIL dice grid tap: %s\n",dicer.json().c_str());exit(1);}
   touch('t',20,34);uint32_t rolls=dicer.rolls;touch('t',100,120);if(dicer.rolls!=rolls+1){printf("FAIL dice roll tap: %s\n",dicer.json().c_str());exit(1);}shot("tdeck-dice");
@@ -139,7 +141,7 @@ static void scenario(){
   key(0x86);if(uiStatus().indexOf("\"page\":\"home\"")<0||uiStatus().indexOf("\"selected\":3,")<0){printf("FAIL back from navigation to the menu: %s\n",uiStatus().c_str());exit(1);}
   key(0x90);key(0xb6);key(0xb6);key(13);key(0x86);if(uiStatus().indexOf("\"page\":\"settings\"")<0||uiStatus().indexOf("\"selected\":2,")<0){printf("FAIL back from navigation to the settings: %s\n",uiStatus().c_str());exit(1);}}
  key(0x90);shot("settings");key(13);key(0xb7);shot("radio");for(int i=0;i<7;i++)key(0xb6);key(0xb7);shot("radio-hash");key(0xb6);key(0xb6);key(13);shot("radio-regions");key(0xb5);key(0xb7);key(0xb7);key(0xb7);shot("radio-region");key(13);for(int i=0;i<3;i++)key(8);for(char ch:std::string("sao"))key(ch);shot("radio-region-type");key(0x86);key(0x86);key(0xb6);key(13);for(int i=0;i<8;i++)key(0xb6);key(0xb7);shot("display-battery");for(int i=0;i<8;i++)key(0xb5);shot("display");key(13);shot("display-name");key(0x86);key(0x86);
- key(0x82);key(0xb6);key(0xb7);key(13);key(13);key(0xb6);key(13);shot("network");key(13);key(0xb6);key(13);key(0x83);shot("diagnostics");key(0x90);for(int i=0;i<5;i++)key(0xb6);key(13);shot("help");key(13);shot("help-layout");key(0x86);key(13);shot("help-layout");key(0x86);
+ tile("connect");key(13);key(13);key(0xb6);key(13);shot("network");key(13);key(0xb6);key(13);key(0x83);shot("diagnostics");key(0x90);for(int i=0;i<5;i++)key(0xb6);key(13);shot("help");key(13);shot("help-layout");key(0x86);key(13);shot("help-layout");key(0x86);
  // Connections with Bluetooth on: the MeshCore- name the phone apps see, then off again.
  key(0x90);for(int i=0;i<3;i++)key(0xb6);key(13);key(0xb6);key(0xb6);key(13);
  if(!bleActive()||uiStatus().indexOf("\"page\":\"network\"")<0){printf("FAIL Bluetooth on: %s\n",uiStatus().c_str());exit(1);}shot("network-ble");key(13);key(0x86);key(0x86);
@@ -151,19 +153,19 @@ static void scenario(){
  key(0x88);key(0xa3);key(0x82);
  key(0xb6);key(0xb7);key(0xb7);shot("home-radar");key(0xb6);shot("home-scrolled");key(0xb5);key(13);shot("radar");key(0xb6);key(0xb6);shot("radar-select");key(0xb5);key(0xb5);key(13);shot("homing");key(0x86);shot("radar-back");key(0xb7);shot("motion");key('b');for(int i=0;i<4;i++)tick();shot("motion-beacon");key('b');key(0xb7);key(0x86);
  // Solitaire: the ninth home tile; hints, a held run and the key sheet.
- key(0x82);key(0xb6);key(0xb6);key(0xb7);key(0xb7);shot("home-solitaire");key(13);shot("solitaire");for(int i=0;i<12;i++){key('p');key(' ');}shot("solitaire-played");
+ tile("solitaire");shot("home-solitaire");key(13);shot("solitaire");for(int i=0;i<12;i++){key('p');key(' ');}shot("solitaire-played");
  key(0xb5);key(0xb5);key(0xb6);key(0xb5);key(13);key(0xb7);shot("solitaire-held");key(0x86);key('h');shot("solitaire-help");key(0x86);key(0x86);
  // Chess: the tenth home tile, the list, a challenge, a game with a held piece, promotion and a won game.
  {auto sayId=[](int peer,const char* name,unsigned id,const char* body){char t[64];snprintf(t,sizeof t,"\xe2\x99\x9f%04X %s",id,body);chessNet.receive(peerId(peer),name,t);};
   auto play=[&](int peer,const char* name,ChessMatch* m,std::initializer_list<const char*> moves){for(const char* u:moves){if(m->myTurn()){chess::Move mv;if(m->game.pos.parseUci(u,mv))chessNet.move(*m,mv);}else{char b[16];snprintf(b,sizeof b,"%u %s",m->game.plies+1,u);sayId(peer,name,m->id,b);}}};
-  key(0x82);for(int i=0;i<3;i++)key(0xb6);shot("home-chess");key(13);shot("chess-empty");key(13);shot("chess-pick");key(0xb7);shot("chess-pick-white");key(13);shot("chess-inviting");
+  tile("chess");shot("home-chess");key(13);shot("chess-empty");key(13);shot("chess-pick");key(0xb7);shot("chess-pick-white");key(13);shot("chess-inviting");
   ChessMatch* a=nullptr;for(auto& m:chessNet.matches)if(m.state==ChessMatch::Inviting)a=&m;
   sayId(0,"Heltec V4",a->id,"yes");play(0,"Heltec V4",a,{"e2e4","e7e5","g1f3","b8c6","f1c4","g8f6"});
   shot("chess-italian");key(0x86);key(13);for(int i=0;i<3;i++)key(0xb6);key(13);key(0xb7);key(0xb5);key(0xb5);shot("chess-held");key(0x86);key('h');shot("chess-help");key(0x86);key(0x86);
   ChessMatch* b=chessNet.invite(peerId(5),chess::White);sayId(5,"Марат",b->id,"yes");play(5,"Марат",b,{"e2e4","e7e5","d1h5","b8c6","f1c4","g8f6","h5f7"});
   ChessMatch* c=chessNet.invite(peerId(0),chess::White);sayId(0,"Heltec V4",c->id,"yes");play(0,"Heltec V4",c,{"a2a4","b7b5","a4b5","a7a6","b5a6","c8b7","a6b7","b8c6"});
   sayId(3,"Игорь T-Deck",0x4B1D,"new w · шахматы MeshMesh");
-  auto openList=[&](int row){key(0x82);for(int i=0;i<3;i++)key(0xb6);key(13);for(int k=0;k<row;k++)key(0xb6);};
+  auto openList=[&](int row){tile("chess");key(13);for(int k=0;k<row;k++)key(0xb6);};
   openList(0);shot("chess-list");
   for(int i=1;i<=4;i++){openList(i);key(13);char n[32];snprintf(n,sizeof n,"chess-open%d",i);shot(n);}
   // An undelivered move and a draw offer from the other player.
@@ -189,7 +191,7 @@ static void scenario(){
    openList(0);key(0xb7);shot("chess-rating");key(0xb4);
    char want[32];snprintf(want,sizeof want,"\"chess_game\":\"%04X\"",b->id);
    for(int i=1;i<=5;i++){openList(i);key(13);if(uiStatus().indexOf(want)>=0){shot("chess-rated-result");break;}}
-   key(0x82);key(0x82);for(int i=0;i<3;i++)key(0xb6);key(13);key(13);shot("chess-pick-rated");key(0x86);key(0x82);}
+   key(0x82);tile("chess");key(13);key(13);shot("chess-pick-rated");key(0x86);key(0x82);}
   // Locked: a challenge arrives; its card stands above the messages, without names when details are off,
   // and holding OK unlocks straight into the game.
   key(0x88);sayId(5,"Марат",0x5C3E,"new b · шахматы MeshMesh");tick();shot("locked-chess");
@@ -215,12 +217,12 @@ static void scenario(){
   {for(auto& m:chessNet.matches)m=ChessMatch(); // free boards for the tournament games
    const char* extra[]={"Лиля","Ринат","Тимур"};for(int i=0;i<3;i++){auto& p=meshRadio.peers[meshRadio.peerCount++];p=Peer();p.id=peerId(6+i);strcpy(p.name,extra[i]);p.type=1;p.heard=true;p.seen=fakeMillis-60000*(i+1);for(int k=0;k<8;k++)p.publicKey[k]=uint8_t(p.id>>(56-8*k));p.publicKey[8]=0x70+i;}
    auto fail=[](const char* what){printf("FAIL tournament: %s\n",what);exit(1);};
-   key(0x82);for(int i=0;i<3;i++)key(0xb6);key(13);key('2');shot("tour-empty");
+   tile("chess");key(13);key('2');shot("tour-empty");
    key(13);shot("tour-new-name");key(0xb7);for(int i=0;i<6;i++){key(' ');key(0xb6);}shot("tour-new-players");key(13);shot("tour-new-rules");key(13);shot("tour-new-check");
    previewSent.clear();key(13);if(uiStatus().indexOf("\"page\":\"chess_tour\"")<0)fail("the wizard did not open the tournament");shot("tour-gathering");
    tour::Tour* T=nullptr;for(auto& x:tour::net.tours)if(x.state==tour::Inviting)T=&x;if(!T||T->playerCount!=7)fail("seven players asked");
    unsigned invites=0;for(auto& m:previewSent)invites+=m.text.find(" inv ")!=std::string::npos;if(invites!=6)fail("six invitations");
-   auto openTour=[&](uint16_t id){char want[24];snprintf(want,sizeof want,"\"tour\":\"%04X\"",id);for(int row=1;row<=3;row++){key(0x82);for(int i=0;i<3;i++)key(0xb6);key(13);key('2');for(int k=0;k<row;k++)key(0xb6);key(13);if(uiStatus().indexOf(want)>=0)return;}fail("tournament page");};
+   auto openTour=[&](uint16_t id){char want[24];snprintf(want,sizeof want,"\"tour\":\"%04X\"",id);for(int row=1;row<=3;row++){tile("chess");key(13);key('2');for(int k=0;k<row;k++)key(0xb6);key(13);if(uiStatus().indexOf(want)>=0)return;}fail("tournament page");};
    char cmd[200];auto say=[&](int peer,const char* name,const char* body){snprintf(cmd,sizeof cmd,"\xe2\x99\x9e%04X %s",T->id,body);tour::net.receive(peerId(peer),name,cmd);};
    const char* names[]={"Heltec V4","","","Игорь T-Deck","","Марат","Лиля","Ринат","Тимур"};int who[]={0,3,5,6,7,8};
    for(int i=0;i<5;i++)say(who[i],names[who[i]],"yes");tour::net.tick();if(T->state!=tour::Inviting)fail("started before everyone answered");
@@ -316,7 +318,7 @@ static void scenario(){
 #endif
   auto snap=[&](const char* n){shot((std::string(prefix)+n).c_str());};
 #else
-  key(0x82);for(int i=0;i<3;i++)key(0xb6);key(0xb7);auto snap=[&](const char* n){shot(n);};snap("home-pet");key(13);
+  tile("pet");auto snap=[&](const char* n){shot(n);};snap("home-pet");key(13);
 #endif
   if(uiStatus().indexOf("\"page\":\"pet\"")<0){printf("FAIL pet page: %s\n",uiStatus().c_str());exit(1);}
   // Every species, young and grown, awake at noon (the gallery of tools/pet_sprites.py on the real screens).
@@ -408,7 +410,7 @@ static void scenario(){
 #endif
   dicer.setMode(dice::Rpg);
 #else
-  key(0x82);for(int i=0;i<3;i++)key(0xb6);key(0xb7);key(0xb7);shot("home-dice");key(13);
+  tile("dice");shot("home-dice");key(13);
   if(uiStatus().indexOf("\"page\":\"dice\"")<0){printf("FAIL dice page: %s\n",uiStatus().c_str());exit(1);}
   shot("dice-empty");key(13);shot("dice-rpg");must(dicer.resultCount==1&&dicer.last()->parts==2,"OK rolls the pool");
   dicer.roll("d4+d6+d8+d10+d12+d20");shot("dice-shapes");
@@ -430,7 +432,7 @@ static void scenario(){
 #else
    13;
 #endif
-  for(int i=0;i<4&&uiStatus().indexOf("\"page\":\"home\"")<0;i++)key(0x86);page("home");shot("heltec-apps-home");key(next);page("settings");key(next);page(MM_CHESS?"chess":"pet");
+  for(int i=0;i<4&&uiStatus().indexOf("\"page\":\"home\"")<0;i++)key(0x86);page("home");shot("heltec-apps-home");key(next);page("settings");key(next);page("gps"); // the apps the setting does not name follow in the default order
   for(int i=0;i<14&&uiStatus().indexOf("\"page\":\"home\"")<0;i++){key(next);if(uiStatus().indexOf("\"page\":\"messages\"")>=0||uiStatus().indexOf("\"page\":\"nodes\"")>=0){printf("FAIL hidden page shown\n");exit(1);}}page("home");
 #else
   key(0x82);shot("home-apps");key(13);page("settings");key(0x82);key(0xb7);key(13);page("map");key(0x82);
@@ -447,7 +449,7 @@ static void scenario(){
 #endif
 #if !defined(MM_JOYSTICK)
   key(0x86);key(step);must(uiStatus().indexOf("\"page\":\"quick\"")>=0&&uiStatus().indexOf("\"app_open\":false")>=0,"Quick Send waits for a hold");shot("heltec-quick-closed");unsigned passed=meshRadio.historyCount;key(step);
-  must(uiStatus().indexOf("\"page\":\"people\"")>=0&&uiStatus().indexOf("\"app_open\":false")>=0,"click passes Quick Send");unsigned untouched=people::settings.manual;key(step);must(uiStatus().indexOf("\"page\":\"dice\"")>=0&&people::settings.manual==untouched,"click passes the counter without counting");
+  must(uiStatus().indexOf("\"page\":\"people\"")>=0&&uiStatus().indexOf("\"app_open\":false")>=0,"click passes Quick Send");int32_t untouched=people::value();key(step);must(uiStatus().indexOf("\"page\":\"dice\"")>=0&&people::value()==untouched,"click passes the counter without counting");
   unsigned unrolled=dicer.rolls;key(step);must(uiStatus().indexOf("\"page\":\"dice\"")<0&&dicer.rolls==unrolled&&meshRadio.historyCount==passed,"click passes dice without rolling");
   key(0x86);key(step);key(hold);
 #else
@@ -462,9 +464,12 @@ static void scenario(){
   must(meshRadio.historyCount==sent+2&&String(meshRadio.history[sent+1].text)==quickSend::state.text[quickSend::Count-1]&&meshRadio.history[sent+1].destination==to,"last preset remains reachable and sends its own text");
 #if defined(MM_JOYSTICK)
   key(0x86);key(step);key(0xb5);must(uiStatus().indexOf("\"quick_row\":11")>=0,"joystick up wraps to exit");key(0xb5);must(uiStatus().indexOf("\"quick_index\":9")>=0,"joystick up reaches last preset");key(0xb6);key(0xb6);must(uiStatus().indexOf("\"quick_row\":0")>=0,"joystick down wraps to recipient card");
-  key(0x86);key(step);key(step);unsigned manual=people::settings.manual;key(0xb5);must(people::settings.manual==manual+1,"joystick up counts +1");key(0xb6);must(people::settings.manual==manual,"joystick down counts -1");
+  key(0x86);key(step);key(step);int32_t manual=people::value();key(0xb5);must(people::value()==manual+1,"joystick up counts +1");key(0xb6);must(people::value()==manual,"joystick down counts -1");
 #else
-  key(13);key(hold);must(uiStatus().indexOf("\"page\":\"people\"")>=0,"Quick exit advances to counter");shot("heltec-people-closed");key(hold);must(uiStatus().indexOf("\"app_open\":true")>=0,"hold opens the counter");unsigned manual=people::settings.manual;key(13);must(people::settings.manual==manual+1,"manual +1");key(hold);shot("heltec-people-menu");key(hold);must(people::settings.manual==manual,"manual -1 menu");
+  key(13);key(hold);must(uiStatus().indexOf("\"page\":\"people\"")>=0,"Quick exit advances to counter");shot("heltec-people-closed");key(hold);must(uiStatus().indexOf("\"app_open\":true")>=0,"hold opens the counter");int32_t manual=people::value();key(13);must(people::value()==manual+1,"manual +1");key(hold);shot("heltec-people-menu");key(hold);must(people::value()==manual,"manual -1 menu");
+  key(hold);key(13);key(hold);must(people::tally.count==2&&people::tally.current==1,"menu adds a card and opens it");key(13);key(13);must(people::value()==2,"the new card counts");
+  people::rename(1,config.lang==LangRu?"Кофе":"Coffee");fakeMillis+=4000;tick();shot("heltec-people-two");key(hold);key(13);key(hold);must(people::tally.current==0&&people::value()==manual,"menu turns to the next card");
+  people::select(1);key(hold);for(int i=0;i<4;i++)key(13);key(hold);must(people::tally.count==2,"delete asks again");shot("heltec-people-delete");key(hold);must(people::tally.count==1,"second hold deletes");
 #endif
   shot("heltec-people");
 #if !defined(MM_JOYSTICK)
@@ -479,7 +484,13 @@ static void scenario(){
   must(meshRadio.historyCount==sent+1&&String(meshRadio.history[sent].text)==quickSend::state.text[0],"first preset still sends its own text");
   key(0xb5);key(0xb5);shot("quick-last");key(13);
   must(meshRadio.historyCount==sent+2&&String(meshRadio.history[sent+1].text)==quickSend::state.text[quickSend::Count-1],"last preset remains reachable and sends its own text");
-  key(0x86);key(0xb7);key(13);unsigned manual=people::settings.manual;key(13);must(people::settings.manual==manual+1,"manual +1");key(0xb6);must(people::settings.manual==manual,"manual -1");shot("people");key(0x86);
+  key(0x86);key(0xb7);key(13);int32_t manual=people::value();key(13);must(people::value()==manual+1,"counter +1");key(0xb6);must(people::value()==manual,"counter -1");
+  bool ru=config.lang==LangRu||config.lang==LangUk;people::rename(0,ru?"Гости":"Guests");people::set(0,27);shot("people");
+  key(0xb7);must(uiStatus().indexOf("\"tally_new\":true")>=0,"right of the last card: a new one");shot("people-new");key(13);must(people::tally.count==2&&people::tally.current==1,"OK adds a card");
+  key('n');for(char ch:std::string(ru?"Kofe":"Coffee"))key(ch);shot("people-name");key(13);key(13);key(13);must(people::value()==2,"the new card counts on its own");
+  key(0xb4);must(people::tally.current==0&&people::value()==27,"left turns back to the first card");key(0xb7);key(0x08);key(0x08);must(people::tally.count==1,"DEL twice deletes");
+  people::add(ru?"Круги":"Laps");people::set(1,12);people::recolor(1,7);people::add(ru?"Подходы":"Sets");people::set(2,4);people::recolor(2,5);people::select(0);fakeMillis+=4000;tick();shot("people-cards");
+  people::remove(2);people::remove(1);key(0x86);
 #endif
   config.apps[0]=0;printf("wishlist UI checks passed\n");}
 // Wardrive: off, then listening and pings along a street; its points on the map.

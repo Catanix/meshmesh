@@ -38,7 +38,7 @@ const char* pageNames[]={"home","messages","nodes","chess","pet","dice","radar",
 unsigned quickIndex=0,quickTargetIndex=0;bool quickTargets=false,quickReply=false;uint64_t quickReplyTo=0;
 int page=Home,menuIndex=0,messageOffset=0,nodeIndex=0;bool menuOpen=false,dirty=true,screenOff=false;
 // One button: pages whose click counts, rolls or picks are entered with a hold, so clicking through the pages passes them.
-bool appOpen=false;
+bool appOpen=false;uint32_t tallyArmed=0; // tallyArmed: the quick counter asks to hold again before deleting a card
 bool appPage(){
 #if defined(MM_JOYSTICK)
  return false;
@@ -162,7 +162,12 @@ bool pageShown(int p){
 #else
 #define MM_WIFI_APP(x) x,
 #endif
-const char* const uiApps[]={"chats","nodes",
+// The default as on the M9: messages, places, tools, games, then the device itself.
+const char* const uiApps[]={"chats","quick","nodes","gps","radar",
+#if MM_WARDRIVE
+ "wardrive",
+#endif
+ "people",
 #if MM_CHESS
  "chess",
 #endif
@@ -172,14 +177,14 @@ const char* const uiApps[]={"chats","nodes",
 #if MM_DICE
  "dice",
 #endif
- "quick","people",
-#if MM_WARDRIVE
- "wardrive",
-#endif
- "radar","gps",MM_WIFI_APP("wifi")"ble","settings","health"};
+ MM_WIFI_APP("wifi")"ble","health","settings"};
 const uint8_t uiAppCount=sizeof uiApps/sizeof *uiApps;
 namespace {
-const uint8_t appPages[]={Messages,Nodes,
+const uint8_t appPages[]={Messages,QuickPage,Nodes,Gps,Signals,
+#if MM_WARDRIVE
+ WardrivePage,
+#endif
+ PeoplePage,
 #if MM_CHESS
  Chess,
 #endif
@@ -189,11 +194,7 @@ const uint8_t appPages[]={Messages,Nodes,
 #if MM_DICE
  DicePage,
 #endif
- QuickPage,PeoplePage,
-#if MM_WARDRIVE
- WardrivePage,
-#endif
- Signals,Gps,MM_WIFI_APP(Wifi)Ble,Settings,Modules};
+ MM_WIFI_APP(Wifi)Ble,Modules,Settings};
 static_assert(sizeof appPages==sizeof uiApps/sizeof *uiApps,"a page for every app ID");
 // What a click goes through: Home, then the shown apps in the chosen order.
 unsigned pageCycle(uint8_t* cycle){unsigned n=0;cycle[n++]=Home;uint8_t order[AppsMax];unsigned k=appsShown(order);for(unsigned i=0;i<k;i++)if(pageShown(appPages[order[i]]))cycle[n++]=appPages[order[i]];return n;}
@@ -312,9 +313,9 @@ unsigned wdOrder(unsigned* order,const wardrive::Repeater*& list){unsigned n=war
 #endif
 // Actions: a screen with one action runs it on hold; several open a menu.
 enum Act {ActFormat,ActJoin,ActJoinHeard,ActWrite,ActChess,ActChessOpen,ActChessNext,ActSound,ActRole,ActForward,ActAdvert,ActReplyOk,ActReplyAck,ActOlder,ActNewer,ActNextNode,ActNodeOk,ActResetPath,ActGps,ActPosition,ActWifi,ActBle,ActLanguage,ActBattery,ActScreen,ActContrast,ActSelfTest,ActHoming,ActNextSignal,ActStopHoming,ActResetPeak,ActCsiBeacon,ActCsiSensor,ActCalibrate,ActPetCuddle,ActPetFeed,ActPetHeal,ActPetEgg,ActPetDeath,ActPetAdopt,ActPetRelease,
-  ActPeopleMinus,ActPeopleReset,ActPeopleBle,ActPeopleWifi,ActPeopleWindow,ActPeopleRssi,ActPeoplePersonal,ActPeopleClear,ActPeopleExit,ActQuick,ActNotify,ActNotifyLed,ActNotifyWake,ActNotifyPopup,ActNotifyFailed,ActPowerOff,ActRadio,ActDiceRoll,ActDiceSaved,ActDiceNextSaved,ActDiceCount,ActDiceType,ActDiceMod,ActDiceHero,ActDiceMode,ActDiceGridMore,ActDiceGridFive,ActDiceGridRow,ActDiceGridType,ActDiceThreshold,
+  ActPeopleMinus,ActPeopleNext,ActPeopleAdd,ActPeopleDelete,ActPeopleReset,ActPeopleBle,ActPeopleWifi,ActPeopleWindow,ActPeopleRssi,ActPeoplePersonal,ActPeopleClear,ActPeopleExit,ActQuick,ActNotify,ActNotifyLed,ActNotifyWake,ActNotifyPopup,ActNotifyFailed,ActPowerOff,ActRadio,ActDiceRoll,ActDiceSaved,ActDiceNextSaved,ActDiceCount,ActDiceType,ActDiceMod,ActDiceHero,ActDiceMode,ActDiceGridMore,ActDiceGridFive,ActDiceGridRow,ActDiceGridType,ActDiceThreshold,
   ActDicePlus1,ActDiceMinus1,ActDicePlus5,ActDiceMinus5,ActDiceNextCounter,ActDiceAddCounter,ActDiceTap,ActDiceExit,ActRemoteLogin,ActRemoteStatus,ActTrace,ActWardriveRun,ActWardrivePing,ActWardriveView,ActWardriveNets,ActClose};
-constexpr unsigned MenuMax=12;
+constexpr unsigned MenuMax=14;
 #if MM_DICE
 #include "UiDiceCompact.inc"
 #endif
@@ -380,7 +381,7 @@ unsigned actions(Act* out){
   out[n++]=ActSound; // the GAT562 buzzer
 #endif
   out[n++]=ActRadio;out[n++]=ActLanguage;out[n++]=ActBattery;out[n++]=ActScreen;out[n++]=ActContrast;out[n++]=ActRole;out[n++]=ActPowerOff;out[n++]=ActNotify;break;
- case PeoplePage:out[n++]=ActPeopleMinus;out[n++]=ActPeopleReset;out[n++]=ActPeopleBle;
+ case PeoplePage:out[n++]=ActPeopleMinus;if(people::tally.count>1)out[n++]=ActPeopleNext;if(people::tally.count<people::Counters)out[n++]=ActPeopleAdd;out[n++]=ActPeopleReset;if(people::tally.count>1)out[n++]=ActPeopleDelete;out[n++]=ActPeopleBle;
 #if !defined(MM_NO_WIFI)
  out[n++]=ActPeopleWifi;
 #endif
@@ -400,10 +401,11 @@ bool keepsMenu(Act a){
 #if MM_DICE
  if(a>=ActDiceRoll&&a<=ActDiceExit)return diceKeeps(a);
 #endif
- return a==ActFormat||a==ActPowerOff||a==ActSound||a==ActNextSignal||a==ActOlder||a==ActNewer||a==ActNextNode||a==ActChessNext||a==ActLanguage||a==ActBattery||a==ActScreen||a==ActContrast||a==ActPetDeath||a==ActPetRelease;}
+ return (a==ActPeopleDelete&&tallyArmed)||a==ActFormat||a==ActPowerOff||a==ActSound||a==ActNextSignal||a==ActOlder||a==ActNewer||a==ActNextNode||a==ActChessNext||a==ActLanguage||a==ActBattery||a==ActScreen||a==ActContrast||a==ActPetDeath||a==ActPetRelease;}
 String flag(bool value){return value?t("On","Вкл"):t("Off","Выкл");}
 String actName(Act a){
- if(a>=ActPeopleMinus&&a<=ActPeopleExit){switch(a){case ActPeopleMinus:return "-1";case ActPeopleReset:return t("Reset manual count","Сбросить ручной счёт");case ActPeopleBle:return "BLE: "+flag(people::settings.ble);case ActPeopleWifi:return "Wi-Fi: "+flag(people::settings.wifi);case ActPeopleWindow:return t("Window: ","Окно: ")+String(people::settings.window)+"s";case ActPeopleRssi:return "RSSI: "+String(people::settings.rssi);case ActPeoplePersonal:return t("Phones/watches only: ","Только телефоны/часы: ")+flag(people::settings.personal);case ActPeopleClear:return t("Clear device window","Сбросить окно устройств");default:return "< "+t("Exit","Выход");}}
+ if(a>=ActPeopleMinus&&a<=ActPeopleExit){switch(a){case ActPeopleMinus:return "-1";case ActPeopleNext:return t("Next: ","Дальше: ")+people::name((people::tally.current+1)%people::tally.count);case ActPeopleAdd:return t("New counter","Новый счётчик");
+ case ActPeopleDelete:return tallyArmed?t("Hold again: delete","Держите ещё: удалить"):t("Delete this counter","Удалить этот счётчик");case ActPeopleReset:return t("Reset to 0","Сбросить в 0");case ActPeopleBle:return "BLE: "+flag(people::settings.ble);case ActPeopleWifi:return "Wi-Fi: "+flag(people::settings.wifi);case ActPeopleWindow:return t("Window: ","Окно: ")+String(people::settings.window)+"s";case ActPeopleRssi:return "RSSI: "+String(people::settings.rssi);case ActPeoplePersonal:return t("Phones/watches only: ","Только телефоны/часы: ")+flag(people::settings.personal);case ActPeopleClear:return t("Clear device window","Сбросить окно устройств");default:return "< "+t("Exit","Выход");}}
 
 #if MM_DICE
  if(a>=ActDiceRoll&&a<=ActDiceExit)return diceActName(a);
@@ -453,7 +455,11 @@ String actName(Act a){
 }
 void reply(const String& text){const ChatMessage* m=shownMessage();if(!m)return;uint64_t to=channels::isChannel(m->destination)?m->destination:m->outgoing?m->destination:m->source;bool sent=to!=meshRadio.nodeId&&meshRadio.sendMessage(text,to);notice(sent?t("Reply ","Ответ ")+text+t(" queued"," в очереди"):t("Reply not queued","Ответ не отправлен"));}
 void run(Act a){
- if(a>=ActPeopleMinus&&a<=ActPeopleExit){if(a==ActPeopleMinus){people::change(-1);return;}if(a==ActPeopleExit){showPage(nextPage(page));return;}StaticJsonDocument<128>d;d["action"]=a==ActPeopleReset?"reset":a==ActPeopleClear?"window_reset":"settings";if(a==ActPeopleBle)d["ble"]=!people::settings.ble;if(a==ActPeopleWifi)d["wifi"]=!people::settings.wifi;if(a==ActPeopleWindow)d["window"]=people::settings.window==30?60:people::settings.window==60?300:30;if(a==ActPeopleRssi)d["rssi"]=people::settings.rssi>=-40?-100:people::settings.rssi+5;if(a==ActPeoplePersonal)d["personal_only"]=!people::settings.personal;notice(people::command(d.as<JsonObjectConst>()));return;}
+ if(a!=ActPeopleDelete)tallyArmed=0;
+ if(a>=ActPeopleMinus&&a<=ActPeopleExit){if(a==ActPeopleMinus){people::change(-1);return;}
+  if(a==ActPeopleNext){people::select((people::tally.current+1)%people::tally.count);return;}
+  if(a==ActPeopleAdd){if(people::add())notice(people::name(people::tally.current));return;}
+  if(a==ActPeopleDelete){if(tallyArmed&&millis()-tallyArmed<5000){tallyArmed=0;String gone=people::name(people::tally.current);if(people::remove(people::tally.current))notice(t("Deleted: ","Удалён: ")+gone);}else tallyArmed=millis();return;}if(a==ActPeopleExit){showPage(nextPage(page));return;}StaticJsonDocument<128>d;d["action"]=a==ActPeopleReset?"reset":a==ActPeopleClear?"window_reset":"settings";if(a==ActPeopleBle)d["ble"]=!people::settings.ble;if(a==ActPeopleWifi)d["wifi"]=!people::settings.wifi;if(a==ActPeopleWindow)d["window"]=people::settings.window==30?60:people::settings.window==60?300:30;if(a==ActPeopleRssi)d["rssi"]=people::settings.rssi>=-40?-100:people::settings.rssi+5;if(a==ActPeoplePersonal)d["personal_only"]=!people::settings.personal;String r=people::command(d.as<JsonObjectConst>());notice(!r.startsWith("OK")?r:a==ActPeopleReset?t("Counter reset","Счётчик сброшен"):a==ActPeopleClear?t("New device window","Новое окно устройств"):actName(a));return;}
 
 #if MM_DICE
  if(a>=ActDiceRoll&&a<=ActDiceExit){diceRun(a);return;}
@@ -659,6 +665,16 @@ String powerOnHint(){int way=powerOnWay();
  return t("hold ","удержать ")+MM_BUTTON;
 #endif
 }
+// The quick counter: the open card's name and count, a dot for every card and the devices nearby when counted.
+String tallyNear(){String s;if(people::settings.ble)s="BLE "+String(people::count(false))+(people::saturated(false)?"+":"");
+ if(people::settings.wifi)s+=String(s.length()?" ":"")+"Wi-Fi "+String(people::count(true))+(people::saturated(true)?"+":"");return s;}
+void drawTallyMono(){
+ auto& c=*hardware.canvas;const auto& k=people::tally;bool many=k.count>1;
+ say(0,23,clipped(people::name(k.current),many?16:21),bold);if(many)sayRight(128,22,String(k.current+1)+"/"+String(k.count));
+ String v=String(people::value());say(64-width(v,u8g2_font_10x20_t_cyrillic)/2,44,v,u8g2_font_10x20_t_cyrillic);
+ String near=tallyNear();if(near.length())say(0,54,clipped(near,many?25-k.count:25),small);
+ if(many)for(unsigned i=0;i<k.count;i++){int x=127-(k.count-1-i)*5-2;if(i==k.current)c.fillRect(x-1,50,3,3,1);else c.drawPixel(x,51,1);}
+}
 bool farewell=false; // the board is about to turn off: the last frame
 void drawOff(){
  auto& c=*hardware.canvas;c.fillScreen(0);say(0,24,farewell?t("Device is off","Устройство выключено"):t("Turning off...","Выключение..."),bold);
@@ -689,7 +705,7 @@ void draw(){
  if(chessPopupAt&&millis()-chessPopupAt<8000){drawChessPopup();hardware.flush();return;}
  chessPopupAt=0;String title;
  switch(page){
- case PeoplePage:title=t("People counter","Счётчик людей");say(0,21,t("Manual: ","Вручную: ")+String(people::settings.manual),bold);say(0,35,"BLE "+String(people::count(false))+(people::saturated(false)?"+":"")+"  Wi-Fi "+String(people::count(true))+(people::saturated(true)?"+":""),small);say(0,46,String(people::settings.window)+t("s window","с окно"),small);break;
+ case PeoplePage:title=t("Quick counter","Быстрый счётчик");drawTallyMono();break;
  case QuickPage:title=t("Quick send","Быстрая отправка");drawQuickMono();break;
 #if MM_WARDRIVE
  case WardrivePage:title=t("Wardrive","Вардрайв");

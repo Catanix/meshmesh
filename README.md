@@ -126,4 +126,4 @@ Firmware 0.4.3: when the LittleFS partition does not keep writes (as on a user's
 
 Firmware 0.4.2: messages recorded before the clock is set get their exact time once it is set; a spoofed GPS date earlier than the firmware build, or one contradicting the phone/NTP time, is rejected. Android 0.4.1 does not repeat message notifications after that.
 
-[Notifications, quick send, channel retention, periodic NTP and people counter](docs/en/notifications.md).
+[Notifications, quick send, channel retention, periodic NTP and quick counter](docs/en/notifications.md).

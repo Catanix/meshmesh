@@ -214,11 +214,11 @@ class ServerMesh:public mesh::Mesh,public CommonCLICallbacks {
   // Settings shared with MeshMesh: name, frequency, bandwidth, SF, CR and power live in Config.
   void syncToConfig(){
     Config next=config;memcpy(next.name,prefs.node_name,sizeof(next.name));next.name[sizeof(next.name)-1]=0;
-    next.frequency=prefs.freq;next.bandwidth=prefs.bw;next.sf=prefs.sf;next.cr=prefs.cr;next.power=prefs.tx_power_dbm;
+    next.frequency=prefs.freq;next.bandwidth=prefs.bw;next.sf=prefs.sf;next.cr=prefs.cr;next.power=prefs.tx_power_dbm;next.pathHash=constrain(prefs.path_hash_mode,0,2)+1;
     if(!validName(prefs.node_name))rejected="Error: name must be 1-24 bytes of UTF-8";
     else if(!next.valid())rejected="Error: " MM_BOARD_NAME " takes 863-870 MHz, BW 62.5/125/250/500, SF7-12, CR5-8, 0-"+String(MM_MAX_POWER)+" dBm";
     if(rejected.length()){loadFromConfig();return;}
-    if(strcmp(next.name,config.name)||next.frequency!=config.frequency||next.bandwidth!=config.bandwidth||next.sf!=config.sf||next.cr!=config.cr||next.power!=config.power){config=next;config.save();meshRadio.dirty=true;}
+    if(strcmp(next.name,config.name)||next.frequency!=config.frequency||next.bandwidth!=config.bandwidth||next.sf!=config.sf||next.cr!=config.cr||next.power!=config.power||next.pathHash!=config.pathHash){config=next;config.save();meshRadio.dirty=true;}
   }
   virtual void saveAcl(){acl.save(fs);}
   virtual bool roleCommand(char*,char*){return false;} // "discover.neighbors", "room.post"
@@ -264,7 +264,7 @@ class ServerMesh:public mesh::Mesh,public CommonCLICallbacks {
   }
   virtual ~ServerMesh(){}
   virtual void flush(){if(dirtyContactsExpiry){saveAcl();dirtyContactsExpiry=0;}}
-  void loadFromConfig(){strlcpy(prefs.node_name,config.name,sizeof(prefs.node_name));prefs.freq=config.frequency;prefs.bw=config.bandwidth;prefs.sf=config.sf;prefs.cr=config.cr;prefs.tx_power_dbm=config.power;prefs.gps_enabled=config.gps;}
+  void loadFromConfig(){strlcpy(prefs.node_name,config.name,sizeof(prefs.node_name));prefs.freq=config.frequency;prefs.bw=config.bandwidth;prefs.sf=config.sf;prefs.cr=config.cr;prefs.tx_power_dbm=config.power;prefs.gps_enabled=config.gps;prefs.path_hash_mode=config.pathHash-1;}
   virtual void begin(){
     mesh::Mesh::begin();
     bool fresh=!fs->exists("/prefs.json")&&!fs->exists("/com_prefs");

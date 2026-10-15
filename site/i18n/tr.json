@@ -273,5 +273,12 @@
  "f.wardrive.d": "Ağınızın kapsama haritası. Yolda düğüm duyduğu paketleri röle ve sinyalle kaydeder ve bir kanala ping atar: pingi ileten röleler ağın size nerede ulaştığını, nerede ulaşmadığını gösterir. Noktalar haritada SNR’ye göre renklenir; ESP32 kartlar ayrıca Wi-Fi erişim noktalarını ve Bluetooth cihazlarını kaydeder. Konum güvenilir bir GPS fix’inden ya da uygulamadaki telefondan gelir. CSV, GeoJSON, KML ve WiGLE’a aktarma.",
  "news.wardrive": "<b>Yeni:</b> wardriving — ağınızın kapsama haritası: rölelerin sizi nerede duyup nerede duymadığı",
  "news.maps": "<b>Yeni:</b> telefonda rölyef ve eş yükselti eğrili haritalar, her kart için düğüm haritası",
- "doc.wardrive": "Wardriving"
+ "doc.wardrive": "Wardriving",
+ "news.counter": "<b>Yeni:</b> hızlı sayaç — kaydırılan ve tek basışla sayan kartlar",
+ "f.counter.t": "Hızlı sayaç",
+ "f.counter.d": "Eski kişi sayacı: kendi adı ve rengi olan en fazla 8 kart — kişiler, turlar, setler. Ekran doğrudan bir kartta açılır: OK +1, aşağı −1, sol ve sağ kartları çevirir, sonuncunun ardından yeni kart gelir. Sayfada ve uygulamada kartlar parmakla kaydırılır, sayıya dokunmak +1 ekler. Açık kart ekran, sayfa ve uygulamada ortaktır; yanında BLE ve Wi-Fi cihaz tahmini kalır. Ana ekran uygulamaları artık alışılmış sırada gösterir: mesajlar, yerler, araçlar, oyunlar, ayarlar.",
+ "shot.m9-people-cards": "Bir sayaç kartı",
+ "shot.m9-people-new": "Yeni bir kart",
+ "shot.t114-people-two": "T114: iki kart",
+ "shot.heltec-people-two": "Heltec: iki kart"
 }

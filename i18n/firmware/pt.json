@@ -939,10 +939,10 @@
   "ru": "Кости",
   "text": "Dados"
  },
- "de059adf": {
-  "en": "People counter",
-  "ru": "Счётчик людей",
-  "text": "Contador de pessoas"
+ "24f56b02": {
+  "en": "Quick counter",
+  "ru": "Быстрый счётчик",
+  "text": "Contador rápido"
  },
  "d108e9cf": {
   "en": "Wardrive",
@@ -1029,21 +1029,6 @@
    "other": "{n} mensagens"
   }
  },
- "81fe7504": {
-  "en": "Online map",
-  "ru": "Онлайн-карта",
-  "text": "Mapa online"
- },
- "d3a5328b": {
-  "en": "No SD card",
-  "ru": "Нет SD-карты",
-  "text": "Sem cartão SD"
- },
- "69cf6474": {
-  "en": "No maps yet",
-  "ru": "Карт пока нет",
-  "text": "Ainda sem mapas"
- },
  "6d76d314": {
   "en": " of ",
   "ru": " из ",
@@ -1079,15 +1064,55 @@
    "other": "{n} satélites"
   }
  },
- "d3cc0c6b": {
-  "en": "Connect",
-  "ru": "Связь",
-  "text": "Conexão"
+ "81fe7504": {
+  "en": "Online map",
+  "ru": "Онлайн-карта",
+  "text": "Mapa online"
+ },
+ "d3a5328b": {
+  "en": "No SD card",
+  "ru": "Нет SD-карты",
+  "text": "Sem cartão SD"
+ },
+ "69cf6474": {
+  "en": "No maps yet",
+  "ru": "Карт пока нет",
+  "text": "Ainda sem mapas"
  },
  "08d8e8c9": {
   "en": "Radar",
   "ru": "Радар",
   "text": "Radar"
+ },
+ "3efed7d9": {
+  "en": "Off",
+  "ru": "Выключен",
+  "text": "Desligado"
+ },
+ "15c8d462": {
+  "en": {
+   "one": "point",
+   "other": "points"
+  },
+  "ru": {
+   "one": "точка",
+   "few": "точки",
+   "many": "точек"
+  },
+  "forms": {
+   "one": "{n} ponto",
+   "other": "{n} pontos"
+  }
+ },
+ "7226324f": {
+  "en": "Solitaire",
+  "ru": "Косынка",
+  "text": "Paciência"
+ },
+ "d3cc0c6b": {
+  "en": "Connect",
+  "ru": "Связь",
+  "text": "Conexão"
  },
  "33c54309": {
   "en": "Module health",
@@ -1118,31 +1143,6 @@
   "en": "Radio, screen",
   "ru": "Радио, экран",
   "text": "Rádio, tela"
- },
- "7226324f": {
-  "en": "Solitaire",
-  "ru": "Косынка",
-  "text": "Paciência"
- },
- "3efed7d9": {
-  "en": "Off",
-  "ru": "Выключен",
-  "text": "Desligado"
- },
- "15c8d462": {
-  "en": {
-   "one": "point",
-   "other": "points"
-  },
-  "ru": {
-   "one": "точка",
-   "few": "точки",
-   "many": "точек"
-  },
-  "forms": {
-   "one": "{n} ponto",
-   "other": "{n} pontos"
-  }
  },
  "b784e416": {
   "en": "Open",
@@ -2389,41 +2389,6 @@
   "ru": "Сохраняется в памяти устройства",
   "text": "Salvo na memória do aparelho"
  },
- "be55afe3": {
-  "en": "Manual: ",
-  "ru": "Вручную: ",
-  "text": "Manual: "
- },
- "8467b4ea": {
-  "en": "s window",
-  "ru": "с окно",
-  "text": "s de janela"
- },
- "6205b8b3": {
-  "en": "Devices nearby are an estimate",
-  "ru": "Устройства рядом - приблизительная оценка",
-  "text": "Dispositivos próximos são uma estimativa"
- },
- "78c4e048": {
-  "en": "More options in the app",
-  "ru": "Остальные настройки в приложении",
-  "text": "Mais opções no app"
- },
- "e9009af6": {
-  "en": "+1",
-  "ru": "+1",
-  "text": "+1"
- },
- "a33a15e0": {
-  "en": "+1 / -1",
-  "ru": "+1 / -1",
-  "text": "+1 / -1"
- },
- "997f20d4": {
-  "en": "exit",
-  "ru": "выход",
-  "text": "sair"
- },
  "d2d3074d": {
   "en": "Listening",
   "ru": "Приём",
@@ -2558,6 +2523,11 @@
   "en": "send",
   "ru": "слать",
   "text": "enviar"
+ },
+ "997f20d4": {
+  "en": "exit",
+  "ru": "выход",
+  "text": "sair"
  },
  "bf27012a": {
   "en": "Save changes",
@@ -3043,6 +3013,11 @@
   "en": "Pet name",
   "ru": "Имя питомца",
   "text": "Nome"
+ },
+ "f12916a4": {
+  "en": "Counter name",
+  "ru": "Имя счётчика",
+  "text": "Nome contador"
  },
  "7b04c300": {
   "en": "Region of the channel",
@@ -4789,11 +4764,6 @@
   "ru": "Имя броска",
   "text": "Nome rolagem"
  },
- "f12916a4": {
-  "en": "Counter name",
-  "ru": "Имя счётчика",
-  "text": "Nome contador"
- },
  "8ced0833": {
   "en": "New character",
   "ru": "Новый персонаж",
@@ -5379,10 +5349,25 @@
   "ru": "Не удалось вступить",
   "text": "Falha ao entrar"
  },
- "24a94503": {
-  "en": "Reset manual count",
-  "ru": "Сбросить ручной счёт",
-  "text": "Zerar contagem manual"
+ "ae41ac73": {
+  "en": "Next: ",
+  "ru": "Дальше: ",
+  "text": "Próx.: "
+ },
+ "6ae1f814": {
+  "en": "Hold again: delete",
+  "ru": "Держите ещё: удалить",
+  "text": "Segure: apagar"
+ },
+ "1b57d9f8": {
+  "en": "Delete this counter",
+  "ru": "Удалить этот счётчик",
+  "text": "Apagar contador"
+ },
+ "fd17f345": {
+  "en": "Reset to 0",
+  "ru": "Сбросить в 0",
+  "text": "Zerar"
  },
  "b1475adf": {
   "en": "Window: ",
@@ -5398,11 +5383,6 @@
   "en": "Clear device window",
   "ru": "Сбросить окно устройств",
   "text": "Limpar janela de dispositivos"
- },
- "4fb7bcd4": {
-  "en": "Exit",
-  "ru": "Выход",
-  "text": "Sair"
  },
  "75ea9303": {
   "en": "Stop wardrive",
@@ -5444,11 +5424,6 @@
   "ru": "Окно: ",
   "text": "Aviso: "
  },
- "bb24022c": {
-  "en": "off",
-  "ru": "выкл.",
-  "text": "não"
- },
  "c30a161e": {
   "en": "all",
   "ru": "все",
@@ -5458,11 +5433,6 @@
   "en": "TX alert: ",
   "ru": "Ошибка TX: ",
   "text": "Alerta TX: "
- },
- "1f4a8e16": {
-  "en": "on",
-  "ru": "вкл.",
-  "text": "ativo"
  },
  "93d18358": {
   "en": "Write message...",
@@ -5738,6 +5708,16 @@
   "en": "Reply not queued",
   "ru": "Ответ не отправлен",
   "text": "Resposta não enviada"
+ },
+ "03a42f46": {
+  "en": "Deleted: ",
+  "ru": "Удалён: ",
+  "text": "Apagado: "
+ },
+ "1c6f82db": {
+  "en": "New device window",
+  "ru": "Новое окно устройств",
+  "text": "Nova janela disp."
  },
  "29271733": {
   "en": "A ping is under way",
@@ -7188,6 +7168,71 @@
   "en": "Take",
   "ru": "Взять",
   "text": "Pegar"
+ },
+ "ef59e9cf": {
+  "en": "New counter",
+  "ru": "Новый счётчик",
+  "text": "Novo contador"
+ },
+ "b5692498": {
+  "en": "OK: add",
+  "ru": "OK: добавить",
+  "text": "OK: adicionar"
+ },
+ "6ea14f15": {
+  "en": "Nearby: ",
+  "ru": "Рядом: ",
+  "text": "Perto: "
+ },
+ "087665ad": {
+  "en": "N: name  C: colour  R: reset  DEL: delete  B: BLE",
+  "ru": "N: имя  C: цвет  R: сброс  DEL: удалить  B: BLE",
+  "text": "N: nome  C: cor  R: zerar  DEL: apagar  B: BLE"
+ },
+ "ecc87675": {
+  "en": "Cards",
+  "ru": "Карточки",
+  "text": "Cartões"
+ },
+ "4fb7bcd4": {
+  "en": "Exit",
+  "ru": "Выход",
+  "text": "Sair"
+ },
+ "f8252ad7": {
+  "en": "R again: reset to 0",
+  "ru": "Ещё раз R: сбросить в 0",
+  "text": "R de novo: zerar"
+ },
+ "0f020b2d": {
+  "en": "8 counters at most",
+  "ru": "Не больше 8 счётчиков",
+  "text": "No máximo 8 contadores"
+ },
+ "d32873b8": {
+  "en": "Counter reset",
+  "ru": "Счётчик сброшен",
+  "text": "Contador zerado"
+ },
+ "84dcf6cf": {
+  "en": "The last counter stays",
+  "ru": "Последний счётчик остаётся",
+  "text": "O último contador fica"
+ },
+ "1f4a8e16": {
+  "en": "on",
+  "ru": "вкл.",
+  "text": "ativo"
+ },
+ "bb24022c": {
+  "en": "off",
+  "ru": "выкл.",
+  "text": "não"
+ },
+ "9e3fd87d": {
+  "en": "Name: up to 23 UTF-8 bytes",
+  "ru": "Имя: до 23 байт UTF-8",
+  "text": "Nome: até 23 bytes UTF-8"
  },
  "5e550939": {
   "en": "Player",

@@ -273,5 +273,12 @@
  "f.wardrive.d": "Eine Abdeckungskarte Ihres Netzes. Unterwegs zeichnet der Knoten empfangene Pakete mit Repeater und Signal auf und pingt einen Kanal an: Die Repeater, die den Ping weitergeben, zeigen, wo das Netz Sie erreicht und wo nicht. Die Punkte erscheinen auf der Karte, nach SNR eingefärbt; ESP32-Boards erfassen zusätzlich WLAN-Zugangspunkte und Bluetooth-Geräte. Die Position stammt aus einem vertrauenswürdigen GPS-Fix oder vom Telefon in der App. Export als CSV, GeoJSON, KML und für WiGLE.",
  "news.wardrive": "<b>Neu:</b> Wardriving — eine Abdeckungskarte Ihres Netzes: wo Repeater Sie hören und wo nicht",
  "news.maps": "<b>Neu:</b> Karten auf dem Telefon mit Relief und Höhenlinien und eine Knotenkarte für jedes Board",
- "doc.wardrive": "Wardriving"
+ "doc.wardrive": "Wardriving",
+ "news.counter": "<b>Neu:</b> der Schnellzähler — Karten zum Wischen, die mit einem Druck zählen",
+ "f.counter.t": "Schnellzähler",
+ "f.counter.d": "Der frühere Personenzähler: bis zu 8 Karten mit eigenem Namen und eigener Farbe — Personen, Runden, Sätze. Die Seite öffnet direkt auf einer Karte: OK zählt +1, runter −1, links und rechts blättern, und nach der letzten kommt eine neue. Auf der Seite und in der App wischt man die Karten mit dem Finger, ein Tipp auf die Zahl zählt +1. Die geöffnete Karte ist auf Bildschirm, Seite und App dieselbe; daneben bleibt die Schätzung der BLE- und WLAN-Geräte. Der Startbildschirm ordnet die Apps jetzt wie gewohnt: Nachrichten, Orte, Werkzeuge, Spiele, Einstellungen.",
+ "shot.m9-people-cards": "Eine Zählerkarte",
+ "shot.m9-people-new": "Eine neue Karte",
+ "shot.t114-people-two": "T114: zwei Karten",
+ "shot.heltec-people-two": "Heltec: zwei Karten"
 }

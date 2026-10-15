@@ -37,12 +37,12 @@ forwards another node's flood packet only if it has passed fewer than three repe
 of a MeshCore repeater; 0 — forward nothing). It does not limit the range of our own messages.
 MeshCore has no global TTL as in MM/1; this is not a promise that other repeaters will limit the whole
 route to three hops.
-“Path hash size” (since 0.11.0, `path_hash`: 1–3 bytes, 1 by default) is how many bytes of each
+“Path hash size” (since 0.11.0, `path_hash`: 1–3 bytes, 2 by default since 0.24.0; boards still on the old 1 move to 2 once on the update) is how many bytes of each
 repeater's key go into the path of our flood packets (messages, ACKs, path returns, adverts, requests).
 2–3 bytes confuse repeaters sharing a first byte less often in a large network, but fewer hops fit in
 the path, and MeshCore firmware without multi-byte paths does not relay such packets. Packets of any
 size are received and relayed whatever the setting; a node's reply follows the path size of the request.
-The repeater and room modes use their own CLI setting `path.hash.mode`.
+Since 0.24.0 the repeater and room modes use the same setting; CLI `set path.hash.mode` changes it.
 The Heltec's amplifying radio front end affects the actual output power:
 the setting value applies to the SX1262; antenna power has not been measured.
 

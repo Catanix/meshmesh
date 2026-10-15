@@ -273,5 +273,12 @@
  "f.wardrive.d": "Une carte de couverture de votre réseau. En déplacement, le nœud enregistre les paquets qu’il entend avec le répéteur et le signal, et envoie des pings à un canal : les répéteurs qui relaient le ping montrent où le réseau vous atteint et où il ne vous atteint pas. Les points s’affichent sur la carte, colorés selon le SNR ; les cartes ESP32 enregistrent aussi les points d’accès Wi-Fi et les appareils Bluetooth. La position vient d’un fix GPS fiable ou du téléphone dans l’application. Export en CSV, GeoJSON, KML et WiGLE.",
  "news.wardrive": "<b>Nouveau :</b> wardriving — une carte de couverture du réseau : où les répéteurs vous entendent et où non",
  "news.maps": "<b>Nouveau :</b> cartes sur le téléphone avec relief et courbes de niveau, et une carte des nœuds pour toutes les cartes radio",
- "doc.wardrive": "Wardriving"
+ "doc.wardrive": "Wardriving",
+ "news.counter": "<b>Nouveau :</b> le compteur rapide — des cartes qu’on fait glisser et qui comptent d’une pression",
+ "f.counter.t": "Compteur rapide",
+ "f.counter.d": "L’ancien compteur de personnes : jusqu’à 8 cartes avec leur nom et leur couleur — personnes, tours, séries. L’écran s’ouvre directement sur une carte : OK ajoute +1, bas −1, gauche et droite tournent les cartes, et après la dernière vient une nouvelle. Sur la page et dans l’app, les cartes glissent sous le doigt et toucher le nombre ajoute +1. La carte ouverte est partagée par l’écran, la page et l’app ; l’estimation des appareils BLE et Wi-Fi reste à côté. L’écran d’accueil range désormais les apps dans l’ordre habituel : messages, lieux, outils, jeux, réglages.",
+ "shot.m9-people-cards": "Une carte de compteur",
+ "shot.m9-people-new": "Une nouvelle carte",
+ "shot.t114-people-two": "T114 : deux cartes",
+ "shot.heltec-people-two": "Heltec : deux cartes"
 }

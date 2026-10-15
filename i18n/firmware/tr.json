@@ -939,10 +939,10 @@
   "ru": "Кости",
   "text": "Zar"
  },
- "de059adf": {
-  "en": "People counter",
-  "ru": "Счётчик людей",
-  "text": "İnsan sayacı"
+ "24f56b02": {
+  "en": "Quick counter",
+  "ru": "Быстрый счётчик",
+  "text": "Hızlı sayaç"
  },
  "d108e9cf": {
   "en": "Wardrive",
@@ -1029,21 +1029,6 @@
    "other": "{n} mesaj"
   }
  },
- "81fe7504": {
-  "en": "Online map",
-  "ru": "Онлайн-карта",
-  "text": "Çevrimiçi harita"
- },
- "d3a5328b": {
-  "en": "No SD card",
-  "ru": "Нет SD-карты",
-  "text": "SD kart yok"
- },
- "69cf6474": {
-  "en": "No maps yet",
-  "ru": "Карт пока нет",
-  "text": "Henüz harita yok"
- },
  "6d76d314": {
   "en": " of ",
   "ru": " из ",
@@ -1079,15 +1064,55 @@
    "other": "{n} uydu"
   }
  },
- "d3cc0c6b": {
-  "en": "Connect",
-  "ru": "Связь",
-  "text": "Bağlantı"
+ "81fe7504": {
+  "en": "Online map",
+  "ru": "Онлайн-карта",
+  "text": "Çevrimiçi harita"
+ },
+ "d3a5328b": {
+  "en": "No SD card",
+  "ru": "Нет SD-карты",
+  "text": "SD kart yok"
+ },
+ "69cf6474": {
+  "en": "No maps yet",
+  "ru": "Карт пока нет",
+  "text": "Henüz harita yok"
  },
  "08d8e8c9": {
   "en": "Radar",
   "ru": "Радар",
   "text": "Radar"
+ },
+ "3efed7d9": {
+  "en": "Off",
+  "ru": "Выключен",
+  "text": "Kapalı"
+ },
+ "15c8d462": {
+  "en": {
+   "one": "point",
+   "other": "points"
+  },
+  "ru": {
+   "one": "точка",
+   "few": "точки",
+   "many": "точек"
+  },
+  "forms": {
+   "one": "{n} nokta",
+   "other": "{n} nokta"
+  }
+ },
+ "7226324f": {
+  "en": "Solitaire",
+  "ru": "Косынка",
+  "text": "Solitaire"
+ },
+ "d3cc0c6b": {
+  "en": "Connect",
+  "ru": "Связь",
+  "text": "Bağlantı"
  },
  "33c54309": {
   "en": "Module health",
@@ -1118,31 +1143,6 @@
   "en": "Radio, screen",
   "ru": "Радио, экран",
   "text": "Radyo, ekran"
- },
- "7226324f": {
-  "en": "Solitaire",
-  "ru": "Косынка",
-  "text": "Solitaire"
- },
- "3efed7d9": {
-  "en": "Off",
-  "ru": "Выключен",
-  "text": "Kapalı"
- },
- "15c8d462": {
-  "en": {
-   "one": "point",
-   "other": "points"
-  },
-  "ru": {
-   "one": "точка",
-   "few": "точки",
-   "many": "точек"
-  },
-  "forms": {
-   "one": "{n} nokta",
-   "other": "{n} nokta"
-  }
  },
  "b784e416": {
   "en": "Open",
@@ -2389,41 +2389,6 @@
   "ru": "Сохраняется в памяти устройства",
   "text": "Cihaz belleğinde saklanır"
  },
- "be55afe3": {
-  "en": "Manual: ",
-  "ru": "Вручную: ",
-  "text": "Elle: "
- },
- "8467b4ea": {
-  "en": "s window",
-  "ru": "с окно",
-  "text": "sn pencere"
- },
- "6205b8b3": {
-  "en": "Devices nearby are an estimate",
-  "ru": "Устройства рядом - приблизительная оценка",
-  "text": "Yakındaki cihazlar yaklaşık bir sayıdır"
- },
- "78c4e048": {
-  "en": "More options in the app",
-  "ru": "Остальные настройки в приложении",
-  "text": "Diğer seçenekler uygulamada"
- },
- "e9009af6": {
-  "en": "+1",
-  "ru": "+1",
-  "text": "+1"
- },
- "a33a15e0": {
-  "en": "+1 / -1",
-  "ru": "+1 / -1",
-  "text": "+1 / -1"
- },
- "997f20d4": {
-  "en": "exit",
-  "ru": "выход",
-  "text": "çık"
- },
  "d2d3074d": {
   "en": "Listening",
   "ru": "Приём",
@@ -2558,6 +2523,11 @@
   "en": "send",
   "ru": "слать",
   "text": "gönder"
+ },
+ "997f20d4": {
+  "en": "exit",
+  "ru": "выход",
+  "text": "çık"
  },
  "bf27012a": {
   "en": "Save changes",
@@ -3043,6 +3013,11 @@
   "en": "Pet name",
   "ru": "Имя питомца",
   "text": "Hayvanın adı"
+ },
+ "f12916a4": {
+  "en": "Counter name",
+  "ru": "Имя счётчика",
+  "text": "Sayaç adı"
  },
  "7b04c300": {
   "en": "Region of the channel",
@@ -4789,11 +4764,6 @@
   "ru": "Имя броска",
   "text": "Atış adı"
  },
- "f12916a4": {
-  "en": "Counter name",
-  "ru": "Имя счётчика",
-  "text": "Sayaç adı"
- },
  "8ced0833": {
   "en": "New character",
   "ru": "Новый персонаж",
@@ -5379,10 +5349,25 @@
   "ru": "Не удалось вступить",
   "text": "Katılınamadı"
  },
- "24a94503": {
-  "en": "Reset manual count",
-  "ru": "Сбросить ручной счёт",
-  "text": "Elle sayımı sıfırla"
+ "ae41ac73": {
+  "en": "Next: ",
+  "ru": "Дальше: ",
+  "text": "Sonraki: "
+ },
+ "6ae1f814": {
+  "en": "Hold again: delete",
+  "ru": "Держите ещё: удалить",
+  "text": "Tekrar tut: sil"
+ },
+ "1b57d9f8": {
+  "en": "Delete this counter",
+  "ru": "Удалить этот счётчик",
+  "text": "Bu sayacı sil"
+ },
+ "fd17f345": {
+  "en": "Reset to 0",
+  "ru": "Сбросить в 0",
+  "text": "0’a sıfırla"
  },
  "b1475adf": {
   "en": "Window: ",
@@ -5398,11 +5383,6 @@
   "en": "Clear device window",
   "ru": "Сбросить окно устройств",
   "text": "Cihaz penceresini temizle"
- },
- "4fb7bcd4": {
-  "en": "Exit",
-  "ru": "Выход",
-  "text": "Çık"
  },
  "75ea9303": {
   "en": "Stop wardrive",
@@ -5444,11 +5424,6 @@
   "ru": "Окно: ",
   "text": "Pencere: "
  },
- "bb24022c": {
-  "en": "off",
-  "ru": "выкл.",
-  "text": "kapalı"
- },
  "c30a161e": {
   "en": "all",
   "ru": "все",
@@ -5458,11 +5433,6 @@
   "en": "TX alert: ",
   "ru": "Ошибка TX: ",
   "text": "TX uyarısı: "
- },
- "1f4a8e16": {
-  "en": "on",
-  "ru": "вкл.",
-  "text": "aktif"
  },
  "93d18358": {
   "en": "Write message...",
@@ -5738,6 +5708,16 @@
   "en": "Reply not queued",
   "ru": "Ответ не отправлен",
   "text": "Yanıt gönderilmedi"
+ },
+ "03a42f46": {
+  "en": "Deleted: ",
+  "ru": "Удалён: ",
+  "text": "Silindi: "
+ },
+ "1c6f82db": {
+  "en": "New device window",
+  "ru": "Новое окно устройств",
+  "text": "Yeni cihaz penceresi"
  },
  "29271733": {
   "en": "A ping is under way",
@@ -7188,6 +7168,71 @@
   "en": "Take",
   "ru": "Взять",
   "text": "Al"
+ },
+ "ef59e9cf": {
+  "en": "New counter",
+  "ru": "Новый счётчик",
+  "text": "Yeni sayaç"
+ },
+ "b5692498": {
+  "en": "OK: add",
+  "ru": "OK: добавить",
+  "text": "OK: ekle"
+ },
+ "6ea14f15": {
+  "en": "Nearby: ",
+  "ru": "Рядом: ",
+  "text": "Yakında: "
+ },
+ "087665ad": {
+  "en": "N: name  C: colour  R: reset  DEL: delete  B: BLE",
+  "ru": "N: имя  C: цвет  R: сброс  DEL: удалить  B: BLE",
+  "text": "N: ad  C: renk  R: sıfırla  DEL: sil  B: BLE"
+ },
+ "ecc87675": {
+  "en": "Cards",
+  "ru": "Карточки",
+  "text": "Kartlar"
+ },
+ "4fb7bcd4": {
+  "en": "Exit",
+  "ru": "Выход",
+  "text": "Çık"
+ },
+ "f8252ad7": {
+  "en": "R again: reset to 0",
+  "ru": "Ещё раз R: сбросить в 0",
+  "text": "Tekrar R: 0’a sıfırla"
+ },
+ "0f020b2d": {
+  "en": "8 counters at most",
+  "ru": "Не больше 8 счётчиков",
+  "text": "En fazla 8 sayaç"
+ },
+ "d32873b8": {
+  "en": "Counter reset",
+  "ru": "Счётчик сброшен",
+  "text": "Sayaç sıfırlandı"
+ },
+ "84dcf6cf": {
+  "en": "The last counter stays",
+  "ru": "Последний счётчик остаётся",
+  "text": "Son sayaç kalır"
+ },
+ "1f4a8e16": {
+  "en": "on",
+  "ru": "вкл.",
+  "text": "aktif"
+ },
+ "bb24022c": {
+  "en": "off",
+  "ru": "выкл.",
+  "text": "kapalı"
+ },
+ "9e3fd87d": {
+  "en": "Name: up to 23 UTF-8 bytes",
+  "ru": "Имя: до 23 байт UTF-8",
+  "text": "Ad: en fazla 23 bayt UTF-8"
  },
  "5e550939": {
   "en": "Player",

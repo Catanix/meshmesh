@@ -273,5 +273,12 @@
  "f.wardrive.d": "Una mappa di copertura della tua rete. In movimento il nodo registra i pacchetti che sente con il ripetitore e il segnale, e invia ping a un canale: i ripetitori che inoltrano il ping mostrano dove la rete ti raggiunge e dove no. I punti compaiono sulla mappa colorati secondo l’SNR; le schede ESP32 registrano anche punti di accesso Wi-Fi e dispositivi Bluetooth. La posizione viene da un fix GPS affidabile o dal telefono nell’app. Esportazione in CSV, GeoJSON, KML e WiGLE.",
  "news.wardrive": "<b>Novità:</b> wardriving — una mappa di copertura della rete: dove i ripetitori ti sentono e dove no",
  "news.maps": "<b>Novità:</b> mappe sul telefono con rilievo e curve di livello, e una mappa dei nodi per ogni scheda",
- "doc.wardrive": "Wardriving"
+ "doc.wardrive": "Wardriving",
+ "news.counter": "<b>Novità:</b> il contatore rapido — schede che scorrono e contano con una pressione",
+ "f.counter.t": "Contatore rapido",
+ "f.counter.d": "L’ex contatore di persone: fino a 8 schede con nome e colore propri — persone, giri, serie. La pagina si apre subito su una scheda: OK aggiunge +1, giù −1, sinistra e destra sfogliano le schede, e dopo l’ultima ce n’è una nuova. Sulla pagina e nell’app le schede scorrono sotto il dito e toccare il numero aggiunge +1. La scheda aperta è la stessa su schermo, pagina e app; accanto resta la stima dei dispositivi BLE e Wi-Fi. La schermata principale mette ora le app nell’ordine consueto: messaggi, luoghi, strumenti, giochi, impostazioni.",
+ "shot.m9-people-cards": "Una scheda del contatore",
+ "shot.m9-people-new": "Una scheda nuova",
+ "shot.t114-people-two": "T114: due schede",
+ "shot.heltec-people-two": "Heltec: due schede"
 }

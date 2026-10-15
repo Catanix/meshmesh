@@ -102,7 +102,7 @@ String pageTitle(int p){
  case DicePage:return diceTitle();
 #endif
  case Messages:return t("Messages","Сообщения");case Nodes:return t("Nodes","Узлы");case Chess:return t("Chess","Шахматы");
- case PeoplePage:return t("People counter","Счётчик людей");case WardrivePage:return t("Wardrive","Вардрайв");case QuickPage:return t("Quick send","Быстрая отправка");case NotifyPage:return t("Notifications","Уведомления");case Signals:return radar.tracking?t("Homing","Пеленг"):t("Radar","Радар");case Gps:return "GPS";case Wifi:return "Wi-Fi";case Ble:return "Bluetooth";case Settings:return t("Settings","Настройки");}
+ case PeoplePage:return t("Quick counter","Быстрый счётчик");case WardrivePage:return t("Wardrive","Вардрайв");case QuickPage:return t("Quick send","Быстрая отправка");case NotifyPage:return t("Notifications","Уведомления");case Signals:return radar.tracking?t("Homing","Пеленг"):t("Radar","Радар");case Gps:return "GPS";case Wifi:return "Wi-Fi";case Ble:return "Bluetooth";case Settings:return t("Settings","Настройки");}
  return t("Modules","Модули");
 }
 // The click hint names the next screen: "click: Nodes".
@@ -426,7 +426,10 @@ void draw(){
 #endif
  String title=pageTitle(page);
  switch(page){
- case PeoplePage:{text(12,42,t("Manual: ","Вручную: ")+String(people::settings.manual),ColInk,bold);text(12,64,"BLE: "+String(people::count(false))+(people::saturated(false)?"+":""),ColAccent);text(12,84,"Wi-Fi: "+String(people::count(true))+(people::saturated(true)?"+":""),ColInfo);text(12,104,String(people::settings.window)+t("s window","с окно"),ColDim,small);break;}
+ case PeoplePage:{const auto& k=people::tally;bool many=k.count>1;panel(4,24,232,90,ColCard,8);d.fillRoundRect(4,24,232,5,2,ColDice0+people::current().color%dice::Colors);
+  text(12,46,fit(people::name(k.current),many?176:212,small),ColInk,small);if(many)right(228,45,String(k.current+1)+"/"+String(k.count),ColDim,tiny);
+  String v=String(people::value());center(120,88,v,ColInk,width(v,big)<=216?big:bold);String near=tallyNear();if(near.length())text(12,108,fit(near,140,tiny),ColDim,tiny);
+  if(many){int x=228-(k.count-1)*9;for(unsigned i=0;i<k.count;i++,x+=9)d.fillCircle(x,104,i==k.current?3:2,i==k.current?ColDice0+k.list[i].color%dice::Colors:ColFaint);}break;}
  case QuickPage:{if(quickTargets){text(8,38,fit(t("Choose recipient","Выберите получателя"),224,bold),ColAccent,bold);unsigned n=quickTargetCount();int first=max(0,min(int(quickTargetIndex)-1,int(n)-3));for(unsigned i=first;i<n&&i<unsigned(first+3);i++){int y=44+(i-first)*23;row(y,22,i==quickTargetIndex);text(12,y+16,fit(quickName(quickTarget(i)),216,small),ColInk,small);}}
   else{bool focus=!quickIndex&&appOpen;panel(4,25,232,38,focus?ColCardHi:ColCard,6);g().drawRoundRect(4,25,232,38,6,focus?ColAccent:ColLine);text(12,40,fit(t("Choose recipient","Выберите получателя"),200,tiny),ColDim,tiny);text(12,57,fit(quickName(quickReply?quickReplyTo:quickSend::state.to),200,bold),ColAccent,bold);g().fillTriangle(221,40,221,48,227,44,ColAccent);
    int first=max(1,min(int(quickIndex)-1,int(quickSend::Count)));for(unsigned i=first;i<=quickSend::Count+1&&i<unsigned(first+2);i++){int y=67+(i-first)*23;row(y,22,i==quickIndex&&appOpen);text(12,y+16,fit(quickLabel(i),216,small),ColInk,small);}}break;}

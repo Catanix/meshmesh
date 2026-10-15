@@ -273,5 +273,12 @@
  "f.wardrive.d": "A coverage map of your mesh. On the move the node logs the packets it hears with the repeater and signal, and pings a channel: the repeaters that pass the ping on show where the mesh reaches you and where it does not. Points appear on the map in colour by SNR; ESP32 boards also log Wi-Fi access points and Bluetooth devices. The position comes from a trusted GPS fix or from the phone in the app. Export to CSV, GeoJSON, KML and WiGLE.",
  "news.wardrive": "<b>New:</b> wardriving — a coverage map of your mesh: where repeaters hear you and where not",
  "news.maps": "<b>New:</b> maps on the phone with relief and contour lines, and a node map for every board",
- "doc.wardrive": "Wardriving"
+ "doc.wardrive": "Wardriving",
+ "news.counter": "<b>New:</b> the quick counter — cards you swipe and count with one press",
+ "f.counter.t": "Quick counter",
+ "f.counter.d": "The former people counter: up to 8 cards with their own name and colour — people, laps, sets. The page opens straight on a card: OK is +1, down −1, left and right turn the cards, and past the last one is a new card. On the page and in the app the cards swipe under a finger and a tap on the number is +1. The open card is shared by the screen, the page and the app; the BLE and Wi-Fi device estimate stays beside it. The home screen now lists the apps in the usual order: messages, places, tools, games, settings.",
+ "shot.m9-people-cards": "A counter card",
+ "shot.m9-people-new": "A new card",
+ "shot.t114-people-two": "T114: two cards",
+ "shot.heltec-people-two": "Heltec: two cards"
 }

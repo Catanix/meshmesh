@@ -273,5 +273,12 @@
  "f.wardrive.d": "Mapa zasięgu twojej sieci. W drodze węzeł zapisuje odebrane pakiety z przekaźnikiem i sygnałem oraz wysyła pingi na kanał: przekaźniki, które przekazały ping, pokazują, gdzie sieć cię słyszy, a gdzie nie. Punkty pojawiają się na mapie w kolorze według SNR; płytki ESP32 zapisują też punkty dostępu Wi-Fi i urządzenia Bluetooth. Pozycja pochodzi z zaufanego fixu GPS albo z telefonu w aplikacji. Eksport do CSV, GeoJSON, KML i WiGLE.",
  "news.wardrive": "<b>Nowość:</b> wardriving — mapa zasięgu sieci: gdzie przekaźniki cię słyszą, a gdzie nie",
  "news.maps": "<b>Nowość:</b> mapy w telefonie z rzeźbą terenu i poziomicami oraz mapa węzłów dla każdej płytki",
- "doc.wardrive": "Wardriving"
+ "doc.wardrive": "Wardriving",
+ "news.counter": "<b>Nowość:</b> szybki licznik — karty, które się przesuwa i liczy jednym naciśnięciem",
+ "f.counter.t": "Szybki licznik",
+ "f.counter.d": "Dawny licznik ludzi: do 8 kart z własną nazwą i kolorem — ludzie, okrążenia, serie. Ekran otwiera się od razu na karcie: OK to +1, w dół −1, w lewo i w prawo przełączają karty, a za ostatnią jest nowa. Na stronie i w aplikacji karty przesuwa się palcem, a dotknięcie liczby to +1. Otwarta karta jest wspólna dla ekranu, strony i aplikacji; obok zostaje szacunek urządzeń BLE i Wi-Fi. Ekran główny układa teraz aplikacje w zwykłej kolejności: wiadomości, miejsca, narzędzia, gry, ustawienia.",
+ "shot.m9-people-cards": "Karta licznika",
+ "shot.m9-people-new": "Nowa karta",
+ "shot.t114-people-two": "T114: dwie karty",
+ "shot.heltec-people-two": "Heltec: dwie karty"
 }

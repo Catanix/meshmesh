@@ -9,6 +9,7 @@
 #include <bootloader_random.h>
 #include <Mm1Packet.h>
 #include "Regions.h"
+#include "App.h"
 Config config;
 bool Config::valid() const {
   return isfinite(frequency) && frequency>=863.0f && frequency<=870.0f &&
@@ -33,7 +34,7 @@ void Config::load() {
   if(!name[0]) strcpy(name,MM_NODE_NAME);
   frequency=p.getFloat("freq",868.731f); bandwidth=p.getFloat("bw",62.5f);
   sf=p.getUChar("sf",8); cr=p.getUChar("cr",6); power=p.getChar("power",10);
-  hops=p.getUChar("hops",3); pathHash=p.getUChar("path_hash",1); relay=p.getBool("relay",true); gps=p.getBool("gps",MM_GPS_DEFAULT);
+  hops=p.getUChar("hops",3); pathHash=p.getUChar("path_hash",2); relay=p.getBool("relay",true); gps=p.getBool("gps",MM_GPS_DEFAULT);
   sound=p.getBool("sound",true); batteryVolts=p.getBool("bat_v",false); brightness=p.getUChar("light",180);
   autoLock=p.getUShort("lock",90);dimAfter=p.getUShort("dim",30);lockDetails=p.getBool("lock_txt",true);
   notifyLed=p.getUChar("n_led",notifyLed);if(notifyLed>2)notifyLed=1;
@@ -41,7 +42,10 @@ void Config::load() {
   notifyPopup=p.getUChar("n_popup",notifyPopup);if(notifyPopup>2)notifyPopup=1;
   notifyFailed=p.getBool("n_failed",false);p.getString("n_words",notifyWords,sizeof notifyWords);if(!meshmesh::validUtf8((const uint8_t*)notifyWords,strlen(notifyWords)))notifyWords[0]=0;
   utcOffset=p.getShort("utc_offset",180);
+  // 0.24.0: two bytes of path hash by default; boards still on the old default of one byte move to two, once.
+  if(!p.isKey("path_hash2")){if(pathHash==1){pathHash=2;p.putUChar("path_hash",pathHash);}p.putBool("path_hash2",true);}
   strlcpy(apps,p.getString("apps","").c_str(),sizeof apps);
+  if(!p.isKey("apps2")){if(appsOldDefault(apps)){apps[0]=0;p.putString("apps","");}p.putBool("apps2",true);} // 0.24.0: the new default order
   strlcpy(region,p.getString("region","").c_str(),sizeof region);
   if(!region[0])memset(regionKey,0,16);else if(p.getBytesLength("region_key")!=16||p.getBytes("region_key",regionKey,16)!=16)regions::keyOf(region,regionKey);
   // Language: "lang" since 0.3.7; older versions kept only "russian".
@@ -60,7 +64,7 @@ void Config::load() {
   bootCounter=p.getUInt("boot",0)+1;
   if(!bootCounter || p.putUInt("boot",bootCounter)!=sizeof(bootCounter)) {bootCounter=0;Serial.println("ERR boot counter; TX disabled");}
   p.end();
-  if(!valid()) {frequency=868.731f;bandwidth=62.5f;sf=8;cr=6;power=10;hops=3;pathHash=1;strcpy(name,"MeshMesh");region[0]=0;memset(regionKey,0,16);}
+  if(!valid()) {frequency=868.731f;bandwidth=62.5f;sf=8;cr=6;power=10;hops=3;pathHash=2;strcpy(name,"MeshMesh");region[0]=0;memset(regionKey,0,16);}
 }
 bool Config::save() {
   Preferences p; if(!p.begin("meshmesh",false)) return false;

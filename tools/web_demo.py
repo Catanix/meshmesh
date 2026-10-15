@@ -114,11 +114,11 @@ STATUS = {
     'modules': 'chess pet dice wardrive', 'internet': False, 'ble': True, 'companion': True,
 }
 CONFIG = {
-    'name': 'M9', 'frequency': 869.618, 'bandwidth': 62.5, 'sf': 8, 'cr': 8, 'power': 14, 'hops': 3, 'path_hash': 1,
+    'name': 'M9', 'frequency': 869.618, 'bandwidth': 62.5, 'sf': 8, 'cr': 8, 'power': 14, 'hops': 3, 'path_hash': 2,
     'relay': False, 'gps': True, 'sound': True, 'battery_volts': False, 'lang': 'en', 'russian': False, 'brightness': 180,
     'auto_lock': 120, 'dim_after': 30, 'lock_details': False, 'notify_led': 1, 'notify_wake': 1, 'notify_popup': 1,
     'notify_failed': True, 'notify_words': '', 'utc_offset': 120, 'region': '',
-    'apps': 'chats map nodes nav connect radar health settings chess pet dice solitaire',
+    'apps': 'chats quick nodes nav map radar wardrive people chess pet dice solitaire connect health settings',
 }
 CHANNELS = {'max': 8, 'channels': [
     {'id': 'ALL', 'name': 'Public', 'kind': 'public', 'hash': '11', 'link': '', 'region': '',
@@ -214,7 +214,8 @@ def answer(path, query):
     if path == '/api/quick':
         return {'to': 'ALL', 'name': 'Public', 'valid': True, 'gps': True, 'limit': 133, 'presets': ['OK', '👍', '', '', '', '', '', '', '', '']}
     if path == '/api/people':
-        return {'manual': 4, 'ble': True, 'wifi': False, 'personal_only': False, 'window': 60, 'rssi': -85, 'ble_devices': 7, 'wifi_devices': 0,
+        return {'manual': 27, 'current': 0, 'counters_max': 8, 'counters': [{'name': '', 'value': 27, 'color': 1}, {'name': '', 'value': 4, 'color': 7}, {'name': '', 'value': 12, 'color': 5}],
+                'ble': True, 'wifi': False, 'personal_only': False, 'window': 60, 'rssi': -85, 'ble_devices': 7, 'wifi_devices': 0,
                 'ble_saturated': False, 'wifi_saturated': False, 'ble_dropped': 0, 'wifi_dropped': 0, 'ble_state': 'scanning',
                 'wifi_state': 'off', 'capacity': 128, 'wifi_supported': True}
     if path == '/api/wardrive':

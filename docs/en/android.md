@@ -241,7 +241,7 @@ A chat opens at the first unread message (the «Новые сообщения» 
 top of the screen is kept per chat in `localStorage` `mm-chatpos`), else at the end. A round button returns to the
 end and counts the messages that came while the chat was scrolled up.
 
-Since Android 0.13.3 any whole JSON line answers a command: Quick Send, the people counter, wardrive, tournaments
+Since Android 0.13.3 any whole JSON line answers a command: Quick Send, the quick counter, wardrive, tournaments
 and page commands (`server`, `remote …`) answer JSON, but the app took only `OK…`, waited 45 s and held every other
 request. An answer that outlasts its timeout is awaited while bytes keep arriving (up to 60 s), so the next command
 does not take it for its own.
