@@ -133,7 +133,7 @@ nav a:hover{color:var(--ink);text-decoration:none}
 .tag.ok{background:rgba(76,194,107,.14);color:var(--ok)}
 .tag.cm{background:rgba(233,177,59,.12);color:var(--warn)}
 /* install */
-.install{background:var(--bg2);border-block:1px solid #141c25}
+.features{background:var(--bg2);border-block:1px solid #141c25}
 .flash{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:40px}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px}
 .panel h3{font-size:20px;margin-bottom:18px}
@@ -224,8 +224,8 @@ footer a{color:var(--dim)}
   <a class="logo" href="#"><img src="img/icon.svg" alt="">MeshMesh</a>
   <nav>
    <a href="#how"><span data-i18n="nav.how"></span></a>
-   <a href="#features"><span data-i18n="nav.features"></span></a>
    <a href="#install"><span data-i18n="nav.install"></span></a>
+   <a href="#features"><span data-i18n="nav.features"></span></a>
    <a href="#docs"><span data-i18n="nav.docs"></span></a>
   </nav>
   <label class="lang"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><select id="siteLang" data-i18n-aria="lang.site"></select></label>
@@ -350,16 +350,7 @@ footer a{color:var(--dim)}
  </div>
 </section>
 
-<section id="features">
- <div class="wrap">
-  <div class="kicker"><span data-i18n="features.kicker"></span></div>
-  <h2 data-i18n="features.title"></h2>
-  <p class="lead" data-i18n="features.lead"></p>
-  <div class="grid" id="features-grid"></div>
- </div>
-</section>
-
-<section class="install" id="install">
+<section id="install">
  <div class="wrap">
   <div class="kicker"><span data-i18n="install.kicker"></span></div>
   <h2 data-i18n="install.title"></h2>
@@ -411,6 +402,15 @@ footer a{color:var(--dim)}
     </div>
    </div>
   </div>
+ </div>
+</section>
+
+<section class="features" id="features">
+ <div class="wrap">
+  <div class="kicker"><span data-i18n="features.kicker"></span></div>
+  <h2 data-i18n="features.title"></h2>
+  <p class="lead" data-i18n="features.lead"></p>
+  <div class="grid" id="features-grid"></div>
  </div>
 </section>
 
