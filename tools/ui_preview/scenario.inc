@@ -75,6 +75,8 @@ static void scenario(){
   touch('t',20,60);touch('t',50,60);if(dicer.s.gridChosen!=2){printf("FAIL dice grid tap: %s\n",dicer.json().c_str());exit(1);}
   touch('t',20,34);uint32_t rolls=dicer.rolls;touch('t',100,120);if(dicer.rolls!=rolls+1){printf("FAIL dice roll tap: %s\n",dicer.json().c_str());exit(1);}shot("tdeck-dice");
   dicer.setMode(dice::Sheet);tick();touch('t',8+60,60);touch('t',8+60,60);if(dicer.rolls!=rolls+2||String(dicer.last()->formula)!="d20"){printf("FAIL sheet block taps: %s\n",dicer.json().c_str());exit(1);}shot("tdeck-dice-sheet");
+  key('e');touch('t',100,74+5*19+8);if(uiStatus().indexOf("\"block_field\":5")<0){printf("FAIL builder row tap: %s\n",uiStatus().c_str());exit(1);}
+  touch('t',100,74+5*19+8);if(dicer.sheet.block[1].shape!=dice::Square){printf("FAIL builder second tap: %s\n",uiStatus().c_str());exit(1);}shot("tdeck-dice-builder");key(0x86);
   touch('t',160,10);expect("dice back","\"page\":\"home\"");}
  // Quick Send: the pinned recipient card and first/last templates use their own touch targets.
  {strlcpy(config.apps,"quick people dice",sizeof config.apps);config.dimAfter=0;config.autoLock=0;key(0x82);key(13);expect("Quick tile","\"page\":\"quick\"");shot("tdeck-quick");unsigned before=meshRadio.historyCount;
@@ -354,7 +356,13 @@ static void scenario(){
  // Dice (DIC3R, Dice.h): the rules of formulas, rolls, the grid, the sheet and the commands first, then the screens.
  {uint16_t dim=config.dimAfter,lock=config.autoLock;config.dimAfter=config.autoLock=0;srand(11);dicer.begin();
   auto must=[](bool v,const char* what){if(!v){printf("FAIL dice %s: %s\n",what,dicer.json().c_str());exit(1);}};
-  using dice::Dicer;dicer.applyTemplate(dice::Blank);dicer.deleteBlock(0);
+  using dice::Dicer;
+  // A fresh device gets a D&D and a R.E.T. character once, the general set stays current.
+  must(dicer.s.characters==3&&dicer.s.character==0&&String(dicer.s.list[1].name)=="D&D 5e"&&(dicer.s.flags&dice::ExamplesAdded),"the two systems by default");
+  must(dicer.useCharacter(2)&&dicer.find("body")>=0&&dicer.useCharacter(1)&&dicer.find("dex")>=0,"the examples are full sheets");
+  dicer.deleteCharacter();dicer.useCharacter(1);dicer.deleteCharacter();dicer.addExamples();
+  must(dicer.s.characters==3,"added again only by addExamples");dicer.useCharacter(2);dicer.deleteCharacter();dicer.useCharacter(1);dicer.deleteCharacter();
+  dicer.applyTemplate(dice::Blank);dicer.deleteBlock(0);
   must(Dicer::valid("2d6+1")&&Dicer::valid("d20")&&Dicer::valid("4к6-2")&&Dicer::valid("d%")&&Dicer::valid("3D8 + 2d4 - 1")&&Dicer::valid("-1d4+3")&&Dicer::valid("99d1000")&&Dicer::valid("r3+2")&&Dicer::valid("r0"),"good formulas");
   must(!Dicer::valid("")&&!Dicer::valid("2d")&&!Dicer::valid("d1")&&!Dicer::valid("100d6")&&!Dicer::valid("2d6+")&&!Dicer::valid("abc")&&!Dicer::valid("1+1+1+1+1+1+1+1+1")&&!Dicer::valid("2d6 3")&&!Dicer::valid("0d6")&&!Dicer::valid("r9")&&!Dicer::valid("2r3"),"bad formulas");
   for(int i=0;i<400;i++){must(dicer.roll("3d6+2"),"3d6+2");const dice::Result* r=dicer.last();must(r->total>=5&&r->total<=20&&r->parts==4&&!r->special,"3d6+2 range");}
@@ -499,7 +507,16 @@ static void scenario(){
   for(int i=0;i<4;i++)tick();key(0xb6);key(0xb6);shot("dice-sheet-down");
   auto choose=[&](int want){for(int k=0;k<80&&uiStatus().indexOf((std::string("\"sheet_block\":")+std::to_string(want)+",").c_str())<0;k++)key(0xb7);must(uiStatus().indexOf((std::string("\"sheet_block\":")+std::to_string(want)+",").c_str())>=0,"choose a block");};
   {int atk=-1;for(unsigned i=0;i<dicer.sheet.count;i++)if(String(dicer.sheet.block[i].formula)=="d20+@str+@pb")atk=i;choose(atk);key('i');must(uiStatus().indexOf("\"sheet_note\":true")>=0,"I opens the note");shot("dice-sheet-note");key('i');}
-  key('p');key(0xb6);key(13);must(dicer.s.character==2,"choose Yan");choose(0);dicer.roll("r5+3",ru?"Харизма":"Charisma");shot("dice-sheet-ret");
+  // The builder: E on a block, the arrows change its kind/rule/shape, OK types a formula, A adds a block, DEL twice deletes.
+  {choose(0);unsigned blocks=dicer.sheet.count;key('e');must(uiStatus().indexOf("\"dice_sheet\":\"block\"")>=0,"E opens the builder");
+   for(int k=0;k<6;k++)key(0xb6);key(0xb7);must(dicer.sheet.block[0].rule==dice::Bonus,"the rule by the arrow");key(0xb4);
+   key(0xb5);key(0xb7);must(dicer.sheet.block[0].shape==dice::Square,"the shape by the arrow");shot("dice-builder");key(0xb4);
+   for(int k=0;k<3;k++)key(0xb6);key(13);must(uiStatus().indexOf("\"editing\":true")>=0,"OK types the formula");for(char ch:std::string("10+@dex"))key(ch);shot("dice-builder-formula");key(13);
+   must(String(dicer.sheet.block[0].formula)=="10+@dex"&&dicer.value(0)==13,"a typed formula computes");
+   key(13);for(int k=0;k<10;k++)key(8);key(13);must(!dicer.sheet.block[0].formula[0],"the formula cleared");
+   key('a');must(dicer.sheet.count==blocks+1&&uiStatus().indexOf("\"sheet_block\":1,")>=0,"A adds a block after it");key(0xb7);key(0xb7);must(dicer.sheet.block[1].kind==dice::Pips&&dicer.fresh(1)&&dicer.sheet.block[1].max==3,"a new block takes the defaults of its kind");shot("dice-builder-new");
+   key(8);key(8);must(dicer.sheet.count==blocks&&uiStatus().indexOf("\"dice_sheet\":\"main\"")>=0,"DEL twice deletes");}
+  key('p');key(0xb6);key(13);must(dicer.s.character==2,"choose Yan");choose(0);dicer.roll("r5+3",dicer.sheet.block[dicer.find("cha")].name);shot("dice-sheet-ret");
   choose(dicer.find("insp"));for(int k=0;k<3;k++)tick();shot("dice-sheet-ret-low");
   key('p');key('a');for(char ch:std::string(ru?"Mira":"Mira"))key(ch);key(13);must(uiStatus().indexOf("\"dice_sheet\":\"templates\"")>=0,"name, then the template");shot("dice-templates");
   key(0xb6);key(0xb6);key(13);must(dicer.s.characters==4&&dicer.find("mind")>=0,"a R.E.T. character from the screen");

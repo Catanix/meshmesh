@@ -6,13 +6,13 @@
 // rolls a stat's check or an ability, marks pips, +/- change a value, V types one, I shows the note. P picks the
 // character (A: new from a template, S: send the sheet to a contact, O: a sheet a contact sent), M (or 1-3,
 // or a tap on a tab) changes the mode. Blocks are built on the web page or in the app.
-enum DiceSheet:uint8_t {DiceMain,DiceSaved,DiceHeroes,DiceTemplates,DiceSend,DiceOffer};
-enum DiceEdit:uint8_t {EditQuick,EditNewFormula,EditNewName,EditFormula,EditName,EditValue,EditHeroNew,EditHeroName};
-uint8_t diceSheet=DiceMain,diceEditing=EditQuick;int diceSel=0,sheetSel=0,sheetTop=0;bool sheetNote=false;String diceDraft;
+enum DiceSheet:uint8_t {DiceMain,DiceSaved,DiceHeroes,DiceTemplates,DiceSend,DiceOffer,DiceBlock};
+enum DiceEdit:uint8_t {EditQuick,EditNewFormula,EditNewName,EditFormula,EditName,EditValue,EditHeroNew,EditHeroName,EditField};
+uint8_t diceSheet=DiceMain,diceEditing=EditQuick;int diceSel=0,sheetSel=0,sheetTop=0,blockField=0;bool sheetNote=false;String diceDraft;
 uint32_t diceArmed=0,diceRollAt=0,diceSeen=0,diceRolls=0,diceNotes=0,sheetRollAt=0;
 constexpr uint32_t DiceSpin=450,SheetRollShow=5000; // ms of tumbling after a roll; of the roll card over the sheet
 // Touch spots of the frame (uiTouch): what a tap there does.
-enum DiceTap:uint8_t {TapTab,TapHero,TapType,TapRoll,TapCell,TapBlock,TapSaved,TapHeroRow,TapAdd,TapPick};
+enum DiceTap:uint8_t {TapTab,TapHero,TapType,TapRoll,TapCell,TapBlock,TapSaved,TapHeroRow,TapAdd,TapPick,TapField};
 struct DiceSpot{int16_t x,y,w,h;uint8_t act;int16_t arg;};DiceSpot diceSpots[96];unsigned diceSpotCount=0;
 void diceSpot(int x,int y,int w,int h,uint8_t act,int arg){if(diceSpotCount<96)diceSpots[diceSpotCount++]={int16_t(x),int16_t(y),int16_t(w),int16_t(h),act,int16_t(arg)};}
 uint16_t diceColor(unsigned i){return rgb(dice::colors[i%dice::Colors]);}
@@ -176,7 +176,7 @@ void drawSheetRoll(){
 void drawDiceSheet(){
  auto& d=g();sheetLayout();unsigned n=dicer.sheet.count;
  if(!n){icon(IcDice,160,96,18,faint);textCenter(160,136,t("The sheet is empty","Лист пуст"),dim);
-  textCenter(160,154,t("P, A: a character from D&D or R.E.T.","P, A: персонаж из D&D или Р.Э.Т."),faint,small);textCenter(160,166,t("Blocks: on the web page or in the app","Блоки: на веб-странице или в приложении"),faint,small);return;}
+  textCenter(160,154,t("A: add a block","A: добавить блок"),faint,small);textCenter(160,166,t("P, A: a character from D&D or R.E.T.","P, A: персонаж из D&D или Р.Э.Т."),faint,small);return;}
  sheetKeepVisible();
  for(unsigned i=0;i<n;i++){const SheetBox& b=sheetBoxes[i];int y=SheetY+b.y-sheetTop;if(y<SheetY-1||y+b.h>SheetY+SheetH+1)continue;
   drawSheetBlock(i,b.x,y,b.w,b.h,int(i)==sheetSel);diceSpot(b.x,y,b.w,b.h,TapBlock,i);}
@@ -187,10 +187,103 @@ void drawDiceSheet(){
  else if(b.kind==dice::Track&&b.formula[0])detail=t("max = ","макс. = ")+b.formula;
  else if(b.kind==dice::Ability&&b.noteLen)detail=dicer.noteText(sheetSel);
  else if(b.kind==dice::Ability&&b.formula[0])detail=b.formula;
+ if(!detail.length())text(8,215,t("V: value   E: edit the block   A: new block","V: значение   E: изменить блок   A: новый блок"),faint,small);
  if(detail.length()){detail.replace("\n"," ");text(8,215,fit(detail,b.kind==dice::Ability&&b.noteLen?250:304,small),faint,small);if(b.kind==dice::Ability&&b.noteLen)textRight(312,215,t("I: more","I: далее"),accent,small);}
  if(sheetNote){panel(10,48,300,160,cardHi,10);d.drawRoundRect(10,48,300,160,10,line);text(24,70,fit(b.name,270,bold),ink,bold);
   String rows[9];unsigned k=wrap(dicer.noteText(sheetSel),rows,9,272,small);for(unsigned j=0;j<k;j++)text(24,86+j*12,rows[j],dim,small);}
  else drawSheetRoll();
+}
+// The block builder (E on a block, A for a new one): its fields as rows. Left/right change the kinds, widths,
+// colours, shapes, rules and the position at once; OK types names, codes, numbers, formulas and descriptions
+// into the edit dialog; the device checks them as for the web page (setField).
+bool diceConfirm();void diceEdit(DiceEdit kind,const String& value);
+enum BlockField:uint8_t {FieldKind,FieldName,FieldCode,FieldWidth,FieldColor,FieldShape,FieldRule,FieldValue,FieldMax,FieldFormula,FieldUse,FieldSpend,FieldNote,FieldMove,FieldCount};
+const char* const blockFieldKeys[FieldCount]={"kind","name","code","width","color","shape","rule","value","max","formula","use","spend","note",""};
+unsigned blockFields(uint8_t kind,uint8_t* out){
+ unsigned n=0;auto add=[&](uint8_t f){out[n++]=f;};add(FieldKind);add(FieldName);
+ switch(kind){
+ case dice::Stat:add(FieldCode);add(FieldWidth);add(FieldColor);add(FieldShape);add(FieldRule);add(FieldValue);add(FieldFormula);break;
+ case dice::Track:add(FieldCode);add(FieldWidth);add(FieldColor);add(FieldValue);add(FieldMax);add(FieldFormula);break;
+ case dice::Pips:add(FieldCode);add(FieldWidth);add(FieldColor);add(FieldValue);add(FieldMax);break;
+ case dice::Ability:add(FieldWidth);add(FieldColor);add(FieldFormula);add(FieldUse);add(FieldSpend);add(FieldNote);break;
+ case dice::Note:add(FieldWidth);add(FieldColor);add(FieldNote);break;
+ default:break;}
+ add(FieldMove);return n;
+}
+String kindLabel(uint8_t k){
+ switch(k){case dice::Stat:return t("Stat","Стат");case dice::Track:return t("Track","Шкала");case dice::Pips:return t("Marks","Отметки");case dice::Ability:return t("Ability","Способность");case dice::Note:return t("Note","Заметка");}
+ return t("Header","Заголовок");
+}
+String ruleLabel(uint8_t r){return r==dice::Dnd?t("D&D: modifier","D&D: модификатор"):r==dice::Bonus?t("Bonus to d20","Бонус к d20"):r==dice::Ret?t("R.E.T.: die by level","Р.Э.Т.: куб уровня"):t("Plain number","Обычное число");}
+String fieldLabel(uint8_t f,uint8_t kind){
+ switch(f){
+ case FieldKind:return t("Kind","Тип");case FieldName:return t("Name","Название");case FieldCode:return t("Code for formulas","Код для формул");
+ case FieldWidth:return t("Width","Ширина");case FieldColor:return t("Colour","Цвет");case FieldShape:return t("Shape","Фигура");case FieldRule:return t("Rule","Правило");
+ case FieldValue:return kind==dice::Pips?t("Marked","Отмечено"):kind==dice::Track?t("Now","Сейчас"):t("Value","Значение");
+ case FieldMax:return kind==dice::Pips?t("Total (1-12)","Всего (1-12)"):t("Maximum (0: none)","Максимум (0 - нет)");
+ case FieldFormula:return kind==dice::Ability?t("Roll","Бросок"):kind==dice::Track?t("Or the maximum by a formula","Или максимум по формуле"):t("Or compute","Или вычислять");
+ case FieldUse:return t("Takes from the block (code)","Тратит из блока (код)");case FieldSpend:return t("How many","Сколько");
+ case FieldNote:return t("Description","Описание");}
+ return t("Position","Место");
+}
+String fieldText(uint8_t f,unsigned i){
+ const dice::Block& b=dicer.sheet.block[i];
+ switch(f){
+ case FieldKind:return kindLabel(b.kind);case FieldName:return b.name;case FieldCode:return b.code[0]?String("@")+b.code:String("-");
+ case FieldWidth:{const char* w[]={"1/6","1/4","1/3","1/2"};return b.width<dice::Whole?String(w[b.width]):t("whole row","вся строка");}
+ case FieldRule:return ruleLabel(b.rule);case FieldValue:return String(b.value);case FieldMax:return String(b.max);
+ case FieldFormula:return b.formula[0]?String(b.formula):String("-");case FieldUse:return b.use[0]?String(b.use):String("-");case FieldSpend:return String(b.spend);
+ case FieldNote:{String v=dicer.noteText(i);v.replace("\n"," ");return v.length()?v:String("-");}
+ case FieldMove:return String(i+1)+" / "+String(dicer.sheet.count);
+ default:return String();}
+}
+bool fieldCycles(uint8_t f){return f==FieldKind||f==FieldWidth||f==FieldColor||f==FieldShape||f==FieldRule||f==FieldMove;}
+bool fieldRaw(uint8_t f){return f!=FieldName&&f!=FieldNote;}
+uint8_t blockFieldNow(){uint8_t fs[FieldCount];unsigned n=blockFields(dicer.sheet.block[sheetSel].kind,fs);blockField=constrain(blockField,0,int(n)-1);return fs[blockField];}
+void drawDiceBlock(){
+ auto& d=g();panel(8,48,304,168,cardHi,10);d.drawRoundRect(8,48,304,168,10,line);
+ if(!dicer.sheet.count){diceSheet=DiceMain;return;}sheetSel=constrain(sheetSel,0,int(dicer.sheet.count)-1);
+ const dice::Block& b=dicer.sheet.block[sheetSel];uint16_t hue=diceColor(b.color);
+ d.fillCircle(22,62,5,hue);text(32,66,fit(t("Block ","Блок ")+String(sheetSel+1)+" · "+b.name,270,bold),ink,bold);
+ uint8_t fs[FieldCount];unsigned n=blockFields(b.kind,fs);blockField=constrain(blockField,0,int(n)-1);static int first=0;if(blockField<first)first=blockField;if(blockField>=first+6)first=blockField-5;first=constrain(first,0,max(0,int(n)-6)); // scrolls only past an edge: a second tap hits the same row
+ for(int k=first;k<int(n)&&k<first+6;k++){int y=74+(k-first)*19;bool focus=k==blockField;uint8_t f=fs[k];
+  panel(14,y,292,17,focus?card:cardHi,5);if(focus)d.fillRoundRect(14,y+4,3,9,1,accent);
+  String label=fieldLabel(f,b.kind);text(22,y+12,fit(label,128,small),focus?ink:dim,small);
+  int vx=154;if(f==FieldColor){d.fillRoundRect(vx,y+4,24,9,3,hue);text(vx+30,y+12,String(b.color+1)+"/15",faint,small);}
+  else if(f==FieldShape){drawStatShape(d,b.shape,vx+8,y+8,6,mix(dice::colors[b.color%dice::Colors],0x1c2835,.6f),hue);}
+  else{String v=fieldText(f,sheetSel);text(vx,y+12,fit(v,fieldCycles(f)?124:146,small),f==FieldFormula||f==FieldCode||f==FieldUse?accent:ink,small);}
+  if(fieldCycles(f)&&focus){textRight(302,y+12,"< >",accent,small);}
+  diceSpot(14,y,292,17,TapField,k);}
+ scrollbar(first,6,n,74,112);
+ uint8_t f=fs[blockField];String hint=fieldCycles(f)?t("< >: change   DEL twice: delete   A: new block","< >: изменить   DEL дважды: удалить   A: новый блок"):t("OK: type   DEL twice: delete   A: new block","OK: ввести   DEL дважды: удалить   A: новый блок");
+ if(!dicer.derivedOk(sheetSel)||(b.kind==dice::Ability&&b.formula[0]&&!dicer.rollFormula(sheetSel).length()))hint=t("The formula does not compute: check the codes","Формула не считается: проверьте коды");
+ text(18,208,fit(hint,288,small),hint.startsWith("<")||hint.startsWith("OK")?faint:bad,small);
+}
+// A new block after the chosen one (a stat; the kind is the first row).
+void diceNewBlock(){int at=dicer.sheet.count?sheetSel+1:0;int i=dicer.addBlock(dice::Stat,at);if(i<0){notice(t("64 blocks at most","Не больше 64 блоков"),warn);return;}sheetSel=i;blockField=0;sheetNote=false;diceSheet=DiceBlock;}
+void diceFieldChange(uint8_t f,int step){
+ const dice::Block& b=dicer.sheet.block[sheetSel];String error;int v=0,top=0;
+ switch(f){
+ case FieldKind:{int k=(b.kind+step+dice::KindCount)%dice::KindCount;if(dicer.fresh(sheetSel)){dicer.renew(sheetSel,k);return;} // a block not touched yet takes the new kind's defaults
+  v=b.kind;top=dice::KindCount;break;}case FieldWidth:v=b.width;top=dice::WidthCount;break;case FieldColor:v=b.color;top=dice::Colors;break;
+ case FieldShape:v=b.shape;top=dice::ShapeCount;break;case FieldRule:v=b.rule;top=dice::RuleCount;break;
+ case FieldMove:{int to=sheetSel+step;if(to>=0&&to<int(dicer.sheet.count)&&dicer.moveBlock(sheetSel,to))sheetSel=to;return;}
+ default:return;}
+ if(!dicer.setField(sheetSel,blockFieldKeys[f],String((v+step+top)%top),&error))notice(error,bad);
+ if(f==FieldKind){uint8_t fs[FieldCount];unsigned n=blockFields(dicer.sheet.block[sheetSel].kind,fs);blockField=min<int>(blockField,n-1);}
+}
+bool diceBlockKey(int key){
+ if(!dicer.sheet.count){diceSheet=DiceMain;return true;}
+ uint8_t fs[FieldCount];unsigned n=blockFields(dicer.sheet.block[sheetSel].kind,fs);blockField=constrain(blockField,0,int(n)-1);uint8_t f=fs[blockField];
+ if(key==KeyBack||key=='e'||key=='E'){diceSheet=DiceMain;return true;}
+ if(key==KeyUp||key==KeyDown){blockField=(blockField+(key==KeyUp?n-1:1))%n;return true;}
+ if(key==KeyLeft||key==KeyRight){diceFieldChange(f,key==KeyLeft?-1:1);return true;}
+ if(key=='a'||key=='A'){diceNewBlock();return true;}
+ if(key==Erase){if(diceConfirm()){dicer.deleteBlock(sheetSel);sheetSel=max(0,sheetSel-1);diceSheet=DiceMain;notice(t("Block deleted","Блок удалён"),dim);}return true;}
+ if(key==Enter||key==KeyHold){if(fieldCycles(f)){diceFieldChange(f,1);return true;}
+  String v=f==FieldNote?dicer.noteText(sheetSel):f==FieldFormula?String(dicer.sheet.block[sheetSel].formula):f==FieldName?String(dicer.sheet.block[sheetSel].name):f==FieldCode?String(dicer.sheet.block[sheetSel].code):f==FieldUse?String(dicer.sheet.block[sheetSel].use):fieldText(f,sheetSel);
+  v.replace("\n"," ");diceEdit(EditField,v);return true;}
+ return true;
 }
 // The saved rolls (the sheet's abilities with a formula) over the page.
 void drawDiceSaved(){
@@ -257,6 +350,7 @@ void drawDice(){
  case DiceHeroes:drawDiceHeroes();footer({{"OK",t("Choose","Выбрать")},{"^v",t("Select","Выбор")},{"S",t("Send","Отправить")},{"BACK",t("Close","Закрыть")}});return;
  case DiceTemplates:drawDiceTemplates();footer({{"OK",t("Create","Создать")},{"^v",t("Select","Выбор")},{"BACK",t("Cancel","Отмена")}});return;
  case DiceSend:drawDiceSend();footer({{"OK",t("Send","Отправить")},{"^v",t("Select","Выбор")},{"BACK",t("Close","Закрыть")}});return;
+ case DiceBlock:drawDiceBlock();footer({{"^v",t("Field","Поле")},{"<>",t("Change","Изменить")},{"OK",t("Type","Ввести")},{"BACK",t("Done","Готово")}});return;
  case DiceOffer:drawDiceOffer();footer({{"OK",t("Accept","Принять")},{"DEL",t("Decline","Отклонить")},{"BACK",t("Later","Позже")}});return;
  default:break;
  }
@@ -264,20 +358,29 @@ void drawDice(){
  case dice::Rpg:drawDiceRpg();footer({{"OK",t("Roll","Бросить")},{"S",t("Saved","Броски")},{"E",t("Formula","Формула")},{"M",t("Mode","Режим")}});break;
  case dice::Grid:drawDiceGrid();footer({{"OK",t("Roll","Бросить")},{"<>",t("Count","Число")},{"M",t("Mode","Режим")},{"P",t("Character","Персонаж")}});break;
  default:{drawDiceSheet();String act=dicer.sheet.count?dicer.actName(sheetSel):String();
-  if(act.length())footer({{"OK",act},{"+/-","±1"},{"V",t("Value","Значение")},{"P",t("Character","Персонаж")}});
-  else footer({{"<>",t("Select","Выбор")},{"+/-","±1"},{"V",t("Value","Значение")},{"P",t("Character","Персонаж")}});break;}
+  if(act.length())footer({{"OK",act},{"+/-","±1"},{"E",t("Edit","Изменить")},{"P",t("Character","Персонаж")}});
+  else footer({{"<>",t("Select","Выбор")},{"+/-","±1"},{"E",t("Edit","Изменить")},{"P",t("Character","Персонаж")}});break;}
  }
 }
 // The edit dialog (drawEditing): its title, limit and hint; formulas take the Latin keys as they are.
-bool diceEditRaw(){return diceEditing==EditQuick||diceEditing==EditNewFormula||diceEditing==EditFormula||diceEditing==EditValue;}
+uint8_t blockFieldNow();bool fieldRaw(uint8_t f);String fieldLabel(uint8_t f,uint8_t kind);
+bool diceEditRaw(){return diceEditing==EditQuick||diceEditing==EditNewFormula||diceEditing==EditFormula||diceEditing==EditValue||(diceEditing==EditField&&fieldRaw(blockFieldNow()));}
 String diceEditTitle(){
  switch(diceEditing){case EditQuick:return t("Formula to roll","Формула броска");case EditNewFormula:return t("New roll: formula","Новый бросок: формула");case EditNewName:return t("New roll: name","Новый бросок: имя");
+ case EditField:return fit(fieldLabel(blockFieldNow(),dicer.sheet.block[sheetSel].kind)+": "+dicer.sheet.block[sheetSel].name,268,bold);
  case EditFormula:return t("Formula","Формула");case EditName:return t("Roll name","Имя броска");case EditValue:return fit(t("Value: ","Значение: ")+(dicer.sheet.count?String(dicer.sheet.block[sheetSel].name):String()),268,bold);case EditHeroNew:return t("New character","Новый персонаж");}
  return t("Character name","Имя персонажа");
 }
-unsigned diceEditLimit(){return diceEditing==EditValue?6:diceEditRaw()?dice::FormulaBytes:diceEditing==EditName||diceEditing==EditNewName?dice::BlockName:dice::NameBytes;}
+unsigned diceEditLimit(){
+ if(diceEditing==EditField){uint8_t f=blockFieldNow();return f==FieldName?dice::BlockName:f==FieldCode||f==FieldUse?dice::CodeBytes:f==FieldFormula?dice::BlockFormula:f==FieldNote?dice::NoteBytes:6;}
+ return diceEditing==EditValue?6:diceEditRaw()?dice::FormulaBytes:diceEditing==EditName||diceEditing==EditNewName?dice::BlockName:dice::NameBytes;}
 String diceEditOk(){return diceEditing==EditQuick?t("OK: roll   BACK: cancel","OK: бросить   BACK: отменить"):diceEditing==EditNewFormula||diceEditing==EditHeroNew?t("OK: next   BACK: cancel","OK: далее   BACK: отменить"):t("OK: save   BACK: cancel","OK: сохранить   BACK: отменить");}
-String diceEditHint(){return diceEditing==EditValue?t("23 sets it, +5 or -7 changes it","23 - задать, +5 или -7 - изменить"):diceEditRaw()?t("2d6+1, d20, 4d6-2, d%, d66, r4","2d6+1, d20, 4к6-2, d%, d66, r4"):String();}
+String diceEditHint(){
+ if(diceEditing==EditField){uint8_t f=blockFieldNow();uint8_t k=dicer.sheet.block[sheetSel].kind;
+  if(f==FieldFormula)return k==dice::Ability?t("d20+@dex+@pb, 2d6+@str, r3+@fine!","d20+@dex+@pb, 2d6+@str, r3+@fine!"):t("10+@dex, (@a+@b)/2, @body*2; empty: none","10+@dex, (@a+@b)/2, @body*2; пусто - нет");
+  if(f==FieldCode||f==FieldUse)return t("Latin: dex, hp, mana; empty: none","Латиница: dex, hp, mana; пусто - нет");
+  return String();}
+ return diceEditing==EditValue?t("23 sets it, +5 or -7 changes it","23 - задать, +5 или -7 - изменить"):diceEditRaw()?t("2d6+1, d20, 4d6-2, d%, d66, r4","2d6+1, d20, 4к6-2, d%, d66, r4"):String();}
 void diceEditSave(){
  auto bad1=[&](const String& m){notice(m,bad);};String formulaError=t("Formula: 2d6+1, d20, d%, d66","Формула: 2d6+1, d20, d%, d66"),nameError=t("Name: 1-23 UTF-8 bytes","Имя: 1-23 байта UTF-8");
  unsigned count=dicer.savedCount();int block=dicer.savedBlock(diceSel);
@@ -289,6 +392,7 @@ void diceEditSave(){
  case EditName:if(diceSel<int(count)&&dicer.editRoll(diceSel,dicer.sheet.block[block].formula,edit)){editing=false;notice(t("Name saved","Имя сохранено"),ok);}else bad1(nameError);return;
  case EditValue:{String v=edit;v.trim();char* end;long n=strtol(v.c_str(),&end,10);bool rel=v.startsWith("+")||v.startsWith("-");
   if(!v.length()||*end||!(rel?dicer.change(sheetSel,n):dicer.setValue(sheetSel,n))){bad1(t("A number: 23, +5, -7","Число: 23, +5, -7"));return;}editing=false;return;}
+ case EditField:{uint8_t f=blockFieldNow();String error;if(!dicer.setField(sheetSel,blockFieldKeys[f],edit,&error)){bad1(error);return;}editing=false;return;}
  case EditHeroNew:{String v=edit;v.trim();if(!v.length()||v.length()>dice::NameBytes){bad1(nameError);return;}diceDraft=v;editing=false;diceSheet=DiceTemplates;diceSel=0;return;}
  default:if(dicer.renameCharacter(edit)){editing=false;notice(t("Name saved","Имя сохранено"),ok);}else bad1(nameError);return;
  }
@@ -333,6 +437,7 @@ void sheetMove(int key){
  if(best>=0)sheetSel=best;else sheetSel=key==KeyUp?0:n-1;
 }
 bool diceSheetKey(int key){
+ if(key=='a'||key=='A'){diceNewBlock();return true;}
  int n=dicer.sheet.count;if(!n)return key!=KeyBack;sheetSel=constrain(sheetSel,0,n-1);
  if(sheetNote&&(key==KeyBack||key=='i'||key=='I'||key==Enter)){sheetNote=false;return true;}
  if(key==KeyLeft||key==KeyRight||key==KeyUp||key==KeyDown){sheetMove(key);return true;}
@@ -341,6 +446,7 @@ bool diceSheetKey(int key){
  if(key=='+'||key=='='||key=='-'||key=='_'){if(!dicer.change(sheetSel,key=='+'||key=='='?1:-1))notice(dicer.sheet.block[sheetSel].formula[0]?t("Computed by its formula","Считается по формуле"):t("No value here","Здесь нет значения"),warn);return true;}
  if(key=='v'||key=='V'){const dice::Block& b=dicer.sheet.block[sheetSel];if((b.kind==dice::Stat&&!b.formula[0])||b.kind==dice::Track||b.kind==dice::Pips)diceEdit(EditValue,String(b.value));else notice(t("No value here","Здесь нет значения"),warn);return true;}
  if(key=='i'||key=='I'){sheetNote=!sheetNote&&dicer.sheet.block[sheetSel].noteLen;return true;}
+ if(key=='e'||key=='E'){diceSheet=DiceBlock;blockField=0;sheetNote=false;return true;}
  return key!=KeyBack;
 }
 bool diceSavedKey(int key){
@@ -396,7 +502,7 @@ bool diceKey(int key){
  if((key=='p'||key=='P')&&diceSheet!=DiceSaved){diceSheet=diceSheet==DiceHeroes?DiceMain:DiceHeroes;diceSel=dicer.s.character;return true;}
  switch(diceSheet){
  case DiceHeroes:return diceHeroKey(key);case DiceSaved:return diceSavedKey(key);case DiceTemplates:return diceTemplateKey(key);
- case DiceSend:return diceSendKey(key);case DiceOffer:return diceOfferKey(key);default:break;}
+ case DiceSend:return diceSendKey(key);case DiceOffer:return diceOfferKey(key);case DiceBlock:return diceBlockKey(key);default:break;}
  switch(dicer.s.mode){case dice::Rpg:return diceRpgKey(key);case dice::Grid:return diceGridKey(key);default:return diceSheetKey(key);}
 }
 // A tap: tabs, the character, the dice, grid cells, sheet blocks, list rows.
@@ -411,6 +517,7 @@ bool diceTap(int x,int y){
   case TapAdd:uiKey('a');return true;
   case TapBlock:if(sheetSel==v.arg)uiKey(Enter);else{sheetSel=v.arg;sheetNote=false;}break;
   case TapSaved:case TapHeroRow:case TapPick:if(diceSel==v.arg)uiKey(Enter);else diceSel=v.arg;break;
+  case TapField:if(blockField==v.arg)uiKey(Enter);else blockField=v.arg;break;
   }
   dirty=true;lastInput=millis();return true;}
  return false;

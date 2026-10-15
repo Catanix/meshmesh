@@ -61,6 +61,11 @@ def main():
     if shots.exists():  # screenshots in every language over the committed ru/en ones
         for f in shots.glob('*.png'):
             shutil.copyfile(f, out/'img'/f.name)
+        # Every screen a feature card shows must have been made (tools/site_shots.py lists them by name).
+        cards = (ROOT/'site'/'index.html').read_text().split('const FEATURES=')[1].split('];')[0]
+        missing = sorted(n for n in set(re.findall(r"'((?:m9|t114|heltec|gat562|tdeck)-[a-z0-9-]+)'", cards)) if not (out/'img'/f'{n}-en.png').exists())
+        if missing:
+            raise SystemExit('feature screenshots missing (add them to tools/site_shots.py): ' + ' '.join(missing))
     web_shots = ROOT/'artifacts'/'web-shots'
     if web_shots.exists():  # the device page in every language (tools/web_shots.py) over the committed ru/en ones
         for f in web_shots.glob('*.webp'):

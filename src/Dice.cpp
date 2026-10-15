@@ -127,6 +127,8 @@ struct V1Roll{char name[NameBytes+1];char formula[FormulaBytes+1];uint8_t color;
 struct V1Counter{char name[NameBytes+1];int16_t value;uint8_t color;};
 struct V1Character{char name[NameBytes+1];uint8_t rolls,counters;V1Roll roll[10];V1Counter counter[6];};
 struct V1State{uint32_t version;uint8_t character,characters,mode;uint8_t type,count;int8_t mod;uint8_t gridType,gridSize,gridChosen,threshold;bool thresholdOn;V1Character list[Characters];uint32_t check;};
+// The V2 file (0.25.0): State without its flags.
+struct V2State{uint32_t version;uint8_t character,characters,mode;uint8_t type,count;int8_t mod;uint8_t gridType,gridSize,gridChosen,threshold;bool thresholdOn;Character list[Characters];uint32_t check;};
 }
 String readable(const char* f){
   String v;for(const char* p=f;*p;p++){if(*p=='r'&&p[1]>='0'&&p[1]<='0'+int(RetTop)&&(p==f||!isalnum((unsigned char)p[-1]))){v+=retDie(p[1]-'0');p++;}else v+=*p;}
@@ -277,20 +279,28 @@ bool Dicer::setNote(SheetData& d,unsigned i,const String& v) const{
     memcpy(tmp+at,from,len);b.note=at;b.noteLen=len;at+=len;}
   memcpy(d.notes,tmp,at);d.notesUsed=at;delete[] tmp;return true;
 }
+String Dicer::defaultName(uint8_t kind){
+  switch(kind){case Stat:return t("Value","Значение");case Track:return t("Health","Здоровье");case Pips:return t("Marks","Отметки");
+  case Ability:return t("Ability","Способность");case Note:return t("Notes","Заметки");default:return t("Section","Раздел");}
+}
+void Dicer::defaults(Block& b,uint8_t kind){
+  b.kind=kind;b.value=b.max=0;b.rule=b.shape=0;
+  switch(kind){case Stat:b.width=Quarter;b.value=10;break;case Track:b.width=Whole;b.value=b.max=10;break;case Pips:b.width=Third;b.max=3;break;
+  case Ability:b.width=Half;break;default:b.width=Whole;break;}
+  copyText(b.name,sizeof b.name,defaultName(kind).c_str());
+}
 int Dicer::addBlock(uint8_t kind,int at){
   if(sheet.count>=Blocks||kind>=KindCount)return -1;if(at<0||at>int(sheet.count))at=sheet.count;
   memmove(&sheet.block[at+1],&sheet.block[at],sizeof(Block)*(sheet.count-at));Block& b=sheet.block[at];memset(&b,0,sizeof b);
-  b.kind=kind;b.note=sheet.notesUsed;b.color=sheet.count%Colors;sheet.count++;String name;
-  switch(kind){
-  case Stat:b.width=Quarter;b.value=10;name=t("Value","Значение");break;
-  case Track:b.width=Whole;b.value=b.max=10;name=t("Health","Здоровье");break;
-  case Pips:b.width=Third;b.max=3;name=t("Marks","Отметки");break;
-  case Ability:b.width=Half;name=t("Ability","Способность");break;
-  case Note:b.width=Whole;name=t("Notes","Заметки");break;
-  default:b.width=Whole;name=t("Section","Раздел");break;}
-  copyText(b.name,sizeof b.name,name.c_str());setNote(sheet,at,String()); // the notes after it keep their order
+  b.note=sheet.notesUsed;b.color=sheet.count%Colors;sheet.count++;defaults(b,kind);
+  setNote(sheet,at,String()); // the notes after it keep their order
   sheetChanged();return at;
 }
+bool Dicer::fresh(unsigned i) const{
+  if(i>=sheet.count)return false;const Block& b=sheet.block[i];
+  return !b.code[0]&&!b.formula[0]&&!b.use[0]&&!b.noteLen&&defaultName(b.kind)==b.name;
+}
+bool Dicer::renew(unsigned i,uint8_t kind){if(i>=sheet.count||kind>=KindCount)return false;defaults(sheet.block[i],kind);sheetChanged();return true;}
 bool Dicer::setField(unsigned i,const String& field,const String& raw,String* error){
   auto bad=[&](const char* why){if(error)*error=why;return false;};
   if(i>=sheet.count)return bad("no such block");Block& b=sheet.block[i];String v=raw;
@@ -515,7 +525,12 @@ bool Dicer::migrate(const uint8_t* stored,size_t size){
 }
 void Dicer::begin(){
   State* stored=new State;
-  bool ok=readStored(DiceFile,DiceTemp,stored,sizeof(State))&&stored->version==2&&stored->check==fnv((const uint8_t*)stored,offsetof(State,check))
+  bool ok=readStored(DiceFile,DiceTemp,stored,sizeof(State))&&stored->version==3&&stored->check==fnv((const uint8_t*)stored,offsetof(State,check));
+  if(!ok){V2State* v=new V2State;if(readStored(DiceFile,DiceTemp,v,sizeof(V2State))&&v->version==2&&v->check==fnv((const uint8_t*)v,offsetof(V2State,check))){
+    *stored=State();stored->character=v->character;stored->characters=v->characters;stored->mode=v->mode;stored->type=v->type;stored->count=v->count;stored->mod=v->mod;
+    stored->gridType=v->gridType;stored->gridSize=v->gridSize;stored->gridChosen=v->gridChosen;stored->threshold=v->threshold;stored->thresholdOn=v->thresholdOn;
+    memcpy(stored->list,v->list,sizeof stored->list);ok=true;}delete v;}
+  ok=ok
     &&stored->characters>=1&&stored->characters<=Characters&&stored->character<stored->characters&&stored->mode<ModeCount&&stored->type<TypeCount&&stored->gridType<TypeCount
     &&stored->count>=1&&stored->count<=MaxCount&&stored->gridSize>=GridStart&&stored->gridSize<=GridMax&&stored->gridChosen<=stored->gridSize;
   for(unsigned i=0;ok&&i<stored->characters;i++)ok=memchr(stored->list[i].name,0,sizeof stored->list[i].name)&&stored->list[i].file<SheetFiles;
@@ -524,7 +539,15 @@ void Dicer::begin(){
   if(!ok){V1State* old=new V1State;ok=readStored(DiceFile,DiceTemp,old,sizeof(V1State))&&migrate((const uint8_t*)old,sizeof(V1State));delete old;}
   if(!ok)s=State();
   loadSheet(hero().file);
+  if(!(s.flags&ExamplesAdded))addExamples();
   for(auto& v:grid)v=1;events++;sheetRev++;
+}
+// The two systems as characters of their own: open, look, change or delete them; added once, where there is room.
+void Dicer::addExamples(){
+  s.flags|=ExamplesAdded;uint8_t keep=s.character;
+  if(s.characters<Characters)addCharacter("D&D 5e",DndTemplate);
+  if(s.characters<Characters)addCharacter(t("R.E.T.","Р.Э.Т."),RetTemplate);
+  useCharacter(keep);save();
 }
 void Dicer::changed(bool soon){events++;if(soon){saveDue=millis()+2000;return;}save();}
 void Dicer::save(){saveDue=0;s.check=fnv((const uint8_t*)&s,offsetof(State,check));writeStored(DiceFile,DiceTemp,&s,sizeof(State));saveSheet();}

@@ -264,16 +264,6 @@
   "ru": "Формула не считается",
   "text": "수식을 계산할 수 없음"
  },
- "baa190e9": {
-  "en": "Marks",
-  "ru": "Отметки",
-  "text": "체크"
- },
- "a1f5edbc": {
-  "en": "Ability",
-  "ru": "Способность",
-  "text": "능력"
- },
  "26282b58": {
   "en": "Notes",
   "ru": "Заметки",
@@ -653,6 +643,11 @@
   "en": "The top value of a die is a success: roll the die of the next level and add it, up to d100. A 1 is a failure: d4 of failure, 1 is critical; bonuses are lost.",
   "ru": "Максимум — успех: + куб следующего уровня (до d100). Единица — провал: d4, на 1 — критический, бонусы сгорают.",
   "text": "주사위 최댓값은 성공: 다음 레벨 주사위를 굴려 더하며 d100까지. 1은 실패: 실패 d4, 1이면 대실패, 보너스는 사라집니다."
+ },
+ "2c624eac": {
+  "en": "R.E.T.",
+  "ru": "Р.Э.Т.",
+  "text": "R.E.T."
  },
  "ed4ac5a0": {
   "en": "Sending the sheet to ",
@@ -5055,25 +5050,220 @@
   "ru": "Лист пуст",
   "text": "시트가 비어 있음"
  },
+ "b6d60e6e": {
+  "en": "A: add a block",
+  "ru": "A: добавить блок",
+  "text": "A: 블록 추가"
+ },
  "53ed2c15": {
   "en": "P, A: a character from D&D or R.E.T.",
   "ru": "P, A: персонаж из D&D или Р.Э.Т.",
   "text": "P, A: D&D 또는 R.E.T. 캐릭터"
- },
- "40f96906": {
-  "en": "Blocks: on the web page or in the app",
-  "ru": "Блоки: на веб-странице или в приложении",
-  "text": "블록: 웹 페이지나 앱에서"
  },
  "62bdb04c": {
   "en": "max = ",
   "ru": "макс. = ",
   "text": "최대 = "
  },
+ "d6eee00e": {
+  "en": "V: value   E: edit the block   A: new block",
+  "ru": "V: значение   E: изменить блок   A: новый блок",
+  "text": "V: 값   E: 블록 변경   A: 새 블록"
+ },
  "c0de6bb4": {
   "en": "I: more",
   "ru": "I: далее",
   "text": "I: 더보기"
+ },
+ "bd7b3d19": {
+  "en": "Sheet",
+  "ru": "Лист",
+  "text": "시트"
+ },
+ "92cc16e7": {
+  "en": "Stat",
+  "ru": "Стат",
+  "text": "능력치"
+ },
+ "c399344e": {
+  "en": "Track",
+  "ru": "Шкала",
+  "text": "게이지"
+ },
+ "baa190e9": {
+  "en": "Marks",
+  "ru": "Отметки",
+  "text": "체크"
+ },
+ "a1f5edbc": {
+  "en": "Ability",
+  "ru": "Способность",
+  "text": "능력"
+ },
+ "b39f2f7d": {
+  "en": "Note",
+  "ru": "Заметка",
+  "text": "메모"
+ },
+ "91e32a8a": {
+  "en": "Header",
+  "ru": "Заголовок",
+  "text": "제목"
+ },
+ "46880948": {
+  "en": "D&D: modifier",
+  "ru": "D&D: модификатор",
+  "text": "D&D: 수정치"
+ },
+ "4b922bfc": {
+  "en": "Bonus to d20",
+  "ru": "Бонус к d20",
+  "text": "d20 보너스"
+ },
+ "cc399de6": {
+  "en": "R.E.T.: die by level",
+  "ru": "Р.Э.Т.: куб уровня",
+  "text": "R.E.T.: 레벨 주사위"
+ },
+ "6923b9a7": {
+  "en": "Plain number",
+  "ru": "Обычное число",
+  "text": "일반 숫자"
+ },
+ "b728f1ab": {
+  "en": "Kind",
+  "ru": "Тип",
+  "text": "종류"
+ },
+ "90e530bf": {
+  "en": "Code for formulas",
+  "ru": "Код для формул",
+  "text": "수식용 코드"
+ },
+ "7600b2f2": {
+  "en": "Width",
+  "ru": "Ширина",
+  "text": "너비"
+ },
+ "ef882957": {
+  "en": "Shape",
+  "ru": "Фигура",
+  "text": "모양"
+ },
+ "07d226bd": {
+  "en": "Rule",
+  "ru": "Правило",
+  "text": "규칙"
+ },
+ "27575896": {
+  "en": "Marked",
+  "ru": "Отмечено",
+  "text": "체크됨"
+ },
+ "957da439": {
+  "en": "Now",
+  "ru": "Сейчас",
+  "text": "현재"
+ },
+ "b531bbbc": {
+  "en": "Total (1-12)",
+  "ru": "Всего (1-12)",
+  "text": "전체 (1–12)"
+ },
+ "cf957f08": {
+  "en": "Maximum (0: none)",
+  "ru": "Максимум (0 - нет)",
+  "text": "최대 (0 - 없음)"
+ },
+ "5c0d40e5": {
+  "en": "Roll",
+  "ru": "Бросок",
+  "text": "굴림"
+ },
+ "ef76a03a": {
+  "en": "Or the maximum by a formula",
+  "ru": "Или максимум по формуле",
+  "text": "또는 수식으로 최대"
+ },
+ "1a493442": {
+  "en": "Or compute",
+  "ru": "Или вычислять",
+  "text": "또는 계산식"
+ },
+ "d3476267": {
+  "en": "Takes from the block (code)",
+  "ru": "Тратит из блока (код)",
+  "text": "소모할 블록 (코드)"
+ },
+ "7bafdfb2": {
+  "en": "How many",
+  "ru": "Сколько",
+  "text": "양"
+ },
+ "188345a7": {
+  "en": "Description",
+  "ru": "Описание",
+  "text": "설명"
+ },
+ "4a9bc55f": {
+  "en": "Position",
+  "ru": "Место",
+  "text": "위치"
+ },
+ "d75f689b": {
+  "en": "whole row",
+  "ru": "вся строка",
+  "text": "한 줄 전체"
+ },
+ "369a0977": {
+  "en": "Block ",
+  "ru": "Блок ",
+  "text": "블록 "
+ },
+ "5533efde": {
+  "en": "< >: change   DEL twice: delete   A: new block",
+  "ru": "< >: изменить   DEL дважды: удалить   A: новый блок",
+  "text": "< >: 변경   DEL 두 번: 삭제   A: 새 블록"
+ },
+ "a01dafc9": {
+  "en": "OK: type   DEL twice: delete   A: new block",
+  "ru": "OK: ввести   DEL дважды: удалить   A: новый блок",
+  "text": "OK: 입력   DEL 두 번: 삭제   A: 새 블록"
+ },
+ "4d8a2059": {
+  "en": "The formula does not compute: check the codes",
+  "ru": "Формула не считается: проверьте коды",
+  "text": "수식을 계산할 수 없음: 코드 확인"
+ },
+ "c7549e7b": {
+  "en": "64 blocks at most",
+  "ru": "Не больше 64 блоков",
+  "text": "블록은 최대 64개"
+ },
+ "69541534": {
+  "en": "Critical failure (d4: 1)",
+  "ru": "Критический провал (d4: 1)",
+  "text": "대실패 (d4: 1)"
+ },
+ "95d4f097": {
+  "en": "Failure, d4: ",
+  "ru": "Провал, d4: ",
+  "text": "실패, d4: "
+ },
+ "5559cf4e": {
+  "en": "Block deleted",
+  "ru": "Блок удалён",
+  "text": "블록 삭제됨"
+ },
+ "12ae6876": {
+  "en": "Success x",
+  "ru": "Успех x",
+  "text": "성공 x"
+ },
+ "1a0576b6": {
+  "en": "Success",
+  "ru": "Успех",
+  "text": "성공"
  },
  "2a033d73": {
   "en": "Saved rolls · ",
@@ -5094,11 +5284,6 @@
   "en": "F: formula  N: name  C: colour  DEL: delete",
   "ru": "F: формула  N: имя  C: цвет  DEL: удалить",
   "text": "F: 수식  N: 이름  C: 색  DEL: 삭제"
- },
- "bd7b3d19": {
-  "en": "Sheet",
-  "ru": "Лист",
-  "text": "시트"
  },
  "fbc08e80": {
   "en": "Characters",
@@ -5234,6 +5419,16 @@
   "ru": "Отправить",
   "text": "전송"
  },
+ "ffe9b815": {
+  "en": "Field",
+  "ru": "Поле",
+  "text": "필드"
+ },
+ "f91948a0": {
+  "en": "Done",
+  "ru": "Готово",
+  "text": "완료"
+ },
  "a377db8b": {
   "en": "Decline",
   "ru": "Отклонить",
@@ -5304,15 +5499,20 @@
   "ru": "OK: бросить   BACK: отменить",
   "text": "OK: 굴리기   BACK: 취소"
  },
- "69541534": {
-  "en": "Critical failure (d4: 1)",
-  "ru": "Критический провал (d4: 1)",
-  "text": "대실패 (d4: 1)"
+ "7c8734bc": {
+  "en": "d20+@dex+@pb, 2d6+@str, r3+@fine!",
+  "ru": "d20+@dex+@pb, 2d6+@str, r3+@fine!",
+  "text": "d20+@dex+@pb, 2d6+@str, r3+@fine!"
  },
- "95d4f097": {
-  "en": "Failure, d4: ",
-  "ru": "Провал, d4: ",
-  "text": "실패, d4: "
+ "1abacfa5": {
+  "en": "10+@dex, (@a+@b)/2, @body*2; empty: none",
+  "ru": "10+@dex, (@a+@b)/2, @body*2; пусто - нет",
+  "text": "10+@dex, (@a+@b)/2, @body*2; 비우면 없음"
+ },
+ "b68c48d1": {
+  "en": "Latin: dex, hp, mana; empty: none",
+  "ru": "Латиница: dex, hp, mana; пусто - нет",
+  "text": "라틴 문자: dex, hp, mana; 비우면 없음"
  },
  "904a1eca": {
   "en": "23 sets it, +5 or -7 changes it",
@@ -5339,25 +5539,10 @@
   "ru": "Бросок сохранён",
   "text": "굴림 저장됨"
  },
- "c7549e7b": {
-  "en": "64 blocks at most",
-  "ru": "Не больше 64 блоков",
-  "text": "블록은 최대 64개"
- },
  "e93489cf": {
   "en": "Formula saved",
   "ru": "Формула сохранена",
   "text": "수식 저장됨"
- },
- "12ae6876": {
-  "en": "Success x",
-  "ru": "Успех x",
-  "text": "성공 x"
- },
- "1a0576b6": {
-  "en": "Success",
-  "ru": "Успех",
-  "text": "성공"
  },
  "5ba1cdf0": {
   "en": "A number: 23, +5, -7",

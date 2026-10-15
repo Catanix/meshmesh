@@ -112,6 +112,8 @@ Release 0.4.0: [event waits on every board](docs/en/power.md) and [independent f
 
 Firmware 0.4.1 reduces history-export memory use and reports allocation failures explicitly; Android remains 0.4.0.
 
+Firmware 0.26.0: the sheet's block builder on the M9 and T-Deck screens (E edits a block, A adds one); every board adds a ready D&D 5e and R.E.T. character once.
+
 Firmware 0.25.0 and Android 0.18.0: the [character sheet](docs/en/dice.md#the-character-sheet) replaces the dice counters (they become its tracks); D&D 5e and R.E.T. templates, formulas between blocks, sending a sheet to a contact; the nRF52 libraries are built for size (`-Os`).
 
 Firmware 0.8.1: switching off also writes the dice counters changed in the last two seconds.

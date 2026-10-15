@@ -35,7 +35,8 @@ the successes are counted; without it, the sum.
 
 **Characters.** The "General" set and up to five characters, each with its own sheet. A new character starts
 with an empty sheet (one counter, as in DIC3R) or from the D&D 5e or R.E.T. template. The general set cannot
-be removed.
+be removed. Since 0.26.0 a board adds two ready characters once, "D&D 5e" and "R.E.T." (where there is room):
+open, look at, change or delete them; deleted ones do not come back (a flag in `dice.bin`).
 
 ## The character sheet
 
@@ -111,6 +112,14 @@ row), `OK` rolls a stat's check or an ability (with its cost), marks the marks, 
 few seconds. Characters: `OK` choose, `A` new (a name, then a template), `N` name, `S` send the sheet to a
 contact, `O` the sheet a contact sent, `DEL` twice — delete. On the T-Deck all of it works by touch: a tap on a
 block chooses it, a second one rolls.
+
+**The builder on the M9 and T-Deck** (since 0.26.0). On the sheet `E` opens the chosen block, `A` adds a block
+after it. The block's fields are rows: `^` `v` choose a field, `<` `>` change the kind, width, colour, shape,
+rule and the block's place in the sheet at once, `OK` types the name, code, value, maximum, formula, cost and
+description (formulas and codes in Latin as they are, names and descriptions in the RU/EN layout), `DEL` twice
+deletes the block, `BACK` returns to the sheet. A new block not touched yet takes the defaults of the new kind
+when its kind changes. The device checks the fields as for the web page; a formula referring to a missing code
+shows "The formula does not compute". On the T-Deck a tap chooses a row, a second tap is `OK`.
 
 **One-button boards, GAT562, T114.** A click on the closed dice page moves to the next page, a hold opens the
 dice. In RPG and Warhammer a short press repeats the roll, a hold opens the menu. On the sheet a click goes

@@ -44,11 +44,13 @@ struct SheetData{uint8_t count;uint16_t notesUsed;Block block[Blocks];char notes
 enum Template:uint8_t {Blank,DndTemplate,RetTemplate,TemplateCount};
 extern const char* const templateNames[TemplateCount];       // "empty", "dnd", "ret"
 struct Character{char name[NameBytes+1];uint8_t file;};     // file: the number of its sheet file
+enum StateFlag:uint8_t {ExamplesAdded=1};                   // the D&D and R.E.T. characters were added once
 struct State{
-  uint32_t version=2;
+  uint32_t version=3;
   uint8_t character=0,characters=1,mode=Rpg;
   uint8_t type=D6,count=2;int8_t mod=0;                      // the RPG pool
   uint8_t gridType=D6,gridSize=GridStart,gridChosen=0,threshold=4;bool thresholdOn=false;
+  uint8_t flags=0;
   Character list[Characters]={};
   uint32_t check=0;
 };
@@ -114,6 +116,8 @@ class Dicer {
   bool act(unsigned i);                                     // roll a check or an ability (and spend), mark pips
   bool change(unsigned i,int delta);bool setValue(unsigned i,int v);
   int addBlock(uint8_t kind,int at=-1);                     // the new block's index
+  bool fresh(unsigned i) const;                             // as added: its kind's own name, no code, formula, cost or note
+  bool renew(unsigned i,uint8_t kind);                      // a fresh block of another kind (its defaults), the colour kept
   bool setField(unsigned i,const String& field,const String& v,String* error=nullptr);
   bool moveBlock(unsigned i,unsigned to);bool deleteBlock(unsigned i);
   bool applyTemplate(uint8_t t);                            // replaces the current sheet
@@ -129,6 +133,7 @@ class Dicer {
   bool delivery(uint32_t id,uint8_t status);                // a part's ACK; true when it was one
   bool acceptOffer();void declineOffer();
   bool migrate(const uint8_t* stored,size_t size);           // dice.bin of 0.7-0.24: counters and saved rolls become blocks
+  void addExamples();                                        // once: a D&D 5e and a R.E.T. character to look at and change
   String json() const;
   String command(const String& line);                        // USB "dice ..."
   // The computation behind value(), maxOf() and number(): depth counts the references followed (a loop runs out of it).
@@ -140,6 +145,8 @@ class Dicer {
   Incoming* in=nullptr;
   void changed(bool soon=false);                             // soon: values, written two seconds after the last press
   void sheetChanged(bool soon=false){sheetRev++;changed(soon);}
+  static String defaultName(uint8_t kind);
+  static void defaults(Block& b,uint8_t kind);
   void save();
   bool loadSheet(uint8_t file);void saveSheet();
   bool parseSheet(const String& text,SheetData& out,String& name,String* error) const;

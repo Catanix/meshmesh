@@ -264,16 +264,6 @@
   "ru": "Формула не считается",
   "text": "公式无法计算"
  },
- "baa190e9": {
-  "en": "Marks",
-  "ru": "Отметки",
-  "text": "标记"
- },
- "a1f5edbc": {
-  "en": "Ability",
-  "ru": "Способность",
-  "text": "能力"
- },
  "26282b58": {
   "en": "Notes",
   "ru": "Заметки",
@@ -653,6 +643,11 @@
   "en": "The top value of a die is a success: roll the die of the next level and add it, up to d100. A 1 is a failure: d4 of failure, 1 is critical; bonuses are lost.",
   "ru": "Максимум — успех: + куб следующего уровня (до d100). Единица — провал: d4, на 1 — критический, бонусы сгорают.",
   "text": "掷出骰子最大值为成功: 再掷下一级骰子并相加，最高到 d100。掷出 1 为失败: 掷 d4，1 为大失败; 加值作废。"
+ },
+ "2c624eac": {
+  "en": "R.E.T.",
+  "ru": "Р.Э.Т.",
+  "text": "R.E.T."
  },
  "ed4ac5a0": {
   "en": "Sending the sheet to ",
@@ -5055,25 +5050,220 @@
   "ru": "Лист пуст",
   "text": "角色卡为空"
  },
+ "b6d60e6e": {
+  "en": "A: add a block",
+  "ru": "A: добавить блок",
+  "text": "A: 添加块"
+ },
  "53ed2c15": {
   "en": "P, A: a character from D&D or R.E.T.",
   "ru": "P, A: персонаж из D&D или Р.Э.Т.",
   "text": "P, A: 从 D&D 或 R.E.T. 创建角色"
- },
- "40f96906": {
-  "en": "Blocks: on the web page or in the app",
-  "ru": "Блоки: на веб-странице или в приложении",
-  "text": "块: 在网页或应用中编辑"
  },
  "62bdb04c": {
   "en": "max = ",
   "ru": "макс. = ",
   "text": "最大 = "
  },
+ "d6eee00e": {
+  "en": "V: value   E: edit the block   A: new block",
+  "ru": "V: значение   E: изменить блок   A: новый блок",
+  "text": "V: 数值   E: 修改块   A: 新建块"
+ },
  "c0de6bb4": {
   "en": "I: more",
   "ru": "I: далее",
   "text": "I: 更多"
+ },
+ "bd7b3d19": {
+  "en": "Sheet",
+  "ru": "Лист",
+  "text": "角色卡"
+ },
+ "92cc16e7": {
+  "en": "Stat",
+  "ru": "Стат",
+  "text": "属性"
+ },
+ "c399344e": {
+  "en": "Track",
+  "ru": "Шкала",
+  "text": "计量条"
+ },
+ "baa190e9": {
+  "en": "Marks",
+  "ru": "Отметки",
+  "text": "标记"
+ },
+ "a1f5edbc": {
+  "en": "Ability",
+  "ru": "Способность",
+  "text": "能力"
+ },
+ "b39f2f7d": {
+  "en": "Note",
+  "ru": "Заметка",
+  "text": "备注"
+ },
+ "91e32a8a": {
+  "en": "Header",
+  "ru": "Заголовок",
+  "text": "标题"
+ },
+ "46880948": {
+  "en": "D&D: modifier",
+  "ru": "D&D: модификатор",
+  "text": "D&D：调整值"
+ },
+ "4b922bfc": {
+  "en": "Bonus to d20",
+  "ru": "Бонус к d20",
+  "text": "d20 加值"
+ },
+ "cc399de6": {
+  "en": "R.E.T.: die by level",
+  "ru": "Р.Э.Т.: куб уровня",
+  "text": "R.E.T.：等级骰"
+ },
+ "6923b9a7": {
+  "en": "Plain number",
+  "ru": "Обычное число",
+  "text": "普通数字"
+ },
+ "b728f1ab": {
+  "en": "Kind",
+  "ru": "Тип",
+  "text": "类型"
+ },
+ "90e530bf": {
+  "en": "Code for formulas",
+  "ru": "Код для формул",
+  "text": "公式代码"
+ },
+ "7600b2f2": {
+  "en": "Width",
+  "ru": "Ширина",
+  "text": "宽度"
+ },
+ "ef882957": {
+  "en": "Shape",
+  "ru": "Фигура",
+  "text": "形状"
+ },
+ "07d226bd": {
+  "en": "Rule",
+  "ru": "Правило",
+  "text": "规则"
+ },
+ "27575896": {
+  "en": "Marked",
+  "ru": "Отмечено",
+  "text": "已标记"
+ },
+ "957da439": {
+  "en": "Now",
+  "ru": "Сейчас",
+  "text": "当前"
+ },
+ "b531bbbc": {
+  "en": "Total (1-12)",
+  "ru": "Всего (1-12)",
+  "text": "总数（1–12）"
+ },
+ "cf957f08": {
+  "en": "Maximum (0: none)",
+  "ru": "Максимум (0 - нет)",
+  "text": "最大值（0 = 无）"
+ },
+ "5c0d40e5": {
+  "en": "Roll",
+  "ru": "Бросок",
+  "text": "掷骰"
+ },
+ "ef76a03a": {
+  "en": "Or the maximum by a formula",
+  "ru": "Или максимум по формуле",
+  "text": "或按公式计算最大值"
+ },
+ "1a493442": {
+  "en": "Or compute",
+  "ru": "Или вычислять",
+  "text": "或按公式计算"
+ },
+ "d3476267": {
+  "en": "Takes from the block (code)",
+  "ru": "Тратит из блока (код)",
+  "text": "消耗自块（代码）"
+ },
+ "7bafdfb2": {
+  "en": "How many",
+  "ru": "Сколько",
+  "text": "数量"
+ },
+ "188345a7": {
+  "en": "Description",
+  "ru": "Описание",
+  "text": "描述"
+ },
+ "4a9bc55f": {
+  "en": "Position",
+  "ru": "Место",
+  "text": "位置"
+ },
+ "d75f689b": {
+  "en": "whole row",
+  "ru": "вся строка",
+  "text": "整行"
+ },
+ "369a0977": {
+  "en": "Block ",
+  "ru": "Блок ",
+  "text": "块 "
+ },
+ "5533efde": {
+  "en": "< >: change   DEL twice: delete   A: new block",
+  "ru": "< >: изменить   DEL дважды: удалить   A: новый блок",
+  "text": "< >: 更改   DEL 两次: 删除   A: 新建块"
+ },
+ "a01dafc9": {
+  "en": "OK: type   DEL twice: delete   A: new block",
+  "ru": "OK: ввести   DEL дважды: удалить   A: новый блок",
+  "text": "OK: 输入   DEL 两次: 删除   A: 新建块"
+ },
+ "4d8a2059": {
+  "en": "The formula does not compute: check the codes",
+  "ru": "Формула не считается: проверьте коды",
+  "text": "公式无法计算: 请检查代码"
+ },
+ "c7549e7b": {
+  "en": "64 blocks at most",
+  "ru": "Не больше 64 блоков",
+  "text": "最多 64 个块"
+ },
+ "69541534": {
+  "en": "Critical failure (d4: 1)",
+  "ru": "Критический провал (d4: 1)",
+  "text": "大失败 (d4: 1)"
+ },
+ "95d4f097": {
+  "en": "Failure, d4: ",
+  "ru": "Провал, d4: ",
+  "text": "失败, d4: "
+ },
+ "5559cf4e": {
+  "en": "Block deleted",
+  "ru": "Блок удалён",
+  "text": "块已删除"
+ },
+ "12ae6876": {
+  "en": "Success x",
+  "ru": "Успех x",
+  "text": "成功 x"
+ },
+ "1a0576b6": {
+  "en": "Success",
+  "ru": "Успех",
+  "text": "成功"
  },
  "2a033d73": {
   "en": "Saved rolls · ",
@@ -5094,11 +5284,6 @@
   "en": "F: formula  N: name  C: colour  DEL: delete",
   "ru": "F: формула  N: имя  C: цвет  DEL: удалить",
   "text": "F: 公式  N: 名称  C: 颜色  DEL: 删除"
- },
- "bd7b3d19": {
-  "en": "Sheet",
-  "ru": "Лист",
-  "text": "角色卡"
  },
  "fbc08e80": {
   "en": "Characters",
@@ -5234,6 +5419,16 @@
   "ru": "Отправить",
   "text": "发送"
  },
+ "ffe9b815": {
+  "en": "Field",
+  "ru": "Поле",
+  "text": "字段"
+ },
+ "f91948a0": {
+  "en": "Done",
+  "ru": "Готово",
+  "text": "完成"
+ },
  "a377db8b": {
   "en": "Decline",
   "ru": "Отклонить",
@@ -5304,15 +5499,20 @@
   "ru": "OK: бросить   BACK: отменить",
   "text": "OK: 掷骰   BACK: 取消"
  },
- "69541534": {
-  "en": "Critical failure (d4: 1)",
-  "ru": "Критический провал (d4: 1)",
-  "text": "大失败 (d4: 1)"
+ "7c8734bc": {
+  "en": "d20+@dex+@pb, 2d6+@str, r3+@fine!",
+  "ru": "d20+@dex+@pb, 2d6+@str, r3+@fine!",
+  "text": "d20+@dex+@pb, 2d6+@str, r3+@fine!"
  },
- "95d4f097": {
-  "en": "Failure, d4: ",
-  "ru": "Провал, d4: ",
-  "text": "失败, d4: "
+ "1abacfa5": {
+  "en": "10+@dex, (@a+@b)/2, @body*2; empty: none",
+  "ru": "10+@dex, (@a+@b)/2, @body*2; пусто - нет",
+  "text": "10+@dex, (@a+@b)/2, @body*2; 留空 = 无"
+ },
+ "b68c48d1": {
+  "en": "Latin: dex, hp, mana; empty: none",
+  "ru": "Латиница: dex, hp, mana; пусто - нет",
+  "text": "拉丁字母: dex, hp, mana; 留空 = 无"
  },
  "904a1eca": {
   "en": "23 sets it, +5 or -7 changes it",
@@ -5339,25 +5539,10 @@
   "ru": "Бросок сохранён",
   "text": "掷骰已保存"
  },
- "c7549e7b": {
-  "en": "64 blocks at most",
-  "ru": "Не больше 64 блоков",
-  "text": "最多 64 个块"
- },
  "e93489cf": {
   "en": "Formula saved",
   "ru": "Формула сохранена",
   "text": "公式已保存"
- },
- "12ae6876": {
-  "en": "Success x",
-  "ru": "Успех x",
-  "text": "成功 x"
- },
- "1a0576b6": {
-  "en": "Success",
-  "ru": "Успех",
-  "text": "成功"
  },
  "5ba1cdf0": {
   "en": "A number: 23, +5, -7",
