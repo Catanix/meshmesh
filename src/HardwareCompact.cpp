@@ -1,4 +1,4 @@
-// One-button boards other than Heltec V4: Heltec V3 and Wireless Tracker, LilyGO T-Beam,
+// One-button boards other than Heltec V4: Heltec V3, Wireless Tracker and Vision Master E213, LilyGO T-Beam,
 // T-Beam Supreme, T3-S3 and T-LoRa, XIAO ESP32S3 + Wio-SX1262, Station G2, ThinkNode M2.
 // The interface draws a 128x64 canvas (UiHeltec.cpp); this file puts it on the board's
 // screen, powers the peripherals and reads the button, battery and GPS.
@@ -18,6 +18,8 @@
 #include <Adafruit_SH110X.h>
 #elif defined(MM_PANEL_ST7735)
 #include <Adafruit_ST7735.h>
+#elif defined(MM_PANEL_EINK)
+#include "Eink.h"
 #endif
 #if defined(MM_PMU)
 #include <XPowersLib.h>
@@ -37,6 +39,10 @@ class TrackerTft:public Adafruit_ST7735 {
   void begin() {initR(INITR_MINI160x80_PLUGIN);setColRowStart(26,1);setRotation(1);} // Heltec's panel offsets
 };
 TrackerTft tft;
+#elif defined(MM_PANEL_EINK)
+// Vision Master E213: the 128x64 canvas scaled to the 250x122 panel (x 1.95, y 1.91), ink in black on white.
+uint8_t einkFrame[eink::Stride*eink::Height];
+uint32_t einkActive=0,einkKeys=0;
 #endif
 #if defined(MM_PMU)
 XPowersLibInterface* pmu=nullptr;
@@ -102,6 +108,8 @@ void Hardware::brightness(uint8_t level) {
   if(!panel)return;if(!level){oled.oled_command(SH110X_DISPLAYOFF);return;}oled.oled_command(SH110X_DISPLAYON);oledLevel(level,true,[](uint8_t c){oled.oled_command(c);});
 #elif defined(MM_PANEL_ST7735)
   ledcWrite(6,level);
+#elif defined(MM_PANEL_EINK)
+  if(level)einkActive=millis(); // no light: the image stays; a wake (key, message) refreshes it without delay
 #else
   (void)level;
 #endif
@@ -140,9 +148,16 @@ void Hardware::begin() {
 #endif
   brightness(config.brightness);
   canvas=new GFXcanvas16(128,64);if(!canvas || !canvas->getBuffer()) {Serial.println("FATAL framebuffer");while(true)delay(1000);}
+#if defined(MM_PANEL_EINK)
+  if(eink::begin())panel=canvas;
+  Serial.printf("E-ink %s\n",eink::model());
+#endif
   font.begin(*canvas);font.setFont(u8g2_font_6x13_t_cyrillic);font.setFontMode(1);canvas->fillScreen(0);text(0,13,"MeshMesh");flush();
   pinMode(pins::button,INPUT_PULLUP);
   if(pins::adcEnable>=0){pinMode(pins::adcEnable,INPUT);delay(2);adcActive=!digitalRead(pins::adcEnable);output(pins::adcEnable,!adcActive);} // the enable level differs between Heltec revisions
+#if defined(MM_BOARD_HELTEC_E213)
+  adcActive=HIGH;output(pins::adcEnable,LOW); // Vision Master: HIGH connects the divider (MeshCore, Meshtastic)
+#endif
   if(pins::buzzer>=0)output(pins::buzzer,LOW);
   setGps(config.gps);fsOk=mountStorage();
   Serial.printf("HW %s screen=%d pmu=%d psram=%u fs=%d\n",MM_BOARD_NAME,panel!=nullptr,
@@ -193,6 +208,10 @@ void Hardware::powerDown(bool started) {
 #endif
   }
   auto hold=[](int pin,int level){if(pin<0)return;output(pin,level);gpio_hold_en(gpio_num_t(pin));};
+#if defined(MM_PANEL_EINK)
+  // The farewell screen must reach the panel before Vext goes off; the image then stays without power.
+  for(uint32_t at=millis();!eink::idle()&&millis()-at<8000;)delay(20);
+#endif
   hold(pins::vext,!pins::vextOn);hold(pins::gpsEnable,!pins::gpsOn);hold(pins::radioCs,HIGH);
 }
 int Hardware::wakePin() const {
@@ -211,6 +230,19 @@ void Hardware::flush() {
   static uint16_t row[128];const uint16_t* px=canvas->getBuffer();tft.startWrite();tft.setAddrWindow(16,8,128,64);
   for(int y=0;y<64;y++,px+=128){for(int x=0;x<128;x++)row[x]=px[x]<ColCount?palette565[px[x]]:px[x];tft.writePixels(row,128);}
   tft.endWrite();
+#elif defined(MM_PANEL_EINK)
+  if(!panel)return;
+  static uint8_t sx[eink::Width],sy[eink::Height];static bool scaled=false;
+  if(!scaled){for(int x=0;x<eink::Width;x++)sx[x]=x*128/eink::Width;for(int y=0;y<eink::Height;y++)sy[y]=y*64/eink::Height;scaled=true;}
+  memset(einkFrame,0,sizeof einkFrame);const uint16_t* px=canvas->getBuffer();
+  for(int y=0;y<eink::Height;y++){const uint16_t* src=px+sy[y]*128;uint8_t* row=einkFrame+y*eink::Stride;
+    for(int x=0;x<eink::Width;x++)if(src[sx[x]])row[x>>3]|=0x80>>(x&7);}
+  static uint8_t shown[sizeof einkFrame];static bool any=false;
+  if(any&&!memcmp(shown,einkFrame,sizeof shown))return;memcpy(shown,einkFrame,sizeof shown);any=true;
+  // Within 30 s of a key or a wake every change is drawn; later (a clock, counters) at most every 10 s.
+  if(keyCount!=einkKeys){einkKeys=keyCount;einkActive=millis();}
+  static uint32_t last=0;uint32_t now=millis(),at=now-einkActive<30000||!last?now:max(now,last+10000);
+  last=at;eink::show(einkFrame,at);
 #endif
 }
 void Hardware::text(int x,int y,const String& value,uint16_t color) {font.setForegroundColor(color);font.setCursor(x,y);font.print(value);}

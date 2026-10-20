@@ -59,8 +59,10 @@ Wi-Fi-пароли, BLE PIN, реальные адреса узлов и коо�
   (Meshtastic 2.7.15, владелец разрешил её не сохранять) — `backups/t114/`.
 - Платы сообщества (`docs/boards.md`): `heltec_v3`, `heltec_tracker`, `tdeck`,
   `tbeam`, `tbeam_supreme`, `t3s3`, `tlora_v2_1_6`, `xiao_s3_wio`, `station_g2`,
-  `thinknode_m2`. Устройств нет: проверены сборка, эмулятор и веб-страница; работу
-  на плате подтверждают владельцы. Выводы — `include/BoardPins.h`, свойства платы —
+  `thinknode_m2`, `heltec_e213` (e-ink 250×122: `src/EinkE213.cpp`, библиотека heltec-eink-modules как у MeshCore,
+  обновление в своей задаче), на nRF52 — `heltec_t096` (`src/nrf52/HardwareT096.cpp`, усилитель KCT8103L)
+  и `faketec` (`src/nrf52/HardwareFaketec.cpp`, ProMicro, выводы MeshCore `promicro` в номерах GPIO). Устройств нет:
+  проверены сборка, эмулятор и веб-страница; работу на плате подтверждают владельцы. Выводы — `include/BoardPins.h`, свойства платы —
   `include/Board.h`; однокнопочные платы — `src/HardwareCompact.cpp` с интерфейсом
   Heltec, T-Deck — `src/HardwareTDeck.cpp` с интерфейсом M9. Общий код различает
   семейство (`MM_COMPACT`), трансивер (`MM_RADIO_*`) и native USB (`MM_NATIVE_USB`),
@@ -139,7 +141,7 @@ Android: `versionName=<android>+<code>`, CI `code=1000000+run_number*100+run_att
 код 1000000 и суффикс `+local`. Код нельзя уменьшать; `tools/app_release.py` берёт значения из
 Gradle `output-metadata.json`, не вычисляет их из версии прошивки.
 Пуш `main` запускает `.github/workflows/pages.yml`: проверки версий и переводов (экраны, страница, шахматы),
-15 плат и все языковые пакеты, скриншоты, тесты и подписанный APK, сайт, затем Pages. Любая
+18 плат и все языковые пакеты, скриншоты, тесты и подписанный APK, сайт, затем Pages. Любая
 обязательная ошибка блокирует публикацию. Проверять завершение Actions и публичные `release.json`,
 `app/version.json` после пуша. Сборка/деплой не прошивает платы и не устанавливает APK на телефон.
 Документацию и эти инструкции обновлять вручную по фактическим результатам до коммита.

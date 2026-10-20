@@ -37,11 +37,11 @@ peripheral supply off and switches off:
 
 | Board | Off | On |
 |---|---|---|
-| Heltec V4, V3, Wireless Tracker, T3-S3, T-LoRa, XIAO S3, T-Deck | ESP32 deep sleep, pin levels held | hold PRG/BOOT (T-Deck: the trackball pressed) for about a second |
+| Heltec V4, V3, Wireless Tracker, Vision Master E213, T3-S3, T-LoRa, XIAO S3, T-Deck | ESP32 deep sleep, pin levels held | hold PRG/BOOT (T-Deck: the trackball pressed) for about a second |
 | Station G2, ThinkNode M2 | ESP32 deep sleep | RESET: the button is not on an RTC pin and cannot wake it |
 | ThinkNode M9 | ESP32 deep sleep | RESET or the power slider: the M9 has no button on a GPIO |
 | T-Beam, T-Beam Supreme | the AXP PMU cuts every rail (deep sleep without a PMU) | the board's PWR key |
-| GAT562, T114 | soft off: the CPU sleeps in System ON waiting for the button, the rest is off | hold the joystick centre / USER until the LED lights (~1 s), then release |
+| GAT562, T114, T096, fakeTec | soft off: the CPU sleeps in System ON waiting for the button, the rest is off | hold the joystick centre / USER (fakeTec: the button on P1.00, without one RESET) until the LED lights (~1 s), then release |
 
 On the ESP32 a short press wakes the board only for a moment: without a 0.7 s hold after the start it goes
 back to sleep. RESET always turns it on. The nRF52 does not use System OFF: leaving it is a reset with the
@@ -64,6 +64,8 @@ touching the storage. A running board turns off the ordinary way once the batter
 (charging), or with the button held. On USB power, and without a battery reading (below 2.5 V: no cell),
 nothing changes. The thresholds follow LiPo discharge, not measurements of our boards; a reset in the middle
 of a write by other means (RESET, a pulled supply) can still damage the storage.
+The fakeTec has no such guard (`MM_NO_BATTERY_GUARD`): home-made boards may lack the battery divider, and an
+unconnected ADC input could keep the board from starting.
 
 [EasySkyMesh](https://github.com/IoTThinks/EasySkyMesh/wiki/PowerSaving#3-test-results) informed this
 work. RXPS (duty-cycled LoRa reception) and scheduled GPS power cycling are not implemented.

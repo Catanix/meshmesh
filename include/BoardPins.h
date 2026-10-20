@@ -88,6 +88,16 @@ constexpr int sda=16, scl=15, oledReset=-1, button=47, vext=46, vextOn=HIGH;
 constexpr int battery=17, adcEnable=-1, gpsRx=-1, gpsTx=-1, gpsEnable=-1, gpsOn=HIGH, gpsReset=-1, buzzer=5;
 constexpr float batteryScale=1.509f;
 constexpr int led=6, ledOn=HIGH;
+#elif defined(MM_BOARD_HELTEC_E213)
+// Vision Master E213, from MeshCore's heltec_e213 and Meshtastic's heltec_vision_master_e213 variants. Vext
+// powers the e-ink panel and the I2C connector; the panel has its own SPI bus (EinkE213.cpp).
+constexpr int spiClock=9, spiMiso=11, spiMosi=10, radioCs=8, radioIrq=14, radioReset=12, radioBusy=13, radioRxEn=-1;
+constexpr float radioTcxo=1.8f;
+constexpr int sda=39, scl=38, oledReset=-1, button=0, vext=18, vextOn=HIGH;
+constexpr int einkClock=4, einkData=6, einkCs=5, einkDc=2, einkReset=3, einkBusy=1;
+constexpr int battery=7, adcEnable=46, gpsRx=-1, gpsTx=-1, gpsEnable=-1, gpsOn=HIGH, gpsReset=-1, buzzer=-1;
+constexpr float batteryScale=4.9f*1.03f; // Meshtastic's ADC_MULTIPLIER
+constexpr int led=45, ledOn=HIGH;
 #elif defined(MM_BOARD_GAT562)
 // nRF52840 GPIO numbers (P1.xx = 32+xx), from MeshCore's gat562_30s_mesh_kit variant. LoRa has
 // its own SPI pins; radioPower switches the SX1262 supply. Joystick and back button pull to GND.
@@ -114,6 +124,32 @@ constexpr int tftClock=40, tftData=41, tftMiso=43, tftDc=12, tftReset=2, tftCs=1
 constexpr int battery=4, adcEnable=6, gpsRx=37, gpsTx=39, gpsEnable=21, gpsOn=HIGH, gpsReset=38, gpsStandby=34, buzzer=-1;
 constexpr float batteryScale=4.9f;
 constexpr int led=35, ledOn=LOW;
+#elif defined(MM_BOARD_T096)
+// Heltec Mesh Node T096: nRF52840 GPIO numbers (P1.xx = 32+xx), from MeshCore's heltec_t096 and Meshtastic's
+// heltec_mesh_node_t096 variants. LoRa on SPI, the ST7735 TFT on SPI1. The KCT8103L front end: femPower
+// (its LDO) and femEnable (CSD) HIGH while running, femTx (CTX) HIGH to transmit, LOW = receive with the LNA.
+// vext (P0.26) powers the TFT and the GPS; tftLight (LEDA) is active LOW. UC6580 GPS at 115200: TX -> P0.25,
+// RX <- P0.23, EN P0.06 active LOW, RESET P1.14 active LOW. adcEnable (P1.15) switches the battery divider.
+constexpr int spiClock=40, spiMiso=14, spiMosi=11, radioCs=5, radioIrq=21, radioReset=16, radioBusy=19, radioRxEn=-1;
+constexpr float radioTcxo=1.8f;
+constexpr int femPower=30, femEnable=12, femTx=41;
+constexpr int sda=7, scl=8, oledReset=-1, button=42, vext=26, vextOn=HIGH;
+constexpr int tftClock=20, tftData=17, tftDc=15, tftReset=13, tftCs=22, tftLight=44;
+constexpr int battery=3, adcEnable=47, gpsRx=25, gpsTx=23, gpsEnable=6, gpsOn=LOW, gpsReset=46, buzzer=-1;
+constexpr float batteryScale=4.9f;
+constexpr int led=28, ledOn=HIGH;
+#elif defined(MM_BOARD_FAKETEC)
+// fakeTec / ProMicro nRF52840 DIY: nRF52840 GPIO numbers (P1.xx = 32+xx). MeshCore's promicro variant gives
+// the same pins as Arduino numbers of its own pin map; here they are translated (variants/faketec). The
+// SX1262 module (HT-RA62, E22) is powered through radioPower; radioRxEn opens its receive path (E22).
+// OLED SSD1306 on I2C, button to GND, GPS on Serial1 with an enable pin: all optional.
+constexpr int spiClock=43, spiMiso=2, spiMosi=47, radioCs=45, radioIrq=10, radioReset=9, radioBusy=29, radioRxEn=17;
+constexpr int radioPower=13;
+constexpr float radioTcxo=1.8f;
+constexpr int sda=36, scl=11, oledReset=-1, button=32, vext=-1, vextOn=HIGH;
+constexpr int battery=31, adcEnable=-1, gpsRx=20, gpsTx=22, gpsEnable=24, gpsOn=HIGH, gpsReset=-1, buzzer=-1;
+constexpr float batteryScale=1.815f; // mV per count of the 12-bit reading (MeshCore's ADC_MULTIPLIER)
+constexpr int led=15, ledOn=HIGH;
 #endif
 #elif defined(MM_BOARD_TDECK)
 // LilyGO T-Deck / T-Deck Plus: display, LoRa and SD share one SPI bus, as on the M9.

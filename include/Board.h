@@ -78,6 +78,13 @@
 #define MM_BUTTON "USER"
 #define MM_NODE_NAME "M2"
 #define MM_ABSENT 1,2,4,5,6,7,
+#elif defined(MM_BOARD_HELTEC_E213)
+// 2.13" 250x122 e-ink: the 128x64 interface is scaled onto it in black on white (EinkE213.cpp).
+#define MM_BOARD_ID "heltec_e213"
+#define MM_BOARD_NAME "Heltec Vision Master E213"
+#define MM_BUTTON "BOOT"
+#define MM_NODE_NAME "E213"
+#define MM_ABSENT 1,2,4,5,6,7,
 #elif defined(MM_BOARD_GAT562)
 // nRF52840: no Wi-Fi. The SX1262 drives a power amplifier (the seller states 30 dBm at the 22 dBm setting).
 #define MM_BOARD_ID "gat562_30s"
@@ -94,6 +101,25 @@
 #define MM_NODE_NAME "T114"
 #define MM_GPS_DEFAULT true
 #define MM_ABSENT 1,2,4,6,7,
+#elif defined(MM_BOARD_T096)
+// nRF52840 + SX1262 behind a KCT8103L front end (about +13 dB: 22 dBm into it gives ~28 dBm at the antenna),
+// 0.96" 160x80 colour TFT, one button, UC6580 GPS.
+#define MM_BOARD_ID "heltec_t096"
+#define MM_BOARD_NAME "Heltec Mesh Node T096"
+#define MM_BUTTON "USER"
+#define MM_NODE_NAME "T096"
+#define MM_GPS_DEFAULT true
+#define MM_ABSENT 1,2,4,6,7,
+#elif defined(MM_BOARD_FAKETEC)
+// DIY nRF52840 ProMicro (nice!nano) + SX1262 module (fakeTec PCB): the OLED, button and GPS are optional.
+#define MM_BOARD_ID "faketec"
+#define MM_BOARD_NAME "fakeTec (ProMicro nRF52840)"
+#define MM_BUTTON "USER"
+#define MM_NODE_NAME "fakeTec"
+#define MM_ABSENT 1,2,4,6,7,
+// The battery divider is optional on these builds: a floating ADC input could read as an empty cell and
+// stop the board from starting (Power.cpp).
+#define MM_NO_BATTERY_GUARD 1
 #else
 #define MM_BOARD_ID "m9"
 #define MM_BOARD_NAME "ThinkNode M9"

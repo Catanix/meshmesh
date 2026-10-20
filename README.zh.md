@@ -50,7 +50,7 @@
 | Heltec WiFi LoRa 32 V4（OLED，单按键） | 已在硬件上测试 |
 | GAT562 30S Mesh Kit（nRF52840，OLED，摇杆；无 Wi-Fi） | 已在硬件上测试（我们的样机未安装 GPS 模块）—— [docs/en/gat562.md](docs/en/gat562.md) |
 | Heltec Mesh Node T114（nRF52840，240×135 彩色 TFT，单按键；无 Wi-Fi） | 已在硬件上测试 —— [docs/en/t114.md](docs/en/t114.md) |
-| Heltec V4-R8, Heltec V3, Heltec Wireless Tracker, LilyGO T-Deck, T-Beam, T-Beam Supreme, T3-S3, T-LoRa V2.1-1.6, Seeed XIAO ESP32S3 + Wio-SX1262, B&Q Station G2, Elecrow ThinkNode M2 | 仅完成构建，尚未在硬件上运行——欢迎反馈 |
+| Heltec V4-R8, Heltec V3, Heltec Wireless Tracker, LilyGO T-Deck, T-Beam, T-Beam Supreme, T3-S3, T-LoRa V2.1-1.6, Seeed XIAO ESP32S3 + Wio-SX1262, B&Q Station G2, Elecrow ThinkNode M2, Heltec Vision Master E213, Heltec Mesh Node T096, fakeTec (ProMicro nRF52840) | 仅完成构建，尚未在硬件上运行——欢迎反馈 |
 
 ESP32 开发板具备全部功能。GAT562（nRF52840）没有 Wi-Fi：没有热点、Wi-Fi 雷达、移动传感器和
 互联网客户端；手机通过 Android 应用经 Bluetooth 或 USB 连接。它另有屏幕键盘，并可在 OLED 上下国际象棋。

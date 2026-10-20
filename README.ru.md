@@ -4,7 +4,7 @@
 
 **Сайт и установка из браузера: https://ikrasnodymov.github.io/meshmesh/**
 
-Прошивка для LoRa-устройств на ESP32 и nRF52 (Elecrow ThinkNode M9, Heltec V4, Heltec T114, GAT562 30S и ещё 11 плат):
+Прошивка для LoRa-устройств на ESP32 и nRF52 (Elecrow ThinkNode M9, Heltec V4, Heltec T114, GAT562 30S и ещё 14 плат):
 чаты без интернета и сотовой сети, офлайн-карты, радар сигналов, датчик движения по Wi-Fi CSI,
 шахматы по радио, веб-интерфейс и приложение для Android. Радио совместимо с MeshCore.
 
@@ -227,9 +227,10 @@ MeshCore companion v1.17.1 — [docs/repeater.md](docs/repeater.md).
 Пакеты 0.3.2: `artifacts/meshmesh-m9-0.3.2`, `artifacts/meshmesh-heltec-v4-0.3.2`.
 Аппаратные результаты и ограничения: [отчёт проверки](docs/verification.md).
 Что есть и чего нет по сравнению с MeshCore и WadaMesh: [сравнение](docs/feature-parity.md).
-Сборки для десяти плат сообщества (Heltec V3 и Wireless Tracker, LilyGO T-Deck,
+Сборки для тринадцати плат сообщества (Heltec V3, Wireless Tracker и Vision Master E213, LilyGO T-Deck,
 T-Beam, T-Beam Supreme, T3-S3 и T-LoRa, XIAO ESP32S3 + Wio-SX1262, Station G2,
-ThinkNode M2) — [docs/boards.md](docs/boards.md); на этих платах прошивка ещё не запускалась.
+ThinkNode M2; на nRF52840 — Heltec Mesh Node T096 и fakeTec) — [docs/boards.md](docs/boards.md);
+на этих платах прошивка ещё не запускалась.
 
 В 0.3.2 добавлен радар сигналов — по идее RSSI-трекера и радарных HUD
 [Stevee87](https://github.com/Stevee87) (без датчика RD-03D и LiDAR: их на платах нет).

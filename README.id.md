@@ -52,7 +52,7 @@ MeshCore standar.
 | Heltec WiFi LoRa 32 V4 (OLED, satu tombol) | diuji di perangkat keras |
 | GAT562 30S Mesh Kit (nRF52840, OLED, joystick; tanpa Wi-Fi) | diuji di perangkat keras (unit kami tidak memiliki modul GPS) — [docs/en/gat562.md](docs/en/gat562.md) |
 | Heltec Mesh Node T114 (nRF52840, TFT berwarna 240×135, satu tombol; tanpa Wi-Fi) | diuji di perangkat keras — [docs/en/t114.md](docs/en/t114.md) |
-| Heltec V4-R8, Heltec V3, Heltec Wireless Tracker, LilyGO T-Deck, T-Beam, T-Beam Supreme, T3-S3, T-LoRa V2.1-1.6, Seeed XIAO ESP32S3 + Wio-SX1262, B&Q Station G2, Elecrow ThinkNode M2 | hanya build, belum dijalankan di perangkat keras — laporan sangat diharapkan |
+| Heltec V4-R8, Heltec V3, Heltec Wireless Tracker, LilyGO T-Deck, T-Beam, T-Beam Supreme, T3-S3, T-LoRa V2.1-1.6, Seeed XIAO ESP32S3 + Wio-SX1262, B&Q Station G2, Elecrow ThinkNode M2, Heltec Vision Master E213, Heltec Mesh Node T096, fakeTec (ProMicro nRF52840) | hanya build, belum dijalankan di perangkat keras — laporan sangat diharapkan |
 
 Papan ESP32 memiliki semua fitur. GAT562 (nRF52840) tidak punya Wi-Fi: tanpa titik akses, radar Wi-Fi,
 sensor gerak maupun klien internet; ponsel terhubung lewat aplikasi Android via Bluetooth atau USB.

@@ -3,7 +3,7 @@
 > Translated from the Russian original [docs/boards.md](../boards.md); when they differ, the original is current.
 
 Besides the ThinkNode M9 and Heltec V4, which are tested on hardware, MeshMesh builds
-for ten popular MeshCore/Meshtastic boards. We do not have devices of these models:
+for thirteen popular MeshCore/Meshtastic boards. We do not have devices of these models:
 **the firmware is verified only on a computer** (build, emulator, web page).
 Operation on the board is confirmed by owners; reports are added to this file.
 
@@ -28,6 +28,9 @@ but their targets have not been added.
 | `xiao_s3_wio` | Seeed XIAO ESP32S3 + Wio-SX1262 | ESP32-S3, 8 MB / 8 MB | SX1262 | no screen, BOOT | web, BLE, USB |
 | `station_g2` | B&Q Station G2 | ESP32-S3, 16 MB / 8 MB | SX1262 + amplifier | OLED SH1106, USER; GPS — external module | like Heltec V4 |
 | `thinknode_m2` | Elecrow ThinkNode M2 | ESP32-S3, 4 MB / — | SX1262 | OLED SH1106, button, buzzer | like Heltec V4 |
+| `heltec_e213` | Heltec Vision Master E213 | ESP32-S3, 16 MB / 8 MB | SX1262 | e-ink 2.13" 250×122, BOOT | like Heltec V4 (128×64, scaled up) |
+| `heltec_t096` | Heltec Mesh Node T096 | nRF52840, 1 MB / — | SX1262 + KCT8103L | TFT ST7735 160×80, USER; GPS UC6580 | like Heltec V4 (128×64 centred) |
+| `faketec` | fakeTec (ProMicro nRF52840 + SX1262) | nRF52840, 1 MB / — | SX1262 (HT-RA62, E22) | OLED SSD1306 and button if fitted; optional GPS | like Heltec V4 |
 
 \* the classic ESP32 addresses 4 MB of the 8 MB PSRAM; the firmware does not require it.
 
@@ -199,6 +202,52 @@ Places where sources disagree or behaviour was chosen without a board:
 - **Classic ESP32 (T-Beam, T-LoRa):** after boot in QEMU, 126–133 KB of
   internal memory is free (the T-LoRa has no PSRAM). Whether it is enough for the Wi-Fi access point and BLE
   at the same time only the board will show: check `status` → `heap` with Wi-Fi and BLE on.
+
+## Vision Master E213, Mesh Node T096 and fakeTec (20 October 2026)
+
+Three targets were added from the MeshCore variants (`upstream/meshcore-stock/variants/heltec_e213`, `heltec_t096`,
+`promicro`) and Meshtastic; we do not have the boards, only the builds and packages are verified.
+
+- **Vision Master E213** (`heltec_e213`, `src/EinkE213.cpp`, `src/HardwareCompact.cpp`): the 128×64 single-button
+  interface is stretched onto the 250×122 e-ink (×1.95 across, ×1.91 down, nearest pixel) in black on white.
+  There are two screen revisions with different controllers: Fitipower (LCMEN2R13EFC1) and Solomon Systech (E0213A367);
+  the revision is detected at boot from the BUSY level in reset, as in MeshCore (USB log: `E-ink <model>`). The drivers
+  come from the heltec-eink-modules library (Quency-D fork) at the same commit MeshCore uses; its repository states no
+  licence, and its Fitipower partial-refresh tables are taken from GxEPD2 (GPL-3.0). A separate task on core 0 updates
+  the screen: a partial refresh takes about 0.5 s, a full flashing one (every 30th, against ghosting) a few seconds; the
+  main loop and the radio do not wait for them. For 30 s after a press or a wake every change is drawn, later at most
+  once every 10 s (clock, counters). There is no backlight: a "dark" screen keeps its last image, and the first press
+  only wakes the interface. Before turning the board off the firmware waits for the farewell screen to reach the panel,
+  then cuts Vext. The button is BOOT (GPIO0); the second button (GPIO21) is not used. Battery — GPIO7 behind the GPIO46
+  switch, Meshtastic's multiplier 4.9 × 1.03. No GPS.
+- **Mesh Node T096** (`heltec_t096`, `src/nrf52/HardwareT096.cpp`, variant `variants/heltec_t096`): nRF52840, the
+  128×64 interface centred on the 160×80 TFT, as on the Wireless Tracker; the panel is set up with `INITR_MINI160x80` and
+  BGR order, as in MeshCore. KCT8103L front end: power P0.30 and CSD P0.12 on, CTX (P1.09) high when transmitting, low when
+  receiving (with the LNA); RadioLib switches it (`setRfSwitchPins`), as on the Heltec V4. The amplifier adds about 13 dB:
+  the default 10 dBm on the SX1262 is about 23 dBm at the antenna; the setting limit is 22 dBm (as in MeshCore). UC6580 GPS
+  at 115200, receiving on P0.25 (MeshCore's `PIN_GPS_RX` and Meshtastic agree; MeshCore's `variant.h` lists the Serial1
+  pins the other way round). Vext (P0.26) feeds the screen and the GPS, so it goes off only with the board.
+- **fakeTec** (`faketec`, `src/nrf52/HardwareFaketec.cpp`, variant `variants/faketec`): a ProMicro nRF52840 (nice!nano)
+  with an SX1262 module. Pins come from MeshCore's `promicro` variant, rewritten as GPIO numbers: LoRa SCK P1.11, MISO
+  P0.02, MOSI P1.15, NSS P1.13, DIO1 P0.10, RESET P0.09, BUSY P0.29, module power P0.13, RXEN P0.17; OLED SDA P1.04,
+  SCL P0.11; button P1.00; GPS RX P0.20, TX P0.22, EN P0.24; battery P0.31. DIO1 and RESET are on the NFC pins: the build
+  with `CONFIG_NFCT_PINS_AS_GPIOS` switches them to GPIO once (UICR). There is no 32 kHz crystal (`USE_LFRC`). The OLED,
+  button and GPS are optional: without a screen the board works through the app (BLE/USB); GPS is off by default.
+  Home-made boards may lack the battery divider, so the nRF52 empty-battery start guard (`src/Power.cpp`) is off on the
+  fakeTec (`MM_NO_BATTERY_GUARD`): an unconnected ADC input could look like a flat battery.
+
+nRF52 installation is as on the T114: the "Install" button on the site (serial DFU) or `firmware.uf2` onto the bootloader
+drive (RESET pressed twice; the nice!nano drive is `NICENANO`). The bootloader must carry SoftDevice S140 6.1.1 (the
+nice!nano and Heltec ones do). MeshMesh storage is 0xD4000–0xED000, as on the GAT562 and T114; if another firmware's data
+is left there, `fsformat` creates the storage.
+
+Verified on 20 October: builds of all three targets and of the earlier ones (M9, Heltec V4, Wireless Tracker, GAT562,
+T114), packages (nRF52 with every language image: the largest, Chinese, is 677,300 bytes on the T096 and 676,688 on the
+fakeTec, about 34 KB free). None of the three firmwares has run on a board or in an emulator.
+
+Check on the board first: the `HW …` and (E213) `E-ink …` lines in the USB log, `status` (`radio: true`), the image and
+colours (T096: red and blue not swapped, the picture centred), the button, an exchange with a stock MeshCore node with ACK,
+on the T096 the output power after the amplifier and reception (CTX), on a fakeTec with an E22 reception (RXEN).
 
 ## Reports
 

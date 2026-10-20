@@ -127,7 +127,11 @@ bool usbPower(){
   if(on)sd_power_usbregstatus_get(&s);else s=NRF_POWER->USBREGSTATUS;
   return s&POWER_USBREGSTATUS_VBUSDETECT_Msk;
 }
+#if defined(MM_NO_BATTERY_GUARD)
+bool lowBattery(uint16_t,uint16_t){return false;}
+#else
 bool lowBattery(uint16_t mv,uint16_t below){return mv>2500&&mv<below&&!usbPower();}
+#endif
 void sleepNow(int pin){
   bleSilence();flash_nrf5x_flush();
   if(pin>=0)pinMode(pin,INPUT_PULLUP);uint32_t down=0;

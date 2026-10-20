@@ -25,7 +25,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
-from package import COMMUNITY, NRF52, TARGETS  # noqa: E402
+from package import COMMUNITY, NRF52, NRF52_COMMUNITY, TARGETS  # noqa: E402
 from chess_site import build as build_chess  # noqa: E402
 from i18n import CODES  # noqa: E402
 from version import VERSION, ANDROID_VERSION, check  # noqa: E402
@@ -122,7 +122,7 @@ def main():
                     if f.is_file() and (f.parent == package or f.name == 'firmware.uf2'):
                         z.write(f, f'{package.name}/{f.relative_to(package)}')
             boards.append({'env': env, 'name': board_json['name'].removeprefix('MeshMesh / '), 'chip': 'nRF52840', 'flash': '1MB',
-                           'verified': env in VERIFIED, 'community': False, 'install': 'uf2', 'uf2': f'firmware/{env}/firmware.uf2', 'langs': True,
+                           'verified': env in VERIFIED, 'community': env in NRF52_COMMUNITY, 'install': 'uf2', 'uf2': f'firmware/{env}/firmware.uf2', 'langs': True,
                            'dfu': {'bin': f'firmware/{env}/firmware.bin', 'dat': f'firmware/{env}/firmware.dat'}, 'lang_images': lang_images,
                            'bytes': meta['firmware.bin']['bytes'], 'zip': f'firmware/{archive.name}'})
             continue

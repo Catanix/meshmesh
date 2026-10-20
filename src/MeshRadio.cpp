@@ -385,6 +385,8 @@ bool MeshRadio::startRadio(bool quiet){
  if(ready){
 #if defined(MM_HELTEC_V4)
  extern int heltecFemTx;radio.setRfSwitchPins(RADIOLIB_NC,heltecFemTx);
+#elif defined(MM_BOARD_T096)
+ radio.setCurrentLimit(140);radio.setRfSwitchPins(RADIOLIB_NC,pins::femTx); // KCT8103L CTX: HIGH while transmitting
 #elif defined(MM_RADIO_SX1276)
  radio.setCurrentLimit(120);radio.setCRC(true);
 #elif defined(MM_RADIO_SX1262)

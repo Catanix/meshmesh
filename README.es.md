@@ -52,7 +52,7 @@ MeshCore estándar.
 | Heltec WiFi LoRa 32 V4 (OLED, un botón) | probada en hardware |
 | GAT562 30S Mesh Kit (nRF52840, OLED, joystick; sin Wi-Fi) | probada en hardware (nuestra unidad no tiene módulo GPS instalado) — [docs/en/gat562.md](docs/en/gat562.md) |
 | Heltec Mesh Node T114 (nRF52840, TFT a color 240×135, un botón; sin Wi-Fi) | probada en hardware — [docs/en/t114.md](docs/en/t114.md) |
-| Heltec V4-R8, Heltec V3, Heltec Wireless Tracker, LilyGO T-Deck, T-Beam, T-Beam Supreme, T3-S3, T-LoRa V2.1-1.6, Seeed XIAO ESP32S3 + Wio-SX1262, B&Q Station G2, Elecrow ThinkNode M2 | solo compilación, aún sin probar en hardware; los informes son bienvenidos |
+| Heltec V4-R8, Heltec V3, Heltec Wireless Tracker, LilyGO T-Deck, T-Beam, T-Beam Supreme, T3-S3, T-LoRa V2.1-1.6, Seeed XIAO ESP32S3 + Wio-SX1262, B&Q Station G2, Elecrow ThinkNode M2, Heltec Vision Master E213, Heltec Mesh Node T096, fakeTec (ProMicro nRF52840) | solo compilación, aún sin probar en hardware; los informes son bienvenidos |
 
 Las placas ESP32 tienen todas las funciones. La GAT562 (nRF52840) no tiene Wi-Fi: ni punto de acceso, ni radar Wi-Fi,
 ni sensor de movimiento, ni cliente de internet; el teléfono se conecta mediante la app para Android por Bluetooth o USB.

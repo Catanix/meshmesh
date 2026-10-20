@@ -25,10 +25,13 @@ COMMUNITY = {
     'xiao_s3_wio': ('xiao-s3-wio', 'esp32s3', '8MB'),
     'station_g2': ('station-g2', 'esp32s3', '16MB'),
     'thinknode_m2': ('thinknode-m2', 'esp32s3', '4MB'),
+    'heltec_e213': ('heltec-e213', 'esp32s3', '16MB'),
 }
 TARGETS.update({env: name for env, (name, _, _) in COMMUNITY.items()})
 # nRF52 boards (tools/nrf52.py): UF2 and DFU packages instead of ESP images.
-NRF52 = {'gat562_30s': 'gat562-30s', 'heltec_t114': 'heltec-t114'}
+NRF52 = {'gat562_30s': 'gat562-30s', 'heltec_t114': 'heltec-t114', 'heltec_t096': 'heltec-t096', 'faketec': 'faketec'}
+# nRF52 boards nobody has checked on hardware yet (the site lists them as community boards).
+NRF52_COMMUNITY = {'heltec_t096', 'faketec'}
 TARGETS.update(NRF52)
 
 INSTALL = """MeshMesh {version} для {board}

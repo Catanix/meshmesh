@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""nRF52 boards (GAT562 30S, Heltec T114): package, back up and install through the Adafruit UF2 bootloader.
+"""nRF52 boards (GAT562 30S, Heltec T114; community: Heltec T096, fakeTec): package, back up and install through the Adafruit UF2 bootloader.
 
   package ENV [--without chess,pet,dice,wardrive] [--lang CODE]
                      firmware.bin, firmware.uf2 and INSTALL.txt in artifacts/meshmesh-<board>-<version>:
@@ -37,13 +37,16 @@ from serial.tools.list_ports import comports
 from version import VERSION, check
 
 ROOT = Path(__file__).resolve().parents[1]
-BOARDS = {'gat562_30s': ('gat562-30s', 'GAT562 30S Mesh Kit'), 'heltec_t114': ('heltec-t114', 'Heltec Mesh Node T114')}
+BOARDS = {'gat562_30s': ('gat562-30s', 'GAT562 30S Mesh Kit'), 'heltec_t114': ('heltec-t114', 'Heltec Mesh Node T114'),
+          'heltec_t096': ('heltec-t096', 'Heltec Mesh Node T096'), 'faketec': ('faketec', 'fakeTec (ProMicro nRF52840)')}
 APP_START, APP_END = 0x26000, 0xD4000
 FAMILY = 0xADA52840
 VID = 0x239A
 # Backups per board: the bootloader drive's Board-ID, the package target.
-BACKUPS = {'gat562_30s': ROOT / 'backups' / 'gat562', 'heltec_t114': ROOT / 'backups' / 't114'}
-BOARD_IDS = {'HT-n5262': 'heltec_t114'}  # any other Adafruit-style bootloader: the GAT562 (RAK4631 id)
+BACKUPS = {'gat562_30s': ROOT / 'backups' / 'gat562', 'heltec_t114': ROOT / 'backups' / 't114',
+           'heltec_t096': ROOT / 'backups' / 't096', 'faketec': ROOT / 'backups' / 'faketec'}
+# Any other Adafruit-style bootloader: the GAT562 (RAK4631 id). The T096 bootloader's id is not known yet.
+BOARD_IDS = {'HT-n5262': 'heltec_t114', 'nRF52840-nicenano': 'faketec'}
 
 
 def uf2(data, base):
@@ -186,7 +189,7 @@ def package(env, only=None):
     (target / 'INSTALL.txt').write_text(f"""MeshMesh {version()} для {title}
 
 Установка через загрузчик UF2 (Adafruit nRF52):
-  1. Дважды быстро нажмите RESET: появится диск (GAT562-BOOT, у T114 — HT-n5262).
+  1. Дважды быстро нажмите RESET: появится диск (GAT562-BOOT, у T114 — HT-n5262, у ProMicro — NICENANO).
      Плата с MeshMesh входит в загрузчик и сама: python tools/nrf52.py flash <пакет>.
   2. Перед первой установкой сохраните CURRENT.UF2 с этого диска: это копия прежней прошивки.
   3. Скопируйте firmware.uf2 на диск. Плата перезапустится с MeshMesh.

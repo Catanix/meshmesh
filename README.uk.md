@@ -52,7 +52,7 @@
 | Heltec WiFi LoRa 32 V4 (OLED, одна кнопка) | перевірено на залізі |
 | GAT562 30S Mesh Kit (nRF52840, OLED, джойстик; без Wi-Fi) | перевірено на залізі (на нашому екземплярі модуль GPS не встановлено) — [docs/en/gat562.md](docs/en/gat562.md) |
 | Heltec Mesh Node T114 (nRF52840, кольоровий TFT 240×135, одна кнопка; без Wi-Fi) | перевірено на залізі — [docs/en/t114.md](docs/en/t114.md) |
-| Heltec V4-R8, Heltec V3, Heltec Wireless Tracker, LilyGO T-Deck, T-Beam, T-Beam Supreme, T3-S3, T-LoRa V2.1-1.6, Seeed XIAO ESP32S3 + Wio-SX1262, B&Q Station G2, Elecrow ThinkNode M2 | лише збірки, на залізі ще не запускалися — будемо раді звітам |
+| Heltec V4-R8, Heltec V3, Heltec Wireless Tracker, LilyGO T-Deck, T-Beam, T-Beam Supreme, T3-S3, T-LoRa V2.1-1.6, Seeed XIAO ESP32S3 + Wio-SX1262, B&Q Station G2, Elecrow ThinkNode M2, Heltec Vision Master E213, Heltec Mesh Node T096, fakeTec (ProMicro nRF52840) | лише збірки, на залізі ще не запускалися — будемо раді звітам |
 
 Плати на ESP32 мають усі функції. GAT562 (nRF52840) не має Wi-Fi: немає точки доступу, Wi-Fi-радара,
 датчика руху та інтернет-клієнта; телефон підключається через застосунок для Android по Bluetooth або USB.
