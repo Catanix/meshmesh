@@ -1,5 +1,6 @@
 // nRF52 counterparts of the ESP32 services the shared code uses: storage, preferences, random
 // numbers, reset reason, the clock behind time() and the build hash.
+#pragma GCC optimize("Os") // 1 MB flash: the Chinese T114 image (AGENTS.md, "Языки")
 #include <Arduino.h>
 #include <SHA256.h>
 #include <sys/time.h>

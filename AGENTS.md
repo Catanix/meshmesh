@@ -165,7 +165,7 @@ Gradle `output-metadata.json`, не вычисляет их из версии п
 поле `MMLANG:` в образе (`site/nrf52dfu.js`); метка применяется один раз. GAT562 и T114 (1 МБ flash) получают
 образ «английский + русский» или «английский + выбранный язык» без русских строк (`lang/<код>/`, `MM_LANG`,
 `MM_NO_RU`, `tools/pio_lang.py`; ключ перевода `tr()` считается при компиляции, `include/I18n.h`; `docs/gat562.md`):
-размер проверять по самому большому, китайскому (`tools/nrf52.py package`). На nRF52 `UiHeltec.cpp`, `Dice.cpp`, `Wardrive.cpp`, `Clock.cpp`, `Config.cpp`, `Navigation.cpp`, `RadarModel.cpp`, `nrf52/PortalNrf.cpp`
+размер проверять по самому большому, китайскому (`tools/nrf52.py package`). На nRF52 `UiHeltec.cpp`, `Dice.cpp`, `Wardrive.cpp`, `Clock.cpp`, `Config.cpp`, `Navigation.cpp`, `RadarModel.cpp`, `Power.cpp`, `nrf52/PortalNrf.cpp`, `nrf52/Platform.cpp`, `nrf52/HardwareT114.cpp`, `nrf52/RadarNrf.cpp`
 и `MeshRadio.cpp` (с протоколом companion), а также `App.cpp`, шахматы, `Pet.cpp`, `Channels.cpp`, `MeshServer.cpp`, `main.cpp`, `UiIcons.cpp` и `I18n.cpp` собираются с `-Os` (прагма в файле, остальной наш код `-O2` через `build_src_flags`); библиотеки и ядро nRF52 с 0.25.0 собираются с `-Os` (`build_flags`): иначе китайский образ T114 не помещался.
 Шахматы, питомец, кости и вардрайв на nRF52 — отключаемые модули (`include/Modules.h`, `MM_NO_CHESS|PET|DICE|WARDRIVE`,
 `tools/nrf52.py package ENV --without …`, `docs/gat562.md`); сайт и приложение ставят полный набор. Новые
@@ -417,3 +417,6 @@ T114 — `UiHires.inc`, веб — карусель `renderPeople`/`tallyAct` в
 Страница ESP32 получает справочник из прошивки (`/networks.json`, `tools/pio_web.py`). Проверено на M9: команды `radio`, откат
 перезапуском, экран, запись по companion USB как у сайта, страница через `tools/web_usb_bridge.py`. Не проверено: другие платы,
 Web Serial/Bluetooth из браузера, штатная MeshCore, положение телефона в приложении.
+nRF52 с 0.27.0 не запускается без USB при батарее ниже 3,4 В и выключается после 30 с ниже 3,3 В (`src/Power.cpp`,
+`docs/power.md`): сброс на пустой батарее посреди перезаписи первой страницы хранилища, вероятно, дважды стёр хранилище T114.
+Срабатывание на разряженной батарее не проверено; китайский образ T114 — 712108 байт (`Platform.cpp`, `Power.cpp` с `-Os`).

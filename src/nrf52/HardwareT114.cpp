@@ -53,14 +53,17 @@ void Hardware::begin() {
 void Hardware::tick() {
   if(gpsEnabled){unsigned budget=512;while(Serial1.available()&&budget--){gps.encode(Serial1.read());gpsBytes++;}}
   if(millis()-lastSample<1000)return;lastSample=millis();
-  // Divider on AIN2 (P0.04), switched on by P0.06 for the reading, as in MeshCore's T114Board.
-  digitalWrite(pins::adcEnable,HIGH);delay(2);
-  analogReference(AR_INTERNAL_3_0);analogReadResolution(12);uint32_t raw=0;for(int i=0;i<8;i++)raw+=analogRead(pins::battery);
-  digitalWrite(pins::adcEnable,LOW);
-  batteryMv=uint16_t(3000.f*pins::batteryScale*(raw/8)/4096);
+  batteryMv=batteryNow();
   if(gpsTime()) {
     DateTime now(gps.date.year(),gps.date.month(),gps.date.day(),gps.time.hour(),gps.time.minute(),gps.time.second());setUtc(now.unixtime(),"GPS");
   }
+}
+// Divider on AIN2 (P0.04), switched on by P0.06 for the reading, as in MeshCore's T114Board.
+uint16_t Hardware::batteryNow() {
+  output(pins::adcEnable,HIGH);delay(2);
+  analogReference(AR_INTERNAL_3_0);analogReadResolution(12);uint32_t raw=0;for(int i=0;i<8;i++)raw+=analogRead(pins::battery);
+  digitalWrite(pins::adcEnable,LOW);
+  return uint16_t(3000.f*pins::batteryScale*(raw/8)/4096);
 }
 int Hardware::readKey() {
   static bool held=false,longSent=false,veryLongSent=false;static uint32_t down=0;

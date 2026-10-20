@@ -1,3 +1,6 @@
+#if defined(MM_NRF52)
+#pragma GCC optimize("Os") // 1 MB flash: the Chinese T114 image (AGENTS.md, "Языки")
+#endif
 #include "Power.h"
 #include "App.h"
 #include "People.h"
@@ -61,6 +64,10 @@ void waitForRadio(bool usbIdle){
 }
 namespace {
 uint32_t offAt=0;
+#if defined(MM_NRF52)
+bool lowOff=false; // off for an empty battery: USB power turns it on again
+bool lowBattery(uint16_t mv,uint16_t below);
+#endif
 #if !defined(MM_NRF52)
 // The wake button pressed at boot: on after it is held 0.7 s (with the boot, about a second), then released.
 bool wakeHeld(int pin){
@@ -78,6 +85,12 @@ String powerOff(){
 bool powerOffPending(){return offAt!=0;}
 int powerOnWay(){return hardware.wakePin();}
 void powerOffTick(){
+#if defined(MM_NRF52)
+  // An empty battery: off while it is still steady, after 30 s below 3.3 V (a transmission sags it for a moment).
+  static uint32_t lowSince=0;
+  if(!offAt&&lowBattery(hardware.batteryMv,3300)){if(!lowSince)lowSince=millis()|1;else if(millis()-lowSince>30000){lowOff=true;meshRadio.event="Battery empty";powerOff();}}
+  else lowSince=0;
+#endif
   if(!offAt||int32_t(millis()-offAt)<0)return;
   if(meshRadio.busy()&&millis()-offAt<5000)return;
   people::flush();wardrive::flush();meshRadio.flush();chessNet.flush();tour::net.flush();creature.flush();dicer.flush(); // counters wait 2 s before writing
@@ -101,14 +114,27 @@ void powerOffTick(){
 // no USB, and a RESET pressed then ended in lost storage (docs/verification.md). Here the CPU stays in
 // System ON: this task polls the button from FreeRTOS sleep (tickless idle) and nothing else runs. After
 // a 1 s hold the LED lights; the board restarts the ordinary way once the button is released.
+//
+// The battery. Every start writes the settings (the boot counter) into the first 4 KB page of the storage,
+// which also holds its root: the page is erased and written again around the changed 128-byte block. A
+// nearly empty cell that sags under the start's load resets the board between the two, the page stays
+// blank and the storage no longer mounts ("No storage", key and history gone; T114, 9 and 20 October 2026).
+// So a start on such a battery goes off before the storage is touched, and a running board turns off
+// while the battery is still steady. On USB power, or without a reading (no cell), nothing changes.
 namespace {
+bool usbPower(){
+  uint8_t on=0;sd_softdevice_is_enabled(&on);uint32_t s=0;
+  if(on)sd_power_usbregstatus_get(&s);else s=NRF_POWER->USBREGSTATUS;
+  return s&POWER_USBREGSTATUS_VBUSDETECT_Msk;
+}
+bool lowBattery(uint16_t mv,uint16_t below){return mv>2500&&mv<below&&!usbPower();}
 void sleepNow(int pin){
   bleSilence();flash_nrf5x_flush();
-  if(pin<0){while(true)delay(1000);}
-  pinMode(pin,INPUT_PULLUP);uint32_t down=0;
+  if(pin>=0)pinMode(pin,INPUT_PULLUP);uint32_t down=0;
   while(true){
     delay(50);
-    if(digitalRead(pin)==HIGH){down=0;continue;}
+    if(lowOff&&usbPower()){delay(1000);ESP.restart();} // charging: on again
+    if(pin<0||digitalRead(pin)==HIGH){down=0;continue;}
     if(!down){down=millis()|1;continue;}
     if(millis()-down<1000)continue;
     if(pins::led>=0){pinMode(pins::led,OUTPUT);digitalWrite(pins::led,pins::ledOn);}
@@ -117,7 +143,11 @@ void sleepNow(int pin){
   }
 }
 }
-void powerBootCheck(){}
+// 3.4 V at rest: above the 3.3 V of a running board, so an empty cell does not start, sag and stop over again.
+void powerBootCheck(){
+  if(!lowBattery(hardware.batteryNow(),3400))return;
+  Serial.begin(115200);Serial.println("OFF: battery empty");lowOff=true;hardware.powerDown(false);sleepNow(hardware.wakePin());
+}
 #else
 namespace {
 void sleepNow(int pin){

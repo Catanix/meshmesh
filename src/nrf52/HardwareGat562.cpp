@@ -51,12 +51,15 @@ void Hardware::begin() {
 void Hardware::tick() {
   if(gpsEnabled){unsigned budget=512;while(Serial1.available()&&budget--){gps.encode(Serial1.read());gpsBytes++;}}
   if(millis()-lastSample<1000)return;lastSample=millis();
-  // Battery divider on AIN3 (P0.05), as in MeshCore's board file: 12 bits against the 3.6 V reference.
-  analogReadResolution(12);uint32_t raw=0;for(int i=0;i<8;i++)raw+=analogRead(pins::battery);
-  batteryMv=uint16_t((3*1.75f*1.187f*1000)*(raw/8)/4096);
+  batteryMv=batteryNow();
   if(gpsTime()) {
     DateTime now(gps.date.year(),gps.date.month(),gps.date.day(),gps.time.hour(),gps.time.minute(),gps.time.second());setUtc(now.unixtime(),"GPS");
   }
+}
+// Battery divider on AIN3 (P0.05), as in MeshCore's board file: 12 bits against the 3.6 V reference.
+uint16_t Hardware::batteryNow() {
+  analogReadResolution(12);uint32_t raw=0;for(int i=0;i<8;i++)raw+=analogRead(pins::battery);
+  return uint16_t((3*1.75f*1.187f*1000)*(raw/8)/4096);
 }
 int Hardware::readKey() {
   uint32_t now=millis();

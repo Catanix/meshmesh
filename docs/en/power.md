@@ -54,6 +54,17 @@ bootloader is also reachable by a double RESET. On the classic ESP32 (T-Beam, T-
 full and the deep sleep code did not fit: these builds stub out (`src/NoLedc.cpp`) the LEDC calls of
 RadioLib's `tone()`, which only AFSK uses. The current while off has not been measured.
 
+**An empty battery (GAT562, T114, since 0.27.0).** Every start writes the settings (the boot counter) into the
+storage's first 4 KB page, which also holds its root: the page is erased and written again. A nearly empty cell
+sags under the start's load, the board resets between the erase and the write, the page stays blank and the
+storage no longer mounts ("No storage"; key, history and settings gone; probably how the T114 lost it on 9 and 20 October: its last writes were from a repeater on battery). Now,
+without USB power, the board does not start on a battery below 3.4 V: it goes straight to the soft off without
+touching the storage. A running board turns off the ordinary way once the battery stays below 3.3 V for 30 s
+(a transmission sags it only for a moment). From that off state it turns on by itself when USB power appears
+(charging), or with the button held. On USB power, and without a battery reading (below 2.5 V: no cell),
+nothing changes. The thresholds follow LiPo discharge, not measurements of our boards; a reset in the middle
+of a write by other means (RESET, a pulled supply) can still damage the storage.
+
 [EasySkyMesh](https://github.com/IoTThinks/EasySkyMesh/wiki/PowerSaving#3-test-results) informed this
 work. RXPS (duty-cycled LoRa reception) and scheduled GPS power cycling are not implemented.
 LoRa reception remains continuous. MeshMesh current and battery-life gains are unmeasured;

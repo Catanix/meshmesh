@@ -37,6 +37,9 @@ class Hardware {
   bool compassOk=false, imuOk=false, compassSample=false, imuSample=false;
   float mag[3]={}, accel[3]={};
   uint16_t batteryMv=0;
+#if defined(MM_NRF52)
+  uint16_t batteryNow(); // a reading now (batteryMv: once a second in tick); also before begin()
+#endif
   uint32_t gpsBytes=0, lastKey=0, keyCount=0, utc=0;
   uint8_t keyboardHw=0, keyboardFw=0;
 #if defined(MM_HELTEC_V4)

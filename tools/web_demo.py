@@ -179,7 +179,7 @@ def radio_set(values, mode='normal'):
     now = {k: CONFIG[k] for k in RADIO}
     nxt = {**now, **{k: values[k] for k in RADIO if k in values}}
     if not 863 <= nxt['frequency'] <= 870:
-        return 'ERR invalid settings; M9 868 MHz range is 863..870'
+        return 'ERR invalid settings; 868 MHz range is 863..870'
     CONFIG.update({k: v for k, v in values.items() if k not in RADIO})
     if nxt != now:
         trial = CONFIG.get('radio_trial')
