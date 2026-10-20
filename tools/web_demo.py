@@ -171,6 +171,48 @@ def mmt(png, query):
     return b'MMT1' + bytes([z, 0, 0, 0]) + struct.pack('<IIII', x, y, len(runs), zlib.crc32(runs)) + bytes(runs)
 
 
+# The radio profiles of firmware 0.27.0 (src/App.cpp radioCommand): the previous profile, a test not saved.
+RADIO = ('frequency', 'bandwidth', 'sf', 'cr')
+
+
+def radio_set(values, mode='normal'):
+    now = {k: CONFIG[k] for k in RADIO}
+    nxt = {**now, **{k: values[k] for k in RADIO if k in values}}
+    if not 863 <= nxt['frequency'] <= 870:
+        return 'ERR invalid settings; M9 868 MHz range is 863..870'
+    CONFIG.update({k: v for k, v in values.items() if k not in RADIO})
+    if nxt != now:
+        trial = CONFIG.get('radio_trial')
+        if mode == 'try':
+            if not trial:
+                CONFIG['radio_trial'] = now
+            if CONFIG['radio_trial'] == nxt:
+                CONFIG.pop('radio_trial')
+        elif mode == 'revert':
+            CONFIG.pop('radio_trial', None)
+        elif trial:
+            CONFIG['radio_prev'] = CONFIG.pop('radio_trial')
+        else:
+            CONFIG['radio_prev'] = now
+        CONFIG.update(nxt)
+    return 'OK settings saved'
+
+
+def radio_command(line):
+    if line.startswith('radio try '):
+        return radio_set(json.loads(line[10:]), 'try')
+    if line == 'radio keep':
+        if 'radio_trial' not in CONFIG:
+            return 'ERR radio: no test'
+        CONFIG['radio_prev'] = CONFIG.pop('radio_trial')
+        return 'OK radio test saved'
+    if line == 'radio revert':
+        return radio_set(CONFIG['radio_trial'], 'revert') if 'radio_trial' in CONFIG else 'ERR radio: no test'
+    if line == 'radio previous':
+        return radio_set(CONFIG['radio_prev']) if 'radio_prev' in CONFIG else 'ERR radio: no previous settings'
+    return 'ERR radio try {JSON}|keep|revert|previous'
+
+
 def answer(path, query):
     lang = lang_of(query)
     if path == '/api/status':
@@ -261,6 +303,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send(404, 'no', 'text/plain')
             d = {k: v for k, v in json.loads(f.read_text()).items() if (v if isinstance(v, str) else any(v.values()))}
             return self.send(200, 'globalThis.MeshMeshWebDict=' + json.dumps(d, ensure_ascii=False) + ';', 'application/javascript; charset=utf-8')
+        if url.path == '/networks.json':  # the catalogue the app carries next to the page
+            return self.send(200, (ROOT / 'site/networks.json').read_text(), 'application/json; charset=utf-8')
         if url.path == '/api/maps/tile':
             f = ROOT / 'tools/web_demo/tiles' / f"{query.get('z', [''])[0]}_{query.get('x', [''])[0]}_{query.get('y', [''])[0]}.png"
             return self.send(200, mmt(f, query), 'application/octet-stream') if f.exists() else self.send(404, 'Map tile not saved', 'text/plain')
@@ -273,7 +317,17 @@ class Handler(BaseHTTPRequestHandler):
         return self.send(404, 'Not found', 'text/plain')
 
     def do_POST(self):
-        self.send(200, 'OK', 'text/plain')
+        url = urlparse(self.path)
+        try:
+            body = json.loads(self.rfile.read(int(self.headers.get('Content-Length') or 0)) or b'null')
+        except ValueError:
+            body = None
+        reply = 'OK'
+        if url.path == '/api/config' and isinstance(body, dict):
+            reply = radio_set(body)
+        elif url.path == '/api/command' and isinstance(body, dict) and str(body.get('command', '')).startswith('radio '):
+            reply = radio_command(body['command'])
+        self.send(400 if reply.startswith('ERR') else 200, reply, 'text/plain')
 
 
 def serve(port):

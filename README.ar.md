@@ -27,6 +27,7 @@ MeshCore القياسية.
 - **القنوات**: حتى 8 قنوات MeshCore، مع الانضمام عبر #وسم أو رابط `meshcore://` أو رمز QR أو اسم ومفتاح؛
   وإنشاء قناة خاصة، ودعوة جهات الاتصال برسالة خاصة، والعثور على القنوات المسموعة في البث. [docs/en/channels.md](docs/en/channels.md)
 - **المناطق** — نطاق رسائل flood في MeshCore: منطقة افتراضية ومنطقة لكل قناة، والبحث عن مناطق المرحلات القريبة؛ وتُضبط المرحلات بأوامر `region`. [docs/en/regions.md](docs/en/regions.md)
+- **شبكة مدينتك** — التردد وعرض النطاق وSF وCR لشبكة MeshCore محلية من دليل المجتمع، تُكتب من الموقع (وفي لوحات MeshCore الأصلية أيضا) أو تُطبق في التطبيق مع اختبار وإبقاء وتراجع وعودة إلى الإعدادات السابقة. [docs/en/networks.md](docs/en/networks.md)
 - **خرائط دون اتصال**: OpenStreetMap مع التضاريس وخطوط الكنتور، على الهاتف (التطبيق) أو بطاقة SD في الجهاز؛ والعقد والروابط المباشرة وGPS على الخريطة مع أي لوحة.
 - **مسح التغطية** — خريطة تغطية للشبكة: الحزم المسموعة ونبضات البينغ إلى قناة مع المرحلات التي تمررها، مع موقع موثوق من GPS أو الهاتف؛ وعلى ESP32 أيضاً Wi-Fi وBluetooth؛ تصدير إلى CSV وGeoJSON وKML وWiGLE. [docs/en/wardrive.md](docs/en/wardrive.md)
 - **العقد القريبة**: قوة الإشارة وعدد القفزات والمسافة والاتجاه؛ جهات الاتصال والمرحلات والغرف.
@@ -107,7 +108,7 @@ python3 -m venv .venv
 
 ## التوثيق
 
-توثيق مفصل بالإنجليزية: [القنوات](docs/en/channels.md)، [المناطق](docs/en/regions.md)، [التوافق مع MeshCore](docs/en/meshcore-migration.md)، [اللوحات](docs/en/boards.md)،
+توثيق مفصل بالإنجليزية: [القنوات](docs/en/channels.md)، [المناطق](docs/en/regions.md)، [شبكة مدينتك](docs/en/networks.md)، [التوافق مع MeshCore](docs/en/meshcore-migration.md)، [اللوحات](docs/en/boards.md)،
 [GAT562](docs/en/gat562.md)، [Android](docs/en/android.md)، [وضعا المرحل والغرفة](docs/en/repeater.md)،
 [بروتوكول الشطرنج](docs/en/chess.md)، [صيغة الخرائط](docs/en/maps-format.md)، [مقارنة مع MeshCore](docs/en/feature-parity.md)،
 [التحقق على الأجهزة](docs/en/verification.md). النصوص الروسية الأصلية في [docs/](docs/)، والدليل الكامل

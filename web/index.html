@@ -298,7 +298,7 @@ body[data-route=chat] .wrap{padding-bottom:0}#p-chat{display:flex;flex-direction
 <h3>Настройки</h3><div class="card" style="padding:4px 0" id="rptForm"></div><div class="btns" style="margin-top:8px"><button class="btn" id="rptAdvert"><svg class="ic violet"><use href="#i-tower"/></svg>Объявить узел всей сети</button></div>
 <div id="nbBox"><h3>Соседние репитеры</h3><div class="list" id="rptNeighbours"></div></div>
 <details class="more"><summary>Команды MeshCore (CLI)</summary><p class="muted small">Те же команды, что в приложении MeshCore после входа администратора: <code>get repeat</code>, <code>set flood.max 8</code>, <code>neighbors</code>, <code>stats-packets</code>, <code>ver</code>. Частота, полоса, SF, CR, мощность и имя общие с настройками MeshMesh.</p><form id="rptCli" class="two"><input id="rptLine" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="get repeat" maxlength="160"><button class="btn primary">Выполнить</button></form><pre id="rptOut"></pre></details></section>
-<datalist id="regionNames"></datalist><section class="page" id="p-radio" hidden><div class="card" style="padding:4px 0" id="radioForm"></div><button class="btn save" id="radioSave" disabled>Нет изменений</button><p class="small faint" style="margin:10px 4px">Параметры радио должны совпадать у всех узлов сети. Применяются при сохранении; при ошибке радио возвращаются прежние.</p><h3>Галочки у сообщений</h3><div class="card pad ticks" id="tickLegend"></div><h3 id="regionHead" hidden>Регионы</h3><div class="card pad" id="regionBox" hidden></div></section>
+<datalist id="regionNames"></datalist><section class="page" id="p-radio" hidden><div class="card pad" id="netBox" style="margin-bottom:10px"></div><div class="card" style="padding:4px 0" id="radioForm"></div><button class="btn save" id="radioSave" disabled>Нет изменений</button><p class="small faint" style="margin:10px 4px">Параметры радио должны совпадать у всех узлов сети. Применяются при сохранении; при ошибке радио возвращаются прежние.</p><h3>Галочки у сообщений</h3><div class="card pad ticks" id="tickLegend"></div><h3 id="regionHead" hidden>Регионы</h3><div class="card pad" id="regionBox" hidden></div></section>
 <section class="page" id="p-apps" hidden><div class="card" style="padding:4px 0" id="appsList"></div><button class="btn save" id="appsSave" disabled>Нет изменений</button><button class="btn" id="appsDefault" style="width:100%;margin-top:8px">Порядок по умолчанию</button><p class="small faint" style="margin:10px 4px" id="appsNote"></p></section>
 <section class="page" id="p-device" hidden><div class="card" style="padding:4px 0" id="deviceForm"></div><button class="btn save" id="deviceSave" disabled>Нет изменений</button><p class="small faint" style="margin:10px 4px" id="deviceNote">Язык меню относится к экрану устройства. Радио продолжает работать при блокировке и погашенном экране.</p></section>
 <section class="page" id="p-help" hidden><div id="helpKeys"></div><div id="layoutHelp"><h3>Русский ввод: фонетический</h3><div class="layout" id="layout"></div><p class="small muted" style="margin:0 4px">2×пробел — RU/EN; Shift или → после буквы — заглавная.</p></div></section>
@@ -522,7 +522,7 @@ function enter(page,prev){
  if(page==='connect')loadConnections();
  if(page==='library'||page==='map')loadAreas();
  if(page==='radio'||page==='device')buildEditor(page);
- if(page==='radio')loadChans().then(()=>route==='radio'&&renderRegions());
+ if(page==='radio'){loadChans().then(()=>route==='radio'&&renderRegions());renderNet(true);if(netPick.open)netLoad().then(()=>route==='radio'&&renderNet(true))}
  if(page==='apps'){appsDraft=appsParse(config.apps);renderApps()}
  if(page==='help')renderHelp();
  if(page==='role'){roleChoice=null;renderRole()}
@@ -1374,6 +1374,83 @@ async function findRegions(){try{await chanDo({action:'regions'})}catch(e){notif
  await loadChans();renderRegions();
  for(let i=0;i<25&&regionBusy();i++){await new Promise(r=>setTimeout(r,2000));await loadChans();if(route==='radio')renderRegions()}
  const n=chans?.regions?.found?.length||0;notify(n?L`Найдено регионов: ${n}`:L('Регионы не найдены'),n?'ok':'warn')}
+// Networks catalogue (site/networks.json, a copy of VoxMesh/meshcore-local-networks): radio profiles of local MeshCore
+// networks by city. The app carries a copy next to the page; "Update" fetches the current one and keeps it in this
+// browser, the newer of the two is used. A profile sets frequency, bandwidth, SF and CR only: power, hops and the
+// region stay. Firmware 0.27.0+: a test (radio try) is not saved until "Keep"; a restart returns the saved settings.
+const NET_URL='https://raw.githubusercontent.com/VoxMesh/meshcore-local-networks/main/catalog.json',NET_SOURCE='https://github.com/VoxMesh/meshcore-local-networks';
+let netCat,netPick={open:false,q:'',shown:5,net:'',test:false,pos:null,posNote:'',armed:0,check:null};
+const netValid=c=>c&&c.schema_version===2&&Array.isArray(c.locations)?c:null;
+const netRadio=n=>({frequency:n.radio.frequency_hz/1e6,bandwidth:n.radio.bandwidth_hz/1000,sf:n.radio.sf,cr:n.radio.cr});
+const netText=r=>L`${Number(r.frequency).toFixed(3)} МГц · BW ${r.bandwidth} · SF${r.sf} · CR 4/${r.cr}`;
+const sameRadio=(a,b)=>Math.abs(a.frequency-b.frequency)<.0005&&a.bandwidth===b.bandwidth&&a.sf===b.sf&&a.cr===b.cr;
+function fwSince(v){const a=String(status.firmware||'').split('.').map(Number),b=v.split('.').map(Number);for(let i=0;i<3;i++)if((a[i]||0)!==b[i])return (a[i]||0)>b[i];return true}
+// Why a profile does not fit this board, or '' (the board's range, Config::valid).
+function netFits(r){if(!(r.frequency>=863&&r.frequency<=870))return L`${Number(r.frequency).toFixed(3)} МГц вне диапазона платы MeshMesh (863–870 МГц)`;
+ if(![62.5,125,250,500].includes(r.bandwidth))return L`Полоса ${r.bandwidth} кГц не поддерживается`;if(!(r.sf>=7&&r.sf<=12)||!(r.cr>=5&&r.cr<=8))return L('SF или CR вне допустимых значений');return ''}
+async function netLoad(){if(netCat!==undefined)return;let bundled=null;
+ try{const r=await fetch('networks.json',{cache:'no-cache'});if(r.ok)bundled=netValid(await r.json())}catch{}
+ netCat=[netValid(store('networks')),bundled].filter(Boolean).sort((a,b)=>String(b.updated).localeCompare(String(a.updated)))[0]||null}
+async function netUpdate(){const b=$('netUpdate');if(b)b.disabled=true;
+ try{const r=await fetch(NET_URL,{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const c=netValid(await r.json());if(!c)throw Error(L('неизвестный формат'));store('networks',c);netCat=c;notify(L`Справочник обновлён: ${c.updated}`,'ok')}
+ catch(e){notify(L`Справочник не обновлён: ${e.message}`,'bad')}renderNet(true)}
+function netDistance(l){const p=netPick.pos;if(!p||typeof l.lat!=='number')return null;const r=Math.PI/180,a=Math.sin((l.lat-p.lat)*r/2)**2+Math.cos(p.lat*r)*Math.cos(l.lat*r)*Math.sin((l.lon-p.lon)*r/2)**2;return 12742*Math.asin(Math.sqrt(a))}
+// The board's GPS, the phone (the app) or the browser; the nearest places come first.
+async function netLocate(){netPick.posNote=L('Определяю положение…');renderNet();
+ const done=(lat,lon,src)=>{netPick.pos={lat,lon};netPick.posNote=src;netPick.shown=5;renderNet()},fail=t=>{netPick.posNote=t;renderNet()};
+ if(status.gps_fix&&typeof status.latitude==='number'){done(status.latitude,status.longitude,L('по GPS платы'));return}
+ if(window.MeshNative&&typeof MeshNative.locate==='function'){try{MeshNative.locate()}catch{}
+  for(let i=0;i<44;i++){await new Promise(r=>setTimeout(r,500));let p={};try{p=JSON.parse(MeshNative.location()||'{}')}catch{}if(typeof p.lat==='number'){done(p.lat,p.lon,L('по телефону'));return}if(p.error){fail(p.error==='denied'?L('Нет доступа к геопозиции'):L('Геопозиция телефона выключена'));return}}
+  fail(L('Телефон не определил положение'));return}
+ if(!navigator.geolocation||!window.isSecureContext){fail(L('Положение недоступно: выберите город в списке'));return}
+ navigator.geolocation.getCurrentPosition(p=>done(p.coords.latitude,p.coords.longitude,L('по браузеру')),()=>fail(L('Нет доступа к геопозиции')),{maximumAge:600000,timeout:15000})}
+function netAll(){const out=[];for(const l of netCat?.locations||[])for(const n of l.networks||[])out.push({l,n});return out}
+function netFind(id){return netAll().find(x=>x.n.id===id)}
+// Places by distance (or in the catalogue's order), each with its networks and those of its parent territory.
+function netList(){const locs=netCat?.locations||[],q=netPick.q.trim().toLowerCase(),by=new Map(locs.map(l=>[l.id,l]));
+ let list=locs.filter(l=>!q||`${l.name} ${l.region||''}`.toLowerCase().includes(q)).map(l=>({l,d:netDistance(l),nets:[...(l.networks||[]).map(n=>({n,l})),...(by.get(l.parent_id)?.networks||[]).map(n=>({n,l:by.get(l.parent_id)}))]})).filter(x=>x.nets.length);
+ if(netPick.pos)list.sort((a,b)=>(a.d??1e9)-(b.d??1e9));return list}
+function netDetail(x){const r=netRadio(x.n),cur={frequency:config.frequency,bandwidth:config.bandwidth,sf:config.sf,cr:config.cr},why=netFits(r),same=sameRadio(r,cur),armed=netPick.armed&&Date.now()-netPick.armed<5000,test=fwSince('0.27.0');
+ const row=(n,a,b)=>`<div class="detail"><span>${n}</span><span>${a===b?esc(b):`<span class="faint">${esc(a)}</span> → <b>${esc(b)}</b>`}</span></div>`;
+ return `<div class="card pad" style="margin:8px 0;border-color:var(--accent)"><b>${esc(x.l.name)} · ${esc(x.n.name)}</b><small class="muted" style="display:block">${esc(x.n.id)}${x.n.updated?L` · проверено ${x.n.updated}`:''}</small>
+  ${row(L('Частота'),L`${Number(cur.frequency).toFixed(3)} МГц`,L`${r.frequency.toFixed(3)} МГц`)}${row(L('Полоса'),L`${cur.bandwidth} кГц`,L`${r.bandwidth} кГц`)}${row('SF',String(cur.sf),String(r.sf))}${row('CR','4/'+cur.cr,'4/'+r.cr)}
+  ${x.n.note?`<p class="small warn" style="margin:6px 0">${esc(x.n.note)}</p>`:''}${/^https?:\/\//.test(x.n.community_url||'')?`<p class="small" style="margin:6px 0"><a href="${esc(x.n.community_url)}" target="_blank" rel="noopener">${L('Местное сообщество')}</a></p>`:''}
+  <p class="small faint" style="margin:6px 0">${L('Мощность, пересылки и регион не меняются. После смены частоты узлы прежней сети перестанут быть слышны.')}</p>
+  ${why?`<p class="small bad" style="margin:6px 0">${esc(why)}</p>`:same?`<p class="small ok" style="margin:6px 0">${L('Эти настройки уже стоят на плате')}</p>`:''}
+  ${test&&!why&&!same?`<label class="small" style="display:flex;align-items:center;gap:8px;margin:8px 0"><input type="checkbox" id="netTest"${netPick.test?' checked':''} style="width:20px;flex:none">${L('Протестировать: не сохранять, пока не нажмёте «Оставить»; перезапуск платы вернёт прежние')}</label>`:''}
+  <div class="btns"><button class="btn${armed?' primary':''}" data-net-do="apply"${why||same?' disabled':''}>${armed?L('Нажмите ещё раз: применить'):netPick.test&&test?L('Применить на время'):L('Применить')}</button><button class="btn" data-net-do="close">${L('Отмена')}</button></div></div>`}
+function renderNetList(){const box=$('netList');if(!box)return;
+ if(!netCat){setHtml(box,`<p class="small faint">${L('Справочника нет: нажмите «Обновить» (нужен интернет)')}</p>`);return}
+ const list=netList(),shown=list.slice(0,netPick.shown),sel=netPick.net&&netFind(netPick.net);
+ setHtml(box,(sel?netDetail(sel):'')+(shown.length?shown.map(x=>`<div style="margin:8px 0 2px"><b>${esc(x.l.name)}</b>${x.d!=null?`<small class="muted"> · ${x.d<10?x.d.toFixed(1):Math.round(x.d)} ${L('км')}</small>`:''}</div><div class="btns">${x.nets.map(({n,l})=>`<button class="btn${n.id===netPick.net?' primary':''}" data-net="${esc(n.id)}" title="${esc(n.id)}" style="flex-direction:column;align-items:flex-start;text-align:start;gap:2px">${esc(l===x.l?n.name:`${l.name}: ${n.name}`)}<small style="font-weight:400;opacity:.75">${esc(netText(netRadio(n)))}</small></button>`).join('')}</div>`).join(''):`<p class="small faint">${L('Ничего не найдено')}</p>`)+
+  (list.length>shown.length?`<button class="btn save" style="margin:10px 0 0" data-net-do="more">${L`Показать ещё (${list.length-shown.length})`}</button>`:''))}
+// The box above the radio fields: a test that runs, the previous settings, the picker.
+function renderNet(full){const box=$('netBox');if(!box)return;const trial=config.radio_trial,prev=config.radio_prev,ch=netPick.check;
+ let head='';
+ if(trial)head=`<p style="margin:0 0 6px"><b>${L('Тест настроек радио')}</b></p><p class="small" style="margin:0 0 4px">${L`Сейчас: ${netText(config)}`}</p><p class="small faint" style="margin:0 0 8px">${L`Сохранены: ${netText(trial)}. Перезапуск платы вернёт их.`}</p>
+  ${ch?`<p class="small${ch.busy?'':ch.n?' ok':' warn'}" style="margin:0 0 8px">${ch.busy?L('Спрашиваю репитеры…'):ch.n?L`Ответили репитеры: ${ch.n}`:L('Ни один репитер не ответил')}</p>`:''}
+  <div class="btns" style="margin-bottom:8px"><button class="btn primary" data-net-do="keep">${L('Оставить')}</button><button class="btn" data-net-do="revert">${L('Вернуть')}</button>${serverRole()?'':`<button class="btn" data-net-do="check"${ch?.busy?' disabled':''}>${L('Проверить')}</button>`}</div>`;
+ else if(prev)head=`<p class="small" style="margin:0 0 8px">${L`Прежние: ${netText(prev)}`}</p><div class="btns" style="margin-bottom:8px"><button class="btn" data-net-do="previous">${L('Вернуть прежние')}</button></div>`;
+ if(full||!box.querySelector('#netList')){
+  box.innerHTML=`<div id="netHead"></div>`+(netPick.open?`<div style="display:flex;gap:8px;margin:0 0 6px"><input id="netQ" value="${esc(netPick.q)}" placeholder="${L('Город или регион')}" autocomplete="off" style="flex:1;min-width:0"><button class="btn" data-net-do="locate">${ic('pin','acc')} ${L('Рядом')}</button></div><p class="small faint" id="netPos" style="margin:0"></p><div id="netList"></div>
+   <p class="small faint" style="margin:10px 0 0">${netCat?L`Справочник от ${netCat.updated}: ${plural(netCat.locations.length,'территория','территории','территорий')}. `:''}<a href="${NET_SOURCE}" target="_blank" rel="noopener">VoxMesh/meshcore-local-networks</a></p><div class="btns" style="margin-top:6px"><button class="btn" id="netUpdate" data-net-do="update">${L('Обновить справочник')}</button><button class="btn" data-net-do="hide">${L('Скрыть')}</button></div>`
+   :`<button class="btn save" style="margin:0" data-net-do="open">${ic('pin','acc')} ${L('Выбрать сеть по городу')}</button>`)}
+ setHtml($('netHead'),head);const pos=$('netPos');if(pos)pos.textContent=netPick.posNote;renderNetList()}
+async function netReload(){config=await request('/api/config');buildEditor('radio');renderNet(true)}
+async function netAction(a,b){
+ if(a==='open'){netPick.open=true;await netLoad();renderNet(true);return}
+ if(a==='hide'){netPick.open=false;netPick.net='';renderNet(true);return}
+ if(a==='close'){netPick.net='';netPick.armed=0;renderNetList();return}
+ if(a==='more'){netPick.shown+=10;renderNetList();return}
+ if(a==='locate'){netLocate();return}
+ if(a==='update'){netUpdate();return}
+ if(a==='check'){netPick.check={busy:true};renderNet();try{await chanDo({action:'regions'});await loadChans();for(let i=0;i<25&&regionBusy();i++){await new Promise(r=>setTimeout(r,2000));await loadChans()}netPick.check={n:chans?.regions?.repeaters||0}}catch(e){netPick.check=null;notify(e.message.replace(/^ERR \w+: /,''),'bad')}renderNet();if(route==='radio')renderRegions();return}
+ if(a==='apply'){const x=netFind(netPick.net);if(!x)return;if(!netPick.armed||Date.now()-netPick.armed>5000){netPick.armed=Date.now();renderNetList();setTimeout(()=>{if(netPick.armed&&Date.now()-netPick.armed>=5000){netPick.armed=0;renderNetList()}},5100);return}
+  netPick.armed=0;b.disabled=true;const r=netRadio(x.n),test=netPick.test&&fwSince('0.27.0');
+  try{if(test)await command('radio try '+JSON.stringify(r));else await request('/api/config',r);netPick.net='';netPick.check=null;netPick.open=false;await netReload();
+   if(test&&!config.radio_trial)notify(L('Прошивка платы не поддерживает тест: настройки не изменены'),'warn');else notify(test?L`Тест: ${x.l.name} · ${x.n.name}. Нажмите «Оставить» или «Вернуть»`:L`Настройки сети ${x.l.name} · ${x.n.name} сохранены`,'ok')}
+  catch(e){notify(e.message.replace(/^ERR /,''),'bad');renderNetList()}return}
+ if(a==='keep'||a==='revert'||a==='previous'){b.disabled=true;try{await command('radio '+a);netPick.check=null;await netReload();notify(a==='keep'?L('Настройки сохранены'):L('Прежние настройки радио возвращены'),'ok')}catch(e){b.disabled=false;notify(e.message.replace(/^ERR (radio: )?/,''),'bad')}}}
 function renderHelp(){
  const btn=status.button||'PRG',keys=btn==='joystick'?[['← →',L('страницы')],['↑ ↓',L('сообщения, узлы, сигналы, пункты меню')],[L('Центр'),L('действие страницы или меню; в шахматах — фигура, затем клетка')],[L('Удерж. центр'),L('в клавиатуре — отправить; в шахматах — меню партии')],[L('Назад'),L('закрыть; в клавиатуре — стереть символ; иначе — главный экран')],[L('Удерж. назад'),L('главный экран; закрыть клавиатуру')]]:heltec()?[[btn,L('короткое нажатие — следующая страница')],[btn,L('удержание — действие страницы или меню действий')]]:status.board==='tdeck'?[[L('Шар'),L('перемещение по меню, спискам и карте')],[L('Нажатие'),L('открыть / отправить')],[L('Удерж. шар'),L('вход; в чате — русская раскладка')],['Enter',L('открыть / отправить')],['DEL',L('удалить; без текста — назад')],[L('2×пробел'),L('в тексте: RU/EN')],['L',L('на карте: список карт')],['+ −',L('масштаб карты')],['P',L('узел на карте')]]:[['MSG',L('Чаты')],['MAP',L('Карта; L — список карт')],['HOME',L('Главное меню')],['BACK',L('Предыдущий экран')],['CTRL',L('Настройки')],['ADV',L('Объявить узел; удержание — GPS вкл/выкл')],['@',L('функц. клавиша (не Sym+@): RU/EN в чате')],['MIC',L('Блокировка (микрофона нет)')],['OK',L('Открыть / отправить; удержание — вход')],[L('2×пробел'),L('в тексте: RU/EN; → — заглавная')]];
  $('layoutHelp').hidden=btn==='joystick'; // the joystick keyboard is on the screen
@@ -1904,6 +1981,8 @@ if(typeof window!=='undefined'&&window.addEventListener){
   else if(el.id==='tourRounds')f.rounds=+el.value;else if(el.id==='tourHours')f.hours=+el.value});
  $('chessArchive').addEventListener('toggle',()=>{if($('chessArchive').open)loadArchive()});
  $('chessToursView').addEventListener('input',e=>{if(e.target.id==='tourName'&&tourForm)tourForm.name=e.target.value});
+ $('netBox').onclick=e=>{const b=e.target.closest('[data-net-do],[data-net]');if(!b||b.disabled)return;if(b.dataset.net){netPick.net=netPick.net===b.dataset.net?'':b.dataset.net;netPick.armed=0;renderNetList();if(netPick.net)$('netBox').scrollIntoView({block:'start'});return}netAction(b.dataset.netDo,b)};
+ $('netBox').addEventListener('input',e=>{if(e.target.id==='netQ'){netPick.q=e.target.value;netPick.shown=5;renderNetList()}else if(e.target.id==='netTest'){netPick.test=e.target.checked;renderNetList()}});
  $('regionBox').onclick=e=>{if(e.target.id==='regionFind'){findRegions();return}const b=e.target.closest('[data-region]'),f=$('set-region');if(b&&f){f.value=b.dataset.region;draft.region=b.dataset.region;editorState('radio');f.scrollIntoView({block:'center'})}};
  for(const page of ['radio','device']){$(page+'Form').addEventListener('input',e=>{const el=e.target.closest('[data-k]');if(!el)return;draft[el.dataset.k]=editorValue(el);if(el.type==='range')$(el.id+'-v').textContent=el.value;editorState(page)});
   $(page+'Form').addEventListener('click',e=>{const el=e.target.closest('.sw[data-k]');if(!el)return;const k=el.dataset.k;draft[k]=!draft[k];el.classList.toggle('on',draft[k]);el.setAttribute('aria-checked',draft[k]);editorState(page)});$(page+'Save').onclick=()=>saveEditor(page)}

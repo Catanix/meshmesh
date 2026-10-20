@@ -63,7 +63,9 @@ void Config::load() {
   if(blePin<100000||blePin>999999){uint8_t e[3];bootloader_random_enable();esp_fill_random(e,3);bootloader_random_disable();blePin=100000+(uint32_t(e[0])<<16|uint32_t(e[1])<<8|e[2])%900000;p.putUInt("ble_pin",blePin);}
   bootCounter=p.getUInt("boot",0)+1;
   if(!bootCounter || p.putUInt("boot",bootCounter)!=sizeof(bootCounter)) {bootCounter=0;Serial.println("ERR boot counter; TX disabled");}
+  if(p.getBytesLength("radio_prev")==sizeof previous)p.getBytes("radio_prev",&previous,sizeof previous);
   p.end();
+  {Config c=*this;c.setRadio(previous);if(!previous.set()||!c.valid()||sameRadio(previous))previous=RadioProfile();}
   if(!valid()) {frequency=868.731f;bandwidth=62.5f;sf=8;cr=6;power=10;hops=3;pathHash=2;strcpy(name,"MeshMesh");region[0]=0;memset(regionKey,0,16);}
 }
 bool Config::save() {
@@ -72,8 +74,11 @@ bool Config::save() {
   if(!p.beginBatch())return false;
 #endif
   p.putUChar("n_led",notifyLed);p.putUChar("n_wake",notifyWake);p.putUChar("n_popup",notifyPopup);p.putBool("n_failed",notifyFailed);p.putString("n_words",notifyWords);
-  p.putString("name",name); p.putFloat("freq",frequency); p.putFloat("bw",bandwidth);
-  p.putUChar("sf",sf); p.putUChar("cr",cr); p.putChar("power",power); p.putUChar("hops",hops); p.putUChar("path_hash",pathHash);
+  const RadioProfile kept=trial.set()?trial:radio(); // a test is not saved
+  p.putString("name",name); p.putFloat("freq",kept.frequency); p.putFloat("bw",kept.bandwidth);
+  p.putUChar("sf",kept.sf); p.putUChar("cr",kept.cr);
+  if(previous.set())p.putBytes("radio_prev",&previous,sizeof previous);else if(p.isKey("radio_prev"))p.remove("radio_prev");
+  p.putChar("power",power); p.putUChar("hops",hops); p.putUChar("path_hash",pathHash);
   p.putBool("relay",relay);p.putBool("gps",gps);p.putBool("sound",sound);p.putBool("bat_v",batteryVolts);p.putUChar("lang",lang);p.putBool("russian",lang==LangRu);
   p.putUChar("light",brightness);p.putUShort("lock",autoLock);p.putUShort("dim",dimAfter);p.putBool("lock_txt",lockDetails);p.putShort("utc_offset",utcOffset);p.putString("apps",apps);p.putBytes("key",key,32);
   if(region[0]){p.putString("region",region);p.putBytes("region_key",regionKey,16);}else{p.remove("region");p.remove("region_key");}

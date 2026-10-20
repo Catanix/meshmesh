@@ -139,12 +139,20 @@ String channelCommand(JsonObjectConst v){
   if(action=="regions"){if(config.role!=RoleNormal)return "ERR mode: the region search needs the normal mode";return regions::find()?"OK region search started":"ERR radio: the region search needs a working radio";}
   return "ERR channel action add|remove|invite|probe|policy|region|regions";
 }
+namespace {
+// How applySettings treats a change of the shared radio parameters: an ordinary change remembers the profile
+// before it (config.previous); a test (radio try) keeps the saved one in config.trial; a revert ends the test.
+enum RadioWrite:uint8_t {WriteNormal,WriteTry,WriteRevert} radioWrite=WriteNormal;
+void profileJson(JsonObject o,const RadioProfile& r){o["frequency"]=r.frequency;o["bandwidth"]=r.bandwidth;o["sf"]=r.sf;o["cr"]=r.cr;}
+}
 String configJson(bool includeKey) {
-  DynamicJsonDocument d(2048);d["name"]=config.name;d["frequency"]=config.frequency;d["bandwidth"]=config.bandwidth;d["sf"]=config.sf;d["cr"]=config.cr;d["power"]=config.power;
+  DynamicJsonDocument d(2560);d["name"]=config.name;d["frequency"]=config.frequency;d["bandwidth"]=config.bandwidth;d["sf"]=config.sf;d["cr"]=config.cr;d["power"]=config.power;
   d["hops"]=config.hops;d["path_hash"]=config.pathHash;d["relay"]=config.relay;d["gps"]=config.gps;d["sound"]=config.sound;d["battery_volts"]=config.batteryVolts;d["lang"]=langCodes[config.lang<LangCount?config.lang:0];d["russian"]=config.lang==LangRu;d["brightness"]=config.brightness;if(includeKey)d["key"]=config.keyHex();
   d["auto_lock"]=config.autoLock;d["dim_after"]=config.dimAfter;d["lock_details"]=config.lockDetails;
   d["notify_led"]=config.notifyLed;d["notify_wake"]=config.notifyWake;d["notify_popup"]=config.notifyPopup;d["notify_failed"]=config.notifyFailed;d["notify_words"]=config.notifyWords;
   d["utc_offset"]=config.utcOffset;d["apps"]=appsText(config.apps);d["region"]=config.region;
+  if(config.previous.set())profileJson(d.createNestedObject("radio_prev"),config.previous);
+  if(config.trial.set())profileJson(d.createNestedObject("radio_trial"),config.trial);
   String s;serializeJson(d,s);return s;
 }
 String applySettings(JsonObjectConst v) {
@@ -152,7 +160,8 @@ String applySettings(JsonObjectConst v) {
   Config next=config;
   for(JsonPairConst kv:v) {
     String name=kv.key().c_str();JsonVariantConst value=kv.value();
-    if(name=="key") {if(!value.is<const char*>()||!next.setKey(value.as<String>()))return "ERR key must be 64 hexadecimal digits";}
+    if(name=="radio_prev"||name=="radio_trial")continue; // read-only (configJson): radio previous / radio try
+    else if(name=="key") {if(!value.is<const char*>()||!next.setKey(value.as<String>()))return "ERR key must be 64 hexadecimal digits";}
     else if(name=="name") {if(!value.is<const char*>() || value.as<String>().length()>24 || value.as<String>().length()<1)return "ERR name: 1..24 UTF-8 bytes";strlcpy(next.name,value.as<const char*>(),sizeof(next.name));}
     else if(name=="frequency" || name=="bandwidth") {
       if(!value.is<float>() && !value.is<int>())return "ERR numeric value required";
@@ -194,6 +203,12 @@ String applySettings(JsonObjectConst v) {
     } else return "ERR unknown setting: "+name;
   }
   if(!next.valid())return "ERR invalid settings; M9 868 MHz range is 863..870";
+  if(!next.sameRadio(config.radio())){
+    if(radioWrite==WriteTry){if(!config.trial.set())next.trial=config.radio();if(next.sameRadio(next.trial))next.trial=RadioProfile();}
+    else if(radioWrite==WriteRevert)next.trial=RadioProfile();
+    else if(config.trial.set()){next.previous=config.trial;next.trial=RadioProfile();} // a change during a test: the saved one was the last
+    else next.previous=config.radio();
+  }
   Config old=config;config=next;
   bool radioChanged=old.frequency!=config.frequency||old.bandwidth!=config.bandwidth||old.sf!=config.sf||old.cr!=config.cr||old.power!=config.power||old.hops!=config.hops||old.pathHash!=config.pathHash||old.relay!=config.relay||memcmp(old.key,config.key,sizeof old.key)||memcmp(old.regionKey,config.regionKey,sizeof old.regionKey);
   if(radioChanged&&meshRadio.busy()){config=old;return "ERR radio busy; retry";}
@@ -201,6 +216,27 @@ String applySettings(JsonObjectConst v) {
   if(!config.save()){config=old;if(radioChanged)meshRadio.applyConfig();return "ERR settings storage; restored previous";}
   meshServer.configChanged();if(strcmp(old.name,config.name))bleRename();if(old.brightness!=config.brightness)hardware.brightness(uiScreenOff()?0:config.brightness);if(old.gps!=config.gps)hardware.setGps(config.gps);
   meshRadio.event="Settings saved";meshRadio.dirty=true;return "OK settings saved";
+}
+// Radio profiles of the networks catalogue: "radio try {frequency,bandwidth,sf,cr}" applies one for a test (not saved:
+// a restart returns the saved one), "radio keep" saves the test, "radio revert" ends it, "radio previous" goes back to
+// the profile before the last change (and keeps the current one as the previous).
+String radioCommand(const String& line){
+  const Config& c=config;String reply;const char* usage="ERR radio try {frequency,bandwidth,sf,cr}|keep|revert|previous";
+  if(line.startsWith("radio try ")){
+    StaticJsonDocument<192>d;if(deserializeJson(d,line.substring(10))||!d.is<JsonObject>()||d.size()!=4)return usage;
+    for(const char* k:{"frequency","bandwidth","sf","cr"})if(!d.containsKey(k))return usage;
+    radioWrite=WriteTry;reply=applySettings(d.as<JsonObjectConst>());radioWrite=WriteNormal;
+    return reply.startsWith("OK")?(c.trial.set()?"OK radio test":"OK radio saved settings"):reply;
+  }
+  if(line=="radio keep"){if(!c.trial.set())return "ERR radio: no test";RadioProfile saved=c.trial;config.previous=saved;config.trial=RadioProfile();
+    if(!config.save()){config.trial=saved;return "ERR settings storage";}meshRadio.dirty=true;return "OK radio test saved";}
+  bool test=c.trial.set(),back=line=="radio revert";
+  if(!back&&line!="radio previous")return usage;
+  if(back!=test)return test?"ERR radio: test running":"ERR radio: no test";
+  if(!test&&!c.previous.set())return "ERR radio: no previous settings";
+  StaticJsonDocument<192>j;profileJson(j.to<JsonObject>(),test?c.trial:c.previous);
+  radioWrite=test?WriteRevert:WriteNormal;reply=applySettings(j.as<JsonObjectConst>());radioWrite=WriteNormal;
+  return reply.startsWith("OK")?"OK radio restored":reply;
 }
 namespace {uint32_t restartAt=0;}
 const char* roleName(uint8_t role){return role==RoleRepeater?"repeater":role==RoleRoom?"room":"normal";}
@@ -237,6 +273,7 @@ String executeCommand(const String& input) {
   if(line.startsWith("server cli ")){if(!meshServer.running())return "ERR server role is not running";int at=input.indexOf("server cli ");return meshServer.command(input.substring(at+11));} // untrimmed: "set guest.password " clears it
   if(line.startsWith("server post ")){if(!meshServer.room())return "ERR room server role is not running";return meshServer.post(line.substring(12))?"OK post stored":"ERR post: 1-151 UTF-8 bytes";}
   if(line=="config")return configJson();
+  if(line.startsWith("radio "))return radioCommand(line);
   if(line=="key")return configJson(true); // explicitly requested; never put in ordinary diagnostics
   if(line=="wardrive")return wardrive::json();
   if(line.startsWith("wardrive do ")){StaticJsonDocument<512>d;if(deserializeJson(d,line.substring(12))||!d.is<JsonObject>())return "ERR wardrive do {JSON}";return wardrive::command(d.as<JsonObjectConst>());}
@@ -299,5 +336,5 @@ String executeCommand(const String& input) {
     DynamicJsonDocument d(2048);if(deserializeJson(d,line.substring(4)) || !d.is<JsonObject>())return "ERR set {JSON object}";
     return applySettings(d.as<JsonObjectConst>());
   }
-  return "Commands: status, role, role normal|repeater|room, server, server secrets, server cli TEXT, server post TEXT, config, key, connections, messages, quick, quick do {JSON}, people, people do {JSON}, wardrive, wardrive do {JSON}, wardrive log mesh|nets FROM, radar, radar web, radar do {JSON}, set {JSON}, send ALL|NODE_ID|CHANNEL_ID text, sendjson {JSON}, channels, channel do {JSON}, regions, regions find, chess, pet, pet adopt|release|cuddle|feed|heal|mortal on|off|name NAME|skip SECONDS, hello, position, resetpath NODE_ID, forget NODE_ID, selftest, wifi, internet, ble, remote, remote login|status|cli|trace NODE_ID [text], recalibrate, fsformat, restart, poweroff";
+  return "Commands: status, role, role normal|repeater|room, server, server secrets, server cli TEXT, server post TEXT, config, key, connections, messages, quick, quick do {JSON}, people, people do {JSON}, wardrive, wardrive do {JSON}, wardrive log mesh|nets FROM, radar, radar web, radar do {JSON}, set {JSON}, radio try {JSON}|keep|revert|previous, send ALL|NODE_ID|CHANNEL_ID text, sendjson {JSON}, channels, channel do {JSON}, regions, regions find, chess, pet, pet adopt|release|cuddle|feed|heal|mortal on|off|name NAME|skip SECONDS, hello, position, resetpath NODE_ID, forget NODE_ID, selftest, wifi, internet, ble, remote, remote login|status|cli|trace NODE_ID [text], recalibrate, fsformat, restart, poweroff";
 }

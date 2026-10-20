@@ -2571,6 +2571,16 @@
   "ru": "Найти регионы",
   "text": "地域を検索"
  },
+ "5b044f98": {
+  "en": "Radio test",
+  "ru": "Тест радио",
+  "text": "無線テスト"
+ },
+ "7977c6b5": {
+  "en": "Previous radio",
+  "ru": "Прежнее радио",
+  "text": "以前の無線"
+ },
  "055e7477": {
   "en": "Name",
   "ru": "Имя",
@@ -2645,6 +2655,11 @@
   "en": "None",
   "ru": "Нет",
   "text": "なし"
+ },
+ "39606272": {
+  "en": "OK: keep",
+  "ru": "OK: оставить",
+  "text": "OK: 維持"
  },
  "44398b47": {
   "en": {
@@ -2744,6 +2759,21 @@
   "en": "Asks repeaters that hear this device",
   "ru": "Спросит репитеры, которые слышат устройство",
   "text": "この端末が届く中継器に問い合わせ"
+ },
+ "7223027b": {
+  "en": "A restart returns ",
+  "ru": "Перезапуск вернёт ",
+  "text": "再起動で戻る "
+ },
+ "8c051217": {
+  "en": "OK: return to it",
+  "ru": "OK: вернуться к нему",
+  "text": "OK: 元に戻す"
+ },
+ "bfc10f97": {
+  "en": "Kept on a change of frequency, BW, SF or CR",
+  "ru": "Запоминается при смене частоты, BW, SF или CR",
+  "text": "周波数/BW/SF/CR変更時に記憶"
  },
  "7c140ddc": {
   "en": "Applied to the radio when saved",
@@ -2958,6 +2988,16 @@
   "en": "Cancel",
   "ru": "Отмена",
   "text": "キャンセル"
+ },
+ "9cd3c842": {
+  "en": "Keep",
+  "ru": "Оставить",
+  "text": "維持"
+ },
+ "4c9c5885": {
+  "en": "Return",
+  "ru": "Вернуть",
+  "text": "戻す"
  },
  "a7cb76b8": {
   "en": "Search",
@@ -3657,6 +3697,21 @@
   "en": "Nothing to save",
   "ru": "Изменений нет",
   "text": "保存する変更なし"
+ },
+ "fd2cfcf6": {
+  "en": "No previous settings",
+  "ru": "Прежних настроек нет",
+  "text": "以前の設定なし"
+ },
+ "20434332": {
+  "en": "Radio settings changed",
+  "ru": "Настройки радио изменены",
+  "text": "無線設定を変更しました"
+ },
+ "a06fdf5a": {
+  "en": "Radio busy, retry",
+  "ru": "Радио занято, повторите",
+  "text": "無線使用中、再試行"
  },
  "cf39d358": {
   "en": "Not in this mode",
@@ -5968,6 +6023,16 @@
   "ru": "Хэш пути",
   "text": "パスハッシュ"
  },
+ "c2d572ce": {
+  "en": "Test",
+  "ru": "Тест",
+  "text": "テスト"
+ },
+ "180b9f58": {
+  "en": "Previous",
+  "ru": "Прежние",
+  "text": "以前"
+ },
  "e349df7c": {
   "en": "on",
   "ru": "вкл",
@@ -5977,6 +6042,11 @@
   "en": "off",
   "ru": "выкл",
   "text": "オフ"
+ },
+ "afd61c02": {
+  "en": "keep",
+  "ru": "оставить",
+  "text": "維持"
  },
  "b983ac8e": {
   "en": " rpt...",
@@ -5996,11 +6066,6 @@
   "forms": {
    "other": "{n} 件"
   }
- },
- "a06fdf5a": {
-  "en": "Radio busy, retry",
-  "ru": "Радио занято, повторите",
-  "text": "無線使用中、再試行"
  },
  "d7a4d1f0": {
   "en": "<> digit, up/down value",

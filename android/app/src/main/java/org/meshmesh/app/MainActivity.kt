@@ -16,6 +16,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.graphics.Color
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
@@ -263,6 +266,33 @@ class MainActivity : ComponentActivity() {
 
     private fun toast(text: String, tone: String) = js("MeshHost.toast(${JSONObject.quote(text)},'$tone')")
 
+    @Volatile private var located = JSONObject()
+    private fun locate() {
+        located = JSONObject()
+        val list = listOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+        val allowed = { checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED }
+        if (allowed()) { findLocation(); return }
+        // An approximate position is enough: the answer counts when only that one is granted.
+        afterPermissions = { if (allowed()) findLocation() else located = JSONObject().put("error", "denied") }
+        permissions.launch(list.toTypedArray())
+    }
+
+    @SuppressLint("MissingPermission") // locate() checks it
+    private fun findLocation() {
+        val manager = getSystemService(LocationManager::class.java) ?: run { located = JSONObject().put("error", "none"); return }
+        val put = { l: Location -> located = JSONObject().put("lat", l.latitude).put("lon", l.longitude).put("accuracy", l.accuracy.toDouble()) }
+        // A known position of the last half hour will do for a city; otherwise one fresh fix from any provider.
+        val recent = manager.getProviders(true).mapNotNull { runCatching { manager.getLastKnownLocation(it) }.getOrNull() }
+            .filter { System.currentTimeMillis() - it.time < 30 * 60_000L }.maxByOrNull { it.time }
+        if (recent != null) { put(recent); return }
+        val providers = manager.getProviders(true).filter { it != LocationManager.PASSIVE_PROVIDER }
+        if (providers.isEmpty()) { located = JSONObject().put("error", "off"); return }
+        lateinit var listener: LocationListener
+        listener = LocationListener { l -> put(l); manager.removeUpdates(listener) }
+        providers.forEach { runCatching { manager.requestLocationUpdates(it, 1000L, 0f, listener, mainLooper) } }
+        lifecycleScope.launch { delay(20_000); manager.removeUpdates(listener) }
+    }
+
     private fun need(list: List<String>, then: () -> Unit, denied: String) {
         val missing = list.filter { checkSelfPermission(it) != PackageManager.PERMISSION_GRANTED }
         if (missing.isEmpty()) { then(); return }
@@ -507,6 +537,10 @@ class MainActivity : ComponentActivity() {
             if (!on) service?.wardriveLocation(false)
             else need(listOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), { service?.wardriveLocation(true) }, I18n.t("Нет доступа к геопозиции"))
         }
+        /** The phone's position for the networks catalogue of the page (nearest cities): locate() asks for it, location()
+         *  gives {"lat","lon"}, {"error"} on a refusal, or {} until then. */
+        @android.webkit.JavascriptInterface fun locate() = runOnUiThread { this@MainActivity.locate() }
+        @android.webkit.JavascriptInterface fun location(): String = located.toString()
         @android.webkit.JavascriptInterface fun wardriveLocationState(): String = service?.wardriveState() ?: "{}"
         @android.webkit.JavascriptInterface fun scanQr() = runOnUiThread { this@MainActivity.scanQr() }
         // Offline map areas in the phone (MapStore; host.js window.phoneMaps). Errors come back as "ERR text".

@@ -21,7 +21,7 @@ static void scenario(){
   for(int i=0;i<14&&uiStatus().indexOf("\"page\":\"settings\"")<0;i++)key(0xb7);key(13);key(0xb6);key(13);expect("radio screen","\"page\":\"radio\"");shot("gat562-radio");
   key(13);key(0xb5);expect("MHz +1","\"radio_draft\":\"869.731\"");key(0xb7);key(0xb7);key(0xb5);key(0xb5);expect("10 kHz +2","\"radio_draft\":\"869.751\"");shot("gat562-radio-freq");
   key(13);key(0xb6);key(0xb6);key(0xb7);expect("SF9","\"radio_draft\":\"9\"");shot("gat562-radio-sf");
-  for(int i=0;i<8;i++)key(0xb6);expect("Save row","\"radio_row\":10");key(13);expect("saved and closed","\"page\":\"settings\"");
+  for(int i=0;i<9;i++)key(0xb6);expect("Save row","\"radio_row\":11");key(13);expect("saved and closed","\"page\":\"settings\"");
   key(13);key(0xb6);key(13);key(0x86);expect("back leaves","\"page\":\"settings\"");}
 #elif defined(MM_BOARD_TDECK)
  // Touch (uiTouch): each step checks the page the production UI reached.
@@ -292,8 +292,8 @@ static void scenario(){
  key(0xa3);key(13);expect("MHz +1","\"radio_draft\":\"869.731\"");key(0xa3);key(0xa3);key(13);key(13);expect("10 kHz +2","\"radio_draft\":\"869.751\"");shot("heltec-radio-freq");
  key(0xa3);key(0xa3);expect("digits done","\"radio_editing\":false");key(13);key(13);key(0xa3);key(13);expect("SF9","\"radio_draft\":\"9\"");shot("heltec-radio-sf");key(0xa3);
  for(int i=0;i<7;i++)key(13);expect("Find row","\"radio_row\":9");key(0xa3);shot("heltec-radio-find");
- for(int i=0;i<11;i++)key(13);expect("Region row","\"radio_row\":8");key(0xa3);key(13);key(13);key(13);key(0xa3);shot("heltec-radio-region");
- for(int i=0;i<2;i++)key(13);expect("Save row","\"radio_row\":10");shot("heltec-radio-save");key(0xa3);expect("saved and closed","\"page\":\"settings\"");
+ for(int i=0;i<12;i++)key(13);expect("Region row","\"radio_row\":8");key(0xa3);key(13);key(13);key(13);key(0xa3);shot("heltec-radio-region");
+ for(int i=0;i<2;i++)key(13);expect("Previous row","\"radio_row\":10");shot("heltec-radio-prev");key(13);expect("Save row","\"radio_row\":11");shot("heltec-radio-save");key(0xa3);expect("saved and closed","\"page\":\"settings\"");
 #else
  config.role=RoleRepeater;key(0x82);shot("repeater");key(0x86);
  config.role=RoleRoom;key(0x82);shot("room");key(13);for(char ch:std::string(config.lang==LangRu||config.lang==LangUk?"Vstre1a u vhoda posle obeda":"Meet at the gate after lunch"))key(ch);shot("room-post");key(0x86);

@@ -1,6 +1,9 @@
 // Radar on nRF52 boards: directly heard LoRa nodes and Bluetooth LE devices (the SoftDevice
 // scanner). No Wi-Fi: no access points, no CSI motion sensing. Table, homing statistics and
 // JSON are shared with the ESP32 boards (RadarModel.cpp).
+#if defined(MM_NRF52)
+#pragma GCC optimize("Os") // 1 MB flash: not speed-critical (AGENTS.md, "Языки")
+#endif
 #include "Radar.h"
 #include "People.h"
 #include "App.h"

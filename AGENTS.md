@@ -5,7 +5,7 @@
 Проект — прошивка для Elecrow ThinkNode M9, Heltec V4, GAT562 30S и Heltec T114 (nRF52840): автономный интерфейс,
 чаты и каналы MeshCore (хештег, ссылка/QR, ключ, приглашения; `docs/channels.md`, `src/Channels.cpp`), регионы MeshCore
 (регион по умолчанию и у канала, поиск у соседних репитеров, команды companion 54/55/63/64; `docs/regions.md`, `src/Regions.cpp`,
-`src/RegionSearch.inc`, проверка `tools/region_check.py`), LoRa, офлайн-карты (SD устройства или память телефона в приложении — `android/.../api/MapStore.kt`; рельеф и горизонтали по Terrain Tiles при подготовке; карта узлов без подложки — `drawMap` в `web/index.html`; `docs/maps-format.md`), Wi-Fi, BLE, радар сигналов, датчик движения по Wi-Fi CSI,
+`src/RegionSearch.inc`, проверка `tools/region_check.py`), сеть города — радиопрофиль по справочнику сообщества (`site/networks.json`, `tools/networks.py`; сайт `site/netpick.js` пишет его по companion, страница/приложение — `renderNet` в `web/index.html`, тест и прежний профиль на плате — `radio try|keep|revert|previous`, `docs/networks.md`), LoRa, офлайн-карты (SD устройства или память телефона в приложении — `android/.../api/MapStore.kt`; рельеф и горизонтали по Terrain Tiles при подготовке; карта узлов без подложки — `drawMap` в `web/index.html`; `docs/maps-format.md`), Wi-Fi, BLE, радар сигналов, датчик движения по Wi-Fi CSI,
 шахматы с контактами (экран M9 и веб обеих плат, личные сообщения MeshCore,
 партии на рейтинг ELO с результатом, подписанным ключами обоих узлов, — `src/ChessRating.cpp`, турниры по швейцарской системе — `src/ChessTour.cpp`; `docs/chess.md`; страница сайта `chess/` играет через штатную MeshCore companion по Web Serial/Bluetooth —
 `web/chess-companion.js`, `tools/chess_site.py`), питомец сети — тамагочи, который кормится эфиром,
@@ -406,3 +406,13 @@ T114 — `UiHires.inc`, веб — карусель `renderPeople`/`tallyAct` в
 проверять на T114/GAT562.
 С 0.26.0 блоки правятся и на экране M9/T-Deck (`E` — блок, `A` — новый, поля строками, `src/UiDice.inc` `drawDiceBlock`),
 а плата один раз добавляет персонажей «D&D 5e» и «Р.Э.Т.» (`State::flags`, `dice.bin` версии 3; версия 2 читается).
+
+## Сеть города (0.27.0 / Android 0.19.0)
+
+Справочник — копия `catalog.json` VoxMesh/meshcore-local-networks в `site/networks.json` (`tools/networks.py update|check`,
+проверка в Pages); приложение вшивает его рядом со страницей, кнопка «Обновить» хранит новую копию в браузере. Прошивка и
+сайт не меняют радио без явного выбора и подтверждения на каждую плату; меняются только частота, BW, SF, CR. Плата помнит
+профиль до последней смены (`Config::previous`, NVS `radio_prev`) и тест (`Config::trial`: `Config::save` пишет сохранённый
+профиль, перезапуск возвращает его). Экраны: строка «Прежнее радио»/«Тест радио» (M9/T-Deck), «Прежние»/«Тест» (компактные).
+Проверено: сборка 6 плат, `tools/ui_preview` четырёх интерфейсов, страница в `tools/web_demo.py`, выбор на сайте после
+перезагрузки. На платах (команды `radio`, запись сайтом по USB/BLE, положение телефона в приложении) не проверено.

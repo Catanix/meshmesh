@@ -2571,6 +2571,16 @@
   "ru": "Найти регионы",
   "text": "Cari wilayah"
  },
+ "5b044f98": {
+  "en": "Radio test",
+  "ru": "Тест радио",
+  "text": "Tes radio"
+ },
+ "7977c6b5": {
+  "en": "Previous radio",
+  "ru": "Прежнее радио",
+  "text": "Radio sebelumnya"
+ },
  "055e7477": {
   "en": "Name",
   "ru": "Имя",
@@ -2645,6 +2655,11 @@
   "en": "None",
   "ru": "Нет",
   "text": "Tidak ada"
+ },
+ "39606272": {
+  "en": "OK: keep",
+  "ru": "OK: оставить",
+  "text": "OK: pertahankan"
  },
  "44398b47": {
   "en": {
@@ -2744,6 +2759,21 @@
   "en": "Asks repeaters that hear this device",
   "ru": "Спросит репитеры, которые слышат устройство",
   "text": "Tanya repeater yang mendengar perangkat ini"
+ },
+ "7223027b": {
+  "en": "A restart returns ",
+  "ru": "Перезапуск вернёт ",
+  "text": "Mulai ulang kembali ke "
+ },
+ "8c051217": {
+  "en": "OK: return to it",
+  "ru": "OK: вернуться к нему",
+  "text": "OK: kembali ke sana"
+ },
+ "bfc10f97": {
+  "en": "Kept on a change of frequency, BW, SF or CR",
+  "ru": "Запоминается при смене частоты, BW, SF или CR",
+  "text": "Diingat saat frekuensi, BW, SF atau CR diubah"
  },
  "7c140ddc": {
   "en": "Applied to the radio when saved",
@@ -2958,6 +2988,16 @@
   "en": "Cancel",
   "ru": "Отмена",
   "text": "Batal"
+ },
+ "9cd3c842": {
+  "en": "Keep",
+  "ru": "Оставить",
+  "text": "Pertahankan"
+ },
+ "4c9c5885": {
+  "en": "Return",
+  "ru": "Вернуть",
+  "text": "Kembalikan"
  },
  "a7cb76b8": {
   "en": "Search",
@@ -3657,6 +3697,21 @@
   "en": "Nothing to save",
   "ru": "Изменений нет",
   "text": "Tak ada perubahan"
+ },
+ "fd2cfcf6": {
+  "en": "No previous settings",
+  "ru": "Прежних настроек нет",
+  "text": "Tak ada setelan lama"
+ },
+ "20434332": {
+  "en": "Radio settings changed",
+  "ru": "Настройки радио изменены",
+  "text": "Pengaturan radio diubah"
+ },
+ "a06fdf5a": {
+  "en": "Radio busy, retry",
+  "ru": "Радио занято, повторите",
+  "text": "Radio sibuk, coba lagi"
  },
  "cf39d358": {
   "en": "Not in this mode",
@@ -5968,6 +6023,16 @@
   "ru": "Хэш пути",
   "text": "Hash jalur"
  },
+ "c2d572ce": {
+  "en": "Test",
+  "ru": "Тест",
+  "text": "Tes"
+ },
+ "180b9f58": {
+  "en": "Previous",
+  "ru": "Прежние",
+  "text": "Sebelum"
+ },
  "e349df7c": {
   "en": "on",
   "ru": "вкл",
@@ -5977,6 +6042,11 @@
   "en": "off",
   "ru": "выкл",
   "text": "off"
+ },
+ "afd61c02": {
+  "en": "keep",
+  "ru": "оставить",
+  "text": "pertahankan"
  },
  "b983ac8e": {
   "en": " rpt...",
@@ -5996,11 +6066,6 @@
   "forms": {
    "other": "{n} ditemukan"
   }
- },
- "a06fdf5a": {
-  "en": "Radio busy, retry",
-  "ru": "Радио занято, повторите",
-  "text": "Radio sibuk, coba lagi"
  },
  "d7a4d1f0": {
   "en": "<> digit, up/down value",

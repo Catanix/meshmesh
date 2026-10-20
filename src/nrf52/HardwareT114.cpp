@@ -1,6 +1,7 @@
 // Heltec Mesh Node T114 V2 (nRF52840 + SX1262): 1.14" 240x135 ST7789 colour TFT, one user button,
 // optional L76K GPS on Serial1, green LED. The compact interface (UiHeltec.cpp) lays out 128x64 and
 // draws at the TFT's resolution through HiresCanvas; this file sends its palette pixels to the panel.
+#pragma GCC optimize("Os") // 1 MB flash: the Chinese image did not fit (AGENTS.md, "Языки")
 #include "Hardware.h"
 #include "Config.h"
 #include "Palette.h"

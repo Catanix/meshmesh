@@ -2584,6 +2584,16 @@
   "ru": "Найти регионы",
   "text": "Bölge ara"
  },
+ "5b044f98": {
+  "en": "Radio test",
+  "ru": "Тест радио",
+  "text": "Radyo testi"
+ },
+ "7977c6b5": {
+  "en": "Previous radio",
+  "ru": "Прежнее радио",
+  "text": "Önceki radyo"
+ },
  "055e7477": {
   "en": "Name",
   "ru": "Имя",
@@ -2658,6 +2668,11 @@
   "en": "None",
   "ru": "Нет",
   "text": "Yok"
+ },
+ "39606272": {
+  "en": "OK: keep",
+  "ru": "OK: оставить",
+  "text": "OK: tut"
  },
  "44398b47": {
   "en": {
@@ -2758,6 +2773,21 @@
   "en": "Asks repeaters that hear this device",
   "ru": "Спросит репитеры, которые слышат устройство",
   "text": "Bu cihazı duyan rölelere sorar"
+ },
+ "7223027b": {
+  "en": "A restart returns ",
+  "ru": "Перезапуск вернёт ",
+  "text": "Yeniden başlatınca: "
+ },
+ "8c051217": {
+  "en": "OK: return to it",
+  "ru": "OK: вернуться к нему",
+  "text": "OK: geri dön"
+ },
+ "bfc10f97": {
+  "en": "Kept on a change of frequency, BW, SF or CR",
+  "ru": "Запоминается при смене частоты, BW, SF или CR",
+  "text": "Frekans, BW, SF veya CR değişince saklanır"
  },
  "7c140ddc": {
   "en": "Applied to the radio when saved",
@@ -2973,6 +3003,16 @@
   "en": "Cancel",
   "ru": "Отмена",
   "text": "İptal"
+ },
+ "9cd3c842": {
+  "en": "Keep",
+  "ru": "Оставить",
+  "text": "Tut"
+ },
+ "4c9c5885": {
+  "en": "Return",
+  "ru": "Вернуть",
+  "text": "Geri al"
  },
  "a7cb76b8": {
   "en": "Search",
@@ -3673,6 +3713,21 @@
   "en": "Nothing to save",
   "ru": "Изменений нет",
   "text": "Değişiklik yok"
+ },
+ "fd2cfcf6": {
+  "en": "No previous settings",
+  "ru": "Прежних настроек нет",
+  "text": "Önceki ayar yok"
+ },
+ "20434332": {
+  "en": "Radio settings changed",
+  "ru": "Настройки радио изменены",
+  "text": "Radyo ayarları değişti"
+ },
+ "a06fdf5a": {
+  "en": "Radio busy, retry",
+  "ru": "Радио занято, повторите",
+  "text": "Radyo meşgul, tekrarla"
  },
  "cf39d358": {
   "en": "Not in this mode",
@@ -5989,6 +6044,16 @@
   "ru": "Хэш пути",
   "text": "Yol hash"
  },
+ "c2d572ce": {
+  "en": "Test",
+  "ru": "Тест",
+  "text": "Test"
+ },
+ "180b9f58": {
+  "en": "Previous",
+  "ru": "Прежние",
+  "text": "Önceki"
+ },
  "e349df7c": {
   "en": "on",
   "ru": "вкл",
@@ -5998,6 +6063,11 @@
   "en": "off",
   "ru": "выкл",
   "text": "kapalı"
+ },
+ "afd61c02": {
+  "en": "keep",
+  "ru": "оставить",
+  "text": "tut"
  },
  "b983ac8e": {
   "en": " rpt...",
@@ -6018,11 +6088,6 @@
    "one": "{n} bulundu",
    "other": "{n} bulundu"
   }
- },
- "a06fdf5a": {
-  "en": "Radio busy, retry",
-  "ru": "Радио занято, повторите",
-  "text": "Radyo meşgul, tekrarla"
  },
  "d7a4d1f0": {
   "en": "<> digit, up/down value",

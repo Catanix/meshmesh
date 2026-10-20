@@ -6,6 +6,11 @@
 
 // Device role, chosen at boot: the usual chat device, a MeshCore repeater or room server. A change takes a restart.
 enum DeviceRole:uint8_t {RoleNormal=0,RoleRepeater=1,RoleRoom=2,RoleCount};
+// The radio parameters shared by a network (a profile of the networks catalogue): frequency, bandwidth, SF, CR.
+struct RadioProfile {
+  float frequency=0,bandwidth=0;uint8_t sf=0,cr=0;
+  bool set() const {return frequency>0;}
+};
 struct Config {
   char name[25]=MM_NODE_NAME;
   float frequency=868.731f, bandwidth=62.5f;
@@ -33,6 +38,12 @@ struct Config {
   // Default region of our flood packets (Regions.h): empty - none; the key is that of "#name" unless an app set
   // another (a private region of the MeshCore app).
   char region[31]="";uint8_t regionKey[16]={};
+  // The profile before the last change of the shared radio parameters ("radio previous" returns to it), and
+  // during a test ("radio try") the saved one: the test lives in memory only, a restart brings the saved one back.
+  RadioProfile previous,trial;
+  RadioProfile radio() const {RadioProfile r;r.frequency=frequency;r.bandwidth=bandwidth;r.sf=sf;r.cr=cr;return r;}
+  void setRadio(const RadioProfile& r){frequency=r.frequency;bandwidth=r.bandwidth;sf=r.sf;cr=r.cr;}
+  bool sameRadio(const RadioProfile& r) const {return fabsf(frequency-r.frequency)<.0005f&&bandwidth==r.bandwidth&&sf==r.sf&&cr==r.cr;}
   void load();
   bool save();
   bool valid() const;

@@ -2584,6 +2584,16 @@
   "ru": "Найти регионы",
   "text": "Buscar regiões"
  },
+ "5b044f98": {
+  "en": "Radio test",
+  "ru": "Тест радио",
+  "text": "Teste de rádio"
+ },
+ "7977c6b5": {
+  "en": "Previous radio",
+  "ru": "Прежнее радио",
+  "text": "Rádio anterior"
+ },
  "055e7477": {
   "en": "Name",
   "ru": "Имя",
@@ -2658,6 +2668,11 @@
   "en": "None",
   "ru": "Нет",
   "text": "Nenhuma"
+ },
+ "39606272": {
+  "en": "OK: keep",
+  "ru": "OK: оставить",
+  "text": "OK: manter"
  },
  "44398b47": {
   "en": {
@@ -2758,6 +2773,21 @@
   "en": "Asks repeaters that hear this device",
   "ru": "Спросит репитеры, которые слышат устройство",
   "text": "Pergunta aos repetidores que ouvem o aparelho"
+ },
+ "7223027b": {
+  "en": "A restart returns ",
+  "ru": "Перезапуск вернёт ",
+  "text": "Ao reiniciar volta "
+ },
+ "8c051217": {
+  "en": "OK: return to it",
+  "ru": "OK: вернуться к нему",
+  "text": "OK: voltar a ele"
+ },
+ "bfc10f97": {
+  "en": "Kept on a change of frequency, BW, SF or CR",
+  "ru": "Запоминается при смене частоты, BW, SF или CR",
+  "text": "Salvo ao mudar frequência, BW, SF ou CR"
  },
  "7c140ddc": {
   "en": "Applied to the radio when saved",
@@ -2973,6 +3003,16 @@
   "en": "Cancel",
   "ru": "Отмена",
   "text": "Cancelar"
+ },
+ "9cd3c842": {
+  "en": "Keep",
+  "ru": "Оставить",
+  "text": "Manter"
+ },
+ "4c9c5885": {
+  "en": "Return",
+  "ru": "Вернуть",
+  "text": "Voltar"
  },
  "a7cb76b8": {
   "en": "Search",
@@ -3673,6 +3713,21 @@
   "en": "Nothing to save",
   "ru": "Изменений нет",
   "text": "Nada para salvar"
+ },
+ "fd2cfcf6": {
+  "en": "No previous settings",
+  "ru": "Прежних настроек нет",
+  "text": "Sem ajustes anteriores"
+ },
+ "20434332": {
+  "en": "Radio settings changed",
+  "ru": "Настройки радио изменены",
+  "text": "Ajustes de rádio alterados"
+ },
+ "a06fdf5a": {
+  "en": "Radio busy, retry",
+  "ru": "Радио занято, повторите",
+  "text": "Rádio ocupado, repita"
  },
  "cf39d358": {
   "en": "Not in this mode",
@@ -5989,6 +6044,16 @@
   "ru": "Хэш пути",
   "text": "Hash de rota"
  },
+ "c2d572ce": {
+  "en": "Test",
+  "ru": "Тест",
+  "text": "Teste"
+ },
+ "180b9f58": {
+  "en": "Previous",
+  "ru": "Прежние",
+  "text": "Anterior"
+ },
  "e349df7c": {
   "en": "on",
   "ru": "вкл",
@@ -5998,6 +6063,11 @@
   "en": "off",
   "ru": "выкл",
   "text": "desl"
+ },
+ "afd61c02": {
+  "en": "keep",
+  "ru": "оставить",
+  "text": "manter"
  },
  "b983ac8e": {
   "en": " rpt...",
@@ -6018,11 +6088,6 @@
    "one": "{n} achada",
    "other": "{n} achadas"
   }
- },
- "a06fdf5a": {
-  "en": "Radio busy, retry",
-  "ru": "Радио занято, повторите",
-  "text": "Rádio ocupado, repita"
  },
  "d7a4d1f0": {
   "en": "<> digit, up/down value",

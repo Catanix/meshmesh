@@ -156,6 +156,13 @@ esp-web-install-button{display:inline-block}
 .fwlang label{color:var(--ink);font-weight:600;font-size:15px}
 .fwlang select{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;font:500 15px Inter,system-ui,sans-serif;padding:8px 10px}
 .fwlang small{color:var(--faint);font-size:13px;flex-basis:100%}
+/* network of a city (netpick.js) */
+#netPick{margin-top:28px}
+#netPick .small{font-size:14px;color:var(--dim);margin:8px 0}
+#netPick h4{font-size:16px;margin:22px 0 10px}
+#netPick .btn small{color:var(--faint);font-weight:500;font-size:12px}
+#netPick a.small{color:var(--accent)}
+#netQ{flex:1;min-width:180px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;font:500 15px Inter,system-ui,sans-serif;padding:9px 12px}
 /* docs */
 .docs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
 .doc{display:block;padding:20px;background:var(--card);border:1px solid var(--line);border-radius:14px;color:var(--ink);transition:border-color .15s,transform .15s}
@@ -245,7 +252,7 @@ footer a{color:var(--dim)}
     <a class="btn cta-apk" href="app/meshmesh.apk" download><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.86 3.22a11.4 11.4 0 0 0-9.84 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52ZM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Z"/></svg><span data-i18n="cta.apk"></span></a>
     <a class="btn cta-more" href="#features"><span data-i18n="cta.more"></span></a>
    </div>
-   <a class="news" href="#features"><b class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/></svg></b><span data-i18n="news.sheet"></span><i>→</i></a>
+   <a class="news" href="#features"><b class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/></svg></b><span data-i18n="news.networks"></span><i>→</i></a>
    <div class="facts">
     <div><b>14</b><span data-i18n="facts.boards"></span></div>
     <div><b>MeshCore</b><span data-i18n="facts.radio"></span></div>
@@ -402,6 +409,19 @@ footer a{color:var(--dim)}
     </div>
    </div>
   </div>
+  <div class="panel" id="netPick">
+   <h3 data-i18n="net.title"></h3>
+   <p class="small" data-i18n="net.lead"></p>
+   <div id="netChosen"></div>
+   <div id="netBoard"></div>
+   <div class="note" id="netStatus" hidden></div>
+   <h4 data-i18n="net.choose"></h4>
+   <div class="row"><input id="netQ" autocomplete="off" data-i18n-placeholder="net.search"><button class="btn" type="button" data-net-do="locate"><span data-i18n="net.nearby"></span></button></div>
+   <p class="small" id="netPos"></p>
+   <div id="netList"></div>
+   <p class="small"><span id="netCat"></span> <a class="small" href="https://github.com/VoxMesh/meshcore-local-networks" target="_blank" rel="noopener">VoxMesh/meshcore-local-networks</a></p>
+   <div class="row"><button class="btn" type="button" data-net-do="update"><span data-i18n="net.update"></span></button></div>
+  </div>
  </div>
 </section>
 
@@ -465,6 +485,7 @@ const ICONS={
 };
 // Each feature: icon, colour, screenshots (img/<name>-<lang>.png, the device page img/web-<name>-<lang>.webp); texts f.<id>.t, f.<id>.d and shot.<name>.
 const FEATURES=[
+ {id:'networks',ic:'region',c:'#4f9df7',shots:['web-networks','web-networks-test']},
  {id:'sheet',ic:'dice',c:'#a78bfa',shots:['m9-dice-sheet','m9-dice-sheet-ret','t114-dice-sheet','m9-dice-templates','heltec-dice-sheet','m9-dice-offer']},
  {id:'counter',ic:'tally',c:'#4cc26b',shots:['m9-people-cards','m9-people-new','t114-people-two','heltec-people-two','m9-home']},
  {id:'wardrive',ic:'route',c:'#4cc26b',shots:['m9-wardrive','m9-wardrive-map','t114-wardrive','heltec-wardrive','heltec-wardrive-repeaters','t114-wardrive-repeaters']},
@@ -495,7 +516,7 @@ const HERO=['m9-home','m9-chat','m9-map','m9-radar','m9-chess-italian','m9-motio
 const OLED=['heltec-home','heltec-messages','heltec-nodes','heltec-radar','heltec-gps','heltec-popup'];
 const GAT=['gat562-home','gat562-keyboard','gat562-chess','gat562-radar','gat562-chess-list','gat562-node-menu'];
 // Documents: the overview in every language; the details in Russian, translated to English (docs/en).
-const DOCS=[['README.md','doc.readme'],['docs/channels.md','doc.channels'],['docs/regions.md','doc.regions'],['docs/wardrive.md','doc.wardrive'],['docs/meshcore-migration.md','doc.migration'],['docs/boards.md','doc.boards'],['docs/gat562.md','doc.gat562'],['docs/t114.md','doc.t114'],['docs/android.md','doc.android'],['docs/companion.md','doc.companion'],['docs/repeater.md','doc.repeater'],['docs/pet.md','doc.pet'],['docs/dice.md','doc.dice'],['docs/chess.md','doc.chess'],['docs/maps-format.md','doc.maps'],['docs/feature-parity.md','doc.parity'],['docs/verification.md','doc.verification']];
+const DOCS=[['README.md','doc.readme'],['docs/channels.md','doc.channels'],['docs/regions.md','doc.regions'],['docs/networks.md','doc.networks'],['docs/wardrive.md','doc.wardrive'],['docs/meshcore-migration.md','doc.migration'],['docs/boards.md','doc.boards'],['docs/gat562.md','doc.gat562'],['docs/t114.md','doc.t114'],['docs/android.md','doc.android'],['docs/companion.md','doc.companion'],['docs/repeater.md','doc.repeater'],['docs/pet.md','doc.pet'],['docs/dice.md','doc.dice'],['docs/chess.md','doc.chess'],['docs/maps-format.md','doc.maps'],['docs/feature-parity.md','doc.parity'],['docs/verification.md','doc.verification']];
 function docPath(path){
  if(path==='README.md')return lang==='en'?path:`README.${lang}.md`;
  return lang==='ru'?path:path.replace('docs/','docs/en/');
@@ -526,6 +547,7 @@ function render(){
  for(const e of document.querySelectorAll('[data-i18n]'))e.innerHTML=L(e.dataset.i18n);
  for(const e of document.querySelectorAll('[data-i18n-content]'))e.content=L(e.dataset.i18nContent);
  for(const e of document.querySelectorAll('[data-i18n-aria]'))e.setAttribute('aria-label',L(e.dataset.i18nAria));
+ for(const e of document.querySelectorAll('[data-i18n-placeholder]'))e.placeholder=L(e.dataset.i18nPlaceholder);
  document.querySelectorAll('[data-shot]').forEach(i=>{i.dataset.f='';i.src=shotSrc(i.dataset.shot)});
  document.getElementById('features-grid').innerHTML=FEATURES.map((f,i)=>{
   const s=f.shots[0];
@@ -632,6 +654,7 @@ fetch('firmware/boards.json').then(r=>r.json()).then(j=>{VERSION=j.version;BOARD
 setLang(pickLang(),false).then(heroStart);
 setTimeout(()=>document.documentElement.classList.remove('loading'),2500); // never stay hidden
 </script>
+<script type="module" src="netpick.js"></script>
 <script type="module">
 // nRF52 boards (GAT562, T114): install over Web Serial with the bootloader's serial DFU (site/nrf52dfu.js).
 import {dfuFlash,touch1200,webSerialIo,isBootloader,withLanguage,uf2WithLanguage} from './nrf52dfu.js';

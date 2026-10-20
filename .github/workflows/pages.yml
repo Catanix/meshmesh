@@ -27,6 +27,7 @@ jobs:
           python tools/version.py --check
           python tools/version_check.py
           python tools/i18n.py check
+          python tools/networks.py check
           node tools/chess/i18n_check.cjs
           npm ci --prefix tools
           node tools/web_i18n.cjs check

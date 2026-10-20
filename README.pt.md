@@ -21,6 +21,7 @@ MeshCore padrão.
 - **Canais** — até 8 canais MeshCore: entre por #hashtag, link `meshcore://` ou código QR, nome e chave;
   crie um privado, convide contatos por mensagem direta, encontre canais ouvidos no ar. [docs/en/channels.md](docs/en/channels.md)
 - **Regiões** — escopo de flood do MeshCore: região padrão e uma por canal, busca das regiões dos repetidores próximos; repetidores com os comandos `region`. [docs/en/regions.md](docs/en/regions.md)
+- **Rede da sua cidade** — a frequência, a largura de banda, SF e CR de uma rede MeshCore local a partir do catálogo da comunidade, gravados pelo site (também em placas com MeshCore original) ou aplicados no app com teste, Manter, Reverter e volta às configurações anteriores. [docs/en/networks.md](docs/en/networks.md)
 - **Mapas offline** — OpenStreetMap com relevo e curvas de nível, no celular (app) ou no cartão SD do dispositivo; nós, ligações diretas e GPS no mapa com qualquer placa.
 - **Wardriving** — um mapa de cobertura da rede: pacotes ouvidos e pings num canal com os repetidores que os repassam, com posição confiável do GPS ou do celular; no ESP32 também Wi-Fi e Bluetooth; exportação para CSV, GeoJSON, KML e WiGLE. [docs/en/wardrive.md](docs/en/wardrive.md)
 - **Nós por perto** — sinal, saltos, distância e direção; contatos, repetidores e salas.
@@ -93,7 +94,7 @@ A interface da tela pode ser renderizada em um computador sem placa: `tools/ui_p
 
 ## Documentação
 
-Documentação detalhada em inglês: [canais](docs/en/channels.md), [regiões](docs/en/regions.md), [compatibilidade com MeshCore](docs/en/meshcore-migration.md), [placas](docs/en/boards.md),
+Documentação detalhada em inglês: [canais](docs/en/channels.md), [regiões](docs/en/regions.md), [rede da sua cidade](docs/en/networks.md), [compatibilidade com MeshCore](docs/en/meshcore-migration.md), [placas](docs/en/boards.md),
 [GAT562](docs/en/gat562.md), [Android](docs/en/android.md), [modos repetidor e sala](docs/en/repeater.md),
 [protocolo do xadrez](docs/en/chess.md), [formato dos mapas](docs/en/maps-format.md), [comparação com o MeshCore](docs/en/feature-parity.md),
 [verificação em hardware](docs/en/verification.md). Os originais em russo estão em [docs/](docs/), e o guia completo

@@ -17,6 +17,8 @@ val buildNumber = System.getenv("MM_VERSION_CODE")?.let { it.toInt().also { code
 val webAssets = layout.buildDirectory.dir("generated/webAssets")
 val copyWeb by tasks.registering(Copy::class) {
     from(repo.resolve("web/index.html"))
+    // The networks catalogue the page offers without internet (site/networks.json, tools/networks.py).
+    from(repo.resolve("site/networks.json"))
     into(webAssets.map { it.dir("web") })
 }
 // The page's languages (i18n/web/<lang>.json) as it loads them: web/i18n/<lang>.js; the app's own texts use them too (I18n).
