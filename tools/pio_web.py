@@ -1,7 +1,7 @@
 # PlatformIO extra script: the device page for the firmware's web server, made at build time as PortalWeb.h
-# in the build folder: web/index.html and the page's dictionaries (i18n/web/<lang>.json, as
-# tools/web_i18n.cjs build makes them), each compressed with gzip and sent with Content-Encoding: gzip
-# (src/Portal.cpp). The header is rewritten only when its contents change.
+# in the build folder: web/index.html, the page's dictionaries (i18n/web/<lang>.json, as
+# tools/web_i18n.cjs build makes them) and the networks catalogue (site/networks.json), each compressed
+# with gzip and sent with Content-Encoding: gzip (src/Portal.cpp). The header is rewritten only when its contents change.
 import gzip
 import json
 import os
@@ -39,6 +39,9 @@ langs = []
 for code in LANGS:
     header.append(array('portalLang_' + code, packed(dictionary(code))))
     langs.append(f'{{"{code}",portalLang_{code},sizeof(portalLang_{code})}}')
+with open(os.path.join(root, 'site', 'networks.json'), encoding='utf-8') as f:
+    networks = json.dumps(json.load(f), ensure_ascii=False, separators=(',', ':')).encode()
+header.append(array('portalNetworks', packed(networks)))
 header.append('struct PortalLang{const char* code;const uint8_t* data;size_t size;};\n')
 header.append('static const PortalLang portalLangs[]={' + ','.join(langs) + '};\n')
 text = ''.join(header)

@@ -16,7 +16,8 @@ for example) are listed but cannot be written to a MeshMesh board.
 
 ## Catalogue
 
-- A copy is kept in `site/networks.json`. The site loads it next to the page; the app carries it in the APK.
+- A copy is kept in `site/networks.json`. The site loads it next to the page; the app carries it in the APK; ESP32 firmware
+  serves it to its page over Wi-Fi (`/networks.json`, `tools/pio_web.py`).
 - "Update the catalogue" downloads the current `catalog.json` from GitHub and keeps it in the browser (or the app's
   WebView). The newer of the two copies by `updated` is used. Nothing is downloaded on every start.
 - `tools/networks.py update` refreshes the copy, `tools/networks.py check` validates it (part of the Pages checks).
@@ -77,5 +78,7 @@ count too.
 - Firmware built for M9, Heltec V4, Heltec V3, T-Deck, GAT562 and T114; the radio screens checked in `tools/ui_preview`.
 - Device page: choosing, testing, Keep, Revert and Return the previous checked in a browser with `tools/web_demo.py`.
 - Website: the choice survives a page reload.
-- Not checked on boards: the `radio …` commands, writing from the site over USB/Bluetooth, and the phone position in
-  the app. No board was connected during development.
+- M9: the `radio …` commands, the test rollback on a restart, the screen row, writing over the companion protocol by USB
+  (as the site does) and the page with the real board (through `tools/web_usb_bridge.py`). Details: `docs/verification.md`.
+- Not checked: other boards, writing from a real browser over Web Serial/Bluetooth, stock MeshCore, repeaters answering
+  "Check" and the phone position in the app.

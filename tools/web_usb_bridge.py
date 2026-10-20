@@ -48,6 +48,8 @@ def main():
             try:
                 if url.path == '/':
                     self.reply(200, (ROOT / 'web/index.html').read_bytes(), 'text/html; charset=utf-8')
+                elif url.path == '/networks.json':
+                    self.reply(200, (ROOT / 'site/networks.json').read_bytes())
                 elif url.path == '/api/chess':
                     query = parse_qs(url.query);game = query.get('id', [''])[0]
                     self.reply(200, usb('chess rating') if 'rating' in query else usb(f'chess show {game}') if game else usb('chess web'))
