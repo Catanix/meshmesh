@@ -29,12 +29,16 @@ for example) are listed but cannot be written to a MeshMesh board.
 
 ## Website
 
-The "Network of your city" box is in the install section (`site/netpick.js`):
+The "Network of your city" box is in the install section (`site/netpick.js`) and appears only on the Russian version
+of the site (the catalogue covers networks in Russia for now). It is folded: the heading shows the chosen network, and
+opening it shows two steps.
 
-1. Choose a network. The choice stays in the browser (`localStorage`) across page reloads, the next board, a repeated
-   installation or another board type, until you press "Clear". If the catalogue changes the network's settings, the
+1. Choose a network: one row per network — city, name, settings, distance after "Near me", a link to the community.
+   Five rows come first; searching a city or region also lists the networks of the territory around it. The choice
+   stays in the browser (`localStorage`) across page reloads, the next board, a repeated installation or another board
+   type; pressing it again clears it. If the catalogue changes the network's settings, the
    site shows the new ones and offers to use them.
-2. Close the install dialog (the port must be free) and press "Connect a board over USB" or "Over Bluetooth". The site
+2. Close the install dialog (the port must be free) and press "By USB" or "By Bluetooth". The site
    talks the MeshCore companion protocol, so it works with MeshMesh 0.9.0+ and the stock MeshCore companion alike.
 3. The site shows the board's name, model and firmware, its current and the new settings. When the network is in another
    band than the board's current frequency (433 / 868 / 915 MHz), writing needs the box "The board and antenna are

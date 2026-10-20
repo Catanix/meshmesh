@@ -156,13 +156,35 @@ esp-web-install-button{display:inline-block}
 .fwlang label{color:var(--ink);font-weight:600;font-size:15px}
 .fwlang select{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;font:500 15px Inter,system-ui,sans-serif;padding:8px 10px}
 .fwlang small{color:var(--faint);font-size:13px;flex-basis:100%}
-/* network of a city (netpick.js) */
-#netPick{margin-top:28px}
+/* network of a city (netpick.js): Russian only, folded */
+html:not([lang=ru]) #netPick{display:none}
+#netPick{margin-top:28px;padding-top:20px;padding-bottom:20px}
+#netPick summary{display:flex;align-items:center;gap:12px;cursor:pointer;list-style:none}
+#netPick summary::-webkit-details-marker{display:none}
+#netPick summary h3{margin:0}
+#netPick summary span{color:var(--dim);font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+#netPick summary i{margin-inline-start:auto;color:var(--dim);font-style:normal;transition:transform .15s}
+#netPick[open] summary i{transform:rotate(180deg)}
+#netPick[open] summary{margin-bottom:12px}
 #netPick .small{font-size:14px;color:var(--dim);margin:8px 0}
-#netPick h4{font-size:16px;margin:22px 0 10px}
-#netPick .btn small{color:var(--faint);font-weight:500;font-size:12px}
-#netPick a.small{color:var(--accent)}
-#netQ{flex:1;min-width:180px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;font:500 15px Inter,system-ui,sans-serif;padding:9px 12px}
+#netPick ol{margin-top:18px}
+#netPick ol li>div{flex:1;min-width:0}
+#netPick ol li b.stp{display:block;color:var(--ink);margin:2px 0 10px}
+#netPick .note{margin-top:10px}
+#netPick .btn{height:40px;padding:0 16px;font-size:15px}
+#netPick a.small,.linkbtn{color:var(--accent)}
+.linkbtn{background:none;border:0;padding:0;font:inherit;cursor:pointer}
+#netQ{flex:1;min-width:160px;height:40px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;font:500 15px Inter,system-ui,sans-serif;padding:0 12px}
+.netrow{display:flex;align-items:stretch;gap:6px;margin-top:6px}
+.netrow button{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;text-align:start;padding:8px 12px;background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--ink);font:inherit;font-size:14px;cursor:pointer}
+.netrow button:hover{border-color:#3a4a5c}
+.netrow.on button{border-color:var(--accent);background:rgba(31,194,174,.08)}
+.netrow.on button b::before{content:"✓ ";color:var(--accent)}
+.netrow button span{color:var(--dim)}
+.netrow button small{margin-inline-start:auto;color:var(--faint);font-size:12px;white-space:nowrap}
+.netrow a{display:grid;place-items:center;width:36px;border:1px solid var(--line);border-radius:10px;color:var(--dim)}
+.netrow a:hover{text-decoration:none;color:var(--accent)}
+@media (max-width:600px){#netPick ol li{display:block;position:relative}#netPick ol li::before{position:absolute;top:0;inset-inline-start:0}#netPick ol li b.stp{padding-inline-start:38px;line-height:26px}}
 /* docs */
 .docs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
 .doc{display:block;padding:20px;background:var(--card);border:1px solid var(--line);border-radius:14px;color:var(--ink);transition:border-color .15s,transform .15s}
@@ -409,19 +431,20 @@ footer a{color:var(--dim)}
     </div>
    </div>
   </div>
-  <div class="panel" id="netPick">
-   <h3 data-i18n="net.title"></h3>
+  <details class="panel" id="netPick">
+   <summary><h3 data-i18n="net.title"></h3><span id="netSum"></span><i>▾</i></summary>
    <p class="small" data-i18n="net.lead"></p>
-   <div id="netChosen"></div>
-   <div id="netBoard"></div>
-   <div class="note" id="netStatus" hidden></div>
-   <h4 data-i18n="net.choose"></h4>
-   <div class="row"><input id="netQ" autocomplete="off" data-i18n-placeholder="net.search"><button class="btn" type="button" data-net-do="locate"><span data-i18n="net.nearby"></span></button></div>
-   <p class="small" id="netPos"></p>
-   <div id="netList"></div>
-   <p class="small"><span id="netCat"></span> <a class="small" href="https://github.com/VoxMesh/meshcore-local-networks" target="_blank" rel="noopener">VoxMesh/meshcore-local-networks</a></p>
-   <div class="row"><button class="btn" type="button" data-net-do="update"><span data-i18n="net.update"></span></button></div>
-  </div>
+   <ol>
+    <li><div><b class="stp" data-i18n="net.choose"></b>
+     <div class="row"><input id="netQ" autocomplete="off" data-i18n-placeholder="net.search"><button class="btn" type="button" data-net-do="locate"><span data-i18n="net.nearby"></span></button></div>
+     <p class="small" id="netPos" hidden></p>
+     <div id="netChosen"></div>
+     <div id="netList"></div>
+     <p class="small"><span id="netCat"></span> <a class="small" href="https://github.com/VoxMesh/meshcore-local-networks" target="_blank" rel="noopener">VoxMesh</a> · <button class="linkbtn" type="button" data-net-do="update"><span data-i18n="net.update"></span></button></p>
+    </div></li>
+    <li><div><b class="stp" data-i18n="net.connect"></b><div id="netBoard"></div><div class="note" id="netStatus" hidden></div></div></li>
+   </ol>
+  </details>
  </div>
 </section>
 

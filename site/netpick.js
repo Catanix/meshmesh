@@ -1,4 +1,4 @@
-// The network of a city for a board (site/index.html, section "net"): a profile of the networks catalogue
+// The network of a city for a board (site/index.html, the folded box #netPick, shown on the Russian site only): a profile of the networks catalogue
 // (networks.json, a copy of VoxMesh/meshcore-local-networks; "Update" fetches the current one) written to a board over
 // the MeshCore companion protocol, by USB (Web Serial) or Bluetooth (Web Bluetooth): MeshMesh 0.9.0+ and the stock
 // MeshCore companion alike. Installing firmware never changes the radio: the profile goes only to the board the visitor
@@ -27,9 +27,11 @@ async function update(){
 function all(){const out=[];for(const l of cat?.locations||[])for(const n of l.networks||[])out.push({l,n});return out}
 const find=id=>all().find(x=>x.n.id===id);
 function distance(l){if(!pos||typeof l.lat!=='number')return null;const r=Math.PI/180,a=Math.sin((l.lat-pos.lat)*r/2)**2+Math.cos(pos.lat*r)*Math.cos(l.lat*r)*Math.sin((l.lon-pos.lon)*r/2)**2;return 12742*Math.asin(Math.sqrt(a))}
-function places(){const locs=cat?.locations||[],s=q.trim().toLowerCase(),by=new Map(locs.map(l=>[l.id,l]));
- const list=locs.filter(l=>!s||`${l.name} ${l.region||''}`.toLowerCase().includes(s)).map(l=>({l,d:distance(l),nets:[...(l.networks||[]).map(n=>({n,l})),...(by.get(l.parent_id)?.networks||[]).map(n=>({n,l:by.get(l.parent_id)}))]})).filter(x=>x.nets.length);
- if(pos)list.sort((a,b)=>(a.d??1e9)-(b.d??1e9));return list}
+// Places matching the search (nearest first once the position is known), with the networks of the larger territory
+// around them while searching or located; one row per network.
+function rows(){const locs=cat?.locations||[],s=q.trim().toLowerCase(),by=new Map(locs.map(l=>[l.id,l])),wide=!!(s||pos);
+ const list=locs.filter(l=>!s||`${l.name} ${l.region||''}`.toLowerCase().includes(s)).map(l=>({l,d:distance(l),nets:[...(l.networks||[]).map(n=>({n,l})),...(wide?by.get(l.parent_id)?.networks||[]:[]).map(n=>({n,l:by.get(l.parent_id)}))]}));
+ if(pos)list.sort((a,b)=>(a.d??1e9)-(b.d??1e9));return list.flatMap(x=>x.nets.map(y=>({...y,place:x.l,d:x.d})))}
 function locate(){if(!navigator.geolocation){posNote=T('net.noPosition');render();return}posNote=T('net.locating');render();
  navigator.geolocation.getCurrentPosition(p=>{pos={lat:p.coords.latitude,lon:p.coords.longitude};posNote='';shown=5;render()},()=>{posNote=T('net.noPosition');render()},{maximumAge:600000,timeout:15000})}
 function say(t,cls=''){const s=el('netStatus');s.hidden=!t;s.className='note '+cls;s.textContent=t}
@@ -85,42 +87,46 @@ async function write(r,previous){if(!link||busy)return;busy=true;render();const 
  catch(e){say(T('net.writeFailed')+' '+e.message,'warn')}
  busy=false;render()}
 
-function chosenBox(){if(!choice)return `<p class="small">${T('net.noChoice')}</p>`;
- const now=find(choice.id),nr=now&&radioOf(now.n),changed=nr&&!same(nr,choice.radio);
- return `<div class="chosen"><div><b>${esc(choice.place)} · ${esc(choice.name)}</b><small>${esc(text(choice.radio))}</small></div><button class="btn" type="button" data-net-do="reset">${T('net.reset')}</button></div>`+
-  (changed?`<div class="note warn">${fill('net.changed',{radio:esc(text(nr))})} <button class="btn" type="button" data-net-do="take">${T('net.takeNew')}</button></div>`:'')}
+// Only a changed catalogue entry of the chosen network is shown here; the choice itself is the marked row and the summary.
+function chosenBox(){if(!choice)return '';
+ const now=find(choice.id),nr=now&&radioOf(now.n);
+ return nr&&!same(nr,choice.radio)?`<div class="note warn">${fill('net.changed',{radio:esc(text(nr))})} <button class="linkbtn" type="button" data-net-do="take">${T('net.takeNew')}</button></div>`:''}
 function boardBox(){
- if(!link)return `<div class="row" style="margin-top:12px">${'serial' in navigator?`<button class="btn primary" type="button" data-net-do="usb"${busy?' disabled':''}>${T('net.usb')}</button>`:''}${'bluetooth' in navigator?`<button class="btn" type="button" data-net-do="ble"${busy?' disabled':''}>${T('net.ble')}</button>`:''}</div>`+
+ if(!link)return `<div class="row">${'serial' in navigator?`<button class="btn primary" type="button" data-net-do="usb"${busy?' disabled':''}>${T('net.usb')}</button>`:''}${'bluetooth' in navigator?`<button class="btn" type="button" data-net-do="ble"${busy?' disabled':''}>${T('net.ble')}</button>`:''}</div>`+
   ('serial' in navigator||'bluetooth' in navigator?`<p class="small" style="color:var(--faint)">${T('net.portNote')}</p>`:`<div class="note warn">${T('web.unsupported')}</div>`);
  const r=choice&&choice.radio,why=r&&blocked(r),prev=store('mm-net-prev-'+link.key.slice(0,16)),cross=r&&bandOf(r.frequency)!==bandOf(link.radio.frequency),done=r&&same(r,link.radio);
- return `<div class="note"><b>${esc(link.name)}</b> · ${esc(link.model)} · ${esc(link.version)}<br>${T('net.now')} ${esc(text(link.radio))}${r?`<br>${T('net.will')} <b>${esc(text(r))}</b>`:''}<br><small>${T('net.keeps')}</small></div>`+
-  (why?`<div class="note warn">${esc(why)}</div>`:'')+(r&&!why&&!done&&cross?`<label class="small" style="display:flex;gap:8px;align-items:center;margin-top:12px"><input type="checkbox" data-net-ack${ack?' checked':''}>${fill('net.band',{band:bandOf(r.frequency)})}</label>`:'')+
-  `<div class="row" style="margin-top:12px">${r&&!why&&!done?`<button class="btn primary" type="button" data-net-do="write"${busy||cross&&!ack?' disabled':''}>${T('net.write')}</button>`:''}${done?`<span class="tag ok">${T('net.already')}</span>`:''}`+
+ return `<div class="note"><b>${esc(link.name)}</b> · ${esc(link.model)} · ${esc(link.version)}<br>${T('net.now')} ${esc(text(link.radio))}${r&&!done?`<br>${T('net.will')} <b>${esc(text(r))}</b>`:''}<br><small>${T('net.keeps')}</small></div>`+
+  (why?`<div class="note warn">${esc(why)}</div>`:'')+(r&&!why&&!done&&cross?`<label class="small" style="display:flex;gap:8px;align-items:center;margin-top:10px"><input type="checkbox" data-net-ack${ack?' checked':''}>${fill('net.band',{band:bandOf(r.frequency)})}</label>`:'')+
+  `<div class="row" style="margin-top:10px">${r&&!why&&!done?`<button class="btn primary" type="button" data-net-do="write"${busy||cross&&!ack?' disabled':''}>${T('net.write')}</button>`:''}${done?`<span class="tag ok" style="margin:0">${T('net.already')}</span>`:''}`+
   `${prev&&!same(prev,link.radio)?`<button class="btn" type="button" data-net-do="previous"${busy?' disabled':''}>${fill('net.previous',{radio:esc(text(prev))})}</button>`:''}<button class="btn" type="button" data-net-do="disconnect">${T('net.disconnect')}</button></div>`}
+// One row per network: place, network, radio, distance; the community link beside it.
 function listBox(){
  if(!cat)return `<p class="small">${T('net.noCatalogue')}</p>`;
- const list=places(),part=list.slice(0,shown);
- return part.map(x=>`<div style="margin:12px 0 4px"><b>${esc(x.l.name)}</b>${x.d!=null?` <small style="color:var(--faint)">${x.d<10?x.d.toFixed(1):Math.round(x.d)} ${T('net.km')}</small>`:''}</div><div class="row">${x.nets.map(({n,l})=>
-  `<button class="btn${choice&&choice.id===n.id?' primary':''}" type="button" data-net="${esc(n.id)}" title="${esc(n.note||n.id)}">${esc(l===x.l?n.name:l.name+': '+n.name)} <small>${esc(text(radioOf(n)))}</small></button>${/^https?:\/\//.test(n.community_url||'')?`<a class="small" href="${esc(n.community_url)}" target="_blank" rel="noopener">${T('net.community')}</a>`:''}`).join('')}</div>`).join('')+
-  (list.length>shown?`<button class="btn" type="button" data-net-do="more" style="margin-top:12px">${fill('net.more',{n:list.length-shown})}</button>`:'')+(list.length?'':`<p class="small">${T('net.nothing')}</p>`)}
+ const list=rows(),part=list.slice(0,shown);
+ return part.map(({n,l,place,d})=>{const url=/^https?:\/\//.test(n.community_url||'')?n.community_url:'',km=d!=null?` · ${d<10?d.toFixed(1):Math.round(d)} ${T('net.km')}`:'';
+  return `<div class="netrow${choice&&choice.id===n.id?' on':''}"><button type="button" data-net="${esc(n.id)}" title="${esc(n.note||n.id)}"><b>${esc(place.name)}</b><span>${esc(l===place?n.name:l.name+': '+n.name)}</span><small>${esc(text(radioOf(n)))}${km}</small></button>`+
+   (url?`<a href="${esc(url)}" target="_blank" rel="noopener" title="${T('net.community')}">↗</a>`:'')+'</div>'}).join('')+
+  (list.length>shown?`<button class="linkbtn small" type="button" data-net-do="more" style="margin-top:10px">${fill('net.more',{n:list.length-shown})}</button>`:'')+(list.length?'':`<p class="small">${T('net.nothing')}</p>`)}
 function render(){const box=el('netPick');if(!box)return;
- el('netChosen').innerHTML=chosenBox();el('netBoard').innerHTML=boardBox();el('netList').innerHTML=listBox();el('netPos').textContent=posNote;
+ el('netSum').textContent=choice?`${choice.place} · ${choice.name}`:'';
+ el('netChosen').innerHTML=chosenBox();el('netBoard').innerHTML=boardBox();el('netList').innerHTML=listBox();el('netPos').textContent=posNote;el('netPos').hidden=!posNote;
  el('netCat').innerHTML=cat?fill('net.catalogue',{date:esc(cat.updated),n:cat.locations.length}):''}
 
 el('netPick').addEventListener('click',e=>{const b=e.target.closest('[data-net],[data-net-do]');if(!b||b.disabled)return;
  if(b.dataset.net){const x=find(b.dataset.net);if(!x)return;choice=choice&&choice.id===x.n.id?null:{id:x.n.id,place:x.l.name,name:x.n.name,radio:radioOf(x.n)};store('mm-net',choice);ack=false;render();return}
  const a=b.dataset.netDo;
- if(a==='reset'){choice=null;store('mm-net',null);render()}
- else if(a==='take'){const x=find(choice.id);if(x){choice={...choice,radio:radioOf(x.n)};store('mm-net',choice);render()}}
+ if(a==='take'){const x=find(choice.id);if(x){choice={...choice,radio:radioOf(x.n)};store('mm-net',choice);render()}}
  else if(a==='usb'||a==='ble')connect(a);
  else if(a==='disconnect')disconnect().then(render);
  else if(a==='write')write(choice.radio,false);
  else if(a==='previous')write(store('mm-net-prev-'+link.key.slice(0,16)),true);
- else if(a==='more'){shown+=10;render()}
+ else if(a==='more'){shown+=20;render()}
  else if(a==='locate')locate();
  else if(a==='update')update()});
 el('netPick').addEventListener('change',e=>{if(e.target.matches('[data-net-ack]')){ack=e.target.checked;render()}});
 el('netQ').addEventListener('input',e=>{q=e.target.value;shown=5;el('netList').innerHTML=listBox()});
 // The site's language changes the texts.
 new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+// A link to the section opens it.
+if(location.hash==='#netPick')el('netPick').open=true;
 load();
