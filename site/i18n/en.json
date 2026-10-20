@@ -336,6 +336,7 @@
  "news.networks": "<b>New:</b> network of your city — the radio settings of a local MeshCore network from a catalogue, with a test and a way back",
  "f.networks.t": "Network of your city",
  "f.networks.d": "Frequency, bandwidth, SF and CR of a local MeshCore network from the community catalogue of cities instead of typing them. The nearest cities come first by the phone's position or GPS. On the website the chosen network is written to a board over USB or Bluetooth, the stock MeshCore companion included, and stays chosen across page reloads and the next boards. In the app and on the board's page a network can be tested: Keep, Revert, or Check how many repeaters answer; a restart during a test brings the saved settings back. Installing firmware never changes the radio; power and relaying stay yours.",
+ "shot.m9-radio-test": "M9: a network under test — OK keeps it, a restart returns the saved one",
  "shot.web-networks": "Choosing a network by city",
  "shot.web-networks-test": "A settings test: keep, revert, check",
  "doc.networks": "Network of your city"

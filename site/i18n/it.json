@@ -336,6 +336,7 @@
  "news.networks": "<b>Novità:</b> rete della tua città — le impostazioni radio di una rete MeshCore locale da un catalogo, con prova e ritorno indietro",
  "f.networks.t": "Rete della tua città",
  "f.networks.d": "Frequenza, banda, SF e CR di una rete MeshCore locale dal catalogo delle città della comunità, senza digitarli. Le città più vicine vengono prima, in base alla posizione del telefono o al GPS. Sul sito la rete scelta viene scritta su una scheda via USB o Bluetooth, anche con il MeshCore companion originale, e resta scelta ricaricando la pagina e per le schede successive. Nell'app e nella pagina della scheda una rete si può provare: Mantieni, Ripristina o Verifica quanti ripetitori rispondono; un riavvio durante la prova riporta le impostazioni salvate. L'installazione del firmware non cambia mai la radio; potenza e inoltro restano tuoi.",
+ "shot.m9-radio-test": "M9: una rete in prova — OK la tiene, un riavvio torna a quella salvata",
  "shot.web-networks": "Scelta di una rete per città",
  "shot.web-networks-test": "Prova delle impostazioni: mantieni, ripristina, verifica",
  "doc.networks": "Rete della tua città"

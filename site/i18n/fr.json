@@ -336,6 +336,7 @@
  "news.networks": "<b>Nouveau :</b> réseau de votre ville — les réglages radio d'un réseau MeshCore local depuis un catalogue, avec test et retour en arrière",
  "f.networks.t": "Réseau de votre ville",
  "f.networks.d": "Fréquence, bande passante, SF et CR d'un réseau MeshCore local depuis le catalogue des villes de la communauté, sans les saisir. Les villes les plus proches viennent en premier selon la position du téléphone ou le GPS. Sur le site, le réseau choisi est écrit sur une carte par USB ou Bluetooth, MeshCore companion d'origine compris, et reste choisi au rechargement de la page et pour les cartes suivantes. Dans l'application et sur la page de la carte, un réseau peut être testé : Garder, Revenir ou Vérifier combien de répéteurs répondent ; un redémarrage pendant le test rétablit les réglages enregistrés. L'installation du firmware ne change jamais la radio ; la puissance et le relais restent les vôtres.",
+ "shot.m9-radio-test": "M9 : un réseau en test — OK le garde, un redémarrage rend l’enregistré",
  "shot.web-networks": "Choisir un réseau par ville",
  "shot.web-networks-test": "Un test des réglages : garder, revenir, vérifier",
  "doc.networks": "Réseau de votre ville"
