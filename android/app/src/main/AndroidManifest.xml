@@ -65,12 +65,14 @@
             <meta-data
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/usb_devices" />
-            <!-- MeshCore channel links (meshcore://channel/add?name=…&secret=…) from the camera or a messenger -->
+            <!-- MeshCore links from the camera or a messenger: channels
+                 (meshcore://channel/add?name=…&secret=…) and person cards
+                 (meshcore://<hex> — a signed advert, imported as a contact) -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="meshcore" android:host="channel" />
+                <data android:scheme="meshcore" />
             </intent-filter>
         </activity>
 

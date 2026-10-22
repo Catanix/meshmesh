@@ -33,8 +33,9 @@ window.MeshHost={
  toast(text,tone){notify(text,tone||'accent')},
  // A scanned QR code or a meshcore:// link: the page asks to join the channel once a board is connected.
  channelLink(text){text=String(text||'').trim();
-  if(!/^meshcore:\/\/channel\/add\?/i.test(text)){notify(L('Это не ссылка на канал MeshCore'),'warn');return}
-  H.link=text;if(H.inApp)openLink();else notify(L('Подключитесь к устройству, чтобы добавить канал'),'accent')},
+  const isChannel=/^meshcore:\/\/channel\/add\?/i.test(text),isPerson=/^meshcore:\/\/[0-9a-fA-F]{128,512}$/.test(text);
+  if(!isChannel&&!isPerson){notify(L('Это не ссылка MeshCore (канал или контакт)'),'warn');return}
+  H.link=text;if(H.inApp)openLink();else notify(L(isPerson?'Подключитесь к устройству, чтобы импортировать контакт':'Подключитесь к устройству, чтобы добавить канал'),'accent')},
  go(target){if(H.inApp)go(target)},
  // Updates of the app (MainActivity → Updater): a card on the connection screen and on «Подключения».
  update(u){const was=H.upd.state;H.upd=u||{state:'idle'};const st=H.upd.state;
@@ -129,7 +130,7 @@ panel.addEventListener('click',e=>{const t=e.target.closest('[data-htab],[data-h
   connect({kind:'wifi',ssid:address==='192.168.4.1'?H.sel:'',password,address});return}
  if(d.hgo==='tcp'){connect({kind:'tcp',host:$('hHost').value.trim(),port:+$('hPort').value||8771});return}});
 
-function openLink(){const l=H.link;H.link='';if(l&&window.openChannelLink)openChannelLink(l)}
+function openLink(){const l=H.link;H.link='';if(!l)return;if(window.openMeshLink)openMeshLink(l);else if(window.openChannelLink)openChannelLink(l)}
 
 // Connected: the same steps as the page's own login.
 async function enterApp(){

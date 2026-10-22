@@ -318,6 +318,16 @@ String executeCommand(const String& input) {
     String reply=formatStorage();hardware.fsOk=reply.startsWith("OK");return reply;
 #endif
   }
+  if(line.startsWith("import ")) { // a contact from a meshcore:// link (raw advert packet, hex)
+    String hex=line.substring(7);hex.trim();while(hex.startsWith("meshcore://"))hex=hex.substring(11);
+    if(hex.length()<130||hex.length()>512||hex.length()%2)return "ERR import <hex 65..256 bytes: a meshcore:// link>";
+    static uint8_t blob[256];size_t n=hex.length()/2;
+    for(size_t i=0;i<n;i++){
+      char a=hex[i*2],b=hex[i*2+1];
+      auto dig=[](char c)->int{return c>='0'&&c<='9'?c-'0':c>='a'&&c<='f'?c-'a'+10:c>='A'&&c<='F'?c-'A'+10:-1;};
+      int v=(dig(a)<<4)|dig(b);if(v<0)return "ERR import: not hex";blob[i]=uint8_t(v);}
+    return meshRadio.importAdvert(blob,n)?"OK contact imported; it appears in the list shortly":"ERR contact not imported (bad or expired advert)";
+  }
   if(line.startsWith("resetpath ")||line.startsWith("forget ")) { // node card actions, as on the M9 screen
     bool reset=line.startsWith("resetpath ");String hex=line.substring(reset?10:7);char* end=nullptr;uint64_t id=strtoull(hex.c_str(),&end,16);
     if(!id||!end||*end||hex.length()>16)return "ERR node ID";

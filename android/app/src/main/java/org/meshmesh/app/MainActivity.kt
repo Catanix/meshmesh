@@ -251,7 +251,7 @@ class MainActivity : ComponentActivity() {
         web.post { if (pageReady || code.startsWith("MeshHost.done")) web.evaluateJavascript("window.MeshHost&&$code", null) }
     }
 
-    /** A scanned QR code or a meshcore:// link; host.js checks it and passes channel links to the page. */
+    /** A scanned QR code or a meshcore:// link; host.js checks it and routes channel and person links to the page. */
     private fun channelLink(text: String) {
         if (pageReady) js("MeshHost.channelLink(${JSONObject.quote(text)})") else pendingLink = text
     }

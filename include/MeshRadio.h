@@ -104,6 +104,7 @@ class MeshRadio {
   const uint8_t* nodeKey() const;bool nodeSign(uint8_t sig[64],const uint8_t* data,size_t size) const;
   static bool nodeVerify(const uint8_t key[32],const uint8_t sig[64],const uint8_t* data,size_t size);
   bool learnContact(const uint8_t key[32],const char* name); // a chat contact from its key (a tournament opponent)
+  bool importAdvert(const uint8_t* blob,size_t len); // a raw advert packet (meshcore:// link): as if heard on air
   unsigned messageLimit(uint64_t destination=meshmesh::Broadcast) const;
   String routeText(const ChatMessage& m,bool brief=false) const; // e.g. "via 2 rpt · 2/3"; empty when unknown
   // A copy of a flood packet heard again (the mesh tables): a message of the history counts it as a repeat.
