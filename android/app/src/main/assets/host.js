@@ -211,14 +211,17 @@ for(const v of document.querySelectorAll('.version'))v.textContent=N.version();
 let mmDown=null,mmMsg=null,mmTimer=null,mmLong=false;
 function mmMenu(){let m=$('mmMenu');if(!m){document.body.insertAdjacentHTML('beforeend',
  `<div id="mmMenu" class="mm-menu" hidden><div class="mm-back"></div><div class="mm-sheet">
-  <div class="mm-title">${L('Сообщение')}</div>
-  <button class="mm-item" data-mm="reply">${L('Ответить')}</button>
-  <button class="mm-item" data-mm="path">${L('Путь пакета')}</button></div></div>`);m=$('mmMenu')}return m}
+ <div class="mm-title">💬 ${L('Сообщение')}</div>
+ <button class="mm-item" data-mm="reply">↩️ ${L('Ответить')}</button>
+ <button class="mm-item" data-mm="dm">✉️ ${L('Личный чат')}</button>
+ <button class="mm-item" data-mm="path">🛤️ ${L('Путь пакета')}</button></div></div>`);m=$('mmMenu')}return m}
 // A compact popover next to the message (like Telegram/WhatsApp) over a dimmed
 // backdrop: the title «Сообщение», then the two actions. It opens above the
 // row when there is room and below it otherwise, clamped to the screen.
 function mmOpen(msg,row){mmMsg=msg;const m=mmMenu();m.hidden=false;
+ const peerId=msg.outgoing?dest(msg):msg.source;
  m.querySelector('[data-mm="reply"]').hidden=!!msg.outgoing;
+ m.querySelector('[data-mm="dm"]').hidden=!peerId||isChan(peerId);
  const sheet=m.querySelector('.mm-sheet'),r=row.getBoundingClientRect();
  sheet.style.visibility='hidden';sheet.style.left='0';sheet.style.top='0';
  const w=sheet.offsetWidth,h=sheet.offsetHeight,mid=innerWidth/2;
@@ -249,7 +252,9 @@ document.addEventListener('click',e=>{
  if(mmLong){mmLong=false;e.preventDefault();e.stopPropagation();return}
  const item=e.target.closest('[data-mm]');
  if(item){const msg=mmMsg;mmClose();if(!msg)return;
-  if(item.dataset.mm==='path')go('msg/'+encodeURIComponent(msgKey(msg)));
+  const what=item.dataset.mm;
+  if(what==='path')go('msg/'+encodeURIComponent(msgKey(msg)));
+  else if(what==='dm'){const id=msg.outgoing?dest(msg):msg.source;if(id&&!isChan(id))go('chat/'+encodeURIComponent(id))}
   else{const name=msg.outgoing?'':msg.name||nodeName(recipient),tag=name?'@['+name+'] ':'',inp=$('text');
    inp.focus();const s=inp.selectionStart??inp.value.length,t=inp.selectionEnd??s;
    inp.value=inp.value.slice(0,s)+tag+inp.value.slice(t);inp.setSelectionRange(s+tag.length,s+tag.length);
@@ -270,6 +275,8 @@ document.addEventListener('click',e=>{
  mmOpen(msg,b)},true);
 document.addEventListener('dblclick',e=>{if(e.target.closest('#messages .bubble[data-i]')){e.preventDefault();e.stopPropagation()}},true);
 function mmHops(){const box=$('messages');if(!box||box.hidden)return;
+ const near=document.documentElement.scrollHeight-window.scrollY-window.innerHeight<120;
+ let added=false;
  for(const b of box.querySelectorAll('.bubble.out[data-i]')){
   if(b.querySelector('.mm-hops'))continue;
   const m=chatRows[b.dataset.i];if(!m)continue;
@@ -279,7 +286,10 @@ function mmHops(){const box=$('messages');if(!box||box.hidden)return;
   const repeats=(m.echoes&&m.echoes.length)||m.heard||0;
   if(hops==null&&!repeats)continue; // not sent yet: no route to count
   const txt=hops!=null?(hops?'→ '+plural(hops,'хоп','хопа','хопов'):'→ '+L('напрямую')):'→ '+L`через ${repeats} ретр.`;
-  b.insertAdjacentHTML('beforeend',`<div class="mm-hops">${txt}</div>`)}}
+  b.insertAdjacentHTML('beforeend',`<div class="mm-hops">${txt}</div>`);
+  added=true}
+ // the added lines grow the page after the page's own scroll to the bottom
+ if(added&&near){window.scrollTo(0,document.body.scrollHeight);updateToBottom()}}
 new MutationObserver(()=>mmHops()).observe($('messages'),{childList:true,subtree:true});
 mmHops();
 })();
