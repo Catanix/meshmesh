@@ -211,19 +211,13 @@ for(const v of document.querySelectorAll('.version'))v.textContent=N.version();
 let mmDown=null,mmMsg=null,mmTimer=null,mmLong=false;
 function mmMenu(){let m=$('mmMenu');if(!m){document.body.insertAdjacentHTML('beforeend',
  `<div id="mmMenu" class="mm-menu" hidden><div class="mm-back"></div><div class="mm-sheet">
+  <div class="mm-title">${L('Сообщение')}</div>
   <button class="mm-item" data-mm="reply">${L('Ответить')}</button>
   <button class="mm-item" data-mm="path">${L('Путь пакета')}</button></div></div>`);m=$('mmMenu')}return m}
-// A compact popover next to the message (like Telegram), not a bottom sheet:
-// above the row when there is room, otherwise below it, centred on the row.
-function mmOpen(msg,row){mmMsg=msg;const m=mmMenu();m.hidden=false;
- m.querySelector('[data-mm="reply"]').hidden=!!msg.outgoing;
- const sheet=m.querySelector('.mm-sheet'),r=row.getBoundingClientRect();
- sheet.style.visibility='hidden';sheet.style.left='0';sheet.style.top='0';
- const w=sheet.offsetWidth,h=sheet.offsetHeight;
- const x=Math.max(8,Math.min(innerWidth-w-8,(r.left+r.right)/2-w/2));
- sheet.style.left=x+'px';
- sheet.style.top=(r.top-h-8<8?r.bottom+8:r.top-h-8)+'px';
- sheet.style.visibility=''}
+// A compact popover over a dimmed backdrop: the title «Сообщение», then the
+// two actions. It opens centred, closer to the bottom but not at the edge.
+function mmOpen(msg){mmMsg=msg;const m=mmMenu();m.hidden=false;
+ m.querySelector('[data-mm="reply"]').hidden=!!msg.outgoing}
 function mmClose(){mmMsg=null;$('mmMenu').hidden=true}
 function mmRow(e){const inRow=e.target.closest('#messages .bubble[data-i]');
  if(inRow&&e.target.closest('button,a,[data-invite],[data-copy]'))return null;
@@ -237,7 +231,7 @@ document.addEventListener('pointerdown',e=>{const b=mmRow(e);
  clearTimeout(mmTimer);mmLong=false;
  if(mmDown)mmTimer=setTimeout(()=>{ // a long tap opens the same menu
   mmLong=true;
-  const msg=chatRows[mmDown.b.dataset.i];if(msg)mmOpen(msg,mmDown.b)},450)},true);
+  const msg=chatRows[mmDown.b.dataset.i];if(msg)mmOpen(msg)},450)},true);
 document.addEventListener('pointermove',e=>{if(mmDown&&(Math.abs(e.clientX-mmDown.x)>10||Math.abs(e.clientY-mmDown.y)>10))clearTimeout(mmTimer)},true);
 document.addEventListener('pointerup',()=>clearTimeout(mmTimer),true);
 document.addEventListener('pointercancel',()=>clearTimeout(mmTimer),true);
@@ -269,9 +263,13 @@ function mmHops(){const box=$('messages');if(!box||box.hidden)return;
  for(const b of box.querySelectorAll('.bubble.out[data-i]')){
   if(b.querySelector('.mm-hops'))continue;
   const m=chatRows[b.dataset.i];if(!m)continue;
-  const hops=m.hops??(m.path_len!=null?m.path_len&63:null);
-  if(hops==null)continue; // not sent yet: no route to count
-  b.insertAdjacentHTML('beforeend',`<div class="mm-hops">${hops?'→ '+plural(hops,'хоп','хопа','хопов'):'→ '+L('напрямую')}</div>`)}}
+  // the same hop count the packet path window shows: hops, else the path
+  // count, else the repeaters whose copies were heard
+  const count=m.path_len!=null?m.path_len&63:null,hops=m.hops??count;
+  const repeats=(m.echoes&&m.echoes.length)||m.heard||0;
+  if(hops==null&&!repeats)continue; // not sent yet: no route to count
+  const txt=hops!=null?(hops?'→ '+plural(hops,'хоп','хопа','хопов'):'→ '+L('напрямую')):'→ '+L`через ${repeats} ретр.`;
+  b.insertAdjacentHTML('beforeend',`<div class="mm-hops">${txt}</div>`)}}
 new MutationObserver(()=>mmHops()).observe($('messages'),{childList:true,subtree:true});
 mmHops();
 })();

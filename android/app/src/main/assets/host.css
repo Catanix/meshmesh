@@ -24,7 +24,8 @@
 .mm-hops{display:flex;justify-content:flex-end;gap:5px;font-size:11px;color:var(--dim);margin-top:2px}
 #messages .bubble[data-i]{user-select:none;-webkit-touch-callout:none}
 #mmMenu{position:fixed;inset:0;z-index:100}
-#mmMenu .mm-back{position:absolute;inset:0;background:transparent}
-#mmMenu .mm-sheet{position:absolute;min-width:150px;background:var(--card);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 4px 24px #0006}
+#mmMenu .mm-back{position:absolute;inset:0;background:rgba(0,0,0,.35)}
+#mmMenu .mm-sheet{position:absolute;left:50%;bottom:15%;transform:translateX(-50%);min-width:200px;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 4px 24px #0006}
+#mmMenu .mm-title{padding:11px 16px;font-size:14px;color:var(--dim);border-bottom:1px solid var(--line)}
 #mmMenu .mm-item{border:0;background:none;padding:11px 16px;font-size:14px;color:var(--ink);text-align:left}
 #mmMenu .mm-item:active{background:var(--hi)}
