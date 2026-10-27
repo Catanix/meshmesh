@@ -208,16 +208,41 @@ for(const v of document.querySelectorAll('.version'))v.textContent=N.version();
 // (host.css stretches .bubble to the full row width). «Ответить» puts the "@[Name] " mention
 // of MeshCore apps into the input; the menu replaces the page's tap on the meta line.
 // Under own messages the hop count of the route joins the ticks and time.
-let mmDown=null,mmMsg=null;
+let mmDown=null,mmMsg=null,mmTimer=null,mmLong=false;
 function mmMenu(){let m=$('mmMenu');if(!m){document.body.insertAdjacentHTML('beforeend',
  `<div id="mmMenu" class="mm-menu" hidden><div class="mm-back"></div><div class="mm-sheet">
   <button class="mm-item" data-mm="reply">${L('Ответить')}</button>
   <button class="mm-item" data-mm="path">${L('Путь пакета')}</button></div></div>`);m=$('mmMenu')}return m}
-function mmOpen(msg){mmMsg=msg;const m=mmMenu();m.hidden=false;m.querySelector('[data-mm="reply"]').hidden=!!msg.outgoing}
+// A compact popover next to the message (like Telegram), not a bottom sheet:
+// above the row when there is room, otherwise below it, centred on the row.
+function mmOpen(msg,row){mmMsg=msg;const m=mmMenu();m.hidden=false;
+ m.querySelector('[data-mm="reply"]').hidden=!!msg.outgoing;
+ const sheet=m.querySelector('.mm-sheet'),r=row.getBoundingClientRect();
+ sheet.style.visibility='hidden';sheet.style.left='0';sheet.style.top='0';
+ const w=sheet.offsetWidth,h=sheet.offsetHeight;
+ const x=Math.max(8,Math.min(innerWidth-w-8,(r.left+r.right)/2-w/2));
+ sheet.style.left=x+'px';
+ sheet.style.top=(r.top-h-8<8?r.bottom+8:r.top-h-8)+'px';
+ sheet.style.visibility=''}
 function mmClose(){mmMsg=null;$('mmMenu').hidden=true}
-document.addEventListener('pointerdown',e=>{const b=e.target.closest('#messages .bubble[data-i]');
- mmDown=b&&!e.target.closest('button,a')?{x:e.clientX,y:e.clientY}:null},true);
+function mmRow(e){const inRow=e.target.closest('#messages .bubble[data-i]');
+ if(inRow&&e.target.closest('button,a,[data-invite],[data-copy]'))return null;
+ // the tap area is the whole row: outside the bubble (empty left/right) the
+ // nearest row by Y is the message, as if the row were one big button
+ return inRow||(()=>{if(!e.target.closest('#messages'))return null;
+  const rows=[...$('messages').querySelectorAll('.bubble[data-i]')];
+  return rows.find(r=>{const q=r.getBoundingClientRect();return e.clientY>=q.top&&e.clientY<=q.bottom})||null})()}
+document.addEventListener('pointerdown',e=>{const b=mmRow(e);
+ mmDown=b?{x:e.clientX,y:e.clientY,b}:null;
+ clearTimeout(mmTimer);mmLong=false;
+ if(mmDown)mmTimer=setTimeout(()=>{ // a long tap opens the same menu
+  mmLong=true;
+  const msg=chatRows[mmDown.b.dataset.i];if(msg)mmOpen(msg,mmDown.b)},450)},true);
+document.addEventListener('pointermove',e=>{if(mmDown&&(Math.abs(e.clientX-mmDown.x)>10||Math.abs(e.clientY-mmDown.y)>10))clearTimeout(mmTimer)},true);
+document.addEventListener('pointerup',()=>clearTimeout(mmTimer),true);
+document.addEventListener('pointercancel',()=>clearTimeout(mmTimer),true);
 document.addEventListener('click',e=>{
+ if(mmLong){mmLong=false;e.preventDefault();e.stopPropagation();return}
  const item=e.target.closest('[data-mm]');
  if(item){const msg=mmMsg;mmClose();if(!msg)return;
   if(item.dataset.mm==='path')go('msg/'+encodeURIComponent(msgKey(msg)));

@@ -423,13 +423,12 @@
  "Сообщений ещё нет": "No messages yet",
  "Добавить канал": "Add channel",
  "Хештег, ссылка, QR или новый": "Hashtag, link, QR or new",
- "meshcore://channel/add?…": "meshcore://channel/add?…",
- "Импорт контакта по ссылке meshcore://": "Import a contact from a meshcore:// link",
  "новое упоминание|новых упоминания|новых упоминаний": {
   "one": "{n} new mention",
   "other": "{n} new mentions"
  },
  "Лента, упоминания, что и откуда присылать": "Feed, mentions, what to notify about and from where",
+ "Импорт контакта по ссылке meshcore://": "Import a contact from a meshcore:// link",
  "через {0} ретр.": "via {0} rptr.",
  "по маршруту": "routed",
  " · попытка {0}": " · attempt {0}",

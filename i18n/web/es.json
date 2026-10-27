@@ -431,14 +431,13 @@
  "Сообщений ещё нет": "Aún no hay mensajes",
  "Добавить канал": "Añadir canal",
  "Хештег, ссылка, QR или новый": "Hashtag, enlace, QR o nuevo",
- "meshcore://channel/add?…": "meshcore://channel/add?…",
- "Импорт контакта по ссылке meshcore://": "Importar un contacto desde un enlace meshcore://",
  "новое упоминание|новых упоминания|новых упоминаний": {
   "one": "{n} mención nueva",
   "many": "{n} menciones nuevas",
   "other": "{n} menciones nuevas"
  },
  "Лента, упоминания, что и откуда присылать": "Feed, menciones, qué avisar y de dónde",
+ "Импорт контакта по ссылке meshcore://": "Importar un contacto desde un enlace meshcore://",
  "через {0} ретр.": "vía {0} rep.",
  "по маршруту": "por ruta",
  " · попытка {0}": " · intento {0}",

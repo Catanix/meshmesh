@@ -111,7 +111,7 @@ progress{width:100%;height:10px;accent-color:var(--accent)}.two{display:grid;gri
 .cd.r{color:#c9302c}.cd .s{position:absolute;right:5px;bottom:5px;font-size:calc(var(--w)*.45)}.cd.back{background:repeating-linear-gradient(45deg,var(--deep) 0 5px,#0e3e39 5px 10px);box-shadow:inset 0 0 0 2px #1c6a61,0 1px 2px #0008}
 .cd.pick{outline:3px solid var(--accent);outline-offset:-1px}.cd.hint,.slot.hint{outline:3px solid var(--warn);outline-offset:-1px}
 .gstat{display:flex;justify-content:space-between;font-size:12px;color:var(--dim);margin:10px 2px}
-#notice{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--hi);border:1px solid var(--line);border-radius:8px;padding:10px 16px 10px 20px;max-width:min(92vw,520px);z-index:30;box-shadow:0 6px 24px #000a}#notice::before{content:"";position:absolute;left:7px;top:9px;bottom:9px;width:3px;border-radius:2px;background:var(--tone,var(--accent))}#notice:empty{display:none}
+#notice{position:fixed;left:50%;top:calc(8px + env(safe-area-inset-top));transform:translateX(-50%);background:var(--hi);border:1px solid var(--line);border-radius:8px;padding:10px 16px 10px 20px;max-width:min(92vw,520px);z-index:30;box-shadow:0 6px 24px #000a}#notice::before{content:"";position:absolute;left:7px;top:9px;bottom:9px;width:3px;border-radius:2px;background:var(--tone,var(--accent))}#notice:empty{display:none}
 .login{max-width:420px;margin:9vh auto 0;padding:0 16px}.login .brand{text-align:center;margin-bottom:22px}.login .brand .ic{font-size:44px;color:var(--accent)}.login .brand b{display:block;font-size:26px;letter-spacing:.12em;margin-top:8px}.login .brand small{color:var(--dim)}
 .foot{text-align:center;color:var(--faint);font-size:12px;margin-top:24px}
 body[data-route=chat] .wrap{padding-bottom:0}#p-chat{display:flex;flex-direction:column;min-height:calc(100vh - 56px)}#p-chat .messages{flex:1}.mapctl .btn{white-space:nowrap;padding:10px 8px}
@@ -555,7 +555,7 @@ function hud(){
  if(status.wifi)h+=`<span class="acc" title="${L('Точка доступа Wi-Fi')}">${ic('wifi')}</span>`;
  if(config.gps)h+=`<span class="${status.gps_fix?'ok':status.clock_conflict?'bad':'warn'}" title="GPS">${ic('pin')}</span>`;
  if(status.busy)h+=`<span class="acc" title="${L('Передача')}">${ic('up')}</span>`;
- h+=status.radio?bars(status.rx_age!=null&&status.rx_age<600?Math.max(1,snrLevel(status.snr)):0):`<b class="bad" title="${L('Ошибка радио')}">✕</b>`;
+ h+=`<span data-go="nodes" style="cursor:pointer" title="${L('Узлы')}">${status.radio?bars(status.rx_age!=null&&status.rx_age<600?Math.max(1,snrLevel(status.snr)):0):`<b class="bad" title="${L('Ошибка радио')}">✕</b>`}</span>`;
  const mv=status.battery_mv||0,ext=mv>4250,p=batteryPercent(mv),c=!mv?'var(--faint)':ext?'var(--accent)':p<=15?'var(--bad)':p<=30?'var(--warn)':'var(--ok)';
  h+=`<span class="clock" id="clock">${clockText()}</span><span class="batt">${mv&&(config.battery_volts||!ext)?`<span class="pct">${config.battery_volts?(mv/1000).toFixed(2)+'V':p+'%'}</span>`:''}<i>${ext?`<svg class="ic" style="position:absolute;left:4px;top:-1px;font-size:10px;color:var(--accent)"><use href="#i-bolt"/></svg>`:mv?`<b style="width:${Math.max(1,15*p/100)}px;background:${c}"></b>`:''}</i></span>`;
  $('icons').innerHTML=h}
@@ -953,12 +953,11 @@ function renderThreads(){const all=conversationIds(),ids=all.filter(id=>chatsTab
   const preview=last?(last.outgoing?L('Вы: '):isChan(id)?last.name+': ':'')+(l?L`Приглашение в канал «${l.name}»`:last.text.replace(/\n/g,' ')):id==='ALL'?L('Открытый канал MeshCore'):isChan(id)?chanKind(chan(id)):L('Сообщений ещё нет');
   return `<button class="row" data-go="chat/${encodeURIComponent(id)}">${avatar(id,nodeName(id),p?p.type:-1)}<span class="main"><b>${esc(nodeName(id))}${a==='off'?ic('belloff','faint'):a==='mention'?ic('bell','faint'):''}</b><small class="${n?'new':''}">${esc(preview)}</small></span><span class="side"><span>${last?timeText(last.time):''}</span>${n?`<span class="pills">${at?'<span class="pill at">@</span>':''}<span class="pill${a==='all'?'':' mute'}">${n}</span></span>`:''}</span></button>`});
  if(chatsTab==='channels'){
-  rows.unshift(`<button class="row" data-go="addch"><span class="av" style="background:var(--card);color:var(--accent);font-size:24px;font-weight:400">+</span><span class="main"><b>${L`Добавить канал`}</b><small>${L`Хештег, ссылка, QR или новый`}</small></span><span class="go">${ic('next')}</span></button>`);
-  rows.push(`<button class="row" data-go="join"><span class="av" style="background:var(--card);color:var(--accent);font-size:24px;font-weight:400">+</span><span class="main"><b>${L`Канал по ссылке`}</b><small>${L`meshcore://channel/add?…`}</small></span><span class="go">${ic('next')}</span></button>`);
+  rows.push(`<button class="row" data-go="addch"><span class="av" style="background:var(--card);color:var(--accent);font-size:24px;font-weight:400">+</span><span class="main"><b>${L`Добавить канал`}</b><small>${L`Хештег, ссылка, QR или новый`}</small></span><span class="go">${ic('next')}</span></button>`);
  }else{
-  rows.unshift(`<button class="row" data-go="addct"><span class="av" style="background:var(--card);color:var(--accent);font-size:24px;font-weight:400">+</span><span class="main"><b>${L`Добавить чат`}</b><small>${L`Импорт контакта по ссылке meshcore://`}</small></span><span class="go">${ic('next')}</span></button>`);
- const mentions=ids.reduce((n,id)=>n+(alertMode(id)==='off'?0:unreadMentions(id)),0);
- rows.push(`<button class="row" data-go="alerts"><span class="av" style="--s:36px;background:var(--card);color:var(--warn)">${ic('bell')}</span><span class="main"><b>${L`Уведомления`}</b><small>${mentions?plural(mentions,'новое упоминание','новых упоминания','новых упоминаний'):L('Лента, упоминания, что и откуда присылать')}</small></span><span class="side">${mentions?'<span class="pill at">@</span>':''}</span></button>`);
+  const mentions=ids.reduce((n,id)=>n+(alertMode(id)==='off'?0:unreadMentions(id)),0);
+  rows.unshift(`<button class="row" data-go="alerts"><span class="av" style="--s:36px;background:var(--card);color:var(--warn)">${ic('bell')}</span><span class="main"><b>${L`Уведомления`}</b><small>${mentions?plural(mentions,'новое упоминание','новых упоминания','новых упоминаний'):L('Лента, упоминания, что и откуда присылать')}</small></span><span class="side">${mentions?'<span class="pill at">@</span>':''}</span></button>`);
+  rows.push(`<button class="row" data-go="addct"><span class="av" style="background:var(--card);color:var(--accent);font-size:24px;font-weight:400">+</span><span class="main"><b>${L`Добавить чат`}</b><small>${L`Импорт контакта по ссылке meshcore://`}</small></span><span class="go">${ic('next')}</span></button>`);
  }
  $('conversations').innerHTML=head+rows.join('')}
 function routeText(m){if(m.protocol===1||!m.route||m.outgoing&&(m.status===4||isChan(dest(m))))return'';const h=m.hops==null?'':m.hops===0?L('напрямую'):L`через ${m.hops} ретр.`;let s=m.route==='direct'?(h||L('по маршруту')):!m.outgoing?(h||'flood'):m.status===3&&h?'flood, '+h:'flood';if(m.outgoing&&m.tries>1)s+=m.status===3?L` · попытка ${m.tries}`:` · ${m.tries}/3`;return s}
@@ -1040,7 +1039,7 @@ function probe(input,out){clearTimeout(probeTimer);const tag=hashtag(input.value
 // The Android app passes scanned QR codes and opened meshcore:// links here; before a connection the link waits.
 // Ссылка-визитка человека: meshcore://<hex> — сырой подписанный advert (128..256 байт hex).
 let pendingContactLink='';
-function parseContactLink(text){text=String(text||'').trim();const m=/meshcore:\/\/([0-9a-fA-F]{128,512})/.exec(text);return m?m[1].toLowerCase():null}
+function parseContactLink(text){text=String(text||'').trim();const m=/^meshcore:\/\/([0-9a-fA-F]{128,512})$/.exec(text)||/^([0-9a-fA-F]{128,512})$/.exec(text);return m?m[1].toLowerCase():null}
 function renderAddCt(){
  const out=$('ctOut');
  if(pendingContactLink&&$('ctLink')){$('ctLink').value='meshcore://'+pendingContactLink;pendingContactLink='';if(out)out.textContent=L('Ссылка подставлена — нажмите «Импортировать»')}

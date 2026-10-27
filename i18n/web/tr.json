@@ -423,13 +423,12 @@
  "Сообщений ещё нет": "Henüz mesaj yok",
  "Добавить канал": "Kanal ekle",
  "Хештег, ссылка, QR или новый": "Hashtag, bağlantı, QR veya yeni",
- "meshcore://channel/add?…": "meshcore://channel/add?…",
- "Импорт контакта по ссылке meshcore://": "meshcore:// bağlantısından kişi içe aktar",
  "новое упоминание|новых упоминания|новых упоминаний": {
   "one": "{n} yeni bahsetme",
   "other": "{n} yeni bahsetme"
  },
  "Лента, упоминания, что и откуда присылать": "Akış, bahsetmeler, neyin nereden bildirileceği",
+ "Импорт контакта по ссылке meshcore://": "meshcore:// bağlantısından kişi içe aktar",
  "через {0} ретр.": "{0} tekr. üzerinden",
  "по маршруту": "rota ile",
  " · попытка {0}": " · deneme {0}",
