@@ -214,10 +214,18 @@ function mmMenu(){let m=$('mmMenu');if(!m){document.body.insertAdjacentHTML('bef
   <div class="mm-title">${L('Сообщение')}</div>
   <button class="mm-item" data-mm="reply">${L('Ответить')}</button>
   <button class="mm-item" data-mm="path">${L('Путь пакета')}</button></div></div>`);m=$('mmMenu')}return m}
-// A compact popover over a dimmed backdrop: the title «Сообщение», then the
-// two actions. It opens centred, closer to the bottom but not at the edge.
-function mmOpen(msg){mmMsg=msg;const m=mmMenu();m.hidden=false;
- m.querySelector('[data-mm="reply"]').hidden=!!msg.outgoing}
+// A compact popover next to the message (like Telegram/WhatsApp) over a dimmed
+// backdrop: the title «Сообщение», then the two actions. It opens above the
+// row when there is room and below it otherwise, clamped to the screen.
+function mmOpen(msg,row){mmMsg=msg;const m=mmMenu();m.hidden=false;
+ m.querySelector('[data-mm="reply"]').hidden=!!msg.outgoing;
+ const sheet=m.querySelector('.mm-sheet'),r=row.getBoundingClientRect();
+ sheet.style.visibility='hidden';sheet.style.left='0';sheet.style.top='0';
+ const w=sheet.offsetWidth,h=sheet.offsetHeight;
+ const x=Math.max(8,Math.min(innerWidth-w-8,(r.left+r.right)/2-w/2));
+ const y=r.top-h-8<8?Math.min(innerHeight-h-8,r.bottom+8):r.top-h-8;
+ sheet.style.left=x+'px';sheet.style.top=y+'px';
+ sheet.style.visibility=''}
 function mmClose(){mmMsg=null;$('mmMenu').hidden=true}
 function mmRow(e){const inRow=e.target.closest('#messages .bubble[data-i]');
  if(inRow&&e.target.closest('button,a,[data-invite],[data-copy]'))return null;
@@ -231,7 +239,7 @@ document.addEventListener('pointerdown',e=>{const b=mmRow(e);
  clearTimeout(mmTimer);mmLong=false;
  if(mmDown)mmTimer=setTimeout(()=>{ // a long tap opens the same menu
   mmLong=true;
-  const msg=chatRows[mmDown.b.dataset.i];if(msg)mmOpen(msg)},450)},true);
+  const msg=chatRows[mmDown.b.dataset.i];if(msg)mmOpen(msg,mmDown.b)},450)},true);
 document.addEventListener('pointermove',e=>{if(mmDown&&(Math.abs(e.clientX-mmDown.x)>10||Math.abs(e.clientY-mmDown.y)>10))clearTimeout(mmTimer)},true);
 document.addEventListener('pointerup',()=>clearTimeout(mmTimer),true);
 document.addEventListener('pointercancel',()=>clearTimeout(mmTimer),true);
@@ -257,7 +265,7 @@ document.addEventListener('click',e=>{
  if(mmDown&&Math.abs(e.clientX-mmDown.x)+Math.abs(e.clientY-mmDown.y)>12)return; // a swipe keeps the page's reply
  const msg=chatRows[b.dataset.i];if(!msg)return;
  e.preventDefault();e.stopPropagation();
- mmOpen(msg)},true);
+ mmOpen(msg,b)},true);
 document.addEventListener('dblclick',e=>{if(e.target.closest('#messages .bubble[data-i]')){e.preventDefault();e.stopPropagation()}},true);
 function mmHops(){const box=$('messages');if(!box||box.hidden)return;
  for(const b of box.querySelectorAll('.bubble.out[data-i]')){
