@@ -221,8 +221,10 @@ function mmOpen(msg,row){mmMsg=msg;const m=mmMenu();m.hidden=false;
  m.querySelector('[data-mm="reply"]').hidden=!!msg.outgoing;
  const sheet=m.querySelector('.mm-sheet'),r=row.getBoundingClientRect();
  sheet.style.visibility='hidden';sheet.style.left='0';sheet.style.top='0';
- const w=sheet.offsetWidth,h=sheet.offsetHeight;
- const x=Math.max(8,Math.min(innerWidth-w-8,(r.left+r.right)/2-w/2));
+ const w=sheet.offsetWidth,h=sheet.offsetHeight,mid=innerWidth/2;
+ // mostly centred for the thumb, with a gentle shift toward the bubble side
+ const bias=Math.max(-0.3,Math.min(0.3,((r.left+r.right)/2-mid)/(innerWidth/2)));
+ const x=Math.max(8,Math.min(innerWidth-w-8,mid-w/2+bias*(innerWidth-w-16)/2));
  const y=r.top-h-8<8?Math.min(innerHeight-h-8,r.bottom+8):r.top-h-8;
  sheet.style.left=x+'px';sheet.style.top=y+'px';
  sheet.style.visibility=''}
