@@ -49,7 +49,7 @@ function keys(){
   const src=fs.readFileSync(f,'utf8');
   for(const m of src.matchAll(/I18n\.t\("((?:\\.|[^"\\])*)"/g))add(m[1].replace(/\\(.)/g,(x,c)=>({n:'\n',t:'\t'}[c]??c)),'text',path.relative(ROOT,f));
   const left=src.split('\n').map((l,i)=>[l,i+1]).filter(([l])=>CYR.test(l.replace(/\/\/.*$/,'').replace(/^\s*\*.*$/,'').replace(/I18n\.t\("(?:\\.|[^"\\])*"/g,'')));
-  if(!f.endsWith('/I18n.kt'))for(const [l,i] of left)if(/"[^"]*[А-Яа-яЁё]/.test(l))throw Error(`${path.relative(ROOT,f)}:${i}: Russian text outside I18n.t: ${l.trim()}`)}
+  if(!f.replace(/\\/g,'/').endsWith('/I18n.kt'))for(const [l,i] of left)if(/"[^"]*[А-Яа-яЁё]/.test(l))throw Error(`${path.relative(ROOT,f)}:${i}: Russian text outside I18n.t: ${l.trim()}`)}
  return out}
 
 const file=l=>path.join(DIR,l+'.json');

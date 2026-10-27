@@ -35,7 +35,7 @@ window.MeshHost={
  channelLink(text){text=String(text||'').trim();
   const isChannel=/^meshcore:\/\/channel\/add\?/i.test(text),isPerson=/^meshcore:\/\/[0-9a-fA-F]{128,512}$/.test(text);
   if(!isChannel&&!isPerson){notify(L('Это не ссылка MeshCore (канал или контакт)'),'warn');return}
-  H.link=text;if(H.inApp)openLink();else notify(L(isPerson?'Подключитесь к устройству, чтобы импортировать контакт':'Подключитесь к устройству, чтобы добавить канал'),'accent')},
+  H.link=text;if(H.inApp)openLink();else notify(isPerson?L('Подключитесь к устройству, чтобы импортировать контакт'):L('Подключитесь к устройству, чтобы добавить канал'),'accent')},
  go(target){if(H.inApp)go(target)},
  // Updates of the app (MainActivity → Updater): a card on the connection screen and on «Подключения».
  update(u){const was=H.upd.state;H.upd=u||{state:'idle'};const st=H.upd.state;
@@ -204,4 +204,43 @@ H.tab=last&&KIND[last.kind]&&last.kind!=='tcp'?last.kind:'usb';
 loginHud();renderPanel();N.scan('usb');if(H.tab!=='usb'&&H.tab==='ble'&&last)H.done.ble=false;
 const s=JSON.parse(N.state());if(s.state!=='idle')MeshHost.state(s);
 for(const v of document.querySelectorAll('.version'))v.textContent=N.version();
+// Message taps: a context menu «Ответить» / «Путь пакета» on any tap over the message row
+// (host.css stretches .bubble to the full row width). «Ответить» puts the "@[Name] " mention
+// of MeshCore apps into the input; the menu replaces the page's tap on the meta line.
+// Under own messages the hop count of the route joins the ticks and time.
+let mmDown=null,mmMsg=null;
+function mmMenu(){let m=$('mmMenu');if(!m){document.body.insertAdjacentHTML('beforeend',
+ `<div id="mmMenu" class="mm-menu" hidden><div class="mm-back"></div><div class="mm-sheet">
+  <button class="mm-item" data-mm="reply">${L('Ответить')}</button>
+  <button class="mm-item" data-mm="path">${L('Путь пакета')}</button></div></div>`);m=$('mmMenu')}return m}
+function mmOpen(msg){mmMsg=msg;const m=mmMenu();m.hidden=false;m.querySelector('[data-mm="reply"]').hidden=!!msg.outgoing}
+function mmClose(){mmMsg=null;$('mmMenu').hidden=true}
+document.addEventListener('pointerdown',e=>{const b=e.target.closest('#messages .bubble[data-i]');
+ mmDown=b&&!e.target.closest('button,a')?{x:e.clientX,y:e.clientY}:null},true);
+document.addEventListener('click',e=>{
+ const item=e.target.closest('[data-mm]');
+ if(item){const msg=mmMsg;mmClose();if(!msg)return;
+  if(item.dataset.mm==='path')go('msg/'+encodeURIComponent(msgKey(msg)));
+  else{const name=msg.outgoing?'':msg.name||nodeName(recipient),tag=name?'@['+name+'] ':'',inp=$('text');
+   inp.focus();const s=inp.selectionStart??inp.value.length,t=inp.selectionEnd??s;
+   inp.value=inp.value.slice(0,s)+tag+inp.value.slice(t);inp.setSelectionRange(s+tag.length,s+tag.length);
+   byteCount();autosize()}
+  return}
+ if(e.target.closest('.mm-back')){mmClose();return}
+ const b=e.target.closest('#messages .bubble[data-i]');
+ if(!b||e.target.closest('button,a,[data-invite],[data-copy]'))return;
+ if(mmDown&&Math.abs(e.clientX-mmDown.x)+Math.abs(e.clientY-mmDown.y)>12)return; // a swipe keeps the page's reply
+ const msg=chatRows[b.dataset.i];if(!msg)return;
+ e.preventDefault();e.stopPropagation();
+ mmOpen(msg)},true);
+document.addEventListener('dblclick',e=>{if(e.target.closest('#messages .bubble[data-i]')){e.preventDefault();e.stopPropagation()}},true);
+function mmHops(){const box=$('messages');if(!box||box.hidden)return;
+ for(const b of box.querySelectorAll('.bubble.out[data-i]')){
+  if(b.querySelector('.mm-hops'))continue;
+  const m=chatRows[b.dataset.i];if(!m)continue;
+  const hops=m.hops??(m.path_len!=null?m.path_len&63:null);
+  if(hops==null)continue; // not sent yet: no route to count
+  b.insertAdjacentHTML('beforeend',`<div class="mm-hops">${hops?'→ '+plural(hops,'хоп','хопа','хопов'):'→ '+L('напрямую')}</div>`)}}
+new MutationObserver(()=>mmHops()).observe($('messages'),{childList:true,subtree:true});
+mmHops();
 })();
