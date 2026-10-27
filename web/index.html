@@ -946,11 +946,13 @@ document.addEventListener('change',e=>{const t=e.target;if(!$('diceView')?.conta
 document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const t=e.target;if(t.id==='dFormula')diceAct('formula');else if(t.id==='drFormula'||t.id==='drName')diceAct('dsave');else if(t.id==='dHeroName')diceAct('herosave');else if(t.id==='sheetVal')sheetOp('val '+sheetFocus)});
 
 // Chats.
-function renderThreads(){const ids=conversationIds(),k=ids.findIndex(id=>!isChan(id));
+let chatsTab='chats';
+function renderThreads(){const all=conversationIds(),ids=all.filter(id=>chatsTab==='channels'?isChan(id):!isChan(id));
+ const head=`<div class="tabs"><button data-mtab="chats" class="${chatsTab!=='channels'?'on':''}">${L('Чаты')}</button><button data-mtab="channels" class="${chatsTab==='channels'?'on':''}">${L('Каналы')}</button></div>`;
  const rows=ids.map(id=>{const rows=history.filter(m=>matches(m,id)),last=rows.at(-1),n=unread(id),p=peer(id),l=last&&parseLink(last.text),a=alertMode(id),at=n&&a!=='off'&&unreadMentions(id);
   const preview=last?(last.outgoing?L('Вы: '):isChan(id)?last.name+': ':'')+(l?L`Приглашение в канал «${l.name}»`:last.text.replace(/\n/g,' ')):id==='ALL'?L('Открытый канал MeshCore'):isChan(id)?chanKind(chan(id)):L('Сообщений ещё нет');
   return `<button class="row" data-go="chat/${encodeURIComponent(id)}">${avatar(id,nodeName(id),p?p.type:-1)}<span class="main"><b>${esc(nodeName(id))}${a==='off'?ic('belloff','faint'):a==='mention'?ic('bell','faint'):''}</b><small class="${n?'new':''}">${esc(preview)}</small></span><span class="side"><span>${last?timeText(last.time):''}</span>${n?`<span class="pills">${at?'<span class="pill at">@</span>':''}<span class="pill${a==='all'?'':' mute'}">${n}</span></span>`:''}</span></button>`});
- if(tab==='channels'){
+ if(chatsTab==='channels'){
   rows.unshift(`<button class="row" data-go="addch"><span class="av" style="background:var(--card);color:var(--accent);font-size:24px;font-weight:400">+</span><span class="main"><b>${L`Добавить канал`}</b><small>${L`Хештег, ссылка, QR или новый`}</small></span><span class="go">${ic('next')}</span></button>`);
   rows.push(`<button class="row" data-go="join"><span class="av" style="background:var(--card);color:var(--accent);font-size:24px;font-weight:400">+</span><span class="main"><b>${L`Канал по ссылке`}</b><small>${L`meshcore://channel/add?…`}</small></span><span class="go">${ic('next')}</span></button>`);
  }else{

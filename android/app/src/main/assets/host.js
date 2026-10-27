@@ -227,8 +227,14 @@ document.addEventListener('click',e=>{
    byteCount();autosize()}
   return}
  if(e.target.closest('.mm-back')){mmClose();return}
- const b=e.target.closest('#messages .bubble[data-i]');
- if(!b||e.target.closest('button,a,[data-invite],[data-copy]'))return;
+ const inRow=e.target.closest('#messages .bubble[data-i]');
+ if(inRow&&e.target.closest('button,a,[data-invite],[data-copy]'))return;
+ // the tap area is the whole row: outside the bubble (empty left/right) the
+ // nearest row by Y is the message, as if the row were one big button
+ const b=inRow||(()=>{if(!e.target.closest('#messages'))return null;
+  const rows=[...$('messages').querySelectorAll('.bubble[data-i]')];
+  return rows.find(r=>{const q=r.getBoundingClientRect();return e.clientY>=q.top&&e.clientY<=q.bottom})||null})();
+ if(!b)return;
  if(mmDown&&Math.abs(e.clientX-mmDown.x)+Math.abs(e.clientY-mmDown.y)>12)return; // a swipe keeps the page's reply
  const msg=chatRows[b.dataset.i];if(!msg)return;
  e.preventDefault();e.stopPropagation();

@@ -20,11 +20,7 @@
 #hostPanel>.conn{margin-bottom:10px} /* the app update card above the tabs */
 .hdot{position:absolute;right:10px;top:10px;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 2px var(--card)} /* app update: «Связь» and «Подключения» */
 .row>.hdot{right:auto;left:40px;top:6px}
-/* Message context menu (host.js): the tap area is the whole row around a bubble,
-   interactive parts inside the bubble stay above it */
-#messages .bubble[data-i]{position:relative}
-#messages .bubble[data-i]::after{content:"";position:absolute;top:0;bottom:0;left:calc(50% - 50vw);right:calc(50% - 50vw);z-index:2}
-#messages .bubble[data-i] button,#messages .bubble[data-i] a,#messages .bubble[data-i] [data-invite],#messages .bubble[data-i] [data-copy]{position:relative;z-index:3}
+/* Message context menu (host.js): taps anywhere on a message row open it */
 .mm-hops{display:flex;justify-content:flex-end;gap:5px;font-size:11px;color:var(--dim);margin-top:2px}
 #mmMenu{position:fixed;inset:0;z-index:100}
 #mmMenu .mm-back{position:absolute;inset:0;background:rgba(0,0,0,.35)}
