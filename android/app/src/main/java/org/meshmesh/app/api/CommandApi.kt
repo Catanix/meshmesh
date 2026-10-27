@@ -191,7 +191,7 @@ class CommandApi(
             "/api/dice" to "dice", "/api/wardrive" to "wardrive",
         )
         /** Commands added for the app (docs/android.md): older firmware lacks them. */
-        private val APP_COMMANDS = listOf("quick", "people", "radar web", "radar do ", "map tile ", "connections", "sendjson ", "channels", "channel do ", "wardrive")
+        private val APP_COMMANDS = listOf("quick", "people", "radar web", "radar do ", "map tile ", "connections", "sendjson ", "channels", "channel do ", "wardrive", "import ")
         private val SLOW = setOf("messages", "nodes", "config", "chess web", "chess rating", "tour", "map areas", "channels")
         private val STATUS_PRINT = listOf("boot", "tx", "rx", "event", "relayed", "rejected", "contacts_replaced", "wifi", "ble", "busy", "channels")
     }
